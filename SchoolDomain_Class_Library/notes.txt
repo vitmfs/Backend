@@ -1,0 +1,9 @@
+﻿Tools > NugetPackageManager > Package Manager Console
+
+cd SchoolDomain_Class_Library
+
+typegen generate
+
+
+https://github.com/jburzynski/TypeGen
+https://typegen.readthedocs.io/en/latest/
