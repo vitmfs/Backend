@@ -97,6 +97,16 @@ ClientBin/
 *.dbmdl
 *.[Pp]ublish.xml
 
+# Ignore compiled binaries
+*.dll
+*.exe
+
+
+**/obj/**
+**/bin/**
+
+
+
 *.publishsettings
 
 # RIA/Silverlight projects

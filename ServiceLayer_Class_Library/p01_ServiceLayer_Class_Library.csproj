@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessOrDomainLayer_Class_Library\BusinessLayer_Class_Library.csproj" />
     <ProjectReference Include="..\BusinessOrDomainLayer_Class_Library\p02_BusinessLayer_Class_Library.csproj" />
+    <ProjectReference Include="..\p04_LoggingService_ClassLibrary\p04_LoggingService_ClassLibrary.csproj" />
   </ItemGroup>
 
 </Project>

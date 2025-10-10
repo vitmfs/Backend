@@ -1,6 +1,6 @@
-﻿using System.Runtime.ExceptionServices;
-using BusinessLayer_Class_Library;
+﻿using BusinessLayer_Class_Library;
 using p04_LoggingService_ClassLibrary;
+using System.Runtime.ExceptionServices;
 using TypeGen.Core.Logging;
 
 namespace ServiceLayer_Class_Library
