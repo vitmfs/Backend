@@ -1,0 +1,17 @@
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\BusinessLayer_Class_Library.deps.json
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\BusinessLayer_Class_Library.dll
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\BusinessLayer_Class_Library.pdb
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\DataAccessLayer_Class_Library.dll
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\SchoolDomain_Class_Library.dll
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\DataAccessLayer_Class_Library.pdb
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\bin\Debug\net8.0\SchoolDomain_Class_Library.pdb
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.csproj.AssemblyReference.cache
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.AssemblyInfoInputs.cache
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.AssemblyInfo.cs
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.csproj.CoreCompileInputs.cache
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\Business.4F4E8706.Up2Date
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.dll
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\refint\BusinessLayer_Class_Library.dll
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\BusinessLayer_Class_Library.pdb
+C:\Users\vitmf\source\repos\Backend\BusinessOrDomainLayer_Class_Library\obj\Debug\net8.0\ref\BusinessLayer_Class_Library.dll

@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "BusinessOrDomainLayer_Class_Library/1.0.0": {
+        "dependencies": {
+          "DataAccessLayer_Class_Library": "1.0.0",
+          "SchoolDomain_Class_Library": "1.0.0"
+        },
+        "runtime": {
+          "BusinessOrDomainLayer_Class_Library.dll": {}
+        }
+      },
+      "DataAccessLayer_Class_Library/1.0.0": {
+        "dependencies": {
+          "SchoolDomain_Class_Library": "1.0.0"
+        },
+        "runtime": {
+          "DataAccessLayer_Class_Library.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SchoolDomain_Class_Library/1.0.0": {
+        "runtime": {
+          "SchoolDomain_Class_Library.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BusinessOrDomainLayer_Class_Library/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataAccessLayer_Class_Library/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SchoolDomain_Class_Library/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
