@@ -62,6 +62,7 @@ namespace WebAPI
 
 
         //[HttpPost]
+        /*
         [HttpPost(Name = "UpdateBaseEntity")]
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
@@ -69,6 +70,7 @@ namespace WebAPI
             await _context.SaveChangesAsync();
             return entity;
         }
+        */
 
     }
 }
