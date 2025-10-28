@@ -1,0 +1,54 @@
+psql -h localhost -p 5432 -U myuser -d mydatabase
+
+
+
+3. Access pgAdmin in Your Browser
+
+Open:
+
+http://localhost:8080
+
+
+Login with the credentials you specified (admin@example.com / admin in this example).
+
+🧠 (Optional) Volume Mounts for Persistence
+
+To persist data (like connection history), add volume mounts:
+
+docker run -p 8080:80 \
+    -e "PGADMIN_DEFAULT_EMAIL=admin@example.com" \
+    -e "PGADMIN_DEFAULT_PASSWORD=admin" \
+    -v pgadmin_data:/var/lib/pgadmin \
+    -d dpage/pgadmin4
+
+🐘 Connect pgAdmin to a PostgreSQL Container
+
+If you're also running PostgreSQL in Docker, you can use Docker networks to link them.
+
+Create a Docker network:
+
+docker network create pgnetwork
+
+
+Run PostgreSQL:
+
+docker run --name postgres \
+    --network pgnetwork \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=secret \
+    -e POSTGRES_DB=mydb \
+    -p 5432:5432 \
+    -d postgres
+
+
+Run pgAdmin on the same network:
+
+docker run --name pgadmin \
+    --network pgnetwork \
+    -p 8080:80 \
+    -e PGADMIN_DEFAULT_EMAIL=admin@example.com \
+    -e PGADMIN_DEFAULT_PASSWORD=admin \
+    -d dpage/pgadmin4
+
+
+In the pgAdmin UI, connect to the PostgreSQL server using the hostname postgres (container name).

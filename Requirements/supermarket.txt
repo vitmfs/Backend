@@ -1,0 +1,31 @@
+Requisitos mínimos
+Um supermercado quer entrar nas vendas de produtos através de telemóvel e deseja ter um sistema de controlo de listas de
+compras. A aplicação terá um conjunto de produtos existentes em stock bem como um conjunto de produtos previamente
+comprados. Para os primeiros, será preciso guardar o nome, taxa de iva, preço (sem iva) e se o preço é unitário ou por peso.
+Para além destas informações, nos produtos já comprados será preciso guardar a quantidade comprada (ou peso total) e preço
+total do produto (sem iva).
+Deverá ser possível adicionar e remover produtos da loja ao stock bem como alterar produtos existentes (por exemplo, o seu
+preço). Deverá ser possível saber quais os produtos mais comprados. Também é preciso a funcionalidade de pesquisa de um
+produto pelo seu nome ou taxa de iva.
+A loja quer também recompensar os seus clientes mais frequentes. Cada produto apenas terá uma promoção em cada
+momento, mas poderá ter várias ao longo do tempo. Quando é comprado, será preciso saber qual a promoção (caso exista
+alguma) que um produto tem para determinar o seu valor de compra.Uma promoção é um desconto no preço do produto.
+Um cliente pode comprar mais do um produto ao mesmo tempo e pode também consultar um histórico de todas as suas
+compras.A aplicação terá que guardar o seu NIF (que é único na aplicação –a aplicação é usada individualmente).
+Requisitos valorização
+No histórico de compras, estas devem estar separadas por momento (com uma data). Ou seja, se o cliente comprar 5 produtos
+hoje e 10 produtos amanhã, no histórico os dois momentos aparecerão separados om uma data a identificar cada conjunto de
+compras.
+Convinha também poder listar ou pesquisar os produtos filtrados pelo histórico de uma forma mais robusta. Por exemplo,
+pesquisar todos os produtos previamente comprados que estão agora com uma promoção. Ou então listar todos os produtos
+que caso já tenham sido comprados previamente, têm um preço 5 euros abaixo do preço original de compra.
+Cada conjunto de compras, para além da data, deverá ter um número automaticamente gerado pelo programa somando 1 ao
+último no de conjunto de compras gerado.
+Para além do cliente poder ver os produtos em formato de lista, seria óptimo se houvesse uma visualização mais gráfica onde
+mostrasse icons por exemplo, rectângulos com uma cor guardada no próprio produto. Triângulos para produtos com desconto.
+Círculos para produtos comprados, etc.. Seria também óptimo que se pudesse carregar a base de dados dos produtos existentes
+directamente de ficheiro.
+
+Requisitos não-funcionais
+A empresa antevê uma grande quantidade de produtos diferentes (todas as semanas surgem novos produtos) logo procure a
+melhor solução para o programa poder lidar com milhares de produtos.
