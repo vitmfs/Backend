@@ -1,3 +1,5 @@
+using DomainClasses.Base;
+
 namespace WebAPI
 {
     public class WeatherForecast : BaseModel
