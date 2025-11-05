@@ -1,6 +1,11 @@
 ﻿namespace DomainClasses.Base
 {
-    public class BaseModel
+    public record BaseModel
+    {
+        public Guid Id { get; set; }
+    }
+
+    public class BaseClass
     {
         public Guid Id { get; set; }
     }

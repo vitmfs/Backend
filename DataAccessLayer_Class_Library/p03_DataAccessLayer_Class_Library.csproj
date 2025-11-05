@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bank.Entities\Bank.Entities.csproj" />
+    <ProjectReference Include="..\DomainClasses\DomainClasses.csproj" />
     <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
     <ProjectReference Include="..\p04_LoggingService_ClassLibrary\p04_LoggingService_ClassLibrary.csproj" />
     <ProjectReference Include="..\SchoolDomain_Class_Library\SchoolDomain_Class_Library.csproj" />

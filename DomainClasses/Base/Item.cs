@@ -1,6 +1,6 @@
 ﻿namespace DomainClasses.Base
 {
-    public class Item : BaseModel
+    public record Item : BaseModel
 
     {
         public string Name { get; set; }

@@ -2,7 +2,7 @@ using DomainClasses.Base;
 
 namespace WebAPI
 {
-    public class WeatherForecast : BaseModel
+    public record WeatherForecast : BaseModel
     {
         public DateOnly Date { get; set; }
 

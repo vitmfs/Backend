@@ -1,17 +1,40 @@
 Requisitos mínimos
+
 Um empresa tem vários edifícios de escritórios numa cidade e precisa de um sistema para gerir reservas e escritórios.
-Escreva um programa para gerir (introduzir, modificar, apagar, visualisar) edifícios. Cada escritório pertence a um edifício e tem
-um código único. A qualquer momento é necessário saber se um escritório está ocupado (e com que empresa). Nesta primeira
-versão o programa terá que suportar PME e Start-Ups. Cada empresa ocupa um, e apenas um, escritório. Cada empresa tem um
-nome do dono/responsável, NIF, nome e cor (por exemplo do logótipo). Para além disto, as PMEs têm um limite mínimo de área
-de escritório que precisam. Cada edifício tem um conjunto de reservas (basta o nome do dono/responsável), um conjunto de
+Escreva um programa para gerir (introduzir, modificar, apagar, visualisar) edifícios. 
+
+Cada escritório pertence a um edifício e tem um código único. 
+
+A qualquer momento é necessário saber se um escritório está ocupado (e com que empresa). Nesta primeira
+versão o programa terá que suportar PME e Start-Ups. Cada empresa ocupa um, e apenas um, escritório. 
+
+Cada empresa tem um
+nome do dono/responsável, NIF, nome e cor (por exemplo do logótipo). 
+
+Para além disto, as PMEs têm um limite mínimo de área
+de escritório que precisam. 
+
+Cada edifício tem um conjunto de reservas (basta o nome do dono/responsável), um conjunto de
 escritórios e também o tamanho de cada escritório (no mesmo edifício, os escritórios têm todos o mesmo tamanho).
-O programa terá que suportar instalaruma empresa num escritório de um edifício tendo em conta que as PMEs podem não
-conseguir estar em alguns edifícios.Quando é feito uma instalação é guardada a data da instalação.A qualquer altura deverá ser
+
+
+O programa terá que suportar instalar uma empresa num escritório de um edifício tendo em conta que as PMEs podem não
+conseguir estar em alguns edifícios. 
+
+Quando é feito uma instalação é guardada a data da instalação.
+
+A qualquer altura deverá ser
 possível guardar quanto tempo já passou (em dias) e aumentar este período em cada escritório ocupado.
-Deverá ser possível pesquisar edifícios por nome de pessoa (quer nas reservas como nas empresas instaladas). Para cada edifício
-deverá ser possível saber a taxa de ocupação geral e a taxa ocupação das reservas. Também deverá ser possível saber, ao
+
+
+Deverá ser possível pesquisar edifícios por nome de pessoa (quer nas reservas como nas empresas instaladas). 
+
+Para cada edifício
+deverá ser possível saber a taxa de ocupação geral e a taxa ocupação das reservas. 
+
+Também deverá ser possível saber, ao
 instalar, se o done já tem outra empresa instalada naquele ou noutro edifício.
+
 Requisitos valorização
 Para além do código único que cada escritório tem, implemente uma disposição espacial dos escritórios num edifício. Essa
 disposição pode ser quadrada (pelo menos 4 por 4) ou rectangular (pelo menos 3 por 5), bem como o piso. Deverá ser possível
