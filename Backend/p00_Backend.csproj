@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CSharpCodeExamples\CSharpCodeExamples.csproj" />
     <ProjectReference Include="..\DomainClasses\DomainClasses.csproj" />
     <ProjectReference Include="..\SchoolDomain_Class_Library\SchoolDomain_Class_Library.csproj" />
     <ProjectReference Include="..\ServiceLayer_Class_Library\p01_ServiceLayer_Class_Library.csproj" />

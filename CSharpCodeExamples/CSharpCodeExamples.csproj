@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Codility\Challenges\" />
+    <Folder Include="Codility\Lessons\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CSharpCodeExamples.Codility.Exercises;
 using DomainClasses;
 using SchoolDomain_Class_Library;
 using ServiceLayer_Class_Library;
@@ -15,9 +16,53 @@ class Program
     static int maxStudents = 1000;
 
     //static async Task Main(string[] args)
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
 
+        int option = -1;
+
+
+        do
+        {
+            MainMenu();
+            option = Convert.ToInt32(Console.ReadLine());
+
+            switch (option)
+            {
+                case 1:
+                    CodilityMenu();
+                    Exercise1_2015Contest.LongestPassword();
+                    break;
+
+                /*
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+                */
+            }
+
+        }
+        while (option != 0);
+
+
+
+        Console.WriteLine("Thank you! Have a nice day!");
+
+        //Demo();
+    }
+
+    public static void MainMenu()
+    {
+        Console.WriteLine("Main Menu:");
+    }
+
+    public static void CodilityMenu()
+    {
+        Console.WriteLine("1. Run Codility Exercises");
+    }
+
+    public static void Demo()
+    {
         //Console.OutputEncoding = System.Text.Encoding.ASCII;
         //System.Text.Encoding.ASCII.GetBytes("Something");
 
@@ -111,7 +156,7 @@ class Program
         else
         { }
         */
-        Console.WriteLine(args.Length);
+        //Console.WriteLine(args.Length);
         Console.WriteLine("From Main");
 
         var getMessage = () => "Hello World";
