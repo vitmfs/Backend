@@ -8,6 +8,7 @@ namespace CSharpCodeExamples.Codility.Exercises
 {
     public class Exercise3_2017Contest
     {
+
         /*
         TennisTournament
 
@@ -127,7 +128,13 @@ namespace CSharpCodeExamples.Codility.Exercises
 
         Bob once had an array A with N elements. Each element was a positive integer not exceeding M.
 
-        Bob wrote a program to find an array B, defined as follows. For every index J, let's find the biggest index K such that K < J and A[K] < A[J]. Then set B[J] = A[K]. If there is no such index K, then set B[J] = 0. Intuitively, the J-th element of B contains the last value smaller than A[J] that appears before it, or 0 if there is no such element.
+        Bob wrote a program to find an array B, defined as follows.
+        
+        For every index J, let's find the biggest index K such that K < J and A[K] < A[J].
+        
+        Then set B[J] = A[K]. If there is no such index K, then set B[J] = 0.
+        
+        Intuitively, the J-th element of B contains the last value smaller than A[J] that appears before it, or 0 if there is no such element.
 
         For example, let A = [2, 5, 3, 7, 9, 6]. Then B = [0, 2, 2, 3, 7, 3]. For instance, B[5] = 3, as A[5] is 6 and the last value before A[5] smaller than 6 is 3.
 
@@ -153,9 +160,9 @@ namespace CSharpCodeExamples.Codility.Exercises
         there exists at least one valid array A from which Bob would get array B.
         https://app.codility.com/programmers/trainings/3/array_recovery/
          */
-        public static void ArrayRecovery()
+        public static int ArrayRecovery(int[] B, int M)
         {
-            Console.WriteLine("ArrayRecovery");
+            return 0;
         }
 
 
@@ -190,9 +197,45 @@ namespace CSharpCodeExamples.Codility.Exercises
 
         https://app.codility.com/programmers/trainings/3/diamonds_count/
         */
-        public static void DiamondsCount()
+        public static int DiamondsCount(int[] X, int[] Y)
         {
-            Console.WriteLine("DiamondsCount");
+            List<double> declives = new List<double>();
+
+            for (int i = 0; i < X.Length; i++)
+            {
+                for (int j = 0; j < Y.Length; j++)
+                {
+                    double denominator = (X[j] - X[i]);
+                    if (denominator != 0)
+                    {
+                        double declive = (double)(Y[j] - Y[i]) / denominator;
+
+                        if (declive != 0 && declive != 1 && declive != -1)
+                        {
+                            declives.Add(declive);
+                        }
+                        
+                    }
+                    
+
+                }
+
+            }
+
+            List<double> distinctDeclives = declives.Distinct().ToList();
+
+            int numberOfDiamonds = 0;
+
+            foreach (var item in distinctDeclives)
+            {
+                if (declives.Count(d => d == item) == 2 && declives.Count(d => d == -item) == 2 )
+                {
+                    numberOfDiamonds++;
+                }
+                
+            }
+
+            return numberOfDiamonds / 2;
         }
 
 
