@@ -4,7 +4,212 @@ using DomainClasses;
 using SchoolDomain_Class_Library;
 using ServiceLayer_Class_Library;
 
+// Optional
+using System.Threading;
+using p00_Backend;
+
 namespace Backend;
+
+class Shared
+{
+    public static int SharedResource { get; set; }
+    public static readonly object lockObject = new object();
+}
+
+//create a custom class to replace object? and pass more than one parameter/value
+class MaxCount
+{
+    public int Count { get; set; }
+}
+
+class NumbersUpCounter
+{
+    public int Count { get; set; }
+    public void CountUp()
+    {
+        try
+        {
+            Console.WriteLine("CountUp Started");
+            for (int i = 1; i <= Count; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"i = {i},");
+                //Thread.Sleep(3); 
+            }
+            Console.WriteLine("CountUp Completed");
+
+        }
+        catch (ThreadInterruptedException ex)
+        {
+
+            Console.WriteLine($"CountUp Thread Interrupted: {ex.Message}");
+        }
+    }
+
+    public void CountUp(Action<long> callback)
+    {
+        long sum = 0;
+        try
+        {
+            Console.WriteLine("CountUp Started");
+            for (int i = 1; i <= Count; i++)
+            {
+                sum += i;
+                
+                //Monitor.Enter(Shared.lockObject);
+                lock (Shared.lockObject)
+                {
+                    Shared.SharedResource++;
+                    Console.WriteLine($"Shared Resource before increment: {Shared.SharedResource}");
+                } 
+                //Monitor.Exit(Shared.lockObject);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"i = {i},");
+                //Thread.Sleep(3); 
+            }
+            Console.WriteLine("CountUp Completed");
+
+        }
+        catch (ThreadInterruptedException ex)
+        {
+
+            Console.WriteLine($"CountUp Thread Interrupted: {ex.Message}");
+        }
+        finally
+        {
+            callback(sum);
+        }
+    }
+
+}
+
+class NumbersDownCounter
+{
+    public int Count { get; set; }
+    public void CountDown()
+    {
+        Console.WriteLine("CountDown Started");
+        for (int? j = Count; j >= 1; j--)
+        {
+            
+
+            //Monitor.Enter(Shared.lockObject);
+            lock (Shared.lockObject)
+            {
+                Shared.SharedResource--;
+                Console.WriteLine($"Shared Resource before decrement: {Shared.SharedResource}");
+            }   
+            //Monitor.Exit(Shared.lockObject);
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"j = {j},");
+            //Thread.Sleep(3);
+        }
+        Console.WriteLine("CountDown Completed");
+    }
+}
+
+class NumbersCounter
+{
+    public void CountUp()
+    {
+        try
+        {
+            Console.WriteLine("CountUp Started");
+            for (int i = 1; i <= 100; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"i = {i},");
+                //Thread.Sleep(3); 
+            }
+            Console.WriteLine("CountUp Completed");
+
+        }
+        catch (ThreadInterruptedException ex)
+        {
+
+            Console.WriteLine($"CountUp Thread Interrupted: {ex.Message}");
+        }  
+    }
+    public void CountUp(int count)
+    {
+        try
+        {
+            Console.WriteLine("CountUp Started");
+            for (int i = 1; i <= count; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"i = {i},");
+                //Thread.Sleep(3); 
+            }
+            Console.WriteLine("CountUp Completed");
+
+        }
+        catch (ThreadInterruptedException ex)
+        {
+
+            Console.WriteLine($"CountUp Thread Interrupted: {ex.Message}");
+        }  
+    }
+    public void CountUp(object? count)
+    {
+        try
+        {
+            Console.WriteLine("CountUp Started");
+            int? countInt = (int?)count;
+            for (int i = 1; i <= countInt; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"i = {i},");
+                //Thread.Sleep(3); 
+            }
+            Console.WriteLine("CountUp Completed");
+
+        }
+        catch (ThreadInterruptedException ex)
+        {
+
+            Console.WriteLine($"CountUp Thread Interrupted: {ex.Message}");
+        }  
+    }
+
+
+    public void CountDown()
+    {
+        Console.WriteLine("CountDown Started");
+        for (int j = 100; j >= 1; j--)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"j = {j},");
+            //Thread.Sleep(3);
+        }
+        Console.WriteLine("CountDown Completed");
+    }
+    public void CountDown(int count)
+    {
+        Console.WriteLine("CountDown Started");
+        for (int j = count; j >= 1; j--)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"j = {j},");
+            //Thread.Sleep(3);
+        }
+        Console.WriteLine("CountDown Completed");
+    }
+    public void CountDown(object? count)
+    {
+        Console.WriteLine("CountDown Started");
+        int countInt = (int?)count ?? 0;
+        for (int? j = countInt; j >= 1; j--)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"j = {j},");
+            //Thread.Sleep(3);
+        }
+        Console.WriteLine("CountDown Completed");
+    }
+}
 
 class Program
 {
@@ -18,6 +223,270 @@ class Program
     //static async Task Main(string[] args)
     public static void Main(string[] args)
     {
+        #region B4
+
+
+        {
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            ThreadPriority threadPriority = mainThread.Priority;
+            mainThread.Priority = ThreadPriority.Normal;
+            Console.WriteLine(threadPriority.ToString());
+            Console.WriteLine(mainThread.IsAlive);
+            Console.WriteLine(mainThread.IsBackground); // if true, it will not block the process from terminating
+            System.Threading.ThreadState threadState = mainThread.ThreadState;
+            Console.WriteLine(threadState.ToString());
+
+        }
+
+        {
+            // Single Threaded Execution: First CountUp, then CountDown
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            // Object of NumbersCounter
+            NumbersCounter numbersCounter = new NumbersCounter();
+
+            // Invoke CountUp
+            numbersCounter.CountUp();
+
+            // Invoke CountDown
+            numbersCounter.CountDown();
+
+            Console.WriteLine(mainThread.Name + " completed");
+        }
+
+        {
+            // Single Threaded Execution: First CountUp, then CountDown
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            // Object of NumbersCounter
+            NumbersCounter numbersCounter = new NumbersCounter();
+
+            // Create Thread for CountUp
+            ThreadStart countUpThreadStart = new ThreadStart(numbersCounter.CountUp);
+            Thread countUpThread = new Thread(countUpThreadStart);
+            countUpThread.Name = "CountUp thread";
+            countUpThread.Priority = ThreadPriority.Highest;
+            Console.WriteLine($"CountUp thread is {countUpThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountUp
+            countUpThread.Start();
+            Console.WriteLine($"{countUpThread.Name} ({countUpThread.ManagedThreadId}) thread is {countUpThread.ThreadState.ToString()}"); // Running
+
+            // Create Thread for CountDown
+            ThreadStart countDownThreadStart = new ThreadStart(numbersCounter.CountDown);
+            Thread countDownThread = new Thread(countDownThreadStart)
+            {
+                Name = "CountDown thread",
+                Priority = ThreadPriority.Lowest
+            };
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountDown
+            countDownThread.Start();
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Running
+
+            //countUpThread.Interrupt()
+
+            // Wait for both threads to complete
+            countUpThread.Join();
+            countDownThread.Join();
+
+            Console.WriteLine(mainThread.Name + " completed");
+        }
+        {
+            // Single Threaded Execution: First CountUp, then CountDown
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            // Object of NumbersCounter
+            NumbersCounter numbersCounter = new NumbersCounter();
+
+            // Create Thread for CountUp
+            ThreadStart countUpThreadStart = new ThreadStart(() => {
+                numbersCounter.CountUp(100); // Invoke CountUp with parameter
+            });
+            // or but you have to give the parameter value to countUpThread.Start(100);
+            ParameterizedThreadStart parameterizedCountUpThreadStart = new ParameterizedThreadStart(numbersCounter.CountUp);
+            Thread countUpThread = new Thread(countUpThreadStart);
+            countUpThread.Name = "CountUp thread";
+            countUpThread.Priority = ThreadPriority.Highest;
+            Console.WriteLine($"CountUp thread is {countUpThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountUp
+            countUpThread.Start();
+            Console.WriteLine($"{countUpThread.Name} ({countUpThread.ManagedThreadId}) thread is {countUpThread.ThreadState.ToString()}"); // Running
+
+            // Create Thread for CountDown
+            ThreadStart countDownThreadStart = new ThreadStart(() => {
+                numbersCounter.CountDown(100); // Invoke CountDown with parameter
+            });
+            // or but you have to give the parameter value to countDownThread.Start(100);
+            ParameterizedThreadStart parameterizedCountDownThreadStart = new ParameterizedThreadStart(numbersCounter.CountDown);
+
+            Thread countDownThread = new Thread(countDownThreadStart)
+            {
+                Name = "CountDown thread",
+                Priority = ThreadPriority.Lowest
+            };
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountDown
+            countDownThread.Start();
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Running
+
+            //countUpThread.Interrupt()
+
+            // Wait for both threads to complete
+            countUpThread.Join();
+            countDownThread.Join();
+
+            Console.WriteLine(mainThread.Name + " completed");
+        }
+        {
+            // Single Threaded Execution: First CountUp, then CountDown
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            // Object of NumbersUpCounter
+            NumbersUpCounter numbersUpCounter = new NumbersUpCounter()
+            {
+                Count = 100
+            };
+
+            // Create Thread for CountUp
+            ThreadStart countUpThreadStart = new ThreadStart(numbersUpCounter.CountUp);
+            Thread countUpThread = new Thread(countUpThreadStart);
+            countUpThread.Name = "CountUp thread";
+            countUpThread.Priority = ThreadPriority.Highest;
+            Console.WriteLine($"CountUp thread is {countUpThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountUp
+            countUpThread.Start();
+            Console.WriteLine($"{countUpThread.Name} ({countUpThread.ManagedThreadId}) thread is {countUpThread.ThreadState.ToString()}"); // Running
+
+            // Object of NumbersDownCounter
+            NumbersDownCounter numbersDownCounter = new NumbersDownCounter()
+            {
+                Count = 100
+            };
+
+            // Create Thread for CountDown
+            ThreadStart countDownThreadStart = new ThreadStart(numbersDownCounter.CountDown);
+
+
+            Thread countDownThread = new Thread(countDownThreadStart)
+            {
+                Name = "CountDown thread",
+                Priority = ThreadPriority.Lowest
+            };
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountDown
+            countDownThread.Start();
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Running
+
+            //countUpThread.Interrupt()
+
+            // Wait for both threads to complete
+            countUpThread.Join();
+            countDownThread.Join();
+
+            Console.WriteLine(mainThread.Name + " completed");
+        }
+        #endregion
+
+
+        {
+            // Single Threaded Execution: First CountUp, then CountDown
+            Thread mainThread = Thread.CurrentThread;
+            mainThread.Name = "Main thread";
+            Console.WriteLine(mainThread.Name);
+
+            // Object of NumbersUpCounter
+            NumbersUpCounter numbersUpCounter = new NumbersUpCounter()
+            {
+                Count = 100
+            };
+
+            //Create callback method
+            Action<long> callback = sum => {
+                Console.WriteLine($"Return value from CountUp Thread is: {sum}");
+            };
+
+
+            // Create Thread for CountUp
+            ThreadStart countUpThreadStart = new ThreadStart(() => {
+                numbersUpCounter.CountUp(callback);
+            });
+            Thread countUpThread = new Thread(countUpThreadStart);
+            countUpThread.Name = "CountUp thread";
+            countUpThread.Priority = ThreadPriority.Highest;
+            Console.WriteLine($"CountUp thread is {countUpThread.ThreadState.ToString()}"); // Unstarted
+
+            
+            
+
+            // Invoke CountUp
+            countUpThread.Start();
+            Console.WriteLine($"{countUpThread.Name} ({countUpThread.ManagedThreadId}) thread is {countUpThread.ThreadState.ToString()}"); // Running
+
+            // Object of NumbersDownCounter
+            NumbersDownCounter numbersDownCounter = new NumbersDownCounter()
+            {
+                Count = 100
+            };
+
+            // Create Thread for CountDown
+            ThreadStart countDownThreadStart = new ThreadStart(numbersDownCounter.CountDown);
+
+
+            Thread countDownThread = new Thread(countDownThreadStart)
+            {
+                Name = "CountDown thread",
+                Priority = ThreadPriority.Lowest
+            };
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Unstarted
+
+            // Invoke CountDown
+            countDownThread.Start();
+            Console.WriteLine($"CountDown thread is {countDownThread.ThreadState.ToString()}"); // Running
+
+            //countUpThread.Interrupt()
+
+            // Wait for both threads to complete
+            countUpThread.Join();
+            countDownThread.Join();
+
+            Console.WriteLine($"Final value of Shared Resource is: {Shared.SharedResource}");
+
+            Console.WriteLine(mainThread.Name + " completed");
+        }
+
+        ThreadsDemo.RunDemo();
+
+
+
+
+
+        List<int> intList = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        var evenNumbers = intList.Where(n => n % 2 == 0).ToList();
+
+        Console.WriteLine(evenNumbers.ToString());
+
+        foreach (var num in evenNumbers)
+        {
+            Console.WriteLine(num);
+        }
 
         int option = -1;
 
@@ -49,6 +518,11 @@ class Program
         Console.WriteLine("Thank you! Have a nice day!");
 
         //Demo();
+    }
+
+    public static void Method1()
+    {
+        Console.WriteLine("Method 1 called");
     }
 
     public static void MainMenu()
