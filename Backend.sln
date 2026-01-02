@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainClasses", "DomainClas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{1DC27265-3C1E-430E-851F-7E48C1303C16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCoreEmpty", "ASPNETCoreEmpty\ASPNETCoreEmpty.csproj", "{3D623CB6-8450-4F17-83DE-3177418AC410}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{1DC27265-3C1E-430E-851F-7E48C1303C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DC27265-3C1E-430E-851F-7E48C1303C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DC27265-3C1E-430E-851F-7E48C1303C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D623CB6-8450-4F17-83DE-3177418AC410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D623CB6-8450-4F17-83DE-3177418AC410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D623CB6-8450-4F17-83DE-3177418AC410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D623CB6-8450-4F17-83DE-3177418AC410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

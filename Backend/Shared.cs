@@ -16,6 +16,8 @@ namespace p00_Backend
 
         public static ManualResetEvent Event { get; set; }
 
+        public static AutoResetEvent AutoEvent { get; set; }
+
         static Shared()
         {
             Data = new int[15];
@@ -23,6 +25,7 @@ namespace p00_Backend
             BatchCount = 5;
             BatchSize = 3;
             Event = new ManualResetEvent(false); //unsignaled state
+            AutoEvent = new AutoResetEvent(false);
         }
     }
 
@@ -45,6 +48,9 @@ namespace p00_Backend
                 //set the signal (signal that the producer has finished generating data)
                 Shared.Event.Set();
                 //reset the signal (makes the consumer thread wait for signal before reading next batch)
+                // comment line below if using AutoResetEvent
+                // AutoResetEvent allows one waiting thread to proceed; and immediatly resets the event to "unsignaled". So an 
+                // explicit reset is not required.
                 Shared.Event.Reset(); //reset the event to unsignaled state for the next batch
 
             }

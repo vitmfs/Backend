@@ -473,6 +473,10 @@ class Program
 
         ThreadsDemo.RunDemo();
 
+        WaitPulseExample.Execute();
+
+        MonitorWithManualReset.Execute();
+
 
 
 
