@@ -15,6 +15,7 @@ x64/
 # Ignore all bin and obj directories
 **/[Bb]in/
 **/[Oo]bj/
+wwwroot/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
