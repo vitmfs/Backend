@@ -6,6 +6,7 @@ import datetime
 import math
 import json
 import re
+import os
 #import nameOfFile as otherName 
 #otherName.something
 #from mymodule import person1
@@ -3125,3 +3126,783 @@ print(txt.format(age, name))
 
 myorder = "I have a {carname}, it is a {model}."
 print(myorder.format(carname = "Ford", model = "Mustang"))
+
+
+#https://www.w3schools.com/python/python_none.asp
+x = None
+print(x)
+
+x = None
+print(type(x))
+
+result = None
+if result is None:
+  print("No result yet")
+else:
+  print("Result is ready")
+
+result = None
+if result is not None:
+  print("Result is ready")
+else:
+  print("No result yet")
+
+print(bool(None))
+
+def myfunc():
+  x = 5
+
+x = myfunc()
+print(x)
+
+
+#https://www.w3schools.com/python/python_user_input.asp
+print("Enter your name:")
+name = "Some Name"
+#name = input()
+print(f"Hello {name}")
+
+#name = input("Enter your name:")
+print(f"Hello {name}")
+
+name = input("Enter your name:")
+print(f"Hello {name}")
+fav1 = ""
+fav2 = ""
+fav3 = ""
+#fav1 = input("What is your favorite animal:")
+#fav2 = input("What is your favorite color:")
+#fav3 = input("What is your favorite number:")
+print(f"Do you want a {fav2} {fav1} with {fav3} legs?")
+
+x = 5
+#x = input("Enter a number:")
+
+#find the square root of the number:
+y = math.sqrt(float(x))
+
+print(f"The square root of {x} is {y}")
+
+y = True
+while y == True:
+  #x = input("Enter a number:")
+  try:
+    x = float(x);
+    y = False
+  except:
+    print("Wrong input, please try again.")
+
+print("Thank you!")
+
+#https://www.w3schools.com/python/python_virtualenv.asp
+
+#https://www.w3schools.com/python/python_oop.asp
+#https://www.w3schools.com/python/python_classes.asp
+class MyClass:
+  x = 5
+
+p1 = MyClass()
+print(p1.x)
+
+del p1
+
+p1 = MyClass()
+p2 = MyClass()
+p3 = MyClass()
+
+print(p1.x)
+print(p2.x)
+print(p3.x)
+
+class Person:
+  pass
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Emil", 36)
+
+print(p1.name)
+print(p1.age)
+
+class Person:
+  pass
+
+p1 = Person()
+p1.name = "Tobias"
+p1.age = 25
+
+print(p1.name)
+print(p1.age)
+
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Linus", 28)
+
+print(p1.name)
+print(p1.age)
+
+class Person:
+  def __init__(self, name, age=18):
+    self.name = name
+    self.age = age
+
+p1 = Person("Emil")
+p2 = Person("Tobias", 25)
+
+print(p1.name, p1.age)
+print(p2.name, p2.age)
+
+class Person:
+  def __init__(self, name, age, city, country):
+    self.name = name
+    self.age = age
+    self.city = city
+    self.country = country
+
+p1 = Person("Linus", 30, "Oslo", "Norway")
+
+print(p1.name)
+print(p1.age)
+print(p1.city)
+print(p1.country)
+
+#https://www.w3schools.com/python/python_class_self.asp
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def greet(self):
+    print("Hello, my name is " + self.name)
+
+p1 = Person("Emil", 25)
+p1.greet()
+
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def printname(self):
+    print(self.name)
+
+p1 = Person("Tobias")
+p2 = Person("Linus")
+
+p1.printname()
+p2.printname()
+
+class Car:
+  def __init__(self, brand, model, year):
+    self.brand = brand
+    self.model = model
+    self.year = year
+
+  def display_info(self):
+    print(f"{self.year} {self.brand} {self.model}")
+
+car1 = Car("Toyota", "Corolla", 2020)
+car1.display_info()
+
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def greet(self):
+    return "Hello, " + self.name
+
+  def welcome(self):
+    message = self.greet()
+    print(message + "! Welcome to our website.")
+
+p1 = Person("Tobias")
+p1.welcome()
+
+
+#https://www.w3schools.com/python/python_class_properties.asp
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Emil", 36)
+
+print(p1.name)
+print(p1.age)
+
+class Car:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+
+car1 = Car("Toyota", "Corolla")
+
+print(car1.brand)
+print(car1.model)
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Tobias", 25)
+print(p1.age)
+
+p1.age = 26
+print(p1.age)
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Linus", 30)
+
+del p1.age
+
+print(p1.name) # This works
+# print(p1.age) # This would cause an error
+
+class Person:
+  species = "Human" # Class property
+
+  def __init__(self, name):
+    self.name = name # Instance property
+
+p1 = Person("Emil")
+p2 = Person("Tobias")
+
+print(p1.name)
+print(p2.name)
+print(p1.species)
+print(p2.species)
+
+class Person:
+  lastname = ""
+
+  def __init__(self, name):
+    self.name = name
+
+p1 = Person("Linus")
+p2 = Person("Emil")
+
+Person.lastname = "Refsnes"
+
+print(p1.lastname)
+print(p2.lastname)
+
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+p1 = Person("Tobias")
+
+p1.age = 25
+p1.city = "Oslo"
+
+print(p1.name)
+print(p1.age)
+print(p1.city)
+
+
+#https://www.w3schools.com/python/python_class_methods.asp
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def greet(self):
+    print("Hello, my name is " + self.name)
+
+p1 = Person("Emil")
+p1.greet()
+
+class Calculator:
+  def add(self, a, b):
+    return a + b
+
+  def multiply(self, a, b):
+    return a * b
+
+calc = Calculator()
+print(calc.add(5, 3))
+print(calc.multiply(4, 7))
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def get_info(self):
+    return f"{self.name} is {self.age} years old"
+
+p1 = Person("Tobias", 28)
+print(p1.get_info())
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def celebrate_birthday(self):
+    self.age += 1
+    print(f"Happy birthday! You are now {self.age}")
+
+p1 = Person("Linus", 25)
+p1.celebrate_birthday()
+p1.celebrate_birthday()
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("Emil", 36)
+print(p1)
+
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def __str__(self):
+    return f"{self.name} ({self.age})"
+
+p1 = Person("Tobias", 36)
+print(p1)
+
+class Playlist:
+  def __init__(self, name):
+    self.name = name
+    self.songs = []
+
+  def add_song(self, song):
+    self.songs.append(song)
+    print(f"Added: {song}")
+
+  def remove_song(self, song):
+    if song in self.songs:
+      self.songs.remove(song)
+      print(f"Removed: {song}")
+
+  def show_songs(self):
+    print(f"Playlist '{self.name}':")
+    for song in self.songs:
+      print(f"- {song}")
+
+my_playlist = Playlist("Favorites")
+my_playlist.add_song("Bohemian Rhapsody")
+my_playlist.add_song("Stairway to Heaven")
+my_playlist.show_songs()
+
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def greet(self):
+    print("Hello!")
+
+p1 = Person("Emil")
+
+del Person.greet
+
+#p1.greet() # This will cause an error
+
+#https://www.w3schools.com/python/python_inheritance.asp
+class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+  def printname(self):
+    print(self.firstname, self.lastname)
+
+#Use the Person class to create an object, and then execute the printname method:
+
+x = Person("John", "Doe")
+x.printname()
+
+class Student(Person):
+  pass
+
+x = Student("Mike", "Olsen")
+x.printname()
+
+class Student(Person):
+  def __init__(self, fname, lname):
+    Person.__init__(self, fname, lname)
+
+class Student(Person):
+  def __init__(self, fname, lname):
+    super().__init__(fname, lname)
+
+class Student(Person):
+  def __init__(self, fname, lname):
+    super().__init__(fname, lname)
+    self.graduationyear = 2019
+
+class Student(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year
+
+x = Student("Mike", "Olsen", 2019)
+
+class Student(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year
+
+  def welcome(self):
+    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+
+
+#https://www.w3schools.com/python/python_polymorphism.asp
+x = "Hello World!"
+
+print(len(x))
+
+mytuple = ("apple", "banana", "cherry")
+
+print(len(mytuple))
+
+thisdict = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+
+print(len(thisdict))
+
+class Car:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+
+  def move(self):
+    print("Drive!")
+
+class Boat:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+
+  def move(self):
+    print("Sail!")
+
+class Plane:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+
+  def move(self):
+    print("Fly!")
+
+car1 = Car("Ford", "Mustang")       #Create a Car object
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object
+plane1 = Plane("Boeing", "747")     #Create a Plane object
+
+for x in (car1, boat1, plane1):
+  x.move()
+
+class Vehicle:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+
+  def move(self):
+    print("Move!")
+
+class Car(Vehicle):
+  pass
+
+class Boat(Vehicle):
+  def move(self):
+    print("Sail!")
+
+class Plane(Vehicle):
+  def move(self):
+    print("Fly!")
+
+car1 = Car("Ford", "Mustang")       #Create a Car object
+boat1 = Boat("Ibiza", "Touring 20") #Create a Boat object
+plane1 = Plane("Boeing", "747")     #Create a Plane object
+
+for x in (car1, boat1, plane1):
+  print(x.brand)
+  print(x.model)
+  x.move()
+
+
+#https://www.w3schools.com/python/python_encapsulation.asp
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.__age = age # Private property
+
+p1 = Person("Emil", 25)
+print(p1.name)
+#print(p1.__age) # This will cause an error
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.__age = age
+
+  def get_age(self):
+    return self.__age
+
+p1 = Person("Tobias", 25)
+print(p1.get_age())
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.__age = age
+
+  def get_age(self):
+    return self.__age
+
+  def set_age(self, age):
+    if age > 0:
+      self.__age = age
+    else:
+      print("Age must be positive")
+
+p1 = Person("Tobias", 25)
+print(p1.get_age())
+
+p1.set_age(26)
+print(p1.get_age())
+
+class Student:
+  def __init__(self, name):
+    self.name = name
+    self.__grade = 0
+
+  def set_grade(self, grade):
+    if 0 <= grade <= 100:
+      self.__grade = grade
+    else:
+      print("Grade must be between 0 and 100")
+
+  def get_grade(self):
+    return self.__grade
+
+  def get_status(self):
+    if self.__grade >= 60:
+      return "Passed"
+    else:
+      return "Failed"
+
+student = Student("Emil")
+student.set_grade(85)
+print(student.get_grade())
+print(student.get_status())
+
+class Person:
+  def __init__(self, name, salary):
+    self.name = name
+    self._salary = salary # Protected property
+
+p1 = Person("Linus", 50000)
+print(p1.name)
+print(p1._salary) # Can access, but shouldn't
+
+
+class Calculator:
+  def __init__(self):
+    self.result = 0
+
+  def __validate(self, num):
+    if not isinstance(num, (int, float)):
+      return False
+    return True
+
+  def add(self, num):
+    if self.__validate(num):
+      self.result += num
+    else:
+      print("Invalid number")
+
+calc = Calculator()
+calc.add(10)
+calc.add(5)
+print(calc.result)
+# calc.__validate(5) # This would cause an error
+
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.__age = age
+
+p1 = Person("Emil", 30)
+
+# This is how Python mangles the name:
+print(p1._Person__age) # Not recommended!
+
+
+#https://www.w3schools.com/python/python_class_inner.asp
+class Outer:
+  def __init__(self):
+    self.name = "Outer Class"
+
+  class Inner:
+    def __init__(self):
+      self.name = "Inner Class"
+
+    def display(self):
+      print("This is the inner class")
+
+outer = Outer()
+print(outer.name)
+
+class Outer:
+  def __init__(self):
+    self.name = "Outer"
+
+  class Inner:
+    def __init__(self):
+      self.name = "Inner"
+
+    def display(self):
+      print("Hello from inner class")
+
+outer = Outer()
+inner = outer.Inner()
+inner.display()
+
+class Outer:
+  def __init__(self):
+    self.name = "Emil"
+
+  class Inner:
+    def __init__(self, outer):
+      self.outer = outer
+
+    def display(self):
+      print(f"Outer class name: {self.outer.name}")
+
+outer = Outer()
+inner = outer.Inner(outer)
+inner.display()
+
+class Car:
+  def __init__(self, brand, model):
+    self.brand = brand
+    self.model = model
+    self.engine = self.Engine()
+
+  class Engine:
+    def __init__(self):
+      self.status = "Off"
+
+    def start(self):
+      self.status = "Running"
+      print("Engine started")
+
+    def stop(self):
+      self.status = "Off"
+      print("Engine stopped")
+
+  def drive(self):
+    if self.engine.status == "Running":
+      print(f"Driving the {self.brand} {self.model}")
+    else:
+      print("Start the engine first!")
+
+car = Car("Toyota", "Corolla")
+car.drive()
+car.engine.start()
+car.drive()
+
+class Computer:
+  def __init__(self):
+    self.cpu = self.CPU()
+    self.ram = self.RAM()
+
+  class CPU:
+    def process(self):
+      print("Processing data...")
+
+  class RAM:
+    def store(self):
+      print("Storing data...")
+
+computer = Computer()
+computer.cpu.process()
+computer.ram.store()
+
+
+#https://www.w3schools.com/python/python_file_write.asp
+f = open("demofile.txt", "x")
+
+
+#https://www.w3schools.com/python/python_file_handling.asp
+# "r" - Read - Default value. Opens a file for reading, error if the file does not exist
+# "a" - Append - Opens a file for appending, creates the file if it does not exist
+# "w" - Write - Opens a file for writing, creates the file if it does not exist
+# "x" - Create - Creates the specified file, returns an error if the file exists
+
+f = open("demofile.txt")
+
+f = open("demofile.txt", "rt")
+
+#https://www.w3schools.com/python/python_file_open.asp
+f = open(".\\demofile.txt")
+print(f.read())
+
+with open(".\\demofile.txt") as f:
+  print(f.read())
+
+f = open("demofile.txt")
+print(f.readline())
+f.close()
+
+with open("demofile.txt") as f:
+  print(f.read(5))
+
+with open("demofile.txt") as f:
+  print(f.readline())
+
+with open("demofile.txt") as f:
+  print(f.readline())
+  print(f.readline())
+
+with open("demofile.txt") as f:
+  for x in f:
+    print(x)
+
+
+#https://www.w3schools.com/python/python_file_write.asp
+with open("demofile.txt", "a") as f:
+  f.write("Now the file has more content!")
+
+#open and read the file after the appending:
+with open("demofile.txt") as f:
+  print(f.read())
+
+with open("demofile.txt", "w") as f:
+  f.write("Woops! I have deleted the content!")
+
+#open and read the file after the overwriting:
+with open("demofile.txt") as f:
+  print(f.read())
+
+
+#https://www.w3schools.com/python/python_file_remove.asp
+if os.path.exists("demofile.txt"):
+  os.remove("demofile.txt")
+else:
+  print("The file does not exist")
+
+#os.rmdir("myfolder")
+
+
+
