@@ -4,6 +4,13 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.Drawing;
+using System.Numerics;
+using static System.Math;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 
 //namespace GlobalNamespace;
 
@@ -135,6 +142,1914 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries
+namespace DotnetCSharpLinqGetStartedIntroductionToLinqQueries
+{
+	public class IntroductionToLinqQueries
+	{
+		public static void RunIntroductionToLinqQueries()
+		{
+			// The Three Parts of a LINQ Query:
+			// 1. Data source.
+			int[] numbers = [ 0, 1, 2, 3, 4, 5, 6 ];
+			
+			// 2. Query creation.
+			// numQuery is an IEnumerable<int>
+			var numQuery = from num in numbers
+			               where (num % 2) == 0
+			               select num;
+			
+			// 3. Query execution.
+			foreach (int num in numQuery)
+			{
+			    Console.Write("{0,1} ", num);
+			}
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/
+namespace DotnetCSharpLinq
+{
+	public class CSharpLinq
+	{
+		public static void RunCSharpLinq()
+		{
+			// Specify the data source.
+			int[] scores = [97, 92, 81, 60];
+			
+			// Define the query expression.
+			IEnumerable<int> scoreQuery =
+			    from score in scores
+			    where score > 80
+			    select score;
+			
+			// Execute the query.
+			foreach (var i in scoreQuery)
+			{
+			    Console.Write(i + " ");
+			}
+			
+			// Output: 97 92 81
+		
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/working-with-linq
+namespace DotnetCSharpTutorialsWorkingWithLinq
+{
+	public class WorkingWithLinq
+	{
+		static IEnumerable<string> Suits()
+		{
+		    yield return "clubs";
+		    yield return "diamonds";
+		    yield return "hearts";
+		    yield return "spades";
+		}
+		
+		static IEnumerable<string> Ranks()
+		{
+		    yield return "two";
+		    yield return "three";
+		    yield return "four";
+		    yield return "five";
+		    yield return "six";
+		    yield return "seven";
+		    yield return "eight";
+		    yield return "nine";
+		    yield return "ten";
+		    yield return "jack";
+		    yield return "queen";
+		    yield return "king";
+		    yield return "ace";
+		}
+		
+		public static void RunWorkingWithLinq()
+		{
+			/*
+			var startingDeck = from s in Suits()
+                   from r in Ranks()
+                   select (Suit: s, Rank: r);
+
+			// Display each card that's generated and placed in startingDeck
+			foreach (var card in startingDeck)
+			{
+			    Console.WriteLine(card);
+			}
+			
+			var startingDeck2 = Suits().SelectMany(suit => Ranks().Select(rank => (Suit: suit, Rank: rank )));
+			
+			var top = startingDeck.Take(26);
+			var bottom = startingDeck.Skip(26);
+			
+			var shuffledDeck = top.InterleaveSequenceWith(bottom);
+
+			foreach (var c in shuffledDeck)
+			{
+			    Console.WriteLine(c);
+			}
+			
+			var startingDeck3 = from s in Suits()
+                   from r in Ranks()
+                   select (Suit: s, Rank: r);
+
+			// Display each card generated and placed in startingDeck in the console
+			foreach (var card in startingDeck3)
+			{
+			    Console.WriteLine(card);
+			}
+			
+			var top3 = startingDeck3.Take(26);
+			var bottom3 = startingDeck3.Skip(26);
+			
+			var shuffledDeck3 = top.InterleaveSequenceWith(bottom);
+			
+			var times = 0;
+			// Re-use the shuffle variable from earlier, or you can make a new one
+			shuffledDeck3 = startingDeck3;
+			do
+			{
+			    shuffledDeck3 = shuffledDeck3.Take(26).InterleaveSequenceWith(shuffledDeck3.Skip(26));
+			
+			    foreach (var card in shuffledDeck3)
+			    {
+			        Console.WriteLine(card);
+			    }
+			    Console.WriteLine();
+			    times++;
+			
+			} while (!startingDeck3.SequenceEquals(shuffledDeck3));
+			
+			Console.WriteLine(times);
+			
+			//shuffledDeck = shuffledDeck.Skip(26).InterleaveSequenceWith(shuffledDeck.Take(26));
+			*/
+			
+			var startingDeck = (from s in Suits().LogQuery("Suit Generation")
+                    from r in Ranks().LogQuery("Value Generation")
+                    select new { Suit = s, Rank = r })
+                    .LogQuery("Starting Deck")
+                    .ToArray();
+
+			foreach (var c in startingDeck)
+			{
+			    Console.WriteLine(c);
+			}
+			
+			Console.WriteLine();
+			
+			var times = 0;
+			var shuffle = startingDeck;
+			
+			do
+			{
+			    /*
+			    shuffle = shuffle.Take(26)
+			        .LogQuery("Top Half")
+			        .InterleaveSequenceWith(shuffle.Skip(26).LogQuery("Bottom Half"))
+			        .LogQuery("Shuffle")
+			        .ToArray();
+			    */
+			
+			    shuffle = shuffle.Skip(26)
+			        .LogQuery("Bottom Half")
+			        .InterleaveSequenceWith(shuffle.Take(26).LogQuery("Top Half"))
+			        .LogQuery("Shuffle")
+			        .ToArray();
+			
+			    foreach (var c in shuffle)
+			    {
+			        Console.WriteLine(c);
+			    }
+			
+			    times++;
+			    Console.WriteLine(times);
+			} while (!startingDeck.SequenceEquals(shuffle));
+			
+			Console.WriteLine(times);
+			
+			
+			
+		}
+
+		
+		
+	}
+	
+	public static class CardExtensions
+	{
+	    extension<T>(IEnumerable<T> sequence)
+	    {
+	        public IEnumerable<T> InterleaveSequenceWith(IEnumerable<T> second)
+			{
+			    var firstIter = sequence.GetEnumerator();
+			    var secondIter = second.GetEnumerator();
+			
+			    while (firstIter.MoveNext() && secondIter.MoveNext())
+			    {
+			        yield return firstIter.Current;
+			        yield return secondIter.Current;
+			    }
+			}
+			
+			public bool SequenceEquals(IEnumerable<T> second)
+			{
+			    var firstIter = sequence.GetEnumerator();
+			    var secondIter = second.GetEnumerator();
+			
+			    while ((firstIter?.MoveNext() == true) && secondIter.MoveNext())
+			    {
+			        if ((firstIter.Current is not null) && !firstIter.Current.Equals(secondIter.Current))
+			        {
+			            return false;
+			        }
+			    }
+			
+			    return true;
+			}
+			
+			public IEnumerable<T> LogQuery(string tag)
+			{
+			    // File.AppendText creates a new file if the file doesn't exist.
+			    using (var writer = File.AppendText("debug.log"))
+			    {
+			        writer.WriteLine($"Executing Query {tag}");
+			    }
+			
+			    return sequence;
+			}
+	    }
+	}
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/console-webapiclient
+namespace DotnetCSharpTutorialsConsoleWebApiClient
+{
+	public class ConsoleWebApiClient
+	{
+		public static async Task RunConsoleWebApiClient()
+		{
+			using HttpClient client = new();
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(
+			    new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+			client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+			
+			var repositories = await ProcessRepositoriesAsync(client);
+			
+			foreach (var repo in repositories)
+			{
+			    Console.WriteLine($"Name: {repo.Name}");
+			    Console.WriteLine($"Homepage: {repo.Homepage}");
+			    Console.WriteLine($"GitHub: {repo.GitHubHomeUrl}");
+			    Console.WriteLine($"Description: {repo.Description}");
+			    Console.WriteLine($"Watchers: {repo.Watchers:#,0}");
+			    Console.WriteLine($"{repo.LastPush}");
+			    Console.WriteLine();
+			}
+			
+		}
+		
+		static async Task<List<Repository>> ProcessRepositoriesAsync(HttpClient client)
+		{
+		    var repositories = await client.GetFromJsonAsync<List<Repository>>("https://api.github.com/orgs/dotnet/repos");
+		    return repositories ?? new List<Repository>();
+		}
+	}
+	
+	public record class Repository(
+	    string Name,
+	    string Description,
+	    [property: JsonPropertyName("html_url")] Uri GitHubHomeUrl,
+	    Uri Homepage,
+	    int Watchers,
+	    [property: JsonPropertyName("pushed_at")] DateTime LastPushUtc
+	    )
+	{
+	    public DateTime LastPush => LastPushUtc.ToLocalTime();
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/console-teleprompter
+namespace DotnetCSharpTutorialsConsoleTeleprompter
+{
+	public class ConsoleTeleprompter
+	{
+	    static IEnumerable<string> RunConsoleTeleprompter(string[] args)
+	    {
+	        Console.WriteLine("Hello World!");
+			
+			var lines = ReadFrom("sampleQuotes.txt");
+			foreach (var line in lines)
+			{
+			    if (!string.IsNullOrWhiteSpace(line))
+				{
+				    var pause = Task.Delay(200);
+				    // Synchronously waiting on a task is an
+				    // anti-pattern. This will get fixed in later
+				    // steps.
+				    pause.Wait();
+					
+					var words = line.Split(' ');
+					var lineLength = 0;
+					foreach (var word in words)
+					{
+					    yield return word + " ";
+						lineLength += word.Length + 1;
+						if (lineLength > 70)
+						{
+						    yield return Environment.NewLine;
+						    lineLength = 0;
+						}
+					}
+					yield return Environment.NewLine;
+				}
+			}
+			
+			//await ShowTeleprompter();
+			//await RunTeleprompter();
+			
+			
+	    }
+		
+		static IEnumerable<string> ReadFrom(string file)
+		{
+		    string? line;
+		    using (var reader = File.OpenText(file))
+		    {
+		        while ((line = reader.ReadLine()) != null)
+		        {
+		            yield return line;
+		        }
+		    }
+		}
+		
+		private static async Task ShowTeleprompter(TelePrompterConfig config)
+		{
+		    var words = ReadFrom("sampleQuotes.txt");
+		    foreach (var word in words)
+		    {
+		        Console.Write(word);
+		        if (!string.IsNullOrWhiteSpace(word))
+		        {
+		            await Task.Delay(config.DelayInMilliseconds);
+		        }
+		    }
+		    config.SetDone();
+		}
+		
+		private static async Task GetInput(TelePrompterConfig config)
+		{
+		    Action work = () =>
+		    {
+		        do {
+		            var key = Console.ReadKey(true);
+		            if (key.KeyChar == '>')
+		                config.UpdateDelay(-10);
+		            else if (key.KeyChar == '<')
+		                config.UpdateDelay(10);
+		            else if (key.KeyChar == 'X' || key.KeyChar == 'x')
+		                config.SetDone();
+		        } while (!config.Done);
+		    };
+		    await Task.Run(work);
+		}
+		
+		private static async Task RunTeleprompter()
+		{
+		    var config = new TelePrompterConfig();
+		    var displayTask = ShowTeleprompter(config);
+		
+		    var speedTask = GetInput(config);
+		    await Task.WhenAny(displayTask, speedTask);
+		}
+	}
+	
+	internal class TelePrompterConfig
+	{
+	    public int DelayInMilliseconds { get; private set; } = 200;
+	    public void UpdateDelay(int increment) // negative to speed up
+	    {
+	        var newDelay = Min(DelayInMilliseconds + increment, 1000);
+	        newDelay = Max(newDelay, 20);
+	        DelayInMilliseconds = newDelay;
+	    }
+	    public bool Done { get; private set; }
+	    public void SetDone()
+	    {
+	        Done = true;
+	    }
+	}
+	
+	
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/string-interpolation
+namespace DotnetCSharpTutorialsStringInterpolation
+{
+	public class StringInterpolation
+	{
+		public static void RunStringInterpolation()
+		{
+			double a = 3;
+			double b = 4;
+			Console.WriteLine($"Area of the right triangle with legs of {a} and {b} is {0.5 * a * b}");
+			Console.WriteLine($"Length of the hypotenuse of the right triangle with legs of {a} and {b} is {CalculateHypotenuse(a, b)}");
+			double CalculateHypotenuse(double leg1, double leg2) => Math.Sqrt(leg1 * leg1 + leg2 * leg2);
+			// Output:
+			// Area of the right triangle with legs of 3 and 4 is 6
+			// Length of the hypotenuse of the right triangle with legs of 3 and 4 is 5
+			
+			var date = new DateTime(1731, 11, 25);
+			Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} L. Euler introduced the letter e to denote {Math.E:F5}.");
+			// Output:
+			// On Sunday, November 25, 1731 L. Euler introduced the letter e to denote 2.71828.
+			
+			var titles = new Dictionary<string, string>()
+			{
+			    ["Doyle, Arthur Conan"] = "Hound of the Baskervilles, The",
+			    ["London, Jack"] = "Call of the Wild, The",
+			    ["Shakespeare, William"] = "Tempest, The"
+			};
+			
+			Console.WriteLine("Author and Title List");
+			Console.WriteLine();
+			Console.WriteLine($"|{"Author",-25}|{"Title",30}|");
+			foreach (var title in titles)
+			{
+			    Console.WriteLine($"|{title.Key,-25}|{title.Value,30}|");
+			}
+			// Output:
+			// Author and Title List
+			// 
+			// |Author                   |                         Title|
+			// |Doyle, Arthur Conan      |Hound of the Baskervilles, The|
+			// |London, Jack             |         Call of the Wild, The|
+			// |Shakespeare, William     |                  Tempest, The|
+			
+			const int NameAlignment = -9;
+			const int ValueAlignment = 7;
+			double a2 = 3;
+			double b2 = 4;
+			Console.WriteLine($"Three classical Pythagorean means of {a2} and {b2}:");
+			Console.WriteLine($"|{"Arithmetic",NameAlignment}|{0.5 * (a2 + b2),ValueAlignment:F3}|");
+			Console.WriteLine($"|{"Geometric",NameAlignment}|{Math.Sqrt(a2 * b2),ValueAlignment:F3}|");
+			Console.WriteLine($"|{"Harmonic",NameAlignment}|{2 / (1 / a2 + 1 / b2),ValueAlignment:F3}|");
+			// Output:
+			// Three classical Pythagorean means of 3 and 4:
+			// |Arithmetic|  3.500|
+			// |Geometric|  3.464|
+			// |Harmonic |  3.429|
+			
+			var xs = new int[] { 1, 2, 7, 9 };
+			var ys = new int[] { 7, 9, 12 };
+			Console.WriteLine($"Find the intersection of the {{{string.Join(", ",xs)}}} and {{{string.Join(", ",ys)}}} sets.");
+			// Output:
+			// Find the intersection of the {1, 2, 7, 9} and {7, 9, 12} sets.
+			
+			var userName = "Jane";
+			var stringWithEscapes = $"C:\\Users\\{userName}\\Documents";
+			var verbatimInterpolated = $@"C:\Users\{userName}\Documents";
+			Console.WriteLine(stringWithEscapes);
+			Console.WriteLine(verbatimInterpolated);
+			// Output:
+			// C:\Users\Jane\Documents
+			// C:\Users\Jane\Documents
+			
+			var rand = new Random();
+			for (int i = 0; i < 7; i++)
+			{
+			    Console.WriteLine($"Coin flip: {(rand.NextDouble() < 0.5 ? "heads" : "tails")}");
+			}
+			
+			var cultures = new System.Globalization.CultureInfo[]
+			{
+			    System.Globalization.CultureInfo.GetCultureInfo("en-US"),
+			    System.Globalization.CultureInfo.GetCultureInfo("en-GB"),
+			    System.Globalization.CultureInfo.GetCultureInfo("nl-NL"),
+			    System.Globalization.CultureInfo.InvariantCulture
+			};
+			var date2 = DateTime.Now;
+			var number = 31_415_926.536;
+			foreach (var culture in cultures)
+			{
+			    var cultureSpecificMessage = string.Create(culture, $"{date2,23}{number,20:N3}");
+			    Console.WriteLine($"{culture.Name,-10}{cultureSpecificMessage}");
+			}
+			// Output is similar to:
+			// en-US       8/27/2023 12:35:31 PM      31,415,926.536
+			// en-GB         27/08/2023 12:35:31      31,415,926.536
+			// nl-NL         27-08-2023 12:35:31      31.415.926,536
+			//               08/27/2023 12:35:31      31,415,926.536
+			
+			var cultures2 = new System.Globalization.CultureInfo[]
+			{
+			    System.Globalization.CultureInfo.GetCultureInfo("en-US"),
+			    System.Globalization.CultureInfo.GetCultureInfo("en-GB"),
+			    System.Globalization.CultureInfo.GetCultureInfo("nl-NL"),
+			    System.Globalization.CultureInfo.InvariantCulture
+			};
+			var date3 = DateTime.Now;
+			var number2 = 31_415_926.536;
+			FormattableString message = $"{date3,23}{number2,20:N3}";
+			foreach (var culture in cultures)
+			{
+			    var cultureSpecificMessage = message.ToString(culture);
+			    Console.WriteLine($"{culture.Name,-10}{cultureSpecificMessage}");
+			}
+			// Output is similar to:
+			// en-US       8/27/2023 12:35:31 PM      31,415,926.536
+			// en-GB         27/08/2023 12:35:31      31,415,926.536
+			// nl-NL         27-08-2023 12:35:31      31.415.926,536
+			//               08/27/2023 12:35:31      31,415,926.536
+			
+			string message3 = string.Create(CultureInfo.InvariantCulture, $"Date and time in invariant culture: {DateTime.Now}");
+			Console.WriteLine(message3);
+			// Output is similar to:
+			// Date and time in invariant culture: 05/17/2018 15:46:24
+			
+			string message4 = FormattableString.Invariant($"Date and time in invariant culture: {DateTime.Now}");
+			Console.WriteLine(message4);
+			// Output is similar to:
+			// Date and time in invariant culture: 05/17/2018 15:46:24
+			
+			
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/patterns-objects
+namespace DotnetCSharpTutorialsPatternsObjects
+{
+	public enum WaterLevel
+	{
+	    Low,
+	    High
+	}
+	public class CanalLock
+	{
+	    // Query canal lock state:
+	    public WaterLevel CanalLockWaterLevel { get; private set; } = WaterLevel.Low;
+	    public bool HighWaterGateOpen { get; private set; } = false;
+	    public bool LowWaterGateOpen { get; private set; } = false;
+	
+	    // Change the upper gate.
+		public void SetHighGate(bool open)
+		{
+			HighWaterGateOpen = (open, HighWaterGateOpen, CanalLockWaterLevel) switch
+		    {
+		        (false, _,    _)               => false,
+		        (true, _,     WaterLevel.High) => true,
+		        (true, false, WaterLevel.Low)  => throw new InvalidOperationException("Cannot open high gate when the water is low"),
+		        _                              => throw new InvalidOperationException("Invalid internal state"),
+		    };
+			
+			/*
+			HighWaterGateOpen = (open, HighWaterGateOpen, CanalLockWaterLevel) switch
+			{
+				(false, _, _) => false,
+			    (false, false, WaterLevel.High) => false,
+			    (false, false, WaterLevel.Low) => false,
+			    (false, true, WaterLevel.High) => false,
+			    (false, true, WaterLevel.Low) => false, // should never happen
+			    //(true, false, WaterLevel.High) => true,
+				//(true, _, WaterLevel.High) => true,
+			    (true, false, WaterLevel.Low) => throw new InvalidOperationException("Cannot open high gate when the water is low"),
+			    (true, true, WaterLevel.High) => true,
+			    (true, true, WaterLevel.Low) => false, // should never happen
+				_  => throw new InvalidOperationException("Invalid internal state"),
+			};
+			*/
+			
+			/*
+		    if (open && (CanalLockWaterLevel == WaterLevel.High))
+		        HighWaterGateOpen = true;
+		    else if (open && (CanalLockWaterLevel == WaterLevel.Low))
+		        throw new InvalidOperationException("Cannot open high gate when the water is low");
+			*/
+		}
+		
+		// Change the lower gate.
+		public void SetLowGate(bool open)
+		{
+		    LowWaterGateOpen = (open, LowWaterGateOpen, CanalLockWaterLevel) switch
+		    {
+		        (false, _, _) => false,
+		        (true, _, WaterLevel.Low) => true,
+		        (true, false, WaterLevel.High) => throw new InvalidOperationException("Cannot open low gate when the water is high"),
+		        _ => throw new InvalidOperationException("Invalid internal state"),
+		    };
+		}
+		
+		// Change water level.
+		public void SetWaterLevel(WaterLevel newLevel)
+		{
+		    CanalLockWaterLevel = (newLevel, CanalLockWaterLevel, LowWaterGateOpen, HighWaterGateOpen) switch
+		    {
+		        (WaterLevel.Low, WaterLevel.Low, true, false) => WaterLevel.Low,
+		        (WaterLevel.High, WaterLevel.High, false, true) => WaterLevel.High,
+		        (WaterLevel.Low, _, false, false) => WaterLevel.Low,
+		        (WaterLevel.High, _, false, false) => WaterLevel.High,
+		        (WaterLevel.Low, WaterLevel.High, false, true) => throw new InvalidOperationException("Cannot lower water when the high gate is open"),
+		        (WaterLevel.High, WaterLevel.Low, true, false) => throw new InvalidOperationException("Cannot raise water when the low gate is open"),
+		        _ => throw new InvalidOperationException("Invalid internal state"),
+		    };
+		}
+	
+	    public override string ToString() =>
+	        $"The lower gate is {(LowWaterGateOpen ? "Open" : "Closed")}. " +
+	        $"The upper gate is {(HighWaterGateOpen ? "Open" : "Closed")}. " +
+	        $"The water level is {CanalLockWaterLevel}.";
+			
+		public static void RunCanalLock()
+		{
+			// Create a new canal lock:
+			var canalGate = new CanalLock();
+			
+			// State should be doors closed, water level low:
+			Console.WriteLine(canalGate);
+			
+			canalGate.SetLowGate(open: true);
+			Console.WriteLine($"Open the lower gate:  {canalGate}");
+			
+			Console.WriteLine("Boat enters lock from lower gate");
+			
+			canalGate.SetLowGate(open: false);
+			Console.WriteLine($"Close the lower gate:  {canalGate}");
+			
+			canalGate.SetWaterLevel(WaterLevel.High);
+			Console.WriteLine($"Raise the water level: {canalGate}");
+			
+			canalGate.SetHighGate(open: true);
+			Console.WriteLine($"Open the higher gate:  {canalGate}");
+			
+			Console.WriteLine("Boat exits lock at upper gate");
+			Console.WriteLine("Boat enters lock from upper gate");
+			
+			canalGate.SetHighGate(open: false);
+			Console.WriteLine($"Close the higher gate: {canalGate}");
+			
+			canalGate.SetWaterLevel(WaterLevel.Low);
+			Console.WriteLine($"Lower the water level: {canalGate}");
+			
+			canalGate.SetLowGate(open: true);
+			Console.WriteLine($"Open the lower gate:  {canalGate}");
+			
+			Console.WriteLine("Boat exits lock at upper gate");
+			
+			canalGate.SetLowGate(open: false);
+			Console.WriteLine($"Close the lower gate:  {canalGate}");
+			
+			Console.WriteLine("=============================================");
+			Console.WriteLine("     Test invalid commands");
+			// Open "wrong" gate (2 tests)
+			try
+			{
+			    canalGate = new CanalLock();
+			    canalGate.SetHighGate(open: true);
+			}
+			catch (InvalidOperationException)
+			{
+			    Console.WriteLine("Invalid operation: Can't open the high gate. Water is low.");
+			}
+			Console.WriteLine($"Try to open upper gate: {canalGate}");
+			
+			Console.WriteLine();
+			Console.WriteLine();
+			try
+			{
+			    canalGate = new CanalLock();
+			    canalGate.SetWaterLevel(WaterLevel.High);
+			    canalGate.SetLowGate(open: true);
+			}
+			catch (InvalidOperationException)
+			{
+			    Console.WriteLine("invalid operation: Can't open the lower gate. Water is high.");
+			}
+			Console.WriteLine($"Try to open lower gate: {canalGate}");
+			// change water level with gate open (2 tests)
+			Console.WriteLine();
+			Console.WriteLine();
+			try
+			{
+			    canalGate = new CanalLock();
+			    canalGate.SetLowGate(open: true);
+			    canalGate.SetWaterLevel(WaterLevel.High);
+			}
+			catch (InvalidOperationException)
+			{
+			    Console.WriteLine("invalid operation: Can't raise water when the lower gate is open.");
+			}
+			Console.WriteLine($"Try to raise water with lower gate open: {canalGate}");
+			Console.WriteLine();
+			Console.WriteLine();
+			try
+			{
+			    canalGate = new CanalLock();
+			    canalGate.SetWaterLevel(WaterLevel.High);
+			    canalGate.SetHighGate(open: true);
+			    canalGate.SetWaterLevel(WaterLevel.Low);
+			}
+			catch (InvalidOperationException)
+			{
+			    Console.WriteLine("invalid operation: Can't lower water when the high gate is open.");
+			}
+			Console.WriteLine($"Try to lower water with high gate open: {canalGate}");
+			
+			
+		}
+		
+		
+	}
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/nullable-reference-types
+namespace DotnetCSharpTutorialsNullableReferenceTypes
+{
+	namespace NullableIntroduction
+	{
+		
+		public enum QuestionType
+	    {
+	        YesNo,
+	        Number,
+	        Text
+	    }
+	
+	    public class SurveyQuestion
+		{
+		    public string QuestionText { get; }
+		    public QuestionType TypeOfQuestion { get; }
+		
+		    public SurveyQuestion(QuestionType typeOfQuestion, string text) =>
+		        (TypeOfQuestion, QuestionText) = (typeOfQuestion, text);
+		}
+		
+		public class SurveyRun
+	    {
+	        private List<SurveyQuestion> surveyQuestions = new List<SurveyQuestion>();
+			private List<SurveyResponse>? respondents;
+	
+	        public void AddQuestion(QuestionType type, string question) =>
+	            AddQuestion(new SurveyQuestion(type, question));
+	        public void AddQuestion(SurveyQuestion surveyQuestion) => surveyQuestions.Add(surveyQuestion);
+			
+			public static void RunSurveyRun()
+			{
+				var surveyRun = new SurveyRun();
+				surveyRun.AddQuestion(QuestionType.YesNo, "Has your code ever thrown a NullReferenceException?");
+				surveyRun.AddQuestion(new SurveyQuestion(QuestionType.Number, "How many times (to the nearest 100) has that happened?"));
+				surveyRun.AddQuestion(QuestionType.Text, "What is your favorite color?");
+				
+				surveyRun.AddQuestion(QuestionType.Text, default);
+				
+				surveyRun.PerformSurvey(50);
+				
+				foreach (var participant in surveyRun.AllParticipants)
+				{
+				    Console.WriteLine($"Participant: {participant.Id}:");
+				    if (participant.AnsweredSurvey)
+				    {
+				        for (int i = 0; i < surveyRun.Questions.Count; i++)
+				        {
+				            var answer = participant.Answer(i);
+				            Console.WriteLine($"\t{surveyRun.GetQuestion(i).QuestionText} : {answer}");
+				        }
+				    }
+				    else
+				    {
+				        Console.WriteLine("\tNo responses");
+				    }
+				}
+			}
+			
+			public void PerformSurvey(int numberOfRespondents)
+			{
+			    int respondentsConsenting = 0;
+			    respondents = new List<SurveyResponse>();
+			    while (respondentsConsenting < numberOfRespondents)
+			    {
+			        var respondent = SurveyResponse.GetRandomId();
+			        if (respondent.AnswerSurvey(surveyQuestions))
+			            respondentsConsenting++;
+			        respondents.Add(respondent);
+			    }
+			}
+			
+			public IEnumerable<SurveyResponse> AllParticipants => (respondents ?? Enumerable.Empty<SurveyResponse>());
+			public ICollection<SurveyQuestion> Questions => surveyQuestions;
+			public SurveyQuestion GetQuestion(int index) => surveyQuestions[index];
+	    }
+		
+		public class SurveyResponse
+	    {
+			private static readonly Random randomGenerator = new Random();
+			public static SurveyResponse GetRandomId() => new SurveyResponse(randomGenerator.Next());
+			
+	        public int Id { get; }
+	
+	        public SurveyResponse(int id) => Id = id;
+			
+			private Dictionary<int, string>? surveyResponses;
+
+			public bool AnswerSurvey(IEnumerable<SurveyQuestion> questions)
+			{
+			    if (ConsentToSurvey())
+			    {
+			        surveyResponses = new Dictionary<int, string>();
+			        int index = 0;
+			        foreach (var question in questions)
+			        {
+			            var answer = GenerateAnswer(question);
+			            if (answer != null)
+			            {
+			                surveyResponses.Add(index, answer);
+			            }
+			            index++;
+			        }
+			    }
+			    return surveyResponses != null;
+			}
+			
+			private bool ConsentToSurvey() => randomGenerator.Next(0, 2) == 1;
+			
+			private string? GenerateAnswer(SurveyQuestion question)
+			{
+			    switch (question.TypeOfQuestion)
+			    {
+			        case QuestionType.YesNo:
+			            int n = randomGenerator.Next(-1, 2);
+			            return (n == -1) ? default : (n == 0) ? "No" : "Yes";
+			        case QuestionType.Number:
+			            n = randomGenerator.Next(-30, 101);
+			            return (n < 0) ? default : n.ToString();
+			        case QuestionType.Text:
+			        default:
+			            switch (randomGenerator.Next(0, 5))
+			            {
+			                case 0:
+			                    return default;
+			                case 1:
+			                    return "Red";
+			                case 2:
+			                    return "Green";
+			                case 3:
+			                    return "Blue";
+			            }
+			            return "Red. No, Green. Wait.. Blue... AAARGGGGGHHH!";
+			    }
+			}
+			
+			public bool AnsweredSurvey => surveyResponses != null;
+			public string Answer(int index) => surveyResponses?.GetValueOrDefault(index) ?? "No answer";
+	    }
+	}
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes
+namespace DotnetCSharpTutorialsRangesIndexes
+{
+	public class RangesIndexes
+	{
+		private static string[] words = [
+		                // index from start     index from end
+		    "first",    // 0                    ^10
+		    "second",   // 1                    ^9
+		    "third",    // 2                    ^8
+		    "fourth",   // 3                    ^7
+		    "fifth",    // 4                    ^6
+		    "sixth",    // 5                    ^5
+		    "seventh",  // 6                    ^4
+		    "eighth",   // 7                    ^3
+		    "ninth",    // 8                    ^2
+		    "tenth"     // 9                    ^1
+		];              // 10 (or words.Length) ^0
+		
+		public static void RunRangesIndexes()
+		{
+			Console.WriteLine($"The last word is < {words[^1]} >."); // The last word is < tenth >.
+			
+			string[] secondThirdFourth = words[1..4]; // contains "second", "third" and "fourth"
+
+			// < second >< third >< fourth >
+			foreach (var word in secondThirdFourth)
+			    Console.Write($"< {word} >"); 
+			Console.WriteLine();
+			
+			string[] lastTwo = words[^2..^0]; // contains "ninth" and "tenth"
+
+			// < ninth >< tenth >
+			foreach (var word in lastTwo)
+			    Console.Write($"< {word} >"); 
+			Console.WriteLine();
+			 
+			string[] allWords = words[..]; // contains "first" through "tenth".
+			string[] firstPhrase = words[..4]; // contains "first" through "fourth"
+			string[] lastPhrase = words[6..]; // contains "seventh", "eight", "ninth" and "tenth"
+			
+			// < first >< second >< third >< fourth >< fifth >< sixth >< seventh >< eighth >< ninth >< tenth >
+			foreach (var word in allWords)
+			    Console.Write($"< {word} >"); 
+			Console.WriteLine();
+			
+			// < first >< second >< third >< fourth >
+			foreach (var word in firstPhrase)
+			    Console.Write($"< {word} >"); 
+			Console.WriteLine();
+			
+			// < seventh >< eighth >< ninth >< tenth >
+			foreach (var word in lastPhrase)
+			    Console.Write($"< {word} >"); 
+			Console.WriteLine();
+			
+			Index thirdFromEnd = ^3;
+			Console.WriteLine($"< {words[thirdFromEnd]} > "); // < eighth > 
+			Range phrase = 1..4;
+			string[] text = words[phrase];
+			
+			// < second >< third >< fourth >
+			foreach (var word in text)
+			    Console.Write($"< {word} >");  
+			Console.WriteLine();
+			
+			
+			int[] numbers = [..Enumerable.Range(0, 100)];
+			int x = 12;
+			int y = 25;
+			int z = 36;
+			
+			Console.WriteLine($"{numbers[^x]} is the same as {numbers[numbers.Length - x]}");
+			Console.WriteLine($"{numbers[x..y].Length} is the same as {y - x}");
+			
+			Console.WriteLine("numbers[x..y] and numbers[y..z] are consecutive and disjoint:");
+			Span<int> x_y = numbers[x..y];
+			Span<int> y_z = numbers[y..z];
+			Console.WriteLine($"\tnumbers[x..y] is {x_y[0]} through {x_y[^1]}, numbers[y..z] is {y_z[0]} through {y_z[^1]}");
+			
+			Console.WriteLine("numbers[x..^x] removes x elements at each end:");
+			Span<int> x_x = numbers[x..^x];
+			Console.WriteLine($"\tnumbers[x..^x] starts with {x_x[0]} and ends with {x_x[^1]}");
+			
+			Console.WriteLine("numbers[..x] means numbers[0..x] and numbers[x..] means numbers[x..^0]");
+			Span<int> start_x = numbers[..x];
+			Span<int> zero_x = numbers[0..x];
+			Console.WriteLine($"\t{start_x[0]}..{start_x[^1]} is the same as {zero_x[0]}..{zero_x[^1]}");
+			Span<int> z_end = numbers[z..];
+			Span<int> z_zero = numbers[z..^0];
+			Console.WriteLine($"\t{z_end[0]}..{z_end[^1]} is the same as {z_zero[0]}..{z_zero[^1]}");
+			
+			Range implicitRange = 3..^5;
+
+			Range explicitRange = new(
+			    start: new Index(value: 3, fromEnd: false),
+			    end: new Index(value: 5, fromEnd: true));
+			
+			if (implicitRange.Equals(explicitRange))
+			{
+			    Console.WriteLine(
+			        $"The implicit range '{implicitRange}' equals the explicit range '{explicitRange}'");
+			}
+			// Sample output:
+			//     The implicit range '3..^5' equals the explicit range '3..^5'
+			
+			int[][] jagged = 
+			[
+			   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+			   [10,11,12,13,14,15,16,17,18,19],
+			   [20,21,22,23,24,25,26,27,28,29],
+			   [30,31,32,33,34,35,36,37,38,39],
+			   [40,41,42,43,44,45,46,47,48,49],
+			   [50,51,52,53,54,55,56,57,58,59],
+			   [60,61,62,63,64,65,66,67,68,69],
+			   [70,71,72,73,74,75,76,77,78,79],
+			   [80,81,82,83,84,85,86,87,88,89],
+			   [90,91,92,93,94,95,96,97,98,99],
+			];
+			
+			var selectedRows = jagged[3..^3];
+			
+			foreach (var row in selectedRows)
+			{
+			    var selectedColumns = row[2..^2];
+			    foreach (var cell in selectedColumns)
+			    {
+			        Console.Write($"{cell}, ");
+			    }
+			    Console.WriteLine();
+			}
+			
+			int[] sequence = Sequence(1000);
+
+			for(int start = 0; start < sequence.Length; start += 100)
+			{
+			    Range r = start..(start+10);
+			    var (min, max, average) = MovingAverage(sequence, r);
+			    Console.WriteLine($"From {r.Start} to {r.End}:    \tMin: {min},\tMax: {max},\tAverage: {average}");
+			}
+			
+			for (int start = 0; start < sequence.Length; start += 100)
+			{
+			    Range r = ^(start + 10)..^start;
+			    var (min, max, average) = MovingAverage(sequence, r);
+			    Console.WriteLine($"From {r.Start} to {r.End}:  \tMin: {min},\tMax: {max},\tAverage: {average}");
+			}
+			
+			(int min, int max, double average) MovingAverage(int[] subSequence, Range range) =>
+			    (
+			        subSequence[range].Min(),
+			        subSequence[range].Max(),
+			        subSequence[range].Average()
+			    );
+			
+			int[] Sequence(int count) => [..Enumerable.Range(0, count).Select(x => (int)(Math.Sqrt(x) * 100))];
+			
+			var arrayOfFiveItems = new[] { 1, 2, 3, 4, 5 };
+
+			var firstThreeItems = arrayOfFiveItems[..3]; // contains 1,2,3
+			firstThreeItems[0] =  11; // now contains 11,2,3
+			
+			Console.WriteLine(string.Join(",", firstThreeItems));
+			Console.WriteLine(string.Join(",", arrayOfFiveItems));
+			
+			// output:
+			// 11,2,3
+			// 1,2,3,4,5
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/top-level-statements
+namespace DotnetCSharpTutorialsTopLevelStatements
+{
+	class Program
+    {
+        static async Task RunProgram(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+			
+			// See https://aka.ms/new-console-template for more information
+			Console.WriteLine("Hello, World!");
+			
+			Console.WriteLine();
+			
+			foreach(var s in args)
+			{
+			    Console.Write(s);
+			    Console.Write(' ');
+			}
+			Console.WriteLine();
+			
+			string[] answers =
+			[
+			    "It is certain.",       "Reply hazy, try again.",     "Don’t count on it.",
+			    "It is decidedly so.",  "Ask again later.",           "My reply is no.",
+			    "Without a doubt.",     "Better not tell you now.",   "My sources say no.",
+			    "Yes – definitely.",    "Cannot predict now.",        "Outlook not so good.",
+			    "You may rely on it.",  "Concentrate and ask again.", "Very doubtful.",
+			    "As I see it, yes.",
+			    "Most likely.",
+			    "Outlook good.",
+			    "Yes.",
+			    "Signs point to yes.",
+			];
+			
+			var index = new Random().Next(answers.Length - 1);
+			Console.WriteLine(answers[index]);
+			
+			for (int i = 0; i < 20; i++)
+			{
+			    Console.Write("| -");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("/ \\");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("- |");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("\\ /");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			}
+			Console.WriteLine();
+			
+			Console.WriteLine();
+			
+			foreach(var s in args)
+			{
+			    Console.Write(s);
+			    Console.Write(' ');
+			}
+			Console.WriteLine();
+			
+			for (int i = 0; i < 20; i++)
+			{
+			    Console.Write("| -");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("/ \\");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("- |");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			    Console.Write("\\ /");
+			    await Task.Delay(50);
+			    Console.Write("\b\b\b");
+			}
+			Console.WriteLine();
+			
+			string[] answers2 =
+			[
+			    "It is certain.",       "Reply hazy, try again.",     "Don't count on it.",
+			    "It is decidedly so.",  "Ask again later.",           "My reply is no.",
+			    "Without a doubt.",     "Better not tell you now.",   "My sources say no.",
+			    "Yes – definitely.",    "Cannot predict now.",        "Outlook not so good.",
+			    "You may rely on it.",  "Concentrate and ask again.", "Very doubtful.",
+			    "As I see it, yes.",
+			    "Most likely.",
+			    "Outlook good.",
+			    "Yes.",
+			    "Signs point to yes.",
+			];
+			
+			var index2 = new Random().Next(answers2.Length - 1);
+			Console.WriteLine(answers[index2]);
+			
+			await ShowConsoleAnimation();
+			
+			Console.WriteLine();
+			foreach(var s in args)
+			{
+			    Console.Write(s);
+			    Console.Write(' ');
+			}
+			Console.WriteLine();
+			
+			await Utilities.ShowConsoleAnimation();
+			
+			string[] answers3 =
+			[
+			    "It is certain.",       "Reply hazy, try again.",     "Don’t count on it.",
+			    "It is decidedly so.",  "Ask again later.",           "My reply is no.",
+			    "Without a doubt.",     "Better not tell you now.",   "My sources say no.",
+			    "Yes – definitely.",    "Cannot predict now.",        "Outlook not so good.",
+			    "You may rely on it.",  "Concentrate and ask again.", "Very doubtful.",
+			    "As I see it, yes.",
+			    "Most likely.",
+			    "Outlook good.",
+			    "Yes.",
+			    "Signs point to yes.",
+			];
+			
+			var index3 = new Random().Next(answers3.Length - 1);
+			Console.WriteLine(answers[index3]);
+
+        }
+		
+		static async Task ShowConsoleAnimation()
+		{
+		    for (int i = 0; i < 20; i++)
+		    {
+		        Console.Write("| -");
+		        await Task.Delay(50);
+		        Console.Write("\b\b\b");
+		        Console.Write("/ \\");
+		        await Task.Delay(50);
+		        Console.Write("\b\b\b");
+		        Console.Write("- |");
+		        await Task.Delay(50);
+		        Console.Write("\b\b\b");
+		        Console.Write("\\ /");
+		        await Task.Delay(50);
+		        Console.Write("\b\b\b");
+		    }
+		    Console.WriteLine();
+		}
+    }
+	
+	public static class Utilities
+    {
+        public static async Task ShowConsoleAnimation()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                Console.Write("| -");
+                await Task.Delay(50);
+                Console.Write("\b\b\b");
+                Console.Write("/ \\");
+                await Task.Delay(50);
+                Console.Write("\b\b\b");
+                Console.Write("- |");
+                await Task.Delay(50);
+                Console.Write("\b\b\b");
+                Console.Write("\\ /");
+                await Task.Delay(50);
+                Console.Write("\b\b\b");
+            }
+            Console.WriteLine();
+        }
+		
+		public static async Task ShowConsoleAnimation2()
+		{
+		    string[] animations = ["| -", "/ \\", "- |", "\\ /"];
+		    for (int i = 0; i < 20; i++)
+		    {
+		        foreach (string s in animations)
+		        {
+		            Console.Write(s);
+		            await Task.Delay(50);
+		            Console.Write("\b\b\b");
+		        }
+		    }
+		    Console.WriteLine();
+		}
+    }
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/records
+namespace DotnetCSharpTutorialsRecords
+{
+	//public readonly record struct DailyTemperature(double HighTemp, double LowTemp);
+	
+	public class TutorialsRecords
+	{
+		public static void RunTutorialsRecords()
+		{
+			foreach (var item in data)
+    			Console.WriteLine(item);
+				
+			var heatingDegreeDays = new HeatingDegreeDays(65, data);
+			Console.WriteLine(heatingDegreeDays);
+			
+			var coolingDegreeDays = new CoolingDegreeDays(65, data);
+			Console.WriteLine(coolingDegreeDays);
+			
+			// Growing degree days measure warming to determine plant growing rates
+			var growingDegreeDays = coolingDegreeDays with { BaseTemperature = 41 };
+			Console.WriteLine(growingDegreeDays);
+			
+			// showing moving accumulation of 5 days using range syntax
+			List<CoolingDegreeDays> movingAccumulation = new();
+			int rangeSize = (data.Length > 5) ? 5 : data.Length;
+			for (int start = 0; start < data.Length - rangeSize; start++)
+			{
+			    var fiveDayTotal = growingDegreeDays with { TempRecords = data[start..(start + rangeSize)] };
+			    movingAccumulation.Add(fiveDayTotal);
+			}
+			Console.WriteLine();
+			Console.WriteLine("Total degree days in the last five days");
+			foreach(var item in movingAccumulation)
+			{
+			    Console.WriteLine(item);
+			}
+			
+			var growingDegreeDaysCopy = growingDegreeDays with { };
+			
+		}
+		
+		private static DailyTemperature[] data = [
+		    new DailyTemperature(HighTemp: 57, LowTemp: 30), 
+		    new DailyTemperature(60, 35),
+		    new DailyTemperature(63, 33),
+		    new DailyTemperature(68, 29),
+		    new DailyTemperature(72, 47),
+		    new DailyTemperature(75, 55),
+		    new DailyTemperature(77, 55),
+		    new DailyTemperature(72, 58),
+		    new DailyTemperature(70, 47),
+		    new DailyTemperature(77, 59),
+		    new DailyTemperature(85, 65),
+		    new DailyTemperature(87, 65),
+		    new DailyTemperature(85, 72),
+		    new DailyTemperature(83, 68),
+		    new DailyTemperature(77, 65),
+		    new DailyTemperature(72, 58),
+		    new DailyTemperature(77, 55),
+		    new DailyTemperature(76, 53),
+		    new DailyTemperature(80, 60),
+		    new DailyTemperature(85, 66) 
+		];
+	}
+	
+	public readonly record struct DailyTemperature(double HighTemp, double LowTemp)
+	{
+	    public double Mean => (HighTemp + LowTemp) / 2.0;
+	}
+	
+	public abstract record DegreeDays(double BaseTemperature, IEnumerable<DailyTemperature> TempRecords)
+	{
+		protected virtual bool PrintMembers(StringBuilder stringBuilder)
+		{
+		    stringBuilder.Append($"BaseTemperature = {BaseTemperature}");
+		    return true;
+		}
+	}
+
+	public sealed record HeatingDegreeDays(double BaseTemperature, IEnumerable<DailyTemperature> TempRecords)
+	    : DegreeDays(BaseTemperature, TempRecords)
+	{
+	    public double DegreeDays => TempRecords.Where(s => s.Mean < BaseTemperature).Sum(s => BaseTemperature - s.Mean);
+		
+		public override string ToString()
+		{
+		    StringBuilder stringBuilder = new StringBuilder();
+		    stringBuilder.Append("HeatingDegreeDays");
+		    stringBuilder.Append(" { ");
+		    if (PrintMembers(stringBuilder))
+		    {
+		        stringBuilder.Append(" ");
+		    }
+		    stringBuilder.Append("}");
+		    return stringBuilder.ToString();
+		}
+	}
+	
+	public sealed record CoolingDegreeDays(double BaseTemperature, IEnumerable<DailyTemperature> TempRecords)
+	    : DegreeDays(BaseTemperature, TempRecords)
+	{
+	    public double DegreeDays => TempRecords.Where(s => s.Mean > BaseTemperature).Sum(s => s.Mean - BaseTemperature);
+	}
+
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/primary-constructors
+namespace DotnetCSharpWhatsNewTutorialsPrimaryConstructors
+{
+	public readonly struct Distance(double dx, double dy)
+	{
+	    public readonly double Magnitude { get; } = Math.Sqrt(dx * dx + dy * dy);
+	    public readonly double Direction { get; } = Math.Atan2(dy, dx);
+	}
+	// =
+	public readonly struct Distance2
+	{
+	    public readonly double Magnitude { get; }
+	
+	    public readonly double Direction { get; }
+	
+	    public Distance2(double dx, double dy)
+	    {
+	        Magnitude = Math.Sqrt(dx * dx + dy * dy);
+	        Direction = Math.Atan2(dy, dx);
+	    }
+	}
+	
+	public struct Distance3(double dx, double dy)
+	{
+	    public readonly double Magnitude => Math.Sqrt(dx * dx + dy * dy);
+	    public readonly double Direction => Math.Atan2(dy, dx);
+	
+	    public void Translate(double deltaX, double deltaY)
+	    {
+	        dx += deltaX;
+	        dy += deltaY;
+	    }
+	
+	    public Distance3() : this(0,0) { }
+	}
+	
+	public struct Distance4
+	{
+	    private double __unspeakable_dx;
+	    private double __unspeakable_dy;
+	
+	    public readonly double Magnitude => Math.Sqrt(__unspeakable_dx * __unspeakable_dx + __unspeakable_dy * __unspeakable_dy);
+	    public readonly double Direction => Math.Atan2(__unspeakable_dy, __unspeakable_dx);
+	
+	    public void Translate(double deltaX, double deltaY)
+	    {
+	        __unspeakable_dx += deltaX;
+	        __unspeakable_dy += deltaY;
+	    }
+	
+	    public Distance4(double dx, double dy)
+	    {
+	        __unspeakable_dx = dx;
+	        __unspeakable_dy = dy;
+	    }
+	    public Distance4() : this(0, 0) { }
+	}
+	
+	public interface IService
+	{
+	    Distance GetDistance();
+	}
+	
+	/*
+	public class ExampleController(IService service) : ControllerBase
+	{
+	    [HttpGet]
+	    public ActionResult<Distance> Get()
+	    {
+	        return service.GetDistance();
+	    }
+	}
+	*/
+	
+	public class BankAccount(string accountID, string owner)
+	{
+	    public string AccountID { get; } = accountID;
+	    public string Owner { get; } = owner;
+	
+	    public override string ToString() => $"Account ID: {AccountID}, Owner: {Owner}";
+	}
+	
+	public class BankAccount2(string accountID, string owner)
+	{
+	    public string AccountID { get; } = ValidAccountNumber(accountID) 
+	        ? accountID 
+	        : throw new ArgumentException("Invalid account number", nameof(accountID));
+	
+	    public string Owner { get; } = string.IsNullOrWhiteSpace(owner) 
+	        ? throw new ArgumentException("Owner name cannot be empty", nameof(owner)) 
+	        : owner;
+	
+	    public override string ToString() => $"Account ID: {AccountID}, Owner: {Owner}";
+	
+	    public static bool ValidAccountNumber(string accountID) => 
+	    accountID?.Length == 10 && accountID.All(c => char.IsDigit(c));
+	}
+	
+	public class CheckingAccount(string accountID, string owner, decimal overdraftLimit = 0) : BankAccount(accountID, owner)
+	{
+	    public decimal CurrentBalance { get; private set; } = 0;
+	
+	    public void Deposit(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Deposit amount must be positive");
+	        }
+	        CurrentBalance += amount;
+	    }
+	
+	    public void Withdrawal(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Withdrawal amount must be positive");
+	        }
+	        if (CurrentBalance - amount < -overdraftLimit)
+	        {
+	            throw new InvalidOperationException("Insufficient funds for withdrawal");
+	        }
+	        CurrentBalance -= amount;
+	    }
+	    
+	    public override string ToString() => $"Account ID: {AccountID}, Owner: {Owner}, Balance: {CurrentBalance}";
+	}
+	
+	
+	public class LineOfCreditAccount : BankAccount
+	{
+	    private readonly decimal _creditLimit;
+	    public LineOfCreditAccount(string accountID, string owner, decimal creditLimit) : base(accountID, owner)
+	    {
+	        _creditLimit = creditLimit;
+	    }
+	    public decimal CurrentBalance { get; private set; } = 0;
+	
+	    public void Deposit(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Deposit amount must be positive");
+	        }
+	        CurrentBalance += amount;
+	    }
+	
+	    public void Withdrawal(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Withdrawal amount must be positive");
+	        }
+	        if (CurrentBalance - amount < -_creditLimit)
+	        {
+	            throw new InvalidOperationException("Insufficient funds for withdrawal");
+	        }
+	        CurrentBalance -= amount;
+	    }
+	
+	    public override string ToString() => $"{base.ToString()}, Balance: {CurrentBalance}";
+	}
+	
+	public class SavingsAccount(string accountID, string owner, decimal interestRate) : BankAccount(accountID, owner)
+	{
+	    public SavingsAccount() : this("default", "default", 0.01m) { }
+	    public decimal CurrentBalance { get; private set; } = 0;
+	
+	    public void Deposit(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Deposit amount must be positive");
+	        }
+	        CurrentBalance += amount;
+	    }
+	
+	    public void Withdrawal(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "Withdrawal amount must be positive");
+	        }
+	        if (CurrentBalance - amount < 0)
+	        {
+	            throw new InvalidOperationException("Insufficient funds for withdrawal");
+	        }
+	        CurrentBalance -= amount;
+	    }
+	
+	    public void ApplyInterest()
+	    {
+	        CurrentBalance *= 1 + interestRate;
+	    }
+	
+	    public override string ToString() => $"Account ID: {accountID}, Owner: {owner}, Balance: {CurrentBalance}";
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/compound-assignment-operators
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/extension-members
+namespace DotnetCSharpWhatsNewTutorialsExtensionMembers
+{
+	public static class PointExtensions
+	{
+		public static void RunPointExtensions()
+		{
+			// Inline implementation since Point.Origin doesn't exist in ExtensionMethods
+			Point origin = Point.Empty; // Equivalent to Point.Origin
+			Console.WriteLine($"Point.Origin (inline): {origin}");
+			Console.WriteLine($"Same as Point.Empty: {origin == Point.Empty}");
+			Console.WriteLine();
+			
+			Console.WriteLine("1. Static Properties");
+			Console.WriteLine("-------------------");
+			
+			Point origin2 = Point.Origin;
+			Console.WriteLine($"Point.Origin: {origin2}");
+			Console.WriteLine($"Same as Point.Empty: {origin2 == Point.Empty}");
+			Console.WriteLine();
+			
+			Point p1 = new Point(5, 3);
+			Point p2 = new Point(2, 7);
+			
+			Console.WriteLine($"Point 1: {p1}");
+			Console.WriteLine($"Point 2: {p2}");
+			
+			// Inline implementation since + and - operators don't exist in ExtensionMethods
+			Point addition = new Point(p1.X + p2.X, p1.Y + p2.Y);
+			Point subtraction1 = new Point(p1.X - p2.X, p1.Y - p2.Y);
+			Point subtraction2 = new Point(p2.X - p1.X, p2.Y - p1.Y);
+			
+			Console.WriteLine($"Addition (p1 + p2): {addition}");
+			Console.WriteLine($"Subtraction (p1 - p2): {subtraction1}");
+			Console.WriteLine($"Subtraction (p2 - p1): {subtraction2}");
+			Console.WriteLine();
+			
+		}
+		
+	    public static Vector2 ToVector(this Point point) =>
+	        new Vector2(point.X, point.Y);
+	
+	    public static void Translate(this Point point, int xDist, int yDist)
+	    {
+	        point.X += xDist;
+	        point.Y += yDist;
+	    }
+	
+	    public static void Scale(this Point point, int xScale, int yScale)
+	    {
+	        point.X *= xScale;
+	        point.Y *= yScale;
+	    }
+	
+	    public static void Rotate(this Point point, int angleInDegrees)
+	    {
+	        double theta = ((double)angleInDegrees * Math.PI) / 180.0;
+	        double sinTheta = Math.Sin(theta);
+	        double cosTheta = Math.Cos(theta);
+	        double newX = (double)point.X * cosTheta - (double)point.Y * sinTheta;
+	        double newY = (double)point.X * sinTheta + (double)point.Y * cosTheta;
+	        point.X = (int)newX;
+	        point.Y = (int)newY;
+	    }
+		
+	}
+	
+	public static class ExtensionMethodsDemonstrations
+	{
+	    public static void TraditionalExtensionMethods()
+	    {
+	        OriginAsADataElement();
+	        ArithmeticWithPoints();
+	        DiscreteArithmeticWithPoints();
+	        ExtensionMethodsThis();
+	        MoreExamples();
+	    }
+	
+	    static void OriginAsADataElement()
+	    {
+	        // Inline implementation since Point.Origin doesn't exist in ExtensionMethods
+	        Point origin = Point.Empty; // Equivalent to Point.Origin
+	        Console.WriteLine($"Point.Origin (inline): {origin}");
+	        Console.WriteLine($"Same as Point.Empty: {origin == Point.Empty}");
+	        Console.WriteLine();
+	    }
+	
+	    static void ArithmeticWithPoints()
+	    {
+	        Point p1 = new Point(5, 3);
+	        Point p2 = new Point(2, 7);
+	
+	        Console.WriteLine($"Point 1: {p1}");
+	        Console.WriteLine($"Point 2: {p2}");
+	        
+	        // Inline implementation since + and - operators don't exist in ExtensionMethods
+	        Point addition = new Point(p1.X + p2.X, p1.Y + p2.Y);
+	        Point subtraction1 = new Point(p1.X - p2.X, p1.Y - p2.Y);
+	        Point subtraction2 = new Point(p2.X - p1.X, p2.Y - p1.Y);
+	        
+	        Console.WriteLine($"Addition (p1 + p2): {addition}");
+	        Console.WriteLine($"Subtraction (p1 - p2): {subtraction1}");
+	        Console.WriteLine($"Subtraction (p2 - p1): {subtraction2}");
+	        Console.WriteLine();
+	    }
+	
+	    static void DiscreteArithmeticWithPoints()
+	    {
+	        Point point = new Point(10, 8);
+	        int offsetX = 3;
+	        int offsetY = -2;
+	        int scaleX = 2;
+	        int scaleY = 3;
+	        int divisorX = 2;
+	        int divisorY = 4;
+	
+	        Console.WriteLine($"Original point: {point}");
+	        Console.WriteLine($"Offset: ({offsetX}, {offsetY})");
+	        Console.WriteLine($"Scale: ({scaleX}, {scaleY})");
+	        Console.WriteLine($"Divisor: ({divisorX}, {divisorY})");
+	        Console.WriteLine();
+	
+	        // Inline implementations since tuple operators don't exist in ExtensionMethods
+	        Point addedOffset = new Point(point.X + offsetX, point.Y + offsetY);
+	        Point subtractedOffset = new Point(point.X - offsetX, point.Y - offsetY);
+	        Point scaledPoint = new Point(point.X * scaleX, point.Y * scaleY);
+	        Point dividedPoint = new Point(point.X / divisorX, point.Y / divisorY);
+	
+	        Console.WriteLine($"point + offset: {addedOffset}");
+	        Console.WriteLine($"point - offset: {subtractedOffset}");
+	        Console.WriteLine($"point * scale: {scaledPoint}");
+	        Console.WriteLine($"point / divisor: {dividedPoint}");
+	        Console.WriteLine();
+	    }
+	
+	    static void ExtensionMethodsThis()
+	    {
+	        // ToVector demonstration - using extension method
+	        Point vectorPoint = new Point(12, 16);
+	        Vector2 vector = vectorPoint.ToVector();
+	        Console.WriteLine($"Point {vectorPoint} as Vector2: {vector}");
+	        Console.WriteLine();
+	
+	        // Translate demonstration - using extension method
+	        Point translatePoint = new Point(5, 5);
+	        Console.WriteLine($"Before Translate: {translatePoint}");
+	        translatePoint.Translate(3, -2);
+	        Console.WriteLine($"After Translate(3, -2): {translatePoint}");
+	        Console.WriteLine();
+	
+	        // Scale demonstration - using extension method
+	        Point scalePoint = new Point(4, 6);
+	        Console.WriteLine($"Before Scale: {scalePoint}");
+	        scalePoint.Scale(2, 3);
+	        Console.WriteLine($"After Scale(2, 3): {scalePoint}");
+	        Console.WriteLine();
+	
+	        // Rotate demonstration - using extension method
+	        Point rotatePoint1 = new Point(10, 0);
+	        Console.WriteLine($"Before Rotate: {rotatePoint1}");
+	        rotatePoint1.Rotate(90);
+	        Console.WriteLine($"After Rotate(90°): {rotatePoint1}");
+	
+	        Point rotatePoint2 = new Point(5, 5);
+	        Console.WriteLine($"Before Rotate: {rotatePoint2}");
+	        rotatePoint2.Rotate(45);
+	        Console.WriteLine($"After Rotate(45°): {rotatePoint2}");
+	
+	        Point rotatePoint3 = new Point(3, 4);
+	        Console.WriteLine($"Before Rotate: {rotatePoint3}");
+	        rotatePoint3.Rotate(180);
+	        Console.WriteLine($"After Rotate(180°): {rotatePoint3}");
+	        Console.WriteLine();
+	    }
+	
+	    static void MoreExamples()
+	    {
+	        // Combining operators and methods
+	        Console.WriteLine("Scenario 1: Building a rectangle using inline operators");
+	        Point topLeft = Point.Empty; // Inline equivalent of Point.Origin
+	        Point bottomRight = new Point(topLeft.X + 10, topLeft.Y + 8); // Inline addition
+	        Point topRight = new Point(bottomRight.X, topLeft.Y);
+	        Point bottomLeft = new Point(topLeft.X, bottomRight.Y);
+	
+	        Console.WriteLine($"Rectangle corners:");
+	        Console.WriteLine($"  Top-Left: {topLeft}");
+	        Console.WriteLine($"  Top-Right: {topRight}");
+	        Console.WriteLine($"  Bottom-Left: {bottomLeft}");
+	        Console.WriteLine($"  Bottom-Right: {bottomRight}");
+	        Console.WriteLine();
+	
+	        // Transformation chain
+	        Console.WriteLine("Scenario 2: Transformation chain (mixed methods)");
+	        Point transformPoint = new Point(2, 3);
+	        Console.WriteLine($"Starting point: {transformPoint}");
+	
+	        // Scale up - using extension method
+	        transformPoint.Scale(3, 2);
+	        Console.WriteLine($"After scaling by (3, 2): {transformPoint}");
+	
+	        // Translate - using inline addition
+	        transformPoint = new Point(transformPoint.X + 5, transformPoint.Y + (-3));
+	        Console.WriteLine($"After translating by (5, -3): {transformPoint}");
+	
+	        // Rotate - using extension method
+	        transformPoint.Rotate(45);
+	        Console.WriteLine($"After rotating 45�: {transformPoint}");
+	
+	        // Convert to vector - using extension method
+	        Vector2 finalVector = transformPoint.ToVector();
+	        Console.WriteLine($"Final result as Vector2: {finalVector}");
+	        Console.WriteLine();
+	
+	        // Distance calculation using inline operators and extension methods
+	        Console.WriteLine("Scenario 3: Distance calculation (mixed methods)");
+	        Point point1 = new Point(1, 1);
+	        Point point2 = new Point(4, 5);
+	        Point difference = new Point(point2.X - point1.X, point2.Y - point1.Y); // Inline subtraction
+	        Vector2 diffVector = difference.ToVector(); // Extension method
+	        float distance = diffVector.Length();
+	
+	        Console.WriteLine($"Point 1: {point1}");
+	        Console.WriteLine($"Point 2: {point2}");
+	        Console.WriteLine($"Difference: {difference}");
+	        Console.WriteLine($"Distance: {distance:F2}");
+	        Console.WriteLine();
+	
+	        Console.WriteLine("Traditional extension methods demonstration complete!");
+	    }
+	}
+	
+	public static class PointExtensions2
+	{
+	    extension (Point)
+	    {
+	        public static Point Origin => Point.Empty;
+	    }
+		
+	}
+
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12
+namespace DotnetCSharpWhatsNewCSharp12
+{
+	public class WhatsNewCSharp12
+	{
+	
+		public static void RunWhatsNewCSharp12()
+		{
+			// Create an array:
+			int[] a = [1, 2, 3, 4, 5, 6, 7, 8];
+			
+			// Create a list:
+			List<string> b = ["one", "two", "three"];
+			
+			// Create a span
+			Span<char> c  = ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'i'];
+			
+			// Create a jagged 2D array:
+			int[][] twoD = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+			
+			// Create a jagged 2D array from variables:
+			int[] row0 = [1, 2, 3];
+			int[] row1 = [4, 5, 6];
+			int[] row2 = [7, 8, 9];
+			int[][] twoDFromVariables = [row0, row1, row2];
+			
+			int[] row_0 = [1, 2, 3];
+			int[] row_1 = [4, 5, 6];
+			int[] row_2 = [7, 8, 9];
+			int[] single = [.. row_0, .. row_1, .. row_2];
+			foreach (var element in single)
+			{
+			    Console.Write($"{element}, ");
+			}
+			// output:
+			// 1, 2, 3, 4, 5, 6, 7, 8, 9,
+			
+			var buffer = new Buffer();
+			for (int i = 0; i < 10; i++)
+			{
+			    buffer[i] = i;
+			}
+			
+			foreach (var i in buffer)
+			{
+			    Console.WriteLine(i);
+			}
+		}
+	}
+	
+	[System.Runtime.CompilerServices.InlineArray(10)]
+	public struct Buffer
+	{
+	    private int _element0;
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13
+namespace DotnetCSharpWhatsNewCSharp13
+{
+	public class WhatsNewCSharp13
+	{
+		public static void RunWhatsNewCSharp13()
+		{
+			var countdown = new TimerRemaining()
+			{
+			    buffer =
+			    {
+			        [^1] = 0,
+			        [^2] = 1,
+			        [^3] = 2,
+			        [^4] = 3,
+			        [^5] = 4,
+			        [^6] = 5,
+			        [^7] = 6,
+			        [^8] = 7,
+			        [^9] = 8,
+			        [^10] = 9
+			    }
+			};
+			
+		}
+		
+		public void Concat<T>(params ReadOnlySpan<T> items)
+		{
+		    for (int i = 0; i < items.Length; i++)
+		    {
+		        Console.Write(items[i]);
+		        Console.Write(" ");
+		    }
+		    Console.WriteLine();
+		}
+	}
+	
+	public class TimerRemaining
+	{
+	    public int[] buffer { get; set; } = new int[10];
+	}
+	
+	public class C<T> where T : allows ref struct
+	{
+	    // Use T as a ref struct:
+	    public void M(scoped T p)
+	    {
+	        // The parameter p must follow ref safety rules
+	    }
+	}
+	
+	public partial class C
+	{
+	    // Declaring declaration
+	    public partial string Name { get; set; }
+	}
+	
+	public partial class C
+	{
+	    // implementation declaration:
+	    private string _name;
+	    public partial string Name
+	    {
+	        get => _name;
+	        set => _name = value;
+	    }
+	}
+
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14
 namespace DotnetCSharpWhatsNewCSharp14
 {
@@ -172,6 +2087,22 @@ namespace DotnetCSharpWhatsNewCSharp14
 		    get => _msg;
 		    set => _msg = value ?? throw new ArgumentNullException(nameof(value));
 		}
+		
+		public static void RunWhatsNewCSharp14()
+		{
+			TryParse<int> parse1 = (text, out result) => Int32.TryParse(text, out result);
+			
+			TryParse<int> parse2 = (string text, out int result) => Int32.TryParse(text, out result);
+			
+			/*
+			if (customer is not null)
+			{
+			    customer.Order = GetCurrentOrder();
+			}
+			
+			customer?.Order = GetCurrentOrder();
+			*/
+		}
 	}
 	
 	public class WhatsNewCSharp142
@@ -183,6 +2114,7 @@ namespace DotnetCSharpWhatsNewCSharp14
 		}
 	}
 	
+	delegate bool TryParse<T>(string text, out T result);
 }
 
 

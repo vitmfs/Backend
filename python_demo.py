@@ -1,3 +1,5 @@
+#pip install numpy
+
 import sys
 import random
 import functools
@@ -7,6 +9,8 @@ import math
 import json
 import re
 import os
+import numpy as np
+from scipy import stats
 #import nameOfFile as otherName 
 #otherName.something
 #from mymodule import person1
@@ -3157,7 +3161,7 @@ print(x)
 
 
 #https://www.w3schools.com/python/python_user_input.asp
-print("Enter your name:")
+#print("Enter your name:")
 name = "Some Name"
 #name = input()
 print(f"Hello {name}")
@@ -3165,7 +3169,7 @@ print(f"Hello {name}")
 #name = input("Enter your name:")
 print(f"Hello {name}")
 
-name = input("Enter your name:")
+#name = input("Enter your name:")
 print(f"Hello {name}")
 fav1 = ""
 fav2 = ""
@@ -3905,4 +3909,1847 @@ else:
 #os.rmdir("myfolder")
 
 
+#https://www.w3schools.com/python/python_ml_getting_started.asp
+speed = [99,86,87,88,111,86,103,87,94,78,77,85,86]
 
+x = np.mean(speed)
+
+#print(x)
+
+speed = [99,86,87,88,111,86,103,87,94,78,77,85,86]
+
+x = np.median(speed)
+
+#print(x)
+
+speed = [99,86,87,88,111,86,103,87,94,78,77,85,86]
+#pip install scipy
+x = stats.mode(speed)
+
+print(x)
+
+
+#https://www.w3schools.com/python/python_ml_standard_deviation.asp
+speed = [86,87,88,86,87,85,86]
+
+x = np.std(speed)
+
+print(x)
+
+speed = [32,111,138,28,59,77,97]
+
+x = np.std(speed)
+
+print(x)
+
+speed = [32,111,138,28,59,77,97]
+#variance
+x = np.var(speed)
+
+#print(x)
+
+speed = [32,111,138,28,59,77,97]
+
+x = np.std(speed)
+
+#print(x)
+
+
+#https://www.w3schools.com/python/python_ml_percentile.asp
+ages = [5,31,43,48,50,41,7,11,15,39,80,82,32,2,8,6,25,36,27,61,31]
+
+x = np.percentile(ages, 75)
+
+#print(x)
+
+ages = [5,31,43,48,50,41,7,11,15,39,80,82,32,2,8,6,25,36,27,61,31]
+
+x = np.percentile(ages, 90)
+
+#print(x)
+
+
+#https://www.w3schools.com/python/python_ml_data_distribution.asp
+x = np.random.uniform(0.0, 5.0, 250)
+
+#print(x)
+
+
+
+
+#https://www.w3schools.com/python/python_ml_normal_data_distribution.asp
+x = np.random.normal(5.0, 1.0, 100000)
+
+#https://www.w3schools.com/python/python_ml_linear_regression.asp
+x = [5,7,8,7,2,17,2,9,4,11,12,9,6]
+y = [99,86,87,88,111,86,103,87,94,78,77,85,86]
+
+slope, intercept, r, p, std_err = stats.linregress(x, y)
+
+print(r)
+
+x = [5,7,8,7,2,17,2,9,4,11,12,9,6]
+y = [99,86,87,88,111,86,103,87,94,78,77,85,86]
+
+slope, intercept, r, p, std_err = stats.linregress(x, y)
+
+def myfunc(x):
+  return slope * x + intercept
+
+speed = myfunc(10)
+
+print(speed)
+
+x = [89,43,36,36,95,10,66,34,38,20,26,29,48,64,6,5,36,66,72,40]
+y = [21,46,3,35,67,95,53,72,58,10,26,34,90,33,38,20,56,2,47,15]
+
+slope, intercept, r, p, std_err = stats.linregress(x, y)
+
+print(r)
+
+#https://www.w3schools.com/python/python_ml_polynomial_regression.asp
+
+
+#https://www.w3schools.com/python/python_ml_multiple_regression.asp
+
+
+#https://www.w3schools.com/python/python_ml_scale.asp
+
+
+#https://www.w3schools.com/python/python_ml_train_test.asp
+
+
+#https://www.w3schools.com/python/python_ml_decision_tree.asp
+
+
+#https://www.w3schools.com/python/python_ml_confusion_matrix.asp
+actual = np.random.binomial(1, 0.9, size = 1000)
+predicted = np.random.binomial(1, 0.9, size = 1000)
+
+#https://www.w3schools.com/python/python_ml_hierarchial_clustering.asp
+
+
+#https://www.w3schools.com/python/python_ml_logistic_regression.asp
+
+
+#https://www.w3schools.com/python/python_ml_grid_search.asp
+
+
+#https://www.w3schools.com/python/python_ml_preprocessing.asp
+
+
+#https://www.w3schools.com/python/python_ml_k-means.asp
+
+
+#https://www.w3schools.com/python/python_ml_bagging.asp
+
+
+#https://www.w3schools.com/python/python_ml_cross_validation.asp
+
+
+#https://www.w3schools.com/python/python_ml_auc_roc.asp
+
+
+#https://www.w3schools.com/python/python_ml_knn.asp
+
+
+
+
+
+
+
+
+
+
+
+
+
+#https://www.w3schools.com/python/numpy/default.asp
+
+arr = np.array([1, 2, 3, 4, 5])
+
+print(arr)
+
+print(type(arr))
+
+print(np.__version__)
+
+arr = np.array(42)
+
+print(arr)
+
+arr = np.array([1, 2, 3, 4, 5])
+
+print(arr)
+
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+print(arr)
+
+arr = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+
+print(arr)
+
+a = np.array(42)
+b = np.array([1, 2, 3, 4, 5])
+c = np.array([[1, 2, 3], [4, 5, 6]])
+d = np.array([[[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]])
+
+print(a.ndim)
+print(b.ndim)
+print(c.ndim)
+print(d.ndim)
+
+arr = np.array([1, 2, 3, 4], ndmin=5)
+
+print(arr)
+print('number of dimensions :', arr.ndim)
+
+arr = np.array([1, 2, 3, 4])
+
+print(arr[0])
+
+arr = np.array([1, 2, 3, 4])
+
+print(arr[1])
+
+arr = np.array([1, 2, 3, 4])
+
+print(arr[2] + arr[3])
+
+arr = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+
+print('2nd element on 1st row: ', arr[0, 1])
+
+arr = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+
+print('5th element on 2nd row: ', arr[1, 4])
+
+arr = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+
+print(arr[0, 1, 2])
+
+arr = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+
+print('Last element from 2nd dim: ', arr[1, -1])
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_slicing.asp
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[1:5])
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[4:])
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[:4])
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[-3:-1])
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[1:5:2])
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+print(arr[::2])
+
+arr = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+
+print(arr[1, 1:4])
+
+arr = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+
+print(arr[0:2, 2])
+
+arr = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+
+print(arr[0:2, 1:4])
+
+
+#https://www.w3schools.com/python/numpy/numpy_data_types.asp
+arr = np.array([1, 2, 3, 4])
+
+print(arr.dtype)
+
+arr = np.array(['apple', 'banana', 'cherry'])
+
+print(arr.dtype)
+
+arr = np.array([1, 2, 3, 4], dtype='S')
+
+print(arr)
+print(arr.dtype)
+
+arr = np.array([1, 2, 3, 4], dtype='i4')
+
+print(arr)
+print(arr.dtype)
+
+arr = np.array([1.1, 2.1, 3.1])
+
+newarr = arr.astype('i')
+
+print(newarr)
+print(newarr.dtype)
+
+arr = np.array([1.1, 2.1, 3.1])
+
+newarr = arr.astype(int)
+
+print(newarr)
+print(newarr.dtype)
+
+arr = np.array([1, 0, 3])
+
+newarr = arr.astype(bool)
+
+print(newarr)
+print(newarr.dtype)
+
+
+#https://www.w3schools.com/python/numpy/numpy_copy_vs_view.asp
+arr = np.array([1, 2, 3, 4, 5])
+x = arr.copy()
+arr[0] = 42
+
+print(arr)
+print(x)
+
+arr = np.array([1, 2, 3, 4, 5])
+x = arr.view()
+arr[0] = 42
+
+print(arr)
+print(x)
+
+arr = np.array([1, 2, 3, 4, 5])
+x = arr.view()
+x[0] = 31
+
+print(arr)
+print(x)
+
+arr = np.array([1, 2, 3, 4, 5])
+
+x = arr.copy()
+y = arr.view()
+
+print(x.base)
+print(y.base)
+
+arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
+
+print(arr.shape)
+
+arr = np.array([1, 2, 3, 4], ndmin=5)
+
+print(arr)
+print('shape of array :', arr.shape)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_reshape.asp
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+
+newarr = arr.reshape(4, 3)
+
+print(newarr)
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+
+newarr = arr.reshape(2, 3, 2)
+
+print(newarr)
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+
+print(arr.reshape(2, 4).base)
+
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+
+newarr = arr.reshape(2, 2, -1)
+
+print(newarr)
+
+#flattening array
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+newarr = arr.reshape(-1)
+
+print(newarr)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_iterating.asp
+arr = np.array([1, 2, 3])
+
+for x in arr:
+  print(x)
+
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+for x in arr:
+  print(x)
+
+arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+for x in arr:
+  for y in x:
+    print(y)
+
+arr = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+
+for x in arr:
+  print(x)
+
+arr = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+
+for x in arr:
+  for y in x:
+    for z in y:
+      print(z)
+
+
+arr = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+
+for x in np.nditer(arr):
+  print(x)
+
+arr = np.array([1, 2, 3])
+
+for x in np.nditer(arr, flags=['buffered'], op_dtypes=['S']):
+  print(x)
+
+arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
+
+for x in np.nditer(arr[:, ::2]):
+  print(x)
+
+arr = np.array([1, 2, 3])
+
+for idx, x in np.ndenumerate(arr):
+  print(idx, x)
+
+arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
+
+for idx, x in np.ndenumerate(arr):
+  print(idx, x)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_join.asp
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.concatenate((arr1, arr2))
+
+print(arr)
+
+arr1 = np.array([[1, 2], [3, 4]])
+
+arr2 = np.array([[5, 6], [7, 8]])
+
+arr = np.concatenate((arr1, arr2), axis=1)
+
+print(arr)
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.stack((arr1, arr2), axis=1)
+
+print(arr)
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.hstack((arr1, arr2))
+
+print(arr)
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.vstack((arr1, arr2))
+
+print(arr)
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.dstack((arr1, arr2))
+
+print(arr)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_split.asp
+arr = np.array([1, 2, 3, 4, 5, 6])
+
+newarr = np.array_split(arr, 3)
+
+print(newarr)
+
+arr = np.array([1, 2, 3, 4, 5, 6])
+
+newarr = np.array_split(arr, 4)
+
+print(newarr)
+
+arr = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12]])
+
+newarr = np.array_split(arr, 3)
+
+print(newarr)
+
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]])
+
+newarr = np.array_split(arr, 3)
+
+print(newarr)
+
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]])
+
+newarr = np.array_split(arr, 3, axis=1)
+
+print(newarr)
+
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]])
+
+newarr = np.hsplit(arr, 3)
+
+print(newarr)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_search.asp
+arr = np.array([1, 2, 3, 4, 5, 4, 4])
+
+x = np.where(arr == 4)
+
+print(x)
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+
+x = np.where(arr%2 == 0)
+
+print(x)
+
+arr = np.array([6, 7, 8, 9])
+
+x = np.searchsorted(arr, 7)
+
+print(x)
+
+arr = np.array([6, 7, 8, 9])
+
+x = np.searchsorted(arr, 7, side='right')
+
+print(x)
+
+arr = np.array([1, 3, 5, 7])
+
+x = np.searchsorted(arr, [2, 4, 6])
+
+print(x)
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_sort.asp
+arr = np.array([3, 2, 0, 1])
+
+print(np.sort(arr))
+
+arr = np.array(['banana', 'cherry', 'apple'])
+
+print(np.sort(arr))
+
+arr = np.array([True, False, True])
+
+print(np.sort(arr))
+
+arr = np.array([[3, 2, 4], [5, 0, 1]])
+
+print(np.sort(arr))
+
+
+#https://www.w3schools.com/python/numpy/numpy_array_filter.asp
+arr = np.array([41, 42, 43, 44])
+
+x = [True, False, True, False]
+
+newarr = arr[x]
+
+print(newarr)
+
+arr = np.array([41, 42, 43, 44])
+
+# Create an empty list
+filter_arr = []
+
+# go through each element in arr
+for element in arr:
+  # if the element is higher than 42, set the value to True, otherwise False:
+  if element > 42:
+    filter_arr.append(True)
+  else:
+    filter_arr.append(False)
+
+newarr = arr[filter_arr]
+
+print(filter_arr)
+print(newarr)
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+# Create an empty list
+filter_arr = []
+
+# go through each element in arr
+for element in arr:
+  # if the element is completely divisble by 2, set the value to True, otherwise False
+  if element % 2 == 0:
+    filter_arr.append(True)
+  else:
+    filter_arr.append(False)
+
+newarr = arr[filter_arr]
+
+print(filter_arr)
+print(newarr)
+
+arr = np.array([41, 42, 43, 44])
+
+filter_arr = arr > 42
+
+newarr = arr[filter_arr]
+
+print(filter_arr)
+print(newarr)
+
+arr = np.array([1, 2, 3, 4, 5, 6, 7])
+
+filter_arr = arr % 2 == 0
+
+newarr = arr[filter_arr]
+
+print(filter_arr)
+print(newarr)
+
+"""
+#https://www.w3schools.com/python/numpy/numpy_random.asp
+x = random.randint(100)
+
+print(x)
+
+x = random.rand()
+
+print(x)
+
+x=random.randint(100, size=(5))
+
+print(x)
+
+x = random.randint(100, size=(3, 5))
+
+print(x)
+
+x = random.rand(5)
+
+print(x)
+
+x = random.rand(3, 5)
+
+print(x)
+
+x = random.choice([3, 5, 7, 9])
+
+print(x)
+
+x = random.choice([3, 5, 7, 9], size=(3, 5))
+
+print(x)
+
+
+#https://www.w3schools.com/python/numpy/numpy_random_distribution.asp
+x = random.choice([3, 5, 7, 9], p=[0.1, 0.3, 0.6, 0.0], size=(100))
+
+print(x)
+
+x = random.choice([3, 5, 7, 9], p=[0.1, 0.3, 0.6, 0.0], size=(3, 5))
+
+print(x)
+
+
+#https://www.w3schools.com/python/numpy/numpy_random_permutation.asp
+arr = np.array([1, 2, 3, 4, 5])
+
+random.shuffle(arr)
+
+print(arr)
+
+arr = np.array([1, 2, 3, 4, 5])
+
+print(random.permutation(arr))
+"""
+
+
+
+
+#https://www.w3schools.com/python/python_dsa_lists.asp
+# Empty list
+x = []
+
+# List with initial values
+y = [1, 2, 3, 4, 5]
+
+# List with mixed types
+z = [1, "hello", 3.14, True]
+
+x = [9, 12, 7, 4, 11]
+
+# Add element:
+x.append(8)
+
+# Sort list ascending:
+x.sort()
+
+
+my_array = [7, 12, 9, 4, 11, 8]
+minVal = my_array[0]
+
+for i in my_array:
+  if i < minVal:
+    minVal = i
+
+print('Lowest value:', minVal)
+
+
+#https://www.w3schools.com/python/python_dsa_stacks.asp
+stack = []
+
+# Push
+stack.append('A')
+stack.append('B')
+stack.append('C')
+print("Stack: ", stack)
+
+# Peek
+topElement = stack[-1]
+print("Peek: ", topElement)
+
+# Pop
+poppedElement = stack.pop()
+print("Pop: ", poppedElement)
+
+# Stack after Pop
+print("Stack after Pop: ", stack)
+
+# isEmpty
+isEmpty = not bool(stack)
+print("isEmpty: ", isEmpty)
+
+# Size
+print("Size: ",len(stack))
+
+
+class Stack:
+  def __init__(self):
+    self.stack = []
+
+  def push(self, element):
+    self.stack.append(element)
+
+  def pop(self):
+    if self.isEmpty():
+      return "Stack is empty"
+    return self.stack.pop()
+
+  def peek(self):
+    if self.isEmpty():
+      return "Stack is empty"
+    return self.stack[-1]
+
+  def isEmpty(self):
+    return len(self.stack) == 0
+
+  def size(self):
+    return len(self.stack)
+
+# Create a stack
+myStack = Stack()
+
+myStack.push('A')
+myStack.push('B')
+myStack.push('C')
+
+print("Stack: ", myStack.stack)
+print("Pop: ", myStack.pop())
+print("Stack after Pop: ", myStack.stack)
+print("Peek: ", myStack.peek())
+print("isEmpty: ", myStack.isEmpty())
+print("Size: ", myStack.size())
+
+
+class Node:
+  def __init__(self, value):
+    self.value = value
+    self.next = None
+
+class Stack:
+  def __init__(self):
+    self.head = None
+    self.size = 0
+
+  def push(self, value):
+    new_node = Node(value)
+    if self.head:
+      new_node.next = self.head
+    self.head = new_node
+    self.size += 1
+
+  def pop(self):
+    if self.isEmpty():
+      return "Stack is empty"
+    popped_node = self.head
+    self.head = self.head.next
+    self.size -= 1
+    return popped_node.value
+
+  def peek(self):
+    if self.isEmpty():
+      return "Stack is empty"
+    return self.head.value
+
+  def isEmpty(self):
+    return self.size == 0
+
+  def stackSize(self):
+    return self.size
+
+  def traverseAndPrint(self):
+    currentNode = self.head
+    while currentNode:
+      print(currentNode.value, end=" -> ")
+      currentNode = currentNode.next
+    print()
+
+myStack = Stack()
+myStack.push('A')
+myStack.push('B')
+myStack.push('C')
+
+print("LinkedList: ", end="")
+myStack.traverseAndPrint()
+print("Peek: ", myStack.peek())
+print("Pop: ", myStack.pop())
+print("LinkedList after Pop: ", end="")
+myStack.traverseAndPrint()
+print("isEmpty: ", myStack.isEmpty())
+print("Size: ", myStack.stackSize())
+
+
+#https://www.w3schools.com/python/python_dsa_queues.asp
+queue = []
+
+# Enqueue
+queue.append('A')
+queue.append('B')
+queue.append('C')
+print("Queue: ", queue)
+
+# Peek
+frontElement = queue[0]
+print("Peek: ", frontElement)
+
+# Dequeue
+poppedElement = queue.pop(0)
+print("Dequeue: ", poppedElement)
+
+print("Queue after Dequeue: ", queue)
+
+# isEmpty
+isEmpty = not bool(queue)
+print("isEmpty: ", isEmpty)
+
+# Size
+print("Size: ", len(queue))
+
+
+class Queue:
+  def __init__(self):
+    self.queue = []
+    
+  def enqueue(self, element):
+    self.queue.append(element)
+
+  def dequeue(self):
+    if self.isEmpty():
+      return "Queue is empty"
+    return self.queue.pop(0)
+
+  def peek(self):
+    if self.isEmpty():
+      return "Queue is empty"
+    return self.queue[0]
+
+  def isEmpty(self):
+    return len(self.queue) == 0
+
+  def size(self):
+    return len(self.queue)
+
+# Create a queue
+myQueue = Queue()
+
+myQueue.enqueue('A')
+myQueue.enqueue('B')
+myQueue.enqueue('C')
+
+print("Queue: ", myQueue.queue)
+print("Peek: ", myQueue.peek())
+print("Dequeue: ", myQueue.dequeue())
+print("Queue after Dequeue: ", myQueue.queue)
+print("isEmpty: ", myQueue.isEmpty())
+print("Size: ", myQueue.size())
+
+
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+
+class Queue:
+  def __init__(self):
+    self.front = None
+    self.rear = None
+    self.length = 0
+
+  def enqueue(self, element):
+    new_node = Node(element)
+    if self.rear is None:
+      self.front = self.rear = new_node
+      self.length += 1
+      return
+    self.rear.next = new_node
+    self.rear = new_node
+    self.length += 1
+
+  def dequeue(self):
+    if self.isEmpty():
+      return "Queue is empty"
+    temp = self.front
+    self.front = temp.next
+    self.length -= 1
+    if self.front is None:
+      self.rear = None
+    return temp.data
+
+  def peek(self):
+    if self.isEmpty():
+      return "Queue is empty"
+    return self.front.data
+
+  def isEmpty(self):
+    return self.length == 0
+
+  def size(self):
+    return self.length
+
+  def printQueue(self):
+    temp = self.front
+    while temp:
+      print(temp.data, end=" -> ")
+      temp = temp.next
+    print()
+
+# Create a queue
+myQueue = Queue()
+
+myQueue.enqueue('A')
+myQueue.enqueue('B')
+myQueue.enqueue('C')
+
+print("Queue: ", end="")
+myQueue.printQueue()
+print("Peek: ", myQueue.peek())
+print("Dequeue: ", myQueue.dequeue())
+print("Queue after Dequeue: ", end="")
+myQueue.printQueue()
+print("isEmpty: ", myQueue.isEmpty())
+print("Size: ", myQueue.size())
+
+
+#https://www.w3schools.com/python/python_dsa_linkedlists.asp
+#Finding the lowest value in a singly linked list in Python:
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+
+def traverseAndPrint(head):
+  currentNode = head
+  while currentNode:
+    print(currentNode.data, end=" -> ")
+    currentNode = currentNode.next
+  print("null")
+
+node1 = Node(7)
+node2 = Node(11)
+node3 = Node(3)
+node4 = Node(2)
+node5 = Node(9)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+traverseAndPrint(node1)
+
+
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+
+def findLowestValue(head):
+  minValue = head.data
+  currentNode = head.next
+  while currentNode:
+    if currentNode.data < minValue:
+      minValue = currentNode.data
+    currentNode = currentNode.next
+  return minValue
+
+node1 = Node(7)
+node2 = Node(11)
+node3 = Node(3)
+node4 = Node(2)
+node5 = Node(9)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+print("The lowest value in the linked list is:", findLowestValue(node1))
+
+#Deleting a specific node in a singly linked list in Python:
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+
+def traverseAndPrint(head):
+  currentNode = head
+  while currentNode:
+    print(currentNode.data, end=" -> ")
+    currentNode = currentNode.next
+  print("null")
+
+def deleteSpecificNode(head, nodeToDelete):
+  if head == nodeToDelete:
+    return head.next
+
+  currentNode = head
+  while currentNode.next and currentNode.next != nodeToDelete:
+    currentNode = currentNode.next
+
+  if currentNode.next is None:
+    return head
+
+  currentNode.next = currentNode.next.next
+
+  return head
+
+node1 = Node(7)
+node2 = Node(11)
+node3 = Node(3)
+node4 = Node(2)
+node5 = Node(9)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+print("Before deletion:")
+traverseAndPrint(node1)
+
+# Delete node4
+node1 = deleteSpecificNode(node1, node4)
+
+print("\nAfter deletion:")
+traverseAndPrint(node1)
+
+#Inserting a node in a singly linked list in Python:
+class Node:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+
+def traverseAndPrint(head):
+  currentNode = head
+  while currentNode:
+    print(currentNode.data, end=" -> ")
+    currentNode = currentNode.next
+  print("null")
+
+def insertNodeAtPosition(head, newNode, position):
+  if position == 1:
+    newNode.next = head
+    return newNode
+
+  currentNode = head
+  for _ in range(position - 2):
+    if currentNode is None:
+      break
+    currentNode = currentNode.next
+
+  newNode.next = currentNode.next
+  currentNode.next = newNode
+  return head
+
+node1 = Node(7)
+node2 = Node(3)
+node3 = Node(2)
+node4 = Node(9)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+print("Original list:")
+traverseAndPrint(node1)
+
+# Insert a new node with value 97 at position 2
+newNode = Node(97)
+node1 = insertNodeAtPosition(node1, newNode, 2)
+
+print("\nAfter insertion:")
+traverseAndPrint(node1)
+
+
+#https://www.w3schools.com/python/python_dsa_hashtables.asp
+my_list = [None, None, None, None, None, None, None, None, None, None]
+
+def hash_function(value):
+  sum_of_chars = 0
+  for char in value:
+    sum_of_chars += ord(char)
+
+  return sum_of_chars % 10
+
+print("'Bob' has hash code:", hash_function('Bob'))
+
+def add(name):
+  index = hash_function(name)
+  my_list[index] = name
+
+add('Bob')
+print(my_list)
+
+add('Pete')
+add('Jones')
+add('Lisa')
+add('Siri')
+print(my_list)
+
+def contains(name):
+  index = hash_function(name)
+  return my_list[index] == name
+
+print("'Pete' is in the Hash Table:", contains('Pete'))
+
+my_list = [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]
+
+def add(name):
+  index = hash_function(name)
+  my_list[index].append(name)
+
+add('Bob')
+add('Pete')
+add('Jones')
+add('Lisa')
+add('Siri')
+add('Stuart')
+print(my_list)
+
+
+#https://www.w3schools.com/python/python_dsa_trees.asp
+#https://www.w3schools.com/python/python_dsa_binarytrees.asp
+class TreeNode:
+  def __init__(self, data):
+    self.data = data
+    self.left = None
+    self.right = None
+
+root = TreeNode('R')
+nodeA = TreeNode('A')
+nodeB = TreeNode('B')
+nodeC = TreeNode('C')
+nodeD = TreeNode('D')
+nodeE = TreeNode('E')
+nodeF = TreeNode('F')
+nodeG = TreeNode('G')
+
+root.left = nodeA
+root.right = nodeB
+
+nodeA.left = nodeC
+nodeA.right = nodeD
+
+nodeB.left = nodeE
+nodeB.right = nodeF
+
+nodeF.left = nodeG
+
+# Test
+print("root.right.left.data:", root.right.left.data)
+
+
+#https://www.w3schools.com/python/python_dsa_binarytrees.asp
+def preOrderTraversal(node):
+  if node is None:
+    return
+  print(node.data, end=", ")
+  preOrderTraversal(node.left)
+  preOrderTraversal(node.right)
+
+def inOrderTraversal(node):
+  if node is None:
+    return
+  inOrderTraversal(node.left)
+  print(node.data, end=", ")
+  inOrderTraversal(node.right)
+
+def postOrderTraversal(node):
+  if node is None:
+    return
+  postOrderTraversal(node.left)
+  postOrderTraversal(node.right)
+  print(node.data, end=", ")
+
+
+#https://www.w3schools.com/python/python_dsa_binarysearchtrees.asp
+class TreeNode:
+  def __init__(self, data):
+    self.data = data
+    self.left = None
+    self.right = None
+
+def inOrderTraversal(node):
+  if node is None:
+    return
+  inOrderTraversal(node.left)
+  print(node.data, end=", ")
+  inOrderTraversal(node.right)
+
+root = TreeNode(13)
+node7 = TreeNode(7)
+node15 = TreeNode(15)
+node3 = TreeNode(3)
+node8 = TreeNode(8)
+node14 = TreeNode(14)
+node19 = TreeNode(19)
+node18 = TreeNode(18)
+
+root.left = node7
+root.right = node15
+
+node7.left = node3
+node7.right = node8
+
+node15.left = node14
+node15.right = node19
+
+node19.left = node18
+
+# Traverse
+inOrderTraversal(root)
+
+def search(node, target):
+  if node is None:
+    return None
+  elif node.data == target:
+    return node
+  elif target < node.data:
+    return search(node.left, target)
+  else:
+    return search(node.right, target)
+
+# Search for a value
+result = search(root, 13)
+if result:
+  print(f"Found the node with value: {result.data}")
+else:
+  print("Value not found in the BST.")
+
+
+def insert(node, data):
+  if node is None:
+    return TreeNode(data)
+  else:
+    if data < node.data:
+      node.left = insert(node.left, data)
+    elif data > node.data:
+      node.right = insert(node.right, data)
+  return node
+
+# Inserting new value into the BST
+insert(root, 10)
+
+def minValueNode(node):
+  current = node
+  while current.left is not None:
+    current = current.left
+  return current
+
+# Find Lowest
+print("\nLowest value:",minValueNode(root).data)
+
+def delete(node, data):
+  if not node:
+    return None
+
+  if data < node.data:
+    node.left = delete(node.left, data)
+  elif data > node.data:
+    node.right = delete(node.right, data)
+  else:
+    # Node with only one child or no child
+    if not node.left:
+      temp = node.right
+      node = None
+      return temp
+    elif not node.right:
+      temp = node.left
+      node = None
+      return temp
+
+    # Node with two children, get the in-order successor
+    node.data = minValueNode(node.right).data
+    node.right = delete(node.right, node.data)
+
+  return node
+
+# Delete node 15
+delete(root,15)
+
+
+#https://www.w3schools.com/python/python_dsa_avltrees.asp
+class TreeNode:
+  def __init__(self, data):
+    self.data = data
+    self.left = None
+    self.right = None
+    self.height = 1
+
+def getHeight(node):
+  if not node:
+    return 0
+  return node.height
+
+def getBalance(node):
+  if not node:
+    return 0
+  return getHeight(node.left) - getHeight(node.right)
+
+def rightRotate(y):
+  print('Rotate right on node',y.data)
+  x = y.left
+  T2 = x.right
+  x.right = y
+  y.left = T2
+  y.height = 1 + max(getHeight(y.left), getHeight(y.right))
+  x.height = 1 + max(getHeight(x.left), getHeight(x.right))
+  return x
+
+def leftRotate(x):
+  print('Rotate left on node',x.data)
+  y = x.right
+  T2 = y.left
+  y.left = x
+  x.right = T2
+  x.height = 1 + max(getHeight(x.left), getHeight(x.right))
+  y.height = 1 + max(getHeight(y.left), getHeight(y.right))
+  return y
+
+def insert(node, data):
+  if not node:
+    return TreeNode(data)
+
+  if data < node.data:
+    node.left = insert(node.left, data)
+  elif data > node.data:
+    node.right = insert(node.right, data)
+
+  # Update the balance factor and balance the tree
+  node.height = 1 + max(getHeight(node.left), getHeight(node.right))
+  balance = getBalance(node)
+
+  # Balancing the tree
+  # Left Left
+  if balance > 1 and getBalance(node.left) >= 0:
+    return rightRotate(node)
+
+  # Left Right
+  if balance > 1 and getBalance(node.left) < 0:
+    node.left = leftRotate(node.left)
+    return rightRotate(node)
+
+  # Right Right
+  if balance < -1 and getBalance(node.right) <= 0:
+    return leftRotate(node)
+
+  # Right Left
+  if balance < -1 and getBalance(node.right) > 0:
+    node.right = rightRotate(node.right)
+    return leftRotate(node)
+
+  return node
+
+def inOrderTraversal(node):
+  if node is None:
+    return
+  inOrderTraversal(node.left)
+  print(node.data, end=", ")
+  inOrderTraversal(node.right)
+
+# Inserting nodes
+root = None
+letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
+for letter in letters:
+  root = insert(root, letter)
+
+inOrderTraversal(root)
+
+def minValueNode(node):
+  current = node
+  while current.left is not None:
+    current = current.left
+  return current
+
+def delete(node, data):
+  if not node:
+    return node
+
+  if data < node.data:
+    node.left = delete(node.left, data)
+  elif data > node.data:
+    node.right = delete(node.right, data)
+  else:
+    if node.left is None:
+      temp = node.right
+      node = None
+      return temp
+    elif node.right is None:
+      temp = node.left
+      node = None
+      return temp
+
+    temp = minValueNode(node.right)
+    node.data = temp.data
+    node.right = delete(node.right, temp.data)
+
+  return node
+
+def inOrderTraversal(node):
+  if node is None:
+    return
+  inOrderTraversal(node.left)
+  print(node.data, end=", ")
+  inOrderTraversal(node.right)
+
+# Inserting nodes
+root = None
+letters = ['C', 'B', 'E', 'A', 'D', 'H', 'G', 'F']
+for letter in letters:
+  root = insert(root, letter)
+
+inOrderTraversal(root)
+
+
+#https://www.w3schools.com/python/python_dsa_graphs.asp
+#https://www.w3schools.com/python/python_dsa_linearsearch.asp
+mylist = [3, 7, 2, 9, 5, 1, 8, 4, 6]
+
+if 4 in mylist:
+  print("Found!")
+else:
+  print("Not found!")
+
+def linearSearch(arr, targetVal):
+  for i in range(len(arr)):
+    if arr[i] == targetVal:
+      return i
+  return -1
+
+mylist = [3, 7, 2, 9, 5, 1, 8, 4, 6]
+x = 4
+
+result = linearSearch(mylist, x)
+
+if result != -1:
+  print("Found at index", result)
+else:
+  print("Not found")
+
+
+#https://www.w3schools.com/python/python_dsa_binarysearch.asp
+def binarySearch(arr, targetVal):
+  left = 0
+  right = len(arr) - 1
+
+  while left <= right:
+    mid = (left + right) // 2
+
+    if arr[mid] == targetVal:
+      return mid
+
+    if arr[mid] < targetVal:
+      left = mid + 1
+    else:
+      right = mid - 1
+
+  return -1
+
+mylist = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+x = 11
+
+result = binarySearch(mylist, x)
+
+if result != -1:
+  print("Found at index", result)
+else:
+  print("Not found")
+
+
+#https://www.w3schools.com/python/python_dsa_bubblesort.asp
+mylist = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(mylist)
+for i in range(n-1):
+  for j in range(n-i-1):
+    if mylist[j] > mylist[j+1]:
+      mylist[j], mylist[j+1] = mylist[j+1], mylist[j]
+
+print(mylist)
+
+
+mylist = [7, 3, 9, 12, 11]
+
+n = len(mylist)
+for i in range(n-1):
+  swapped = False
+  for j in range(n-i-1):
+    if mylist[j] > mylist[j+1]:
+      mylist[j], mylist[j+1] = mylist[j+1], mylist[j]
+      swapped = True
+  if not swapped:
+    break
+
+print(mylist)
+
+
+#https://www.w3schools.com/python/python_dsa_selectionsort.asp
+mylist = [64, 34, 25, 5, 22, 11, 90, 12]
+
+n = len(mylist)
+for i in range(n-1):
+  min_index = i
+  for j in range(i+1, n):
+     if mylist[j] < mylist[min_index]:
+       min_index = j
+  min_value = mylist.pop(min_index)
+  mylist.insert(i, min_value)
+
+print(mylist)
+
+mylist = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(mylist)
+for i in range(n):
+  min_index = i
+  for j in range(i+1, n):
+     if mylist[j] < mylist[min_index]:
+       min_index = j
+  mylist[i], mylist[min_index] = mylist[min_index], mylist[i]
+
+print(mylist)
+
+
+#https://www.w3schools.com/python/python_dsa_insertionsort.asp
+mylist = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(mylist)
+for i in range(1,n):
+  insert_index = i
+  current_value = mylist.pop(i)
+  for j in range(i-1, -1, -1):
+    if mylist[j] > current_value:
+      insert_index = j
+  mylist.insert(insert_index, current_value)
+
+print(mylist)
+
+
+mylist = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(mylist)
+for i in range(1,n):
+  insert_index = i
+  current_value = mylist[i]
+  for j in range(i-1, -1, -1):
+     if mylist[j] > current_value:
+       mylist[j+1] = mylist[j]
+       insert_index = j
+     else:
+       break
+  mylist[insert_index] = current_value
+
+print(mylist)
+
+
+#https://www.w3schools.com/python/python_dsa_quicksort.asp
+def partition(array, low, high):
+  pivot = array[high]
+  i = low - 1
+
+  for j in range(low, high):
+     if array[j] <= pivot:
+       i += 1
+       array[i], array[j] = array[j], array[i]
+
+  array[i+1], array[high] = array[high], array[i+1]
+  return i+1
+
+def quicksort(array, low=0, high=None):
+  if high is None:
+    high = len(array) - 1
+
+  if low < high:
+    pivot_index = partition(array, low, high)
+    quicksort(array, low, pivot_index-1)
+    quicksort(array, pivot_index+1, high)
+
+mylist = [64, 34, 25, 5, 22, 11, 90, 12]
+quicksort(mylist)
+print(mylist)
+
+
+#https://www.w3schools.com/python/python_dsa_countingsort.asp
+def countingSort(arr):
+  max_val = max(arr)
+  count = [0] * (max_val + 1)
+
+  while len(arr) > 0:
+    num = arr.pop(0)
+    count[num] += 1
+
+  for i in range(len(count)):
+    while count[i] > 0:
+      arr.append(i)
+      count[i] -= 1
+
+  return arr
+
+mylist = [4, 2, 2, 6, 3, 3, 1, 6, 5, 2, 3]
+mysortedlist = countingSort(mylist)
+print(mysortedlist)
+
+
+#https://www.w3schools.com/python/python_dsa_radixsort.asp
+mylist = [170, 45, 75, 90, 802, 24, 2, 66]
+print("Original array:", mylist)
+radixArray = [[], [], [], [], [], [], [], [], [], []]
+maxVal = max(mylist)
+exp = 1
+
+while maxVal // exp > 0:
+
+  while len(mylist) > 0:
+    val = mylist.pop()
+    radixIndex = (val // exp) % 10
+    radixArray[radixIndex].append(val)
+
+  for bucket in radixArray:
+    while len(bucket) > 0:
+      val = bucket.pop()
+      mylist.append(val)
+
+  exp *= 10
+
+print(mylist)
+
+
+def bubbleSort(arr):
+  n = len(arr)
+  for i in range(n):
+    for j in range(0, n - i - 1):
+      if arr[j] > arr[j + 1]:
+        arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+def radixSortWithBubbleSort(arr):
+  max_val = max(arr)
+  exp = 1
+
+  while max_val // exp > 0:
+    radixList = [[],[],[],[],[],[],[],[],[],[]]
+
+    for num in arr:
+      radixIndex = (num // exp) % 10
+      radixList[radixIndex].append(num)
+
+    for bucket in radixList:
+      bubbleSort(bucket)
+
+    i = 0
+    for bucket in radixList:
+      for num in bucket:
+        arr[i] = num
+        i += 1
+
+    exp *= 10
+
+mylist = [170, 45, 75, 90, 802, 24, 2, 66]
+
+radixSortWithBubbleSort(mylist)
+
+print(mylist)
+
+
+#https://www.w3schools.com/python/python_dsa_mergesort.asp
+def mergeSort(arr):
+  if len(arr) <= 1:
+    return arr
+
+  mid = len(arr) // 2
+  leftHalf = arr[:mid]
+  rightHalf = arr[mid:]
+
+  sortedLeft = mergeSort(leftHalf)
+  sortedRight = mergeSort(rightHalf)
+
+  return merge(sortedLeft, sortedRight)
+
+def merge(left, right):
+  result = []
+  i = j = 0
+
+  while i < len(left) and j < len(right):
+    if left[i] < right[j]:
+      result.append(left[i])
+      i += 1
+    else:
+      result.append(right[j])
+      j += 1
+
+  result.extend(left[i:])
+  result.extend(right[j:])
+
+  return result
+
+mylist = [3, 7, 6, -10, 15, 23.5, 55, -13]
+mysortedlist = mergeSort(mylist)
+print("Sorted array:", mysortedlist)
+
+
+def merge(left, right):
+  result = []
+  i = j = 0
+
+  while i < len(left) and j < len(right):
+    if left[i] < right[j]:
+      result.append(left[i])
+      i += 1
+    else:
+      result.append(right[j])
+      j += 1
+
+  result.extend(left[i:])
+  result.extend(right[j:])
+
+  return result
+
+def mergeSort(arr):
+  step = 1 # Starting with sub-arrays of length 1
+  length = len(arr)
+
+  while step < length:
+    for i in range(0, length, 2 * step):
+      left = arr[i:i + step]
+      right = arr[i + step:i + 2 * step]
+
+      merged = merge(left, right)
+
+      # Place the merged array back into the original array
+      for j, val in enumerate(merged):
+        arr[i + j] = val
+
+    step *= 2 # Double the sub-array length for the next iteration
+
+  return arr
+
+mylist = [3, 7, 6, -10, 15, 23.5, 55, -13]
+mysortedlist = mergeSort(mylist)
+print(mysortedlist)
+
+
+calories = {"day1": 420, "day2": 380, "day3": 390}
+print(calories)
+
+data = {
+  "Duration":{
+    "0":60,
+    "1":60,
+    "2":60,
+    "3":45,
+    "4":45,
+    "5":60
+  },
+  "Pulse":{
+    "0":110,
+    "1":117,
+    "2":103,
+    "3":109,
+    "4":117,
+    "5":102
+  },
+  "Maxpulse":{
+    "0":130,
+    "1":145,
+    "2":135,
+    "3":175,
+    "4":148,
+    "5":127
+  },
+  "Calories":{
+    "0":409,
+    "1":479,
+    "2":340,
+    "3":282,
+    "4":406,
+    "5":300
+  }
+}
+
+print(data)
