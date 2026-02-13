@@ -142,6 +142,1148 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/filtering-data
+namespace DotnetCSharpLinqStandardQueryOperatorsFilteringData
+{
+	public class CSharpLinqStandardQueryOperatorsFilteringData
+	{
+		public static void RunDotnetCSharpLinqStandardQueryOperatorsFilteringData()
+		{
+			
+		}
+	
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/
+namespace DotnetCSharpLinqStandardQueryOperators
+{
+	public class StandardQueryOperators
+	{
+		public static void RunStandardQueryOperators()
+		{
+			string sentence = "the quick brown fox jumps over the lazy dog";
+			// Split the string into individual words to create a collection.
+			string[] words = sentence.Split(' ');
+			
+			// Using query expression syntax.
+			var query = from word in words
+			            group word.ToUpper() by word.Length into gr
+			            orderby gr.Key
+			            select new { Length = gr.Key, Words = gr };
+			
+			// Using method-based query syntax.
+			var query2 = words.
+			    GroupBy(w => w.Length, w => w.ToUpper()).
+			    Select(g => new { Length = g.Key, Words = g }).
+			    OrderBy(o => o.Length);
+			
+			foreach (var obj in query)
+			{
+			    Console.WriteLine($"Words of length {obj.Length}:");
+			    foreach (string word in obj.Words)
+			        Console.WriteLine(word);
+			}
+			
+			// This code example produces the following output:
+			//
+			// Words of length 3:
+			// THE
+			// FOX
+			// THE
+			// DOG
+			// Words of length 4:
+			// OVER
+			// LAZY
+			// Words of length 5:
+			// QUICK
+			// BROWN
+			// JUMPS
+			
+			//queryAllStudents is an IEnumerable<Student>
+			/*
+			var queryAllStudents = from student in students
+			                        select student;
+			*/
+			
+			// Create the query.
+			/*
+			var studentsToXML = new XElement("Root",
+			    from student in students
+			    let scores = string.Join(",", student.Scores)
+			    select new XElement("student",
+			                new XElement("First", student.FirstName),
+			                new XElement("Last", student.LastName),
+			                new XElement("Scores", scores)
+			            ) // end "student"
+			        ); // end "Root"
+			
+			// Execute the query.
+			Console.WriteLine(studentsToXML);
+			*/
+			/*
+			var orderedQuery = from department in departments
+			                   join student in students on department.ID equals student.DepartmentID into studentGroup
+			                   orderby department.Name
+			                   select new
+			                   {
+			                       DepartmentName = department.Name,
+			                       Students = from student in studentGroup
+			                                  orderby student.LastName
+			                                    select student
+			                   };
+			
+			foreach (var departmentList in orderedQuery)
+			{
+			    Console.WriteLine(departmentList.DepartmentName);
+			    foreach (var student in departmentList.Students)
+			    {
+			        Console.WriteLine($"  {student.LastName,-10} {student.FirstName,-10}");
+			    }
+			}
+			*/
+			/* Output:
+			Chemistry
+			  Balzan     Josephine
+			  Fakhouri   Fadi
+			  Popov      Innocenty
+			  Seleznyova Sofiya
+			  Vella      Carmen
+			Economics
+			  Adams      Terry
+			  Adaobi     Izuchukwu
+			  Berggren   Jeanette
+			  Garcia     Cesar
+			  Ifeoma     Nwanneka
+			  Jamuike    Ifeanacho
+			  Larsson    Naima
+			  Svensson   Noel
+			  Ugomma     Ifunanya
+			Engineering
+			  Axelsson   Erik
+			  Berg       Veronika
+			  Engström   Nancy
+			  Hicks      Cassie
+			  Keever     Bruce
+			  Micallef   Nicholas
+			  Mortensen  Sven
+			  Nilsson    Erna
+			  Tucker     Michael
+			  Yermolayeva Anna
+			English
+			  Andersson  Sarah
+			  Feng       Hanying
+			  Ivanova    Arina
+			  Jakobsson  Jesper
+			  Jensen     Christiane
+			  Johansson  Mark
+			  Kolpakova  Nadezhda
+			  Omelchenko Svetlana
+			  Urquhart   Donald
+			Mathematics
+			  Frost      Gaby
+			  Garcia     Hugo
+			  Hedlund    Anna
+			  Kovaleva   Katerina
+			  Lindgren   Max
+			  Maslova    Evgeniya
+			  Olsson     Ruth
+			  Sammut     Maria
+			  Sazonova   Anastasiya
+			Physics
+			  Åkesson    Sami
+			  Edwards    Amy E.
+			  Falzon     John
+			  Garcia     Debra
+			  Hansson    Sanna
+			  Mattsson   Martina
+			  Richardson Don
+			  Zabokritski Eugene
+			*/
+			
+			/*
+			var orderedQuery = departments
+			    .GroupJoin(students, department => department.ID, student => student.DepartmentID,
+			    (department, studentGroup) => new
+			    {
+			        DepartmentName = department.Name,
+			        Students = studentGroup.OrderBy(student => student.LastName)
+			    })
+			    .OrderBy(department => department.DepartmentName);
+			
+			
+			foreach (var departmentList in orderedQuery)
+			{
+			    Console.WriteLine(departmentList.DepartmentName);
+			    foreach (var student in departmentList.Students)
+			    {
+			        Console.WriteLine($"  {student.LastName,-10} {student.FirstName,-10}");
+			    }
+			}
+			*/
+		}
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/walkthrough-writing-queries-linq
+namespace DotnetCSharpLinqGetStartedWalkthroughWritingQueriesLinq
+{
+	public class WritingQueriesLinq
+	{
+		public static void RunWritingQueriesLinq()
+		{
+			// See https://aka.ms/new-console-template for more information
+			Console.WriteLine("Hello, World!");
+			
+			// Create a data source by using a collection initializer.
+			IEnumerable<Student> students =
+			[
+			    new Student(First: "Svetlana", Last: "Omelchenko", ID: 111, Scores: [97, 92, 81, 60]),
+			    new Student(First: "Claire",   Last: "O'Donnell",  ID: 112, Scores: [75, 84, 91, 39]),
+			    new Student(First: "Sven",     Last: "Mortensen",  ID: 113, Scores: [88, 94, 65, 91]),
+			    new Student(First: "Cesar",    Last: "Garcia",     ID: 114, Scores: [97, 89, 85, 82]),
+			    new Student(First: "Debra",    Last: "Garcia",     ID: 115, Scores: [35, 72, 91, 70]),
+			    new Student(First: "Fadi",     Last: "Fakhouri",   ID: 116, Scores: [99, 86, 90, 94]),
+			    new Student(First: "Hanying",  Last: "Feng",       ID: 117, Scores: [93, 92, 80, 87]),
+			    new Student(First: "Hugo",     Last: "Garcia",     ID: 118, Scores: [92, 90, 83, 78]),
+			
+			    new Student("Lance",   "Tucker",      119, [68, 79, 88, 92]),
+			    new Student("Terry",   "Adams",       120, [99, 82, 81, 79]),
+			    new Student("Eugene",  "Zabokritski", 121, [96, 85, 91, 60]),
+			    new Student("Michael", "Tucker",      122, [94, 92, 91, 91])
+			];
+			
+			// Create the query.
+			// The first line could also be written as "var studentQuery ="
+			IEnumerable<Student> studentQuery =
+			    from student in students
+			    where student.Scores[0] > 90 && student.Scores[3] < 80
+				//orderby student.Last ascending
+				orderby student.Scores[0] descending
+			    select student;
+			
+			// Execute the query.
+			// var could be used here also.
+			foreach (Student student in studentQuery)
+			{
+			    Console.WriteLine($"{student.Last}, {student.First} {student.Scores[0]}");
+			}
+			
+			// Output:
+			// Omelchenko, Svetlana
+			// Garcia, Cesar
+			// Fakhouri, Fadi
+			// Feng, Hanying
+			// Garcia, Hugo
+			// Adams, Terry
+			// Zabokritski, Eugene
+			// Tucker, Michael
+			
+			IEnumerable<IGrouping<char, Student>> studentQuery2 =
+			    from student in students
+			    group student by student.Last[0];
+				
+			foreach (IGrouping<char, Student> studentGroup in studentQuery2)
+			{
+			    Console.WriteLine(studentGroup.Key);
+			    foreach (Student student in studentGroup)
+			    {
+			        Console.WriteLine($"   {student.Last}, {student.First}");
+			    }
+			}
+			// Output:
+			// O
+			//   Omelchenko, Svetlana
+			//   O'Donnell, Claire
+			// M
+			//   Mortensen, Sven
+			// G
+			//   Garcia, Cesar
+			//   Garcia, Debra
+			//   Garcia, Hugo
+			// F
+			//   Fakhouri, Fadi
+			//   Feng, Hanying
+			// T
+			//   Tucker, Lance
+			//   Tucker, Michael
+			// A
+			//   Adams, Terry
+			// Z
+			//   Zabokritski, Eugene
+			
+			IEnumerable<IGrouping<char, Student>> studentQuery3 =
+			    from student in students
+			    group student by student.Last[0];
+			
+			foreach (IGrouping<char, Student> studentGroup in studentQuery3)
+			{
+			    Console.WriteLine(studentGroup.Key);
+			    foreach (Student student in studentGroup)
+			    {
+			        Console.WriteLine($"   {student.Last}, {student.First}");
+			    }
+			}
+			
+			var studentQuery4 =
+			    from student in students
+			    group student by student.Last[0] into studentGroup
+			    orderby studentGroup.Key
+			    select studentGroup;
+			
+			foreach (var groupOfStudents in studentQuery4)
+			{
+			    Console.WriteLine(groupOfStudents.Key);
+			    foreach (var student in groupOfStudents)
+			    {
+			        Console.WriteLine($"   {student.Last}, {student.First}");
+			    }
+			}
+			
+			// Output:
+			//A
+			//   Adams, Terry
+			//F
+			//   Fakhouri, Fadi
+			//   Feng, Hanying
+			//G
+			//   Garcia, Cesar
+			//   Garcia, Debra
+			//   Garcia, Hugo
+			//M
+			//   Mortensen, Sven
+			//O
+			//   Omelchenko, Svetlana
+			//   O'Donnell, Claire
+			//T
+			//   Tucker, Lance
+			//   Tucker, Michael
+			//Z
+			//   Zabokritski, Eugene
+			
+			// This query returns those students whose
+			// first test score was higher than their
+			// average score.
+			var studentQuery5 =
+			    from student in students
+			    let totalScore = student.Scores[0] + student.Scores[1] +
+			        student.Scores[2] + student.Scores[3]
+			    where totalScore / 4 < student.Scores[0]
+			    select $"{student.Last}, {student.First}";
+			
+			foreach (string s in studentQuery5)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			// Output:
+			// Omelchenko, Svetlana
+			// O'Donnell, Claire
+			// Mortensen, Sven
+			// Garcia, Cesar
+			// Fakhouri, Fadi
+			// Feng, Hanying
+			// Garcia, Hugo
+			// Adams, Terry
+			// Zabokritski, Eugene
+			// Tucker, Michael
+			
+			var studentQuery6 =
+			    from student in students
+			    let totalScore = student.Scores[0] + student.Scores[1] +
+			        student.Scores[2] + student.Scores[3]
+			    select totalScore;
+			
+			double averageScore = studentQuery6.Average();
+			Console.WriteLine($"Class average score = {averageScore}");
+			
+			// Output:
+			// Class average score = 334.166666666667
+			
+			IEnumerable<string> studentQuery7 =
+			    from student in students
+			    where student.Last == "Garcia"
+			    select student.First;
+			
+			Console.WriteLine("The Garcias in the class are:");
+			foreach (string s in studentQuery7)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			// Output:
+			// The Garcias in the class are:
+			// Cesar
+			// Debra
+			// Hugo
+			
+			var aboveAverageQuery =
+			    from student in students
+			    let x = student.Scores[0] + student.Scores[1] +
+			        student.Scores[2] + student.Scores[3]
+			    where x > averageScore
+			    select new { id = student.ID, score = x };
+			
+			foreach (var item in aboveAverageQuery)
+			{
+			    Console.WriteLine("Student ID: {0}, Score: {1}", item.id, item.score);
+			}
+			
+			// Output:
+			// Student ID: 113, Score: 338
+			// Student ID: 114, Score: 353
+			// Student ID: 116, Score: 369
+			// Student ID: 117, Score: 352
+			// Student ID: 118, Score: 343
+			// Student ID: 120, Score: 341
+			// Student ID: 122, Score: 368
+			
+		}
+	}
+	
+	public record Student(string First, string Last, int ID, int[] Scores);
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/features-that-support-linq
+namespace DotnetCSharpLinqGetStartedFeaturesThatSupportLinq
+{
+	public class FeaturesThatSupportLinq
+	{
+		public static void RunFeaturesThatSupportLinq()
+		{
+			/*
+			var query = from str in stringArray
+			            group str by str[0] into stringGroup
+			            orderby stringGroup.Key
+			            select stringGroup;
+			*/
+			
+			/*
+			var number = 5;
+			var name = "Virginia";
+			var query = from str in stringArray
+			            where str[0] == 'm'
+			            select str;
+			*/
+			
+			//var cust = new Customer { Name = "Mike", Phone = "555-1212" };
+			
+			/*
+			var newLargeOrderCustomers = from o in IncomingOrders
+			                            where o.OrderSize > 5
+			                            select new Customer { Name = o.Name, Phone = o.Phone };
+			*/
+			
+			//var newLargeOrderCustomers = IncomingOrders.Where(x => x.OrderSize > 5).Select(y => new Customer { Name = y.Name, Phone = y.Phone });
+			
+			//select new {name = cust.Name, phone = cust.Phone};
+			
+			int[] nums = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
+
+			var myQuery1 = QueryMethod1(nums);
+			
+			foreach (var s in myQuery1)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			foreach (var s in QueryMethod1(nums))
+			{
+			    Console.WriteLine(s);
+			}
+			
+			QueryMethod2(nums, out IEnumerable<string> myQuery2);
+
+			// Execute the returned query.
+			foreach (var s in myQuery2)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			myQuery1 = from item in myQuery1
+           orderby item descending
+           select item;
+
+			// Execute the modified query.
+			Console.WriteLine("\nResults of executing modified myQuery1:");
+			foreach (var s in myQuery1)
+			{
+			    Console.WriteLine(s);
+			}
+										
+			
+		}
+		
+		static IEnumerable<string> QueryMethod1(int[] ints) =>
+		    from i in ints
+		    where i > 4
+		    select i.ToString();
+		
+		static void QueryMethod2(int[] ints, out IEnumerable<string> returnQ) =>
+		    returnQ = from i in ints
+		              where i < 4
+		              select i.ToString();
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/type-relationships-in-linq-query-operations
+namespace DotnetCSharpLinqGetStartedTypeRelationshipsInLinqQueryOperations
+{
+	public class TypeRelationshipsInQueryOperations
+	{
+		public static void RunTypeRelationshipsInQueryOperations()
+		{
+			/*
+			IEnumerable<Customer> customerQuery = from cust in customers
+			                                      where cust.City == "London"
+			                                      select cust;
+			
+			foreach (Customer customer in customerQuery)
+			{
+			    Console.WriteLine($"{customer.LastName}, {customer.FirstName}");
+			}
+			*/
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries
+namespace DotnetCSharpLinqGetStartedWriteLinqQueries
+{
+	public class WriteLinqQueries
+	{
+		public static void RunWriteLinqQueries()
+		{
+			int[] numbers = [ 5, 10, 8, 3, 6, 12 ];
+
+			//Query syntax:
+			IEnumerable<int> numQuery1 =
+			    from num in numbers
+			    where num % 2 == 0
+			    orderby num
+			    select num;
+			
+			//Method syntax:
+			IEnumerable<int> numQuery2 = numbers
+			    .Where(num => num % 2 == 0)
+			    .OrderBy(n => n);
+			
+			foreach (int i in numQuery1)
+			{
+			    Console.Write(i + " ");
+			}
+			Console.WriteLine(System.Environment.NewLine);
+			foreach (int i in numQuery2)
+			{
+			    Console.Write(i + " ");
+			}
+			
+			List<int> numbers2 = [ 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 ];
+
+			// The query variables can also be implicitly typed by using var
+			
+			// Query #1.
+			IEnumerable<int> filteringQuery =
+			    from num in numbers2
+			    where num is < 3 or > 7
+			    select num;
+			
+			// Query #2.
+			IEnumerable<int> orderingQuery =
+			    from num in numbers2
+			    where num is < 3 or > 7
+			    orderby num ascending
+			    select num;
+			
+			// Query #3.
+			string[] groupingQuery = ["carrots", "cabbage", "broccoli", "beans", "barley"];
+			IEnumerable<IGrouping<char, string>> queryFoodGroups =
+			    from item in groupingQuery
+			    group item by item[0];
+				
+			List<int> numbers3 = [ 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 ];
+			List<int> numbers4 = [ 15, 14, 11, 13, 19, 18, 16, 17, 12, 10 ];
+			
+			// Query #4.
+			double average = numbers3.Average();
+			
+			// Query #5.
+			IEnumerable<int> concatenationQuery = numbers3.Concat(numbers4);
+			
+			// Query #6.
+			IEnumerable<int> largeNumbersQuery = numbers2.Where(c => c > 15);
+			
+			// var is used for convenience in these queries
+			double average2 = numbers3.Average();
+			var concatenationQuery2 = numbers3.Concat(numbers4);
+			var largeNumbersQuery2 = numbers4.Where(c => c > 15);
+			
+			// Query #7.
+
+			// Using a query expression with method syntax
+			var numCount1 = (
+			    from num in numbers3
+			    where num is > 3 and < 7
+			    select num
+			).Count();
+			
+			// Better: Create a new variable to store
+			// the method call result
+			IEnumerable<int> numbersQuery =
+			    from num in numbers3
+			    where num is > 3 and < 7
+			    select num;
+			
+			var numCount2 = numbersQuery.Count();
+			
+			//var numCount = (from num in numbers...
+			
+			var numCount = numbers.Count(n => n is > 3 and < 7);
+			
+			int[] ids = [ 111, 114, 112 ];
+			/*
+			var queryNames = from student in students
+			                 where ids.Contains(student.ID)
+			                 select new
+			                 {
+			                     student.LastName,
+			                     student.ID
+			                 };
+			
+			foreach (var name in queryNames)
+			{
+			    Console.WriteLine($"{name.LastName}: {name.ID}");
+			}
+			*/
+			
+			/* Output:
+			    Garcia: 114
+			    O'Donnell: 112
+			    Omelchenko: 111
+			 */
+			
+			// Change the ids.
+			ids = [ 122, 117, 120, 115 ];
+			
+			// The query will now return different results
+			/*
+			foreach (var name in queryNames)
+			{
+			    Console.WriteLine($"{name.LastName}: {name.ID}");
+			}
+			*/
+			
+			/* Output:
+			    Adams: 120
+			    Feng: 117
+			    Garcia: 115
+			    Tucker: 122
+			 */
+			 
+			 
+			
+			
+		}
+		
+		
+		
+		static readonly City[] cities = [
+		    new City("Tokyo", 37_833_000),
+		    new City("Delhi", 30_290_000),
+		    new City("Shanghai", 27_110_000),
+		    new City("São Paulo", 22_043_000),
+		    new City("Mumbai", 20_412_000),
+		    new City("Beijing", 20_384_000),
+		    new City("Cairo", 18_772_000),
+		    new City("Dhaka", 17_598_000),
+		    new City("Osaka", 19_281_000),
+		    new City("New York-Newark", 18_604_000),
+		    new City("Karachi", 16_094_000),
+		    new City("Chongqing", 15_872_000),
+		    new City("Istanbul", 15_029_000),
+		    new City("Buenos Aires", 15_024_000),
+		    new City("Kolkata", 14_850_000),
+		    new City("Lagos", 14_368_000),
+		    new City("Kinshasa", 14_342_000),
+		    new City("Manila", 13_923_000),
+		    new City("Rio de Janeiro", 13_374_000),
+		    new City("Tianjin", 13_215_000)
+		];
+		
+		static readonly Country[] countries = [
+		    new Country ("Vatican City", 0.44, 526, [new City("Vatican City", 826)]),
+		    new Country ("Monaco", 2.02, 38_000, [new City("Monte Carlo", 38_000)]),
+		    new Country ("Nauru", 21, 10_900, [new City("Yaren", 1_100)]),
+		    new Country ("Tuvalu", 26, 11_600, [new City("Funafuti", 6_200)]),
+		    new Country ("San Marino", 61, 33_900, [new City("San Marino", 4_500)]),
+		    new Country ("Liechtenstein", 160, 38_000, [new City("Vaduz", 5_200)]),
+		    new Country ("Marshall Islands", 181, 58_000, [new City("Majuro", 28_000)]),
+		    new Country ("Saint Kitts & Nevis", 261, 53_000, [new City("Basseterre", 13_000)])
+		];
+	}
+	
+	record City(string Name, long Population);
+	record Country(string Name, double Area, long Population, List<City> Cities);
+	record Product(string Name, string Category);
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/query-expression-basics
+namespace DotnetCSharpLinqGetStartedQueryExpressionBasics
+{
+	public class QueryExpressionBasics
+	{
+		public static void RunQueryExpressionBasics()
+		{
+			/*
+			IEnumerable<int> highScoresQuery =
+			    from score in scores
+			    where score > 80
+			    orderby score descending
+			    select score;
+			*/
+			
+			/*
+			IEnumerable<string> highScoresQuery2 =
+			    from score in scores
+			    where score > 80
+			    orderby score descending
+			    select $"The score is {score}";
+			*/
+			
+			/*
+			var highScoreCount = (
+			    from score in scores
+			    where score > 80
+			    select score
+			).Count();
+			*/
+			
+			/*
+			IEnumerable<int> highScoresQuery3 =
+			    from score in scores
+			    where score > 80
+			    select score;
+			
+			var scoreCount = highScoresQuery3.Count();
+			*/
+			
+			// Data source.
+			int[] scores = [90, 71, 82, 93, 75, 82];
+			
+			// Query Expression.
+			IEnumerable<int> scoreQuery = //query variable
+			    from score in scores //required
+			    where score > 80 // optional
+			    orderby score descending // optional
+			    select score; //must end with select or group
+			
+			// Execute the query to produce the results
+			foreach (var testScore in scoreQuery)
+			{
+			    Console.WriteLine(testScore);
+			}
+			
+			// Output: 93 90 82 82
+			
+			City[] cities = [
+			    new City("Tokyo", 37_833_000),
+			    new City("Delhi", 30_290_000),
+			    new City("Shanghai", 27_110_000),
+			    new City("São Paulo", 22_043_000)
+			];
+			
+			//Query syntax
+			IEnumerable<City> queryMajorCities =
+			    from city in cities
+			    where city.Population > 30_000_000
+			    select city;
+			
+			// Execute the query to produce the results
+			foreach (City city in queryMajorCities)
+			{
+			    Console.WriteLine(city);
+			}
+			
+			// Output:
+			// City { Name = Tokyo, Population = 37833000 }
+			// City { Name = Delhi, Population = 30290000 }
+			
+			// Method-based syntax
+			IEnumerable<City> queryMajorCities2 = cities.Where(c => c.Population > 30_000_000);
+			// Execute the query to produce the results
+			foreach (City city in queryMajorCities2)
+			{
+			    Console.WriteLine(city);
+			}
+			// Output:
+			// City { Name = Tokyo, Population = 37833000 }
+			// City { Name = Delhi, Population = 30290000 }
+			
+			var highestScore = (
+			    from score in scores
+			    select score
+			).Max();
+			
+			// or split the expression
+			IEnumerable<int> scoreQuery2 =
+			    from score in scores
+			    select score;
+			
+			var highScore = scoreQuery2.Max();
+			// the following returns the same result
+			highScore = scores.Max();
+			
+			var largeCitiesList = (
+			    from country in countries
+			    from city in country.Cities
+			    where city.Population > 10000
+			    select city
+			).ToList();
+			
+			// or split the expression
+			IEnumerable<City> largeCitiesQuery =
+			    from country in countries
+			    from city in country.Cities
+			    where city.Population > 10000
+			    select city;
+			var largeCitiesList2 = largeCitiesQuery.ToList();
+			
+			var queryCities =
+			    from city in cities
+			    where city.Population > 100000
+			    select city;
+				
+			IEnumerable<Country> countryAreaQuery =
+			    from country in countries
+			    where country.Area > 20 //sq km
+			    select country;
+				
+			IEnumerable<City> cityQuery =
+			    from country in countries
+			    from city in country.Cities
+			    where city.Population > 10000
+			    select city;
+				
+			var queryCountryGroups =
+			    from country in countries
+			    group country by country.Name[0];
+				
+			IEnumerable<Country> sortedQuery =
+			    from country in countries
+			    orderby country.Area
+			    select country;
+				
+			var queryNameAndPop =
+			    from country in countries
+			    select new
+			    {
+			        Name = country.Name,
+			        Pop = country.Population
+			    };
+				
+			// percentileQuery is an IEnumerable<IGrouping<int, Country>>
+			var percentileQuery =
+			    from country in countries
+			    let percentile = (int)country.Population / 1_000
+			    group country by percentile into countryGroup
+			    where countryGroup.Key >= 20
+			    orderby countryGroup.Key
+			    select countryGroup;
+			
+			// grouping is an IGrouping<int, Country>
+			foreach (var grouping in percentileQuery)
+			{
+			    Console.WriteLine(grouping.Key);
+			    foreach (var country in grouping)
+			    {
+			        Console.WriteLine(country.Name + ":" + country.Population);
+			    }
+			}
+			
+			IEnumerable<City> queryCityPop =
+			    from city in cities
+			    where city.Population is < 15_000_000 and > 10_000_000
+			    select city;
+				
+			IEnumerable<Country> querySortedCountries =
+			    from country in countries
+			    orderby country.Area, country.Population descending
+			    select country;
+				
+			/*
+			var categoryQuery =
+			    from cat in categories
+			    join prod in products on cat equals prod.Category
+			    select new
+			    {
+			        Category = cat,
+			        Name = prod.Name
+			    };
+			*/
+			
+			string[] names = ["Svetlana Omelchenko", "Claire O'Donnell", "Sven Mortensen", "Cesar Garcia"];
+			IEnumerable<string> queryFirstNames =
+			    from name in names
+			    let firstName = name.Split(' ')[0]
+			    select firstName;
+			
+			foreach (var s in queryFirstNames)
+			{
+			    Console.Write(s + " ");
+			}
+			
+			//Output: Svetlana Claire Sven Cesar
+			
+			/*
+			var queryGroupMax =
+			    from student in students
+			    group student by student.Year into studentGroup
+			    select new
+			    {
+			        Level = studentGroup.Key,
+			        HighestScore = (
+			            from student2 in studentGroup
+			            select student2.ExamScores.Average()
+			        ).Max()
+			    };
+			*/
+			
+			//FilterByYearType(true);
+
+			/* Output:
+			    The following students are at an odd year level:
+			    Fakhouri: 116
+			    Feng: 117
+			    Garcia: 115
+			    Mortensen: 113
+			    Tucker: 119
+			    Tucker: 122
+			 */
+			
+			//FilterByYearType(false);
+			
+			/* Output:
+			    The following students are at an even year level:
+			    Adams: 120
+			    Garcia: 114
+			    Garcia: 118
+			    O'Donnell: 112
+			    Omelchenko: 111
+			    Zabokritski: 121
+			 */
+			 
+			 /*
+			 var query1 = from c in categories
+             where c != null
+             join p in products on c.ID equals p?.CategoryID
+             select new
+             {
+                 Category = c.Name,
+                 Name = p.Name
+             };
+			 */
+			 
+			 /*
+			 var query =
+			    from o in db.Orders
+			    join e in db.Employees
+			        on o.EmployeeID equals (int?)e.EmployeeID
+			    select new { o.OrderID, e.FirstName };
+			*/
+			
+			// DO THIS with a datasource that might
+			// throw an exception.
+			IEnumerable<int>? dataSource = null;
+			try
+			{
+			    dataSource = GetData();
+			}
+			catch (InvalidOperationException)
+			{
+			    Console.WriteLine("Invalid operation");
+			}
+			
+			if (dataSource is not null)
+			{
+			    // If we get here, it is safe to proceed.
+			    var query = from i in dataSource
+			                select i * i;
+			
+			    foreach (var i in query)
+			    {
+			        Console.WriteLine(i.ToString());
+			    }
+			}
+			
+			// Not very useful as a general purpose method.
+			string SomeMethodThatMightThrow(string s) =>
+			    s[4] == 'C' ?
+			        throw new InvalidOperationException() :
+			        $"""C:\newFolder\{s}""";
+			
+			// Data source.
+			string[] files = ["fileA.txt", "fileB.txt", "fileC.txt"];
+			
+			// Demonstration query that throws.
+			var exceptionDemoQuery = from file in files
+			                         let n = SomeMethodThatMightThrow(file)
+			                         select n;
+			
+			try
+			{
+			    foreach (var item in exceptionDemoQuery)
+			    {
+			        Console.WriteLine($"Processing {item}");
+			    }
+			}
+			catch (InvalidOperationException e)
+			{
+			    Console.WriteLine(e.Message);
+			}
+			
+			/* Output:
+			    Processing C:\newFolder\fileA.txt
+			    Processing C:\newFolder\fileB.txt
+			    Operation is not valid due to the current state of the object.
+			 */
+			
+			
+			
+			
+			
+		}
+		
+		static readonly City[] cities = [
+		    new City("Tokyo", 37_833_000),
+		    new City("Delhi", 30_290_000),
+		    new City("Shanghai", 27_110_000),
+		    new City("São Paulo", 22_043_000),
+		    new City("Mumbai", 20_412_000),
+		    new City("Beijing", 20_384_000),
+		    new City("Cairo", 18_772_000),
+		    new City("Dhaka", 17_598_000),
+		    new City("Osaka", 19_281_000),
+		    new City("New York-Newark", 18_604_000),
+		    new City("Karachi", 16_094_000),
+		    new City("Chongqing", 15_872_000),
+		    new City("Istanbul", 15_029_000),
+		    new City("Buenos Aires", 15_024_000),
+		    new City("Kolkata", 14_850_000),
+		    new City("Lagos", 14_368_000),
+		    new City("Kinshasa", 14_342_000),
+		    new City("Manila", 13_923_000),
+		    new City("Rio de Janeiro", 13_374_000),
+		    new City("Tianjin", 13_215_000)
+		];
+		
+		static readonly Country[] countries = [
+		    new Country ("Vatican City", 0.44, 526, [new City("Vatican City", 826)]),
+		    new Country ("Monaco", 2.02, 38_000, [new City("Monte Carlo", 38_000)]),
+		    new Country ("Nauru", 21, 10_900, [new City("Yaren", 1_100)]),
+		    new Country ("Tuvalu", 26, 11_600, [new City("Funafuti", 6_200)]),
+		    new Country ("San Marino", 61, 33_900, [new City("San Marino", 4_500)]),
+		    new Country ("Liechtenstein", 160, 38_000, [new City("Vaduz", 5_200)]),
+		    new Country ("Marshall Islands", 181, 58_000, [new City("Majuro", 28_000)]),
+		    new Country ("Saint Kitts & Nevis", 261, 53_000, [new City("Basseterre", 13_000)])
+		];
+		
+		/*
+		static Category?[] categories =
+		[
+		    new ("brass", 1),
+		    null,
+		    new ("winds", 2),
+		    default,
+		    new ("percussion", 3)
+		];
+		
+		static Product?[] products =
+		[
+		    new Product("Trumpet", 1),
+		    new Product("Trombone", 1),
+		    new Product("French Horn", 1),
+		    null,
+		    new Product("Clarinet", 2),
+		    new Product("Flute", 2),
+		    null,
+		    new Product("Cymbal", 3),
+		    new Product("Drum", 3)
+		];
+		*/
+
+		
+		/*
+		void FilterByYearType(bool oddYear)
+		{
+		    IEnumerable<Student> studentQuery = oddYear
+		        ? (from student in students
+		           where student.Year is GradeLevel.FirstYear or GradeLevel.ThirdYear
+		           select student)
+		        : (from student in students
+		           where student.Year is GradeLevel.SecondYear or GradeLevel.FourthYear
+		           select student);
+		    var descr = oddYear ? "odd" : "even";
+		    Console.WriteLine($"The following students are at an {descr} year level:");
+		    foreach (Student name in studentQuery)
+		    {
+		        Console.WriteLine($"{name.LastName}: {name.ID}");
+		    }
+		}
+		*/
+		
+		// A data source that is very likely to throw an exception!
+		public static IEnumerable<int> GetData() => throw new InvalidOperationException();
+	}
+	
+	
+	record City(string Name, long Population);
+	record Country(string Name, double Area, long Population, List<City> Cities);
+	record Product(string Name, string Category);
+	
+	/*
+	record Product(string Name, int CategoryID);
+	record Category(string Name, int ID);
+	*/
+	
+	
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries
 namespace DotnetCSharpLinqGetStartedIntroductionToLinqQueries
 {
@@ -164,6 +1306,59 @@ namespace DotnetCSharpLinqGetStartedIntroductionToLinqQueries
 			{
 			    Console.Write("{0,1} ", num);
 			}
+			
+			// Create a data source from an XML document.
+			// using System.Xml.Linq;
+			XElement contacts = XElement.Load(@"c:\myContactList.xml");
+			
+			/*
+			Northwnd db = new Northwnd(@"c:\northwnd.mdf");
+
+			// Query for customers in London.
+			IQueryable<Customer> custQuery =
+			    from cust in db.Customers
+			    where cust.City == "London"
+			    select cust;
+			*/
+			
+			var evenNumQuery = from num in numbers
+			                   where (num % 2) == 0
+			                   select num;
+			
+			int evenNumCount = evenNumQuery.Count();
+			
+			List<int> numQuery2 = (from num in numbers
+			                       where (num % 2) == 0
+			                       select num).ToList();
+			
+			// or like this:
+			// numQuery3 is still an int[]
+			
+			var numQuery3 = (from num in numbers
+			                 where (num % 2) == 0
+			                 select num).ToArray();
+							 
+			foreach (int num in numQuery)
+			{
+			    Console.Write("{0,1} ", num);
+			}
+			
+			List<int> numbers2 = [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ];
+
+			IEnumerable<int> queryFactorsOfFour = from num in numbers2
+			                                      where num % 4 == 0
+			                                      select num;
+			
+			// Store the results in a new variable
+			// without executing a foreach loop.
+			var factorsofFourList = queryFactorsOfFour.ToList();
+			
+			// Read and write from the newly created list to demonstrate that it holds data.
+			Console.WriteLine(factorsofFourList[2]);
+			factorsofFourList[2] = 0;
+			Console.WriteLine(factorsofFourList[2]);
+			
+			
 		}
 	}
 }
