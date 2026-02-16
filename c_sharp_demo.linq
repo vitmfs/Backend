@@ -11,7 +11,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
-
+using System.Text.RegularExpressions;
+using static System.Linq.Expressions.Expression;
+using System.Linq;
 //namespace GlobalNamespace;
 
 namespace ProgramNamespace
@@ -142,6 +144,2854 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/
+namespace DotnetCSharpAsynchronousProgramming
+{
+	namespace AsyncBreakfast
+	{
+	    // These classes are intentionally empty for the purpose of this example. They are simply marker classes for the purpose of demonstration, contain no properties, and serve no other purpose.
+	    internal class HashBrown { }
+	    internal class Coffee { }
+	    internal class Egg { }
+	    internal class Juice { }
+	    internal class Toast { }
+	
+	    class Program
+	    {
+	        static void RunProgram(string[] args)
+	        {
+	            Coffee cup = PourCoffee();
+	            Console.WriteLine("coffee is ready");
+	
+	            Egg eggs = FryEggs(2);
+	            Console.WriteLine("eggs are ready");
+	
+	            HashBrown hashBrown = FryHashBrowns(3);
+	            Console.WriteLine("hash browns are ready");
+	
+	            Toast toast = ToastBread(2);
+	            ApplyButter(toast);
+	            ApplyJam(toast);
+	            Console.WriteLine("toast is ready");
+	
+	            Juice oj = PourOJ();
+	            Console.WriteLine("oj is ready");
+	            Console.WriteLine("Breakfast is ready!");
+	        }
+	
+	        private static Juice PourOJ()
+	        {
+	            Console.WriteLine("Pouring orange juice");
+	            return new Juice();
+	        }
+	
+	        private static void ApplyJam(Toast toast) =>
+	            Console.WriteLine("Putting jam on the toast");
+	
+	        private static void ApplyButter(Toast toast) =>
+	            Console.WriteLine("Putting butter on the toast");
+	
+	        private static Toast ToastBread(int slices)
+	        {
+	            for (int slice = 0; slice < slices; slice++)
+	            {
+	                Console.WriteLine("Putting a slice of bread in the toaster");
+	            }
+	            Console.WriteLine("Start toasting...");
+	            Task.Delay(3000).Wait();
+	            Console.WriteLine("Remove toast from toaster");
+	
+	            return new Toast();
+	        }
+	
+	        private static HashBrown FryHashBrowns(int patties)
+	        {
+	            Console.WriteLine($"putting {patties} hash brown patties in the pan");
+	            Console.WriteLine("cooking first side of hash browns...");
+	            Task.Delay(3000).Wait();
+	            for (int patty = 0; patty < patties; patty++)
+	            {
+	                Console.WriteLine("flipping a hash brown patty");
+	            }
+	            Console.WriteLine("cooking the second side of hash browns...");
+	            Task.Delay(3000).Wait();
+	            Console.WriteLine("Put hash browns on plate");
+	
+	            return new HashBrown();
+	        }
+	
+	        private static Egg FryEggs(int howMany)
+	        {
+	            Console.WriteLine("Warming the egg pan...");
+	            Task.Delay(3000).Wait();
+	            Console.WriteLine($"cracking {howMany} eggs");
+	            Console.WriteLine("cooking the eggs ...");
+	            Task.Delay(3000).Wait();
+	            Console.WriteLine("Put eggs on plate");
+	
+	            return new Egg();
+	        }
+	
+	        private static Coffee PourCoffee()
+	        {
+	            Console.WriteLine("Pouring coffee");
+	            return new Coffee();
+	        }
+	    }
+	}
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-build-dynamic-queries
+namespace DotnetCSharpLinqHowToBuildDynamicQueries
+{
+	public class DynamicQueries
+	{
+		public static void RunDynamicQueries()
+		{
+			string[] companyNames = [
+			    "Consolidated Messenger", "Alpine Ski House", "Southridge Video",
+			    "City Power & Light", "Coho Winery", "Wide World Importers",
+			    "Graphic Design Institute", "Adventure Works", "Humongous Insurance",
+			    "Woodgrove Bank", "Margie's Travel", "Northwind Traders",
+			    "Blue Yonder Airlines", "Trey Research", "The Phone Company",
+			    "Wingtip Toys", "Lucerne Publishing", "Fourth Coffee"
+			];
+			
+			// Use an in-memory array as the data source, but the IQueryable could have come
+			// from anywhere -- an ORM backed by a database, a web request, or any other LINQ provider.
+			IQueryable<string> companyNamesSource = companyNames.AsQueryable();
+			var fixedQry = companyNames.OrderBy(x => x);
+			
+			var length = 1;
+			var qry = companyNamesSource
+			    .Select(x => x.Substring(0, length))
+			    .Distinct();
+			
+			Console.WriteLine(string.Join(",", qry));
+			// prints: C, A, S, W, G, H, M, N, B, T, L, F
+			
+			length = 2;
+			Console.WriteLine(string.Join(",", qry));
+			// prints: Co, Al, So, Ci, Wi, Gr, Ad, Hu, Wo, Ma, No, Bl, Tr, Th, Lu, Fo
+			
+			// bool sortByLength = /* ... */;
+			/*
+			var qry = companyNamesSource;
+			if (sortByLength)
+			{
+			    qry = qry.OrderBy(x => x.Length);
+			}
+			*/
+			
+			string? startsWith = "some regex"; // /* ... */;
+			string? endsWith = "some other regex"; // /* ... */;
+			
+			Expression<Func<string, bool>> expr = (startsWith, endsWith) switch
+			{
+			    ("" or null, "" or null) => x => true,
+			    (_, "" or null) => x => x.StartsWith(startsWith),
+			    ("" or null, _) => x => x.EndsWith(endsWith),
+			    (_, _) => x => x.StartsWith(startsWith) || x.EndsWith(endsWith)
+			};
+			
+			var qry2 = companyNamesSource.Where(expr);
+			
+			// This is functionally equivalent to the previous example.
+
+			// using LinqKit;
+			// string? startsWith = /* ... */;
+			// string? endsWith = /* ... */;
+			/*
+			Expression<Func<string, bool>>? expr2 = PredicateBuilder.New<string>(false);
+			var original = expr;
+			if (!string.IsNullOrEmpty(startsWith))
+			{
+			    expr = expr.Or(x => x.StartsWith(startsWith));
+			}
+			if (!string.IsNullOrEmpty(endsWith))
+			{
+			    expr = expr.Or(x => x.EndsWith(endsWith));
+			}
+			if (expr == original)
+			{
+			    expr = x => true;
+			}
+			
+			var qry = companyNamesSource.Where(expr);
+			*/
+			
+			Expression<Func<string, bool>> expr3 = x => x.StartsWith("a");
+			
+			//ParameterExpression x = Parameter(typeof(string), "x");
+			/*
+			Expression body = Call(
+			    x,
+			    typeof(string).GetMethod("StartsWith", [typeof(string)])!,
+			    Constant("a")
+			);
+			*/
+			
+			//Expression<Func<string, bool>> expr4 = Lambda<Func<string, bool>>(body, x);
+			
+			string term = "some regex"; // /* ... */;
+			var personsQry = new List<Person>()
+			    .AsQueryable()
+			    .Where(x => x.FirstName.Contains(term) || x.LastName.Contains(term));
+				
+			string term2 = "some regex"; // /* ... */;
+			var carsQry = new List<Car>()
+			    .AsQueryable()
+			    .Where(x => x.Model.Contains(term2));
+				
+			var qry3 = TextFilter(
+		        new List<Person>().AsQueryable(),
+		        "abcd"
+		    )
+		    .Where(x => x.DateOfBirth < new DateTime(2001, 1, 1));
+		
+		var qry1 = TextFilter(
+		        new List<Car>().AsQueryable(),
+		        "abcd"
+		    )
+		    .Where(x => x.Year == 2010);
+				
+			
+		}
+		
+		// using static System.Linq.Expressions.Expression;
+
+		static IQueryable<T> TextFilter<T>(IQueryable<T> source, string term)
+		{
+		    if (string.IsNullOrEmpty(term)) { return source; }
+		
+		    // T is a compile-time placeholder for the element type of the query.
+		    Type elementType = typeof(T);
+		
+		    // Get all the string properties on this specific type.
+		    PropertyInfo[] stringProperties = elementType
+		        .GetProperties()
+		        .Where(x => x.PropertyType == typeof(string))
+		        .ToArray();
+		    if (!stringProperties.Any()) { return source; }
+		
+		    // Get the right overload of String.Contains
+		    MethodInfo containsMethod = typeof(string).GetMethod("Contains", [typeof(string)])!;
+		
+		    // Create a parameter for the expression tree:
+		    // the 'x' in 'x => x.PropertyName.Contains("term")'
+		    // The type of this parameter is the query's element type
+		    ParameterExpression prm = Parameter(elementType);
+		
+		    // Map each property to an expression tree node
+		    IEnumerable<Expression> expressions = stringProperties
+		        .Select(prp =>
+		            // For each property, we have to construct an expression tree node like x.PropertyName.Contains("term")
+		            Call(                  // .Contains(...) 
+		                Property(          // .PropertyName
+		                    prm,           // x 
+		                    prp
+		                ),
+		                containsMethod,
+		                Constant(term)     // "term" 
+		            )
+		        );
+		
+		    // Combine all the resultant expression nodes using ||
+		    Expression body = expressions
+		        .Aggregate((prev, current) => Or(prev, current));
+		
+		    // Wrap the expression body in a compile-time-typed lambda expression
+		    Expression<Func<T, bool>> lambda = Lambda<Func<T, bool>>(body, prm);
+		
+		    // Because the lambda is compile-time-typed (albeit with a generic parameter), we can use it with the Where method
+		    return source.Where(lambda);
+		}
+		
+		/*
+		IQueryable TextFilter_Untyped(IQueryable source, string term)
+		{
+		    if (string.IsNullOrEmpty(term)) { return source; }
+		    Type elementType = source.ElementType;
+		
+		    // The logic for building the ParameterExpression and the LambdaExpression's body is the same as in the previous example,
+		    // but has been refactored into the constructBody function.
+		    (Expression? body, ParameterExpression? prm) = constructBody(elementType, term);
+		    if (body is null) { return source; }
+		
+		    Expression filteredTree = Call(
+		        typeof(Queryable),
+		        "Where",
+		        [elementType],
+		        source.Expression,
+		        Lambda(body, prm!)
+		    );
+		
+		    return source.Provider.CreateQuery(filteredTree);
+		}
+		*/
+		
+		IQueryable TextFilter_Strings(IQueryable source, string term)
+		{
+		    if (string.IsNullOrEmpty(term)) { return source; }
+		
+		    var elementType = source.ElementType;
+		
+		    // Get all the string property names on this specific type.
+		    var stringProperties =
+		        elementType.GetProperties()
+		            .Where(x => x.PropertyType == typeof(string))
+		            .ToArray();
+		    if (!stringProperties.Any()) { return source; }
+		
+		    // Build the string expression
+		    string filterExpr = string.Join(
+		        " || ",
+		        stringProperties.Select(prp => $"{prp.Name}.Contains(@0)")
+		    );
+		
+		    //return source.Where(filterExpr, term);
+			return null;
+		}
+	}
+	
+	record Person(string LastName, string FirstName, DateTime DateOfBirth);
+	record Car(string Model, int Year);
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-extend-linq
+namespace DotnetCSharpLinqHowToExtendLinq
+{
+	public static class HowToExtendLinq
+	{
+		public static void RunExtendLinq()
+		{
+			double[] numbers = [1.9, 2, 8, 4, 5.7, 6, 7.2, 0];
+			var query = numbers.Median();
+			
+			Console.WriteLine($"double: Median = {query}");
+			// This code produces the following output:
+			//     double: Median = 4.85
+			
+			double[] numbers1 = [1.9, 2, 8, 4, 5.7, 6, 7.2, 0];
+			var query1 = numbers1.Median();
+			
+			Console.WriteLine($"double: Median = {query1}");
+			
+			int[] numbers2 = [1, 2, 3, 4, 5];
+			var query2 = numbers2.Median();
+			
+			Console.WriteLine($"int: Median = {query2}");
+			// This code produces the following output:
+			//     double: Median = 4.85
+			//     int: Median = 3
+			
+			int[] numbers3 = [1, 2, 3, 4, 5];
+
+			/*
+			    You can use the num => num lambda expression as a parameter for the Median method
+			    so that the compiler will implicitly convert its value to double.
+			    If there is no implicit conversion, the compiler will display an error message.
+			*/
+			var query3 = numbers3.Median(num => num);
+			
+			Console.WriteLine($"int: Median = {query3}");
+			
+			string[] numbers4 = ["one", "two", "three", "four", "five"];
+			
+			// With the generic overload, you can also use numeric properties of objects.
+			var query4 = numbers4.Median(str => str.Length);
+			
+			Console.WriteLine($"string: Median = {query4}");
+			// This code produces the following output:
+			//     int: Median = 3
+			//     string: Median = 4
+			
+			string[] strings = ["a", "b", "c", "d", "e"];
+
+			var query5 = strings.AlternateElements();
+			
+			foreach (var element in query5)
+			{
+			    Console.WriteLine(element);
+			}
+			// This code produces the following output:
+			//     a
+			//     c
+			//     e
+		}
+		
+		// int overload
+		public static double Median2(this IEnumerable<int> source) =>
+		    (from number in source select (double)number).Median();
+			
+		// generic overload
+		public static double Median3<T>(
+		    this IEnumerable<T> numbers, Func<T, double> selector) =>
+		    (from num in numbers select selector(num)).Median();
+			
+		// Extension method for the IEnumerable<T> interface.
+		// The method returns every other element of a sequence.
+		public static IEnumerable<T> AlternateElements<T>(this IEnumerable<T> source)
+		{
+		    int index = 0;
+		    foreach (T element in source)
+		    {
+		        if (index % 2 == 0)
+		        {
+		            yield return element;
+		        }
+		
+		        index++;
+		    }
+		}
+	}
+	
+	public static class ExtendLinq
+	{
+		extension(IEnumerable<double>? source)
+		{
+		    public double Median()
+		    {
+		        if (source is null || !source.Any())
+		        {
+		            throw new InvalidOperationException("Cannot compute median for a null or empty set.");
+		        }
+		
+		        var sortedList =
+		            source.OrderBy(number => number).ToList();
+		
+		        int itemIndex = sortedList.Count / 2;
+		
+		        if (sortedList.Count % 2 == 0)
+		        {
+		            // Even number of items.
+		            return (sortedList[itemIndex] + sortedList[itemIndex - 1]) / 2;
+		        }
+		        else
+		        {
+		            // Odd number of items.
+		            return sortedList[itemIndex];
+		        }
+		    }
+		}
+	}
+	
+	public static class EnumerableExtension2
+	{
+	    public static double Median2(this IEnumerable<double>? source)
+	    {
+	        if (source is null || !source.Any())
+	        {
+	            throw new InvalidOperationException("Cannot compute median for a null or empty set.");
+	        }
+	
+	        var sortedList =
+	            source.OrderBy(number => number).ToList();
+	
+	        int itemIndex = sortedList.Count / 2;
+	
+	        if (sortedList.Count % 2 == 0)
+	        {
+	            // Even number of items.
+	            return (sortedList[itemIndex] + sortedList[itemIndex - 1]) / 2;
+	        }
+	        else
+	        {
+	            // Odd number of items.
+	            return sortedList[itemIndex];
+	        }
+	    }
+	}
+	
+	public static class EnumerableExtension1
+	{
+	    extension(IEnumerable<double>? source)
+	    {
+	        public double Median1()
+	        {
+	            if (source is null || !source.Any())
+	            {
+	                throw new InvalidOperationException("Cannot compute median for a null or empty set.");
+	            }
+	
+	            var sortedList =
+	                source.OrderBy(number => number).ToList();
+	
+	            int itemIndex = sortedList.Count / 2;
+	
+	            if (sortedList.Count % 2 == 0)
+	            {
+	                // Even number of items.
+	                return (sortedList[itemIndex] + sortedList[itemIndex - 1]) / 2;
+	            }
+	            else
+	            {
+	                // Odd number of items.
+	                return sortedList[itemIndex];
+	            }
+	        }
+	    }
+	
+	    extension(IEnumerable<int> source)
+	    {
+	        public double Median() =>
+	            (from number in source select (double)number).Median();
+	    }
+	
+	    extension<T>(IEnumerable<T> source)
+	    {
+	        public double Median(Func<T, double> selector) =>
+	            (from num in source select selector(num)).Median();
+	
+	        public IEnumerable<T> AlternateElements1()
+	        {
+	            int index = 0;
+	            foreach (T element in source)
+	            {
+	                if (index % 2 == 0)
+	                {
+	                    yield return element;
+	                }
+	
+	                index++;
+	            }
+	        }
+	    }
+	}
+	
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-collections
+namespace DotnetCSharpLinqHowToQueryCollections
+{
+	public class QueryCollections
+	{
+		public static void RunQueryCollections()
+		{
+			// Create the IEnumerable data sources.
+			string[] names1 = File.ReadAllLines("names1.txt");
+			string[] names2 = File.ReadAllLines("names2.txt");
+			
+			// Create the query. Note that method syntax must be used here.
+			var differenceQuery = names1.Except(names2);
+			
+			// Execute the query.
+			Console.WriteLine("The following lines are in names1.txt but not names2.txt");
+			foreach (string s in differenceQuery)
+			    Console.WriteLine(s);
+			/* Output:
+			 The following lines are in names1.txt but not names2.txt
+			 Potra, Cristina
+			 Noriega, Fabricio
+			 Aw, Kam Foo
+			 Toyoshima, Tim
+			 Guy, Wey Yuan
+			 Garcia, Debra
+			 */
+			 
+			//Put text files in your solution folder
+			string[] fileA = File.ReadAllLines("names1.txt");
+			string[] fileB = File.ReadAllLines("names2.txt");
+			
+			//Simple concatenation and sort. Duplicates are preserved.
+			var concatQuery = fileA.Concat(fileB).OrderBy(s => s);
+			
+			// Pass the query variable to another function for execution.
+			OutputQueryResults(concatQuery, "Simple concatenate and sort. Duplicates are preserved:");
+			
+			// Concatenate and remove duplicate names based on
+			// default string comparer.
+			var uniqueNamesQuery = fileA.Union(fileB).OrderBy(s => s);
+			OutputQueryResults(uniqueNamesQuery, "Union removes duplicate names:");
+			
+			// Find the names that occur in both files (based on
+			// default string comparer).
+			var commonNamesQuery = fileA.Intersect(fileB);
+			OutputQueryResults(commonNamesQuery, "Merge based on intersect:");
+			
+			// Find the matching fields in each list. Merge the two
+			// results by using Concat, and then
+			// sort using the default string comparer.
+			string nameMatch = "Garcia";
+			
+			var tempQuery1 = from name in fileA
+			                 let n = name.Split(',')
+			                 where n[0] == nameMatch
+			                 select name;
+			
+			var tempQuery2 = from name2 in fileB
+			                 let n2 = name2.Split(',')
+			                 where n2[0] == nameMatch
+			                 select name2;
+							 
+			var nameMatchQuery = tempQuery1.Concat(tempQuery2).OrderBy(s => s);
+			OutputQueryResults(nameMatchQuery, $"""Concat based on partial name match "{nameMatch}":""");
+			
+		}
+		
+		static void OutputQueryResults(IEnumerable<string> query, string message)
+		{
+		    Console.WriteLine(Environment.NewLine + message);
+		    foreach (string item in query)
+		    {
+		        Console.WriteLine(item);
+		    }
+		    Console.WriteLine($"{query.Count()} total names in list");
+		}
+		/* Output:
+		    Simple concatenate and sort. Duplicates are preserved:
+		    Aw, Kam Foo
+		    Bankov, Peter
+		    Bankov, Peter
+		    Beebe, Ann
+		    Beebe, Ann
+		    El Yassir, Mehdi
+		    Garcia, Debra
+		    Garcia, Hugo
+		    Garcia, Hugo
+		    Giakoumakis, Leo
+		    Gilchrist, Beth
+		    Guy, Wey Yuan
+		    Holm, Michael
+		    Holm, Michael
+		    Liu, Jinghao
+		    McLin, Nkenge
+		    Myrcha, Jacek
+		    Noriega, Fabricio 
+		    Potra, Cristina
+		    Toyoshima, Tim
+		    20 total names in list
+		
+		    Union removes duplicate names:
+		    Aw, Kam Foo
+		    Bankov, Peter
+		    Beebe, Ann
+		    El Yassir, Mehdi
+		    Garcia, Debra
+		    Garcia, Hugo
+		    Giakoumakis, Leo
+		    Gilchrist, Beth
+		    Guy, Wey Yuan
+		    Holm, Michael
+		    Liu, Jinghao
+		    McLin, Nkenge
+		    Myrcha, Jacek
+		    Noriega, Fabricio
+		    Potra, Cristina
+		    Toyoshima, Tim
+		    16 total names in list
+		
+		    Merge based on intersect:
+		    Bankov, Peter
+		    Holm, Michael
+		    Garcia, Hugo
+		    Beebe, Ann
+		    4 total names in list
+		
+		    Concat based on partial name match "Garcia":
+		    Garcia, Debra
+		    Garcia, Hugo
+		    Garcia, Hugo
+		    3 total names in list
+		*/
+		
+		/*
+		// Each line of names.csv consists of a last name, a first name, and an
+		// ID number, separated by commas. For example, Omelchenko,Svetlana,111
+		string[] names = File.ReadAllLines("names.csv");
+		
+		// Each line of scores.csv consists of an ID number and four test
+		// scores, separated by commas. For example, 111, 97, 92, 81, 60
+		string[] scores = File.ReadAllLines("scores.csv");
+		
+		// Merge the data sources using a named type.
+		// var could be used instead of an explicit type. Note the dynamic
+		// creation of a list of ints for the ExamScores member. The first item
+		// is skipped in the split string because it is the student ID,
+		// not an exam score.
+		IEnumerable<Student> queryNamesScores = from nameLine in names
+		                                        let splitName = nameLine.Split(',')
+		                                        from scoreLine in scores
+		                                        let splitScoreLine = scoreLine.Split(',')
+		                                        where Convert.ToInt32(splitName[2]) == Convert.ToInt32(splitScoreLine[0])
+		                                        select new Student
+		                                        (
+		                                            FirstName: splitName[0],
+		                                            LastName: splitName[1],
+		                                            ID: Convert.ToInt32(splitName[2]),
+		                                            ExamScores: (from scoreAsText in splitScoreLine.Skip(1)
+		                                                         select Convert.ToInt32(scoreAsText)
+		                                                        ).ToArray()
+		                                        );
+		
+		// Optional. Store the newly created student objects in memory
+		// for faster access in future queries. This could be useful with
+		// very large data files.
+		List<Student> students = queryNamesScores.ToList();
+		
+		// Display each student's name and exam score average.
+		foreach (var student in students)
+		{
+		    Console.WriteLine($"The average score of {student.FirstName} {student.LastName} is {student.ExamScores.Average()}.");
+		}
+		Output:
+		The average score of Omelchenko Svetlana is 82.5.
+		The average score of O'Donnell Claire is 72.25.
+		The average score of Mortensen Sven is 84.5.
+		The average score of Garcia Cesar is 88.25.
+		The average score of Garcia Debra is 67.
+		The average score of Fakhouri Fadi is 92.25.
+		The average score of Feng Hanying is 88.
+		The average score of Garcia Hugo is 85.75.
+		The average score of Tucker Lance is 81.75.
+		The average score of Adams Terry is 85.25.
+		The average score of Zabokritski Eugene is 83.
+		The average score of Tucker Michael is 92.
+
+		
+		// Merge the data sources by using an anonymous type.
+		// Note the dynamic creation of a list of ints for the
+		// ExamScores member. We skip 1 because the first string
+		// in the array is the student ID, not an exam score.
+		var queryNamesScores2 = from nameLine in names
+		                        let splitName = nameLine.Split(',')
+		                        from scoreLine in scores
+		                        let splitScoreLine = scoreLine.Split(',')
+		                        where Convert.ToInt32(splitName[2]) == Convert.ToInt32(splitScoreLine[0])
+		                        select (FirstName: splitName[0], 
+		                                LastName: splitName[1], 
+		                                ExamScores: (from scoreAsText in splitScoreLine.Skip(1)
+		                                             select Convert.ToInt32(scoreAsText))
+		                                             .ToList()
+		                               );
+		
+		// Display each student's name and exam score average.
+		foreach (var student in queryNamesScores2)
+		{
+		    Console.WriteLine($"The average score of {student.FirstName} {student.LastName} is {student.ExamScores.Average()}.");
+		}
+		*/
+		
+		/*
+		ArrayList arrList = new ArrayList();
+		arrList.Add(
+		    new Student
+		    (
+		        FirstName: "Svetlana",
+		        LastName: "Omelchenko",
+		        ExamScores: new int[] { 98, 92, 81, 60 }
+		    ));
+		arrList.Add(
+		    new Student
+		    (
+		        FirstName: "Claire",
+		        LastName: "O’Donnell",
+		        ExamScores: new int[] { 75, 84, 91, 39 }
+		    ));
+		arrList.Add(
+		    new Student
+		    (
+		        FirstName: "Sven",
+		        LastName: "Mortensen",
+		        ExamScores: new int[] { 88, 94, 65, 91 }
+		    ));
+		arrList.Add(
+		    new Student
+		    (
+		        FirstName: "Cesar",
+		        LastName: "Garcia",
+		        ExamScores: new int[] { 97, 89, 85, 82 }
+		    ));
+		
+		var query = from Student student in arrList
+		            where student.ExamScores[0] > 95
+		            select student;
+		
+		foreach (Student s in query)
+		    Console.WriteLine(s.LastName + ": " + s.ExamScores[0]);
+			
+		*/
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-strings
+namespace DotnetCSharpLinqHowToQueryStrings
+{
+	public class QueryStrings
+	{
+		public static void RunQueryStrings()
+		{
+			string aString = "ABCDE99F-J74-12-89A";
+
+			// Select only those characters that are numbers
+			var stringQuery = from ch in aString
+			                  where Char.IsDigit(ch)
+			                  select ch;
+			
+			// Execute the query
+			foreach (char c in stringQuery)
+			    Console.Write(c + " ");
+			
+			// Call the Count method on the existing query.
+			int count = stringQuery.Count();
+			Console.WriteLine($"Count = {count}");
+			
+			// Select all characters before the first '-'
+			var stringQuery2 = aString.TakeWhile(c => c != '-');
+			
+			// Execute the second query
+			foreach (char c in stringQuery2)
+			    Console.Write(c);
+			/* Output:
+			  Output: 9 9 7 4 1 2 8 9
+			  Count = 8
+			  ABCDE99F
+			*/
+			
+			string text = """
+			    Historically, the world of data and the world of objects 
+			    have not been well integrated. Programmers work in C# or Visual Basic 
+			    and also in SQL or XQuery. On the one side are concepts such as classes, 
+			    objects, fields, inheritance, and .NET APIs. On the other side 
+			    are tables, columns, rows, nodes, and separate languages for dealing with 
+			    them. Data types often require translation between the two worlds; there are 
+			    different standard functions. Because the object world has no notion of query, a 
+			    query can only be represented as a string without compile-time type checking or 
+			    IntelliSense support in the IDE. Transferring data from SQL tables or XML trees to 
+			    objects in memory is often tedious and error-prone. 
+			    """;
+			
+			string searchTerm = "data";
+			
+			//Convert the string into an array of words
+			char[] separators = ['.', '?', '!', ' ', ';', ':', ','];
+			string[] source = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+			
+			// Create the query.  Use the InvariantCultureIgnoreCase comparison to match "data" and "Data"
+			var matchQuery = from word in source
+			                 where word.Equals(searchTerm, StringComparison.InvariantCultureIgnoreCase)
+			                 select word;
+			
+			// Count the matches, which executes the query.
+			int wordCount = matchQuery.Count();
+			Console.WriteLine($"""{wordCount} occurrences(s) of the search term "{searchTerm}" were found.""");
+			/* Output:
+			   3 occurrences(s) of the search term "data" were found.
+			*/
+			
+			// Create an IEnumerable data source
+			string[] scores = File.ReadAllLines("scores.csv");
+			
+			// Change this to any value from 0 to 4.
+			int sortField = 1;
+			
+			Console.WriteLine($"Sorted highest to lowest by field [{sortField}]:");
+			
+			// Split the string and sort on field[num]
+			var scoreQuery = from line in scores
+			                 let fields = line.Split(',')
+			                 orderby fields[sortField] descending
+			                 select line;
+			
+			foreach (string str in scoreQuery)
+			{
+			    Console.WriteLine(str);
+			}
+			/* Output (if sortField == 1):
+			   Sorted highest to lowest by field [1]:
+			    116, 99, 86, 90, 94
+			    120, 99, 82, 81, 79
+			    111, 97, 92, 81, 60
+			    114, 97, 89, 85, 82
+			    121, 96, 85, 91, 60
+			    122, 94, 92, 91, 91
+			    117, 93, 92, 80, 87
+			    118, 92, 90, 83, 78
+			    113, 88, 94, 65, 91
+			    112, 75, 84, 91, 39
+			    119, 68, 79, 88, 92
+			    115, 35, 72, 91, 70
+			 */
+			 
+			text = """
+			Historically, the world of data and the world of objects 
+			have not been well integrated. Programmers work in C# or Visual Basic 
+			and also in SQL or XQuery. On the one side are concepts such as classes, 
+			objects, fields, inheritance, and .NET APIs. On the other side 
+			are tables, columns, rows, nodes, and separate languages for dealing with 
+			them. Data types often require translation between the two worlds; there are 
+			different standard functions. Because the object world has no notion of query, a 
+			query can only be represented as a string without compile-time type checking or 
+			IntelliSense support in the IDE. Transferring data from SQL tables or XML trees to 
+			objects in memory is often tedious and error-prone.
+			""";
+			
+			// Split the text block into an array of sentences.
+			string[] sentences = text.Split(['.', '?', '!']);
+			
+			// Define the search terms. This list could also be dynamically populated at run time.
+			string[] wordsToMatch = [ "Historically", "data", "integrated" ];
+			
+			// Find sentences that contain all the terms in the wordsToMatch array.
+			// Note that the number of terms to match is not specified at compile time.
+			separators = ['.', '?', '!', ' ', ';', ':', ','];
+			var sentenceQuery = from sentence in sentences
+			                    let w = sentence.Split(separators,StringSplitOptions.RemoveEmptyEntries)
+			                    where w.Distinct().Intersect(wordsToMatch).Count() == wordsToMatch.Count()
+			                    select sentence;
+			
+			foreach (string str in sentenceQuery)
+			{
+			    Console.WriteLine(str);
+			}
+			/* Output:
+			Historically, the world of data and the world of objects have not been well integrated
+			*/
+			
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			// Take a snapshot of the file system.
+			var fileList = from file in Directory.GetFiles(startFolder, "*.*", SearchOption.AllDirectories)
+			                let fileInfo = new FileInfo(file)
+			                select fileInfo;
+			
+			// Create the regular expression to find all things "Visual".
+			System.Text.RegularExpressions.Regex searchTerm2 =
+			    new System.Text.RegularExpressions.Regex(@"microsoft.net.(sdk|workload)");
+			
+			// Search the contents of each .htm file.
+			// Remove the where clause to find even more matchedValues!
+			// This query produces a list of files where a match
+			// was found, and a list of the matchedValues in that file.
+			// Note: Explicit typing of "Match" in select clause.
+			// This is required because MatchCollection is not a
+			// generic IEnumerable collection.
+			var queryMatchingFiles =
+			    from file in fileList
+			    where file.Extension == ".txt"
+			    let fileText = File.ReadAllText(file.FullName)
+			    let matches = searchTerm2.Matches(fileText)
+			    where matches.Count > 0
+			    select new
+			    {
+			        name = file.FullName,
+			        matchedValues = from System.Text.RegularExpressions.Match match in matches
+			                        select match.Value
+			    };
+			
+			// Execute the query.
+			Console.WriteLine($"""The term "{searchTerm}" was found in:""");
+			
+			foreach (var v in queryMatchingFiles)
+			{
+			    // Trim the path a bit, then write
+			    // the file name in which a match was found.
+			    string s = v.name.Substring(startFolder.Length - 1);
+			    Console.WriteLine(s);
+			
+			    // For this file, write out all the matching strings
+			    foreach (var v2 in v.matchedValues)
+			    {
+			        Console.WriteLine($"  {v2}");
+			    }
+			}
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-files-and-directories
+namespace DotnetCSharpLinqHowToQueryFilesAndDirectories
+{
+	public class QueryFilesAndDirectories
+	{
+		public static void RunQueryFilesAndDirectories()
+		{
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			DirectoryInfo dir = new DirectoryInfo(startFolder);
+			var fileList = dir.GetFiles("*.*", SearchOption.AllDirectories);
+			
+			var fileQuery = from file in fileList
+			                where file.Extension == ".txt"
+			                orderby file.Name
+			                select file;
+			
+			// Uncomment this block to see the full query
+			// foreach (FileInfo fi in fileQuery)
+			// {
+			//    Console.WriteLine(fi.FullName);
+			// }
+			
+			var newestFile = (from file in fileQuery
+			                  orderby file.CreationTime
+			                  select new { file.FullName, file.CreationTime })
+			                  .Last();
+			
+			Console.WriteLine($"\r\nThe newest .txt file is {newestFile.FullName}. Creation time: {newestFile.CreationTime}");
+			
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			int trimLength = startFolder.Length;
+			
+			DirectoryInfo dir2 = new DirectoryInfo(startFolder);
+			
+			var fileList2 = dir.GetFiles("*.*", SearchOption.AllDirectories);
+			
+			var queryGroupByExt = from file in fileList2
+			                      group file by file.Extension.ToLower() into fileGroup
+			                      orderby fileGroup.Count(), fileGroup.Key
+			                      select fileGroup;
+			
+			// Iterate through the outer collection of groups.
+			foreach (var filegroup in queryGroupByExt.Take(5))
+			{
+			    Console.WriteLine($"Extension: {filegroup.Key}");
+			    var resultPage = filegroup.Take(20);
+			
+			    //Execute the resultPage query
+			    foreach (var f in resultPage)
+			    {
+			        Console.WriteLine($"\t{f.FullName.Substring(trimLength)}");
+			    }
+			    Console.WriteLine();
+			}
+				
+			/*	
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			var fileList = Directory.GetFiles(startFolder, "*.*", SearchOption.AllDirectories);
+			
+			var fileQuery = from file in fileList
+			                let fileLen = new FileInfo(file).Length
+			                where fileLen > 0
+			                select fileLen;
+			
+			// Cache the results to avoid multiple trips to the file system.
+			long[] fileLengths = fileQuery.ToArray();
+			
+			// Return the size of the largest file
+			long largestFile = fileLengths.Max();
+			
+			// Return the total number of bytes in all the files under the specified folder.
+			long totalBytes = fileLengths.Sum();
+			
+			Console.WriteLine($"There are {totalBytes} bytes in {fileList.Count()} files under {startFolder}");
+			Console.WriteLine($"The largest file is {largestFile} bytes.");
+			
+			// Return the FileInfo object for the largest file
+			// by sorting and selecting from beginning of list
+			FileInfo longestFile = (from file in fileList
+			                        let fileInfo = new FileInfo(file)
+			                        where fileInfo.Length > 0
+			                        orderby fileInfo.Length descending
+			                        select fileInfo
+			                        ).First();
+			
+			Console.WriteLine($"The largest file under {startFolder} is {longestFile.FullName} with a length of {longestFile.Length} bytes");
+			
+			//Return the FileInfo of the smallest file
+			FileInfo smallestFile = (from file in fileList
+			                         let fileInfo = new FileInfo(file)
+			                         where fileInfo.Length > 0
+			                         orderby fileInfo.Length ascending
+			                         select fileInfo
+			                        ).First();
+			
+			Console.WriteLine($"The smallest file under {startFolder} is {smallestFile.FullName} with a length of {smallestFile.Length} bytes");
+			
+			//Return the FileInfos for the 10 largest files
+			var queryTenLargest = (from file in fileList
+			                       let fileInfo = new FileInfo(file)
+			                       let len = fileInfo.Length
+			                       orderby len descending
+			                       select fileInfo
+			                      ).Take(10);
+			
+			Console.WriteLine($"The 10 largest files under {startFolder} are:");
+			
+			foreach (var v in queryTenLargest)
+			{
+			    Console.WriteLine($"{v.FullName}: {v.Length} bytes");
+			}
+			
+			// Group the files according to their size, leaving out
+			// files that are less than 200000 bytes.
+			var querySizeGroups = from file in fileList
+			                      let fileInfo = new FileInfo(file)
+			                      let len = fileInfo.Length
+			                      where len > 0
+			                      group fileInfo by (len / 100000) into fileGroup
+			                      where fileGroup.Key >= 2
+			                      orderby fileGroup.Key descending
+			                      select fileGroup;
+			
+			foreach (var filegroup in querySizeGroups)
+			{
+			    Console.WriteLine($"{filegroup.Key}00000");
+			    foreach (var item in filegroup)
+			    {
+			        Console.WriteLine($"\t{item.Name}: {item.Length}");
+			    }
+			}
+			
+			
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			DirectoryInfo dir = new DirectoryInfo(startFolder);
+			
+			IEnumerable<FileInfo> fileList = dir.GetFiles("*.*", SearchOption.AllDirectories);
+			
+			// used in WriteLine to keep the lines shorter
+			int charsToSkip = startFolder.Length;
+			
+			// var can be used for convenience with groups.
+			var queryDupNames = from file in fileList
+			                    group file.FullName.Substring(charsToSkip) by file.Name into fileGroup
+			                    where fileGroup.Count() > 1
+			                    select fileGroup;
+			
+			foreach (var queryDup in queryDupNames.Take(20))
+			{
+			    Console.WriteLine($"Filename = {(queryDup.Key.ToString() == string.Empty ? "[none]" : queryDup.Key.ToString())}");
+			
+			    foreach (var fileName in queryDup.Take(10))
+			    {
+			        Console.WriteLine($"\t{fileName}");
+			    }   
+			}
+			
+			
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+		    // Or
+		    // string startFolder = "/usr/local/share/dotnet/sdk";
+		
+		    // Make the lines shorter for the console display
+		    int charsToSkip = startFolder.Length;
+		
+		    // Take a snapshot of the file system.
+		    DirectoryInfo dir = new DirectoryInfo(startFolder);
+		    IEnumerable<FileInfo> fileList = dir.GetFiles("*.*", SearchOption.AllDirectories);
+		
+		    // Note the use of a compound key. Files that match
+		    // all three properties belong to the same group.
+		    // A named type is used to enable the query to be
+		    // passed to another method. Anonymous types can also be used
+		    // for composite keys but cannot be passed across method boundaries
+		    //
+		    var queryDupFiles = from file in fileList
+		                        group file.FullName.Substring(charsToSkip) by
+		                        (Name: file.Name, LastWriteTime: file.LastWriteTime, Length: file.Length )
+		                        into fileGroup
+		                        where fileGroup.Count() > 1
+		                        select fileGroup;
+		
+		    foreach (var queryDup in queryDupFiles.Take(20))
+		    {
+		        Console.WriteLine($"Filename = {(queryDup.Key.ToString() == string.Empty ? "[none]" : queryDup.Key.ToString())}");
+		
+		        foreach (var fileName in queryDup)
+		        {
+		            Console.WriteLine($"\t{fileName}");
+		        }
+		    }
+		
+		
+			string startFolder = """C:\Program Files\dotnet\sdk""";
+			// Or
+			// string startFolder = "/usr/local/share/dotnet/sdk";
+			
+			DirectoryInfo dir = new DirectoryInfo(startFolder);
+			
+			var fileList = dir.GetFiles("*.*", SearchOption.AllDirectories);
+			
+			string searchTerm = "change";
+			
+			var queryMatchingFiles = from file in fileList
+			                         where file.Extension == ".txt"
+			                         let fileText = File.ReadAllText(file.FullName)
+			                         where fileText.Contains(searchTerm)
+			                         select file.FullName;
+			
+			// Execute the query.
+			Console.WriteLine($"""The term "{searchTerm}" was found in:""");
+			foreach (string filename in queryMatchingFiles)
+			{
+			    Console.WriteLine(filename);
+			}
+			*/
+			
+			string[] lines = File.ReadAllLines("spreadsheet1.csv");
+
+			// Create the query. Put field 2 first, then
+			// reverse and combine fields 0 and 1 from the old field
+			IEnumerable<string> query = from line in lines
+			                            let fields = line.Split(',')
+			                            orderby fields[2]
+			                            select $"{fields[2]}, {fields[1]} {fields[0]}";
+			
+			File.WriteAllLines("spreadsheet2.csv", query.ToArray());
+			
+			/* Output to spreadsheet2.csv:
+			111, Svetlana Omelchenko
+			112, Claire O'Donnell
+			113, Sven Mortensen
+			114, Cesar Garcia
+			115, Debra Garcia
+			116, Fadi Fakhouri
+			117, Hanying Feng
+			118, Hugo Garcia
+			119, Lance Tucker
+			120, Terry Adams
+			121, Eugene Zabokritski
+			122, Michael Tucker
+			*/
+			
+			string[] fileA = File.ReadAllLines("names1.txt");
+			string[] fileB = File.ReadAllLines("names2.txt");
+			
+			// Concatenate and remove duplicate names
+			var mergeQuery = fileA.Union(fileB);
+			
+			// Group the names by the first letter in the last name.
+			var groupQuery = from name in mergeQuery
+			                 let n = name.Split(',')[0]
+			                 group name by n[0] into g
+			                 orderby g.Key
+			                 select g;
+			
+			foreach (var g in groupQuery)
+			{
+			    string fileName = $"testFile_{g.Key}.txt";
+			
+			    Console.WriteLine(g.Key);
+			
+			    using StreamWriter sw = new StreamWriter(fileName);
+			    foreach (var item in g)
+			    {
+			        sw.WriteLine(item);
+			        // Output to console for example purposes.
+			        Console.WriteLine($"   {item}");
+			    }
+			}
+			/* Output:
+			    A
+			       Aw, Kam Foo
+			    B
+			       Bankov, Peter
+			       Beebe, Ann
+			    E
+			       El Yassir, Mehdi
+			    G
+			       Garcia, Hugo
+			       Guy, Wey Yuan
+			       Garcia, Debra
+			       Gilchrist, Beth
+			       Giakoumakis, Leo
+			    H
+			       Holm, Michael
+			    L
+			       Liu, Jinghao
+			    M
+			       Myrcha, Jacek
+			       McLin, Nkenge
+			    N
+			       Noriega, Fabricio
+			    P
+			       Potra, Cristina
+			    T
+			       Toyoshima, Tim
+			 */
+			 
+			string[] names = File.ReadAllLines(@"names.csv");
+			string[] scores = File.ReadAllLines(@"scores.csv");
+			
+			var scoreQuery = from name in names
+			                  let nameFields = name.Split(',')
+			                  from id in scores
+			                  let scoreFields = id.Split(',')
+			                  where System.Convert.ToInt32(nameFields[2]) == System.Convert.ToInt32(scoreFields[0])
+			                  select $"{nameFields[0]},{scoreFields[1]},{scoreFields[2]},{scoreFields[3]},{scoreFields[4]}";
+			
+			Console.WriteLine("\r\nMerge two spreadsheets:");
+			foreach (string item in scoreQuery)
+			{
+			    Console.WriteLine(item);
+			}
+			Console.WriteLine($"{scoreQuery.Count()} total names in list");
+			/* Output:
+			Merge two spreadsheets:
+			Omelchenko, 97, 92, 81, 60
+			O'Donnell, 75, 84, 91, 39
+			Mortensen, 88, 94, 65, 91
+			Garcia, 97, 89, 85, 82
+			Garcia, 35, 72, 91, 70
+			Fakhouri, 99, 86, 90, 94
+			Feng, 93, 92, 80, 87
+			Garcia, 92, 90, 83, 78
+			Tucker, 68, 79, 88, 92
+			Adams, 99, 82, 81, 79
+			Zabokritski, 96, 85, 91, 60
+			Tucker, 94, 92, 91, 91
+			12 total names in list
+			 */
+
+		}
+		
+		public static void CompareDirectories()
+		{
+		    string pathA = """C:\Program Files\dotnet\sdk\8.0.104""";
+		    string pathB = """C:\Program Files\dotnet\sdk\8.0.204""";
+		
+		    DirectoryInfo dir1 = new DirectoryInfo(pathA);
+		    DirectoryInfo dir2 = new DirectoryInfo(pathB);
+		
+		    IEnumerable<FileInfo> list1 = dir1.GetFiles("*.*", SearchOption.AllDirectories);
+		    IEnumerable<FileInfo> list2 = dir2.GetFiles("*.*", SearchOption.AllDirectories);
+		
+		    //A custom file comparer defined below
+		    FileCompare myFileCompare = new FileCompare();
+		
+		    // This query determines whether the two folders contain
+		    // identical file lists, based on the custom file comparer
+		    // that is defined in the FileCompare class.
+		    // The query executes immediately because it returns a bool.
+		    bool areIdentical = list1.SequenceEqual(list2, myFileCompare);
+		
+		    if (areIdentical == true)
+		    {
+		        Console.WriteLine("the two folders are the same");
+		    }
+		    else
+		    {
+		        Console.WriteLine("The two folders are not the same");
+		    }
+		
+		    // Find the common files. It produces a sequence and doesn't
+		    // execute until the foreach statement.
+		    var queryCommonFiles = list1.Intersect(list2, myFileCompare);
+		
+		    if (queryCommonFiles.Any())
+		    {
+		        Console.WriteLine($"The following files are in both folders (total number = {queryCommonFiles.Count()}):");
+		        foreach (var v in queryCommonFiles.Take(10))
+		        {
+		            Console.WriteLine(v.Name); //shows which items end up in result list
+		        }
+		    }
+		    else
+		    {
+		        Console.WriteLine("There are no common files in the two folders.");
+		    }
+		
+		    // Find the set difference between the two folders.
+		    var queryList1Only = (from file in list1
+		                          select file)
+		                          .Except(list2, myFileCompare);
+		
+		    Console.WriteLine();
+		    Console.WriteLine($"The following files are in list1 but not list2 (total number = {queryList1Only.Count()}):");
+		    foreach (var v in queryList1Only.Take(10))
+		    {
+		        Console.WriteLine(v.FullName);
+		    }
+		
+		    var queryList2Only = (from file in list2
+		                          select file)
+		                          .Except(list1, myFileCompare);
+		
+		    Console.WriteLine();
+		    Console.WriteLine($"The following files are in list2 but not list1 (total number = {queryList2Only.Count()}:");
+		    foreach (var v in queryList2Only.Take(10))
+		    {
+		        Console.WriteLine(v.FullName);
+		    }
+		}
+	}
+	
+	// This implementation defines a very simple comparison
+	// between two FileInfo objects. It only compares the name
+	// of the files being compared and their length in bytes.
+	class FileCompare : IEqualityComparer<FileInfo>
+	{
+	    public bool Equals(FileInfo? f1, FileInfo? f2)
+	    {
+	        return (f1?.Name == f2?.Name &&
+	                f1?.Length == f2?.Length);
+	    }
+	
+	    // Return a hash that reflects the comparison criteria. According to the
+	    // rules for IEqualityComparer<T>, if Equals is true, then the hash codes must
+	    // also be equal. Because equality as defined here is a simple value equality, not
+	    // reference identity, it is possible that two or more objects will produce the same
+	    // hash code.
+	    public int GetHashCode(FileInfo fi)
+	    {
+	        string s = $"{fi.Name}{fi.Length}";
+	        return s.GetHashCode();
+	    }
+	}
+	
+	
+	public static class SumColumns
+	{
+	    public static void ProcessColumns(string filePath, string seperator)
+	    {
+	        // Divide each exam into a group
+	        var exams = from line in MatrixFrom(filePath, seperator)
+	                    from score in line
+	
+	                    // Identify the column number
+	                    let colNumber = Array.FindIndex(line, t => ReferenceEquals(score, t))
+	
+	                    // The first column is the student ID, not the exam score
+	                    // so it needs to be excluded
+	                    where colNumber > 0
+	
+	                    // Convert the score from string to int
+	                    // Group by column number, i.e. one group per exam
+	                    group double.Parse(score) by colNumber into g
+	                    select new
+	                    {
+	                        Title = $"Exam#{g.Key}",
+	                        Min = g.Min(),
+	                        Max = g.Max(),
+	                        Avg = Math.Round(g.Average(), 2),
+	                        Total = g.Sum()
+	                    };
+	
+	        foreach (var exam in exams)
+	        {
+	            Console.WriteLine($"{exam.Title}\t"
+	            + $"Average:{exam.Avg,6}\t"
+	            + $"High Score:{exam.Max,3}\t"
+	            + $"Low Score:{exam.Min,3}\t"
+	            + $"Total:{exam.Total,5}");
+	        }
+	    }
+	
+	    // Transform the file content to an IEnumerable of string arrays
+	    // like a matrix
+	    private static IEnumerable<string[]> MatrixFrom(string filePath, string seperator)
+	    {
+	        using StreamReader reader = File.OpenText(filePath);
+	
+	        for (string? line = reader.ReadLine(); line is not null; line = reader.ReadLine())
+	        {
+	            yield return line.Split(seperator, StringSplitOptions.TrimEntries);
+	        }
+	    }
+	}
+	
+	// Output:
+	// Exam#1  Average: 86.08  High Score: 99  Low Score: 35   Total: 1033
+	// Exam#2  Average: 86.42  High Score: 94  Low Score: 72   Total: 1037
+	// Exam#3  Average: 84.75  High Score: 91  Low Score: 65   Total: 1017
+	// Exam#4  Average: 76.92  High Score: 94  Low Score: 39   Total:  923
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/grouping-data
+namespace DotnetCSharpLinqStandardQueryOperatorsGroupingData
+{
+	public class GroupingData
+	{
+		public static void RunGroupingData()
+		{
+			List<int> numbers = [35, 44, 200, 84, 3987, 4, 199, 329, 446, 208];
+
+			IEnumerable<IGrouping<int, int>> query = from number in numbers
+			                                         group number by number % 2;
+			
+			foreach (var group in query)
+			{
+			    Console.WriteLine(group.Key == 0 ? "\nEven numbers:" : "\nOdd numbers:");
+			    foreach (int i in group)
+			    {
+			        Console.WriteLine(i);
+			    }
+			}
+			
+			List<int> numbers2 = [35, 44, 200, 84, 3987, 4, 199, 329, 446, 208];
+
+			IEnumerable<IGrouping<int, int>> query2 = numbers2
+			    .GroupBy(number => number % 2);
+			
+			foreach (var group in query2)
+			{
+			    Console.WriteLine(group.Key == 0 ? "\nEven numbers:" : "\nOdd numbers:");
+			    foreach (int i in group)
+			    {
+			        Console.WriteLine(i);
+			    }
+			}
+			
+			/*
+			var groupByYearQuery =
+			    from student in students
+			    group student by student.Year into newGroup
+			    orderby newGroup.Key
+			    select newGroup;
+			
+			foreach (var yearGroup in groupByYearQuery)
+			{
+			    Console.WriteLine($"Key: {yearGroup.Key}");
+			    foreach (var student in yearGroup)
+			    {
+			        Console.WriteLine($"\t{student.LastName}, {student.FirstName}");
+			    }
+			}
+			
+			// Variable groupByYearQuery is an IEnumerable<IGrouping<GradeLevel,
+			// DataClass.Student>>.
+			var groupByYearQuery = students
+			    .GroupBy(student => student.Year)
+			    .OrderBy(newGroup => newGroup.Key);
+			
+			foreach (var yearGroup in groupByYearQuery)
+			{
+			    Console.WriteLine($"Key: {yearGroup.Key}");
+			    foreach (var student in yearGroup)
+			    {
+			        Console.WriteLine($"\t{student.LastName}, {student.FirstName}");
+			    }
+			}
+			
+			var groupByFirstLetterQuery =
+			    from student in students
+			    let firstLetter = student.LastName[0]
+			    group student by firstLetter;
+			
+			foreach (var studentGroup in groupByFirstLetterQuery)
+			{
+			    Console.WriteLine($"Key: {studentGroup.Key}");
+			    foreach (var student in studentGroup)
+			    {
+			        Console.WriteLine($"\t{student.LastName}, {student.FirstName}");
+			    }
+			}
+			
+			var groupByFirstLetterQuery = students
+			    .GroupBy(student => student.LastName[0]);
+			
+			foreach (var studentGroup in groupByFirstLetterQuery)
+			{
+			    Console.WriteLine($"Key: {studentGroup.Key}");
+			    foreach (var student in studentGroup)
+			    {
+			        Console.WriteLine($"\t{student.LastName}, {student.FirstName}");
+			    }
+			}
+			
+			
+			var groupByPercentileQuery = students
+			    .Select(student => new { student, percentile = GetPercentile(student) })
+			    .GroupBy(student => student.percentile)
+			    .Select(percentGroup => new
+			    {
+			        percentGroup.Key,
+			        Students = percentGroup.Select(s => new { s.student.FirstName, s.student.LastName })
+			    })
+			    .OrderBy(percentGroup => percentGroup.Key);
+			
+			foreach (var studentGroup in groupByPercentileQuery)
+			{
+			    Console.WriteLine($"Key: {studentGroup.Key * 10}");
+			    foreach (var item in studentGroup.Students)
+			    {
+			        Console.WriteLine($"\t{item.LastName}, {item.FirstName}");
+			    }
+			}
+			
+			
+			var groupByHighAverageQuery =
+			    from student in students
+			    group new
+			    {
+			        student.FirstName,
+			        student.LastName
+			    } by student.Scores.Average() > 75 into studentGroup
+			    select studentGroup;
+			
+			foreach (var studentGroup in groupByHighAverageQuery)
+			{
+			    Console.WriteLine($"Key: {studentGroup.Key}");
+			    foreach (var student in studentGroup)
+			    {
+			        Console.WriteLine($"\t{student.FirstName} {student.LastName}");
+			    }
+			}
+			
+			var groupByHighAverageQuery = students
+			    .GroupBy(student => student.Scores.Average() > 75)
+			    .Select(group => new
+			    {
+			        group.Key,
+			        Students = group.AsEnumerable().Select(s => new { s.FirstName, s.LastName })
+			    });
+			
+			foreach (var studentGroup in groupByHighAverageQuery)
+			{
+			    Console.WriteLine($"Key: {studentGroup.Key}");
+			    foreach (var student in studentGroup.Students)
+			    {
+			        Console.WriteLine($"\t{student.FirstName} {student.LastName}");
+			    }
+			}
+			
+			
+			var groupByCompoundKey =
+			    from student in students
+			    group student by new
+			    {
+			        FirstLetterOfLastName = student.LastName[0],
+			        IsScoreOver85 = student.Scores[0] > 85
+			    } into studentGroup
+			    orderby studentGroup.Key.FirstLetterOfLastName
+			    select studentGroup;
+			
+			foreach (var scoreGroup in groupByCompoundKey)
+			{
+			    var s = scoreGroup.Key.IsScoreOver85 ? "more than 85" : "less than 85";
+			    Console.WriteLine($"Name starts with {scoreGroup.Key.FirstLetterOfLastName} who scored {s}");
+			    foreach (var item in scoreGroup)
+			    {
+			        Console.WriteLine($"\t{item.FirstName} {item.LastName}");
+			    }
+			}
+			
+			var groupByCompoundKey = students
+			    .GroupBy(student => new
+			    {
+			        FirstLetterOfLastName = student.LastName[0],
+			        IsScoreOver85 = student.Scores[0] > 85
+			    })
+			    .OrderBy(studentGroup => studentGroup.Key.FirstLetterOfLastName);
+			
+			foreach (var scoreGroup in groupByCompoundKey)
+			{
+			    var s = scoreGroup.Key.IsScoreOver85 ? "more than 85" : "less than 85";
+			    Console.WriteLine($"Name starts with {scoreGroup.Key.FirstLetterOfLastName} who scored {s}");
+			    foreach (var item in scoreGroup)
+			    {
+			        Console.WriteLine($"\t{item.FirstName} {item.LastName}");
+			    }
+			}
+			
+			
+			var nestedGroupsQuery =
+			    from student in students
+			    group student by student.Year into newGroup1
+			    from newGroup2 in
+			    from student in newGroup1
+			    group student by student.LastName
+			    group newGroup2 by newGroup1.Key;
+			
+			foreach (var outerGroup in nestedGroupsQuery)
+			{
+			    Console.WriteLine($"DataClass.Student Level = {outerGroup.Key}");
+			    foreach (var innerGroup in outerGroup)
+			    {
+			        Console.WriteLine($"\tNames that begin with: {innerGroup.Key}");
+			        foreach (var innerGroupElement in innerGroup)
+			        {
+			            Console.WriteLine($"\t\t{innerGroupElement.LastName} {innerGroupElement.FirstName}");
+			        }
+			    }
+			}
+			
+			var nestedGroupsQuery =
+			    students
+			    .GroupBy(student => student.Year)
+			    .Select(newGroup1 => new
+			    {
+			        newGroup1.Key,
+			        NestedGroup = newGroup1
+			            .GroupBy(student => student.LastName)
+			    });
+			
+			foreach (var outerGroup in nestedGroupsQuery)
+			{
+			    Console.WriteLine($"DataClass.Student Level = {outerGroup.Key}");
+			    foreach (var innerGroup in outerGroup.NestedGroup)
+			    {
+			        Console.WriteLine($"\tNames that begin with: {innerGroup.Key}");
+			        foreach (var innerGroupElement in innerGroup)
+			        {
+			            Console.WriteLine($"\t\t{innerGroupElement.LastName} {innerGroupElement.FirstName}");
+			        }
+			    }
+			}
+			
+			
+			var queryGroupMax =
+			    from student in students
+			    group student by student.Year into studentGroup
+			    select new
+			    {
+			        Level = studentGroup.Key,
+			        HighestScore = (
+			            from student2 in studentGroup
+			            select student2.Scores.Average()
+			        ).Max()
+			    };
+			
+			var count = queryGroupMax.Count();
+			Console.WriteLine($"Number of groups = {count}");
+			
+			foreach (var item in queryGroupMax)
+			{
+			    Console.WriteLine($"  {item.Level} Highest Score={item.HighestScore}");
+			}
+			
+			var queryGroupMax =
+			    students
+			        .GroupBy(student => student.Year)
+			        .Select(studentGroup => new
+			        {
+			            Level = studentGroup.Key,
+			            HighestScore = studentGroup.Max(student2 => student2.Scores.Average())
+			        });
+			
+			var count = queryGroupMax.Count();
+			Console.WriteLine($"Number of groups = {count}");
+			
+			foreach (var item in queryGroupMax)
+			{
+			    Console.WriteLine($"  {item.Level} Highest Score={item.HighestScore}");
+			}
+			*/
+			
+		}
+		
+		static int GetPercentile(Student s)
+		{
+		    double avg = s.Scores.Average();
+		    return avg > 0 ? (int)avg / 10 : 0;
+		}
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/join-operations
+namespace DotnetCSharpLinqStandardQueryOperatorsJoinOperations
+{
+	public class JoinOperations
+	{
+		public static void RunJoinOperations()
+		{
+			/*
+			var query = from student in students
+			            join department in departments on student.DepartmentID equals department.ID
+			            select new { Name = $"{student.FirstName} {student.LastName}", DepartmentName = department.Name };
+			
+			foreach (var item in query)
+			{
+			    Console.WriteLine($"{item.Name} - {item.DepartmentName}");
+			}
+			
+			var query = students.Join(departments,
+			    student => student.DepartmentID, department => department.ID,
+			    (student, department) => new { Name = $"{student.FirstName} {student.LastName}", DepartmentName = department.Name });
+			
+			foreach (var item in query)
+			{
+			    Console.WriteLine($"{item.Name} - {item.DepartmentName}");
+			}
+			
+			IEnumerable<IEnumerable<Student>> studentGroups = from department in departments
+			                    join student in students on department.ID equals student.DepartmentID into studentGroup
+			                    select studentGroup;
+			
+			foreach (IEnumerable<Student> studentGroup in studentGroups)
+			{
+			    Console.WriteLine("Group");
+			    foreach (Student student in studentGroup)
+			    {
+			        Console.WriteLine($"  - {student.FirstName}, {student.LastName}");
+			    }
+			}
+			
+			// Join department and student based on DepartmentId and grouping result
+			IEnumerable<IEnumerable<Student>> studentGroups = departments.GroupJoin(students,
+			    department => department.ID, student => student.DepartmentID,
+			    (department, studentGroup) => studentGroup);
+			
+			foreach (IEnumerable<Student> studentGroup in studentGroups)
+			{
+			    Console.WriteLine("Group");
+			    foreach (Student student in studentGroup)
+			    {
+			        Console.WriteLine($"  - {student.FirstName}, {student.LastName}");
+			    }
+			}
+			
+			var query = from department in departments
+			            join teacher in teachers on department.TeacherID equals teacher.ID
+			            select new
+			            {
+			                DepartmentName = department.Name,
+			                TeacherName = $"{teacher.First} {teacher.Last}"
+			            };
+			
+			foreach (var departmentAndTeacher in query)
+			{
+			    Console.WriteLine($"{departmentAndTeacher.DepartmentName} is managed by {departmentAndTeacher.TeacherName}");
+			}
+			
+			var query = teachers
+			    .Join(departments, teacher => teacher.ID, department => department.TeacherID,
+			        (teacher, department) =>
+			        new { DepartmentName = department.Name, TeacherName = $"{teacher.First} {teacher.Last}" });
+			
+			foreach (var departmentAndTeacher in query)
+			{
+			    Console.WriteLine($"{departmentAndTeacher.DepartmentName} is managed by {departmentAndTeacher.TeacherName}");
+			}
+			
+			// Join the two data sources based on a composite key consisting of first and last name,
+			// to determine which employees are also students.
+			IEnumerable<string> query =
+			    from teacher in teachers
+			    join student in students on new
+			    {
+			        FirstName = teacher.First,
+			        LastName = teacher.Last
+			    } equals new
+			    {
+			        student.FirstName,
+			        student.LastName
+			    }
+			    select teacher.First + " " + teacher.Last;
+			
+			string result = "The following people are both teachers and students:\r\n";
+			foreach (string name in query)
+			{
+			    result += $"{name}\r\n";
+			}
+			Console.Write(result);
+			
+			IEnumerable<string> query = teachers
+			    .Join(students,
+			        teacher => new { FirstName = teacher.First, LastName = teacher.Last },
+			        student => new { student.FirstName, student.LastName },
+			        (teacher, student) => $"{teacher.First} {teacher.Last}"
+			 );
+			
+			Console.WriteLine("The following people are both teachers and students:");
+			foreach (string name in query)
+			{
+			    Console.WriteLine(name);
+			}
+			
+			// The first join matches Department.ID and Student.DepartmentID from the list of students and
+			// departments, based on a common ID. The second join matches teachers who lead departments
+			// with the students studying in that department.
+			var query = from student in students
+			    join department in departments on student.DepartmentID equals department.ID
+			    join teacher in teachers on department.TeacherID equals teacher.ID
+			    select new {
+			        StudentName = $"{student.FirstName} {student.LastName}",
+			        DepartmentName = department.Name,
+			        TeacherName = $"{teacher.First} {teacher.Last}"
+			    };
+			
+			foreach (var obj in query)
+			{
+			    Console.WriteLine($"""The student "{obj.StudentName}" studies in the department run by "{obj.TeacherName}".""");
+			}
+			
+			var query = students
+			    .Join(departments, student => student.DepartmentID, department => department.ID,
+			        (student, department) => new { student, department })
+			    .Join(teachers, commonDepartment => commonDepartment.department.TeacherID, teacher => teacher.ID,
+			        (commonDepartment, teacher) => new
+			        {
+			            StudentName = $"{commonDepartment.student.FirstName} {commonDepartment.student.LastName}",
+			            DepartmentName = commonDepartment.department.Name,
+			            TeacherName = $"{teacher.First} {teacher.Last}"
+			        });
+			
+			foreach (var obj in query)
+			{
+			    Console.WriteLine($"""The student "{obj.StudentName}" studies in the department run by "{obj.TeacherName}".""");
+			}
+			
+			var query1 =
+			    from department in departments
+			    join student in students on department.ID equals student.DepartmentID into gj
+			    from subStudent in gj
+			    select new
+			    {
+			        DepartmentName = department.Name,
+			        StudentName = $"{subStudent.FirstName} {subStudent.LastName}"
+			    };
+			Console.WriteLine("Inner join using GroupJoin():");
+			foreach (var v in query1)
+			{
+			    Console.WriteLine($"{v.DepartmentName} - {v.StudentName}");
+			}
+			
+			var queryMethod1 = departments
+			    .GroupJoin(students, department => department.ID, student => student.DepartmentID,
+			        (department, gj) => new { department, gj })
+			    .SelectMany(departmentAndStudent => departmentAndStudent.gj,
+			        (departmentAndStudent, subStudent) => new
+			        {
+			            DepartmentName = departmentAndStudent.department.Name,
+			            StudentName = $"{subStudent.FirstName} {subStudent.LastName}"
+			        });
+			
+			Console.WriteLine("Inner join using GroupJoin():");
+			foreach (var v in queryMethod1)
+			{
+			    Console.WriteLine($"{v.DepartmentName} - {v.StudentName}");
+			}
+			
+			var query2 = from department in departments
+			    join student in students on department.ID equals student.DepartmentID
+			    select new
+			    {
+			        DepartmentName = department.Name,
+			        StudentName = $"{student.FirstName} {student.LastName}"
+			    };
+			
+			Console.WriteLine("The equivalent operation using Join():");
+			foreach (var v in query2)
+			{
+			    Console.WriteLine($"{v.DepartmentName} - {v.StudentName}");
+			}
+			
+			var queryMethod2 = departments.Join(students, departments => departments.ID, student => student.DepartmentID,
+			    (department, student) => new
+			    {
+			        DepartmentName = department.Name,
+			        StudentName = $"{student.FirstName} {student.LastName}"
+			    });
+			
+			Console.WriteLine("The equivalent operation using Join():");
+			foreach (var v in queryMethod2)
+			{
+			    Console.WriteLine($"{v.DepartmentName} - {v.StudentName}");
+			}
+			
+			var query = from department in departments
+			    join student in students on department.ID equals student.DepartmentID into studentGroup
+			    select new
+			    {
+			        DepartmentName = department.Name,
+			        Students = studentGroup
+			    };
+			
+			foreach (var v in query)
+			{
+			    // Output the department's name.
+			    Console.WriteLine($"{v.DepartmentName}:");
+			
+			    // Output each of the students in that department.
+			    foreach (Student? student in v.Students)
+			    {
+			        Console.WriteLine($"  {student.FirstName} {student.LastName}");
+			    }
+			}
+			
+			var query = departments.GroupJoin(students, department => department.ID, student => student.DepartmentID,
+			    (department, Students) => new { DepartmentName = department.Name, Students });
+			
+			foreach (var v in query)
+			{
+			    // Output the department's name.
+			    Console.WriteLine($"{v.DepartmentName}:");
+			
+			    // Output each of the students in that department.
+			    foreach (Student? student in v.Students)
+			    {
+			        Console.WriteLine($"  {student.FirstName} {student.LastName}");
+			    }
+			}
+			
+			XElement departmentsAndStudents = new("DepartmentEnrollment",
+			    from department in departments
+			    join student in students on department.ID equals student.DepartmentID into studentGroup
+			    select new XElement("Department",
+			        new XAttribute("Name", department.Name),
+			        from student in studentGroup
+			        select new XElement("Student",
+			            new XAttribute("FirstName", student.FirstName),
+			            new XAttribute("LastName", student.LastName)
+			        )
+			    )
+			);
+			
+			Console.WriteLine(departmentsAndStudents);
+			
+			XElement departmentsAndStudents = new("DepartmentEnrollment",
+			    departments.GroupJoin(students, department => department.ID, student => student.DepartmentID,
+			        (department, Students) => new XElement("Department",
+			            new XAttribute("Name", department.Name),
+			            from student in Students
+			            select new XElement("Student",
+			                new XAttribute("FirstName", student.FirstName),
+			                new XAttribute("LastName", student.LastName)
+			            )
+			        )
+			    )
+			);
+			
+			Console.WriteLine(departmentsAndStudents);
+			
+			var query =
+			    from student in students
+			    join department in departments on student.DepartmentID equals department.ID into gj
+			    from subgroup in gj.DefaultIfEmpty()
+			    select new
+			    {
+			        student.FirstName,
+			        student.LastName,
+			        Department = subgroup?.Name ?? string.Empty
+			    };
+			
+			foreach (var v in query)
+			{
+			    Console.WriteLine($"{v.FirstName:-15} {v.LastName:-15}: {v.Department}");
+			}
+			
+			var query = students
+			    .GroupJoin(
+			        departments,
+			        student => student.DepartmentID,
+			        department => department.ID,
+			        (student, departmentList) => new { student, subgroup = departmentList })
+			    .SelectMany(
+			        joinedSet => joinedSet.subgroup.DefaultIfEmpty(),
+			        (student, department) => new
+			        {
+			            student.student.FirstName,
+			            student.student.LastName,
+			            Department = department?.Name ?? string.Empty
+			        });
+			
+			foreach (var v in query)
+			{
+			    Console.WriteLine($"{v.FirstName:-15} {v.LastName:-15}: {v.Department}");
+			}
+			*/
+			
+		}
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/converting-data-types
+namespace DotnetCSharpLinqStandardQueryOperatorsConvertingDataTypes
+{
+	public class ConvertingDataTypes
+	{
+		public static void RunConvertingDataTypes()
+		{
+			IEnumerable people = students;
+
+			var query = from Student student in people
+			            where student.Year == GradeLevel.ThirdYear
+			            select student;
+			
+			foreach (Student student in query)
+			{
+			    Console.WriteLine(student.FirstName);
+			}
+			
+			IEnumerable people2 = students;
+
+			var query2 = people2
+			    .Cast<Student>()
+			    .Where(student => student.Year == GradeLevel.ThirdYear);
+			
+			foreach (Student student in query)
+			{
+			    Console.WriteLine(student.FirstName);
+			}
+			
+		}
+		
+		// Create a data source by using a collection initializer.
+		static IEnumerable<Student> students =
+		[
+
+		];
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; } = string.Empty;
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+		
+		public Student(string firstName, string lastName, int id, List<int> scores)
+		{
+			FirstName = firstName;
+			LastName = lastName;
+			id = ID;
+			Scores = scores;
+		}
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/partitioning-data
+namespace DotnetCSharpLinqStandardQueryOperatorsPartitioningData
+{
+	public class PartitioningData
+	{
+		public static void RunPartitioningData()
+		{
+			foreach (int number in Enumerable.Range(0, 8).Take(3))
+			{
+			    Console.WriteLine(number);
+			}
+			// This code produces the following output:
+			// 0
+			// 1
+			// 2
+			
+			foreach (int number in Enumerable.Range(0, 8).Skip(3))
+			{
+			    Console.WriteLine(number);
+			}
+			// This code produces the following output:
+			// 3
+			// 4
+			// 5
+			// 6
+			// 7
+			
+			foreach (int number in Enumerable.Range(0, 8).TakeWhile(n => n < 5))
+			{
+			    Console.WriteLine(number);
+			}
+			// This code produces the following output:
+			// 0
+			// 1
+			// 2
+			// 3
+			// 4
+			
+			foreach (int number in Enumerable.Range(0, 8).SkipWhile(n => n < 5))
+			{
+			    Console.WriteLine(number);
+			}
+			// This code produces the following output:
+			// 5
+			// 6
+			// 7
+			
+			int chunkNumber = 1;
+			foreach (int[] chunk in Enumerable.Range(0, 8).Chunk(3))
+			{
+			    Console.WriteLine($"Chunk {chunkNumber++}:");
+			    foreach (int item in chunk)
+			    {
+			        Console.WriteLine($"    {item}");
+			    }
+			
+			    Console.WriteLine();
+			}
+			// This code produces the following output:
+			// Chunk 1:
+			//    0
+			//    1
+			//    2
+			//
+			//Chunk 2:
+			//    3
+			//    4
+			//    5
+			//
+			//Chunk 3:
+			//    6
+			//    7
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/quantifier-operations
+namespace DotnetCSharpLinqStandardQueryOperatorsQuantifierOperations
+{
+	public class QuantifierOperations
+	{
+		public static void RunQuantifierOperations()
+		{
+			/*
+			IEnumerable<string> names = from student in students
+			                            where student.Scores.All(score => score > 70)
+			                            select $"{student.FirstName} {student.LastName}: {string.Join(", ", student.Scores.Select(s => s.ToString()))}";
+			
+			foreach (string name in names)
+			{
+			    Console.WriteLine($"{name}");
+			}
+			
+			// This code produces the following output:
+			//
+			// Cesar Garcia: 71, 86, 77, 97
+			// Nancy Engström: 75, 73, 78, 83
+			// Ifunanya Ugomma: 84, 82, 96, 80
+			*/
+			
+			/*
+			IEnumerable<string> names = from student in students
+			                            where student.Scores.Any(score => score > 95)
+			                            select $"{student.FirstName} {student.LastName}: {student.Scores.Max()}";
+			
+			foreach (string name in names)
+			{
+			    Console.WriteLine($"{name}");
+			}
+			
+			// This code produces the following output:
+			//
+			// Svetlana Omelchenko: 97
+			// Cesar Garcia: 97
+			// Debra Garcia: 96
+			// Ifeanacho Jamuike: 98
+			// Ifunanya Ugomma: 96
+			// Michelle Caruana: 97
+			// Nwanneka Ifeoma: 98
+			// Martina Mattsson: 96
+			// Anastasiya Sazonova: 96
+			// Jesper Jakobsson: 98
+			// Max Lindgren: 96
+			*/
+			
+			/*
+			IEnumerable<string> names = from student in students
+			                            where student.Scores.Contains(95)
+			                            select $"{student.FirstName} {student.LastName}: {string.Join(", ", student.Scores.Select(s => s.ToString()))}";
+			
+			foreach (string name in names)
+			{
+			    Console.WriteLine($"{name}");
+			}
+			
+			// This code produces the following output:
+			//
+			// Claire O'Donnell: 56, 78, 95, 95
+			// Donald Urquhart: 92, 90, 95, 57
+			*/
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/sorting-data
+namespace DotnetCSharpLinqStandardQueryOperatorsSortingData
+{
+	public class SortingData
+	{
+		public static void RunSortingData()
+		{
+			/*
+			IEnumerable<string> query = from teacher in teachers
+			                            orderby teacher.Last
+			                            select teacher.Last;
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			*/
+			
+			/*
+			IEnumerable<string> query = teachers
+			    .OrderBy(teacher => teacher.Last)
+			    .Select(teacher => teacher.Last);
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			*/
+			
+			/*
+			IEnumerable<string> query = from teacher in teachers
+			                            orderby teacher.Last descending
+			                            select teacher.Last;
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			*/
+			
+			/*
+			IEnumerable<string> query = teachers
+			    .OrderByDescending(teacher => teacher.Last)
+			    .Select(teacher => teacher.Last);
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			*/
+			
+			/*
+			IEnumerable<(string, string)> query = from teacher in teachers
+			                            orderby teacher.City, teacher.Last
+			                            select (teacher.Last, teacher.City);
+			
+			foreach ((string last, string city) in query)
+			{
+			    Console.WriteLine($"City: {city}, Last Name: {last}");
+			}
+			*/
+			
+			/*
+			IEnumerable<(string, string)> query = teachers
+			    .OrderBy(teacher => teacher.City)
+			    .ThenBy(teacher => teacher.Last)
+			    .Select(teacher => (teacher.Last, teacher.City));
+			
+			foreach ((string last, string city) in query)
+			{
+			    Console.WriteLine($"City: {city}, Last Name: {last}");
+			}
+			*/
+			
+			/*
+			IEnumerable<(string, string)> query = from teacher in teachers
+			                            orderby teacher.City, teacher.Last descending
+			                            select (teacher.Last, teacher.City);
+			
+			foreach ((string last, string city) in query)
+			{
+			    Console.WriteLine($"City: {city}, Last Name: {last}");
+			}
+			*/
+			
+			/*
+			IEnumerable<(string, string)> query = teachers
+			    .OrderBy(teacher => teacher.City)
+			    .ThenByDescending(teacher => teacher.Last)
+			    .Select(teacher => (teacher.Last, teacher.City));
+			
+			foreach ((string last, string city) in query)
+			{
+			    Console.WriteLine($"City: {city}, Last Name: {last}");
+			}
+			*/
+			
+		}
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/set-operations
+namespace DotnetCSharpLinqStandardQueryOperatorsSetOperations
+{
+	public class SetOperations
+	{
+		public static void RunSetOperations()
+		{
+			string[] words = ["the", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog"];
+
+			IEnumerable<string> query = from word in words.Distinct()
+			                            select word;
+			
+			foreach (var str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			 *
+			 * the
+			 * quick
+			 * brown
+			 * fox
+			 * jumped
+			 * over
+			 * lazy
+			 * dog
+			 */
+			 
+			 string[] words2 = ["the", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog"];
+
+			foreach (string word in words2.DistinctBy(p => p.Length))
+			{
+			    Console.WriteLine(word);
+			}
+			
+			// This code produces the following output:
+			//     the
+			//     quick
+			//     jumped
+			//     over
+			
+			string[] words3 = ["the", "quick", "brown", "fox"];
+			string[] words4 = ["jumped", "over", "the", "lazy", "dog"];
+			
+			IEnumerable<string> query2 = from word in words3.Except(words4)
+			                            select word;
+			
+			foreach (var str in query2)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			 *
+			 * quick
+			 * brown
+			 * fox
+			 */
+			 
+			int[] teachersToExclude =
+			[
+			    901,    // English
+			    965,    // Mathematics
+			    932,    // Engineering
+			    945,    // Economics
+			    987,    // Physics
+			    901     // Chemistry
+			];
+			/*
+			foreach (Teacher teacher in
+			    teachers.ExceptBy(
+			        teachersToExclude, teacher => teacher.ID))
+			{
+			    Console.WriteLine($"{teacher.First} {teacher.Last}");
+			}
+			*/
+			
+			string[] words5 = ["the", "quick", "brown", "fox"];
+			string[] words6 = ["jumped", "over", "the", "lazy", "dog"];
+			
+			IEnumerable<string> query3 = from word in words5.Intersect(words6)
+			                            select word;
+			
+			foreach (var str in query3)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			 *
+			 * the
+			 */
+			
+			/*
+			foreach (Student person in
+			    students.IntersectBy(
+			        teachers.Select(t => (t.First, t.Last)), s => (s.FirstName, s.LastName)))
+			{
+			    Console.WriteLine($"{person.FirstName} {person.LastName}");
+			}
+			*/
+			
+			string[] words7 = ["the", "quick", "brown", "fox"];
+			string[] words8 = ["jumped", "over", "the", "lazy", "dog"];
+			
+			IEnumerable<string> query4 = from word in words7.Union(words8)
+			                            select word;
+			
+			foreach (var str in query4)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			 *
+			 * the
+			 * quick
+			 * brown
+			 * fox
+			 * jumped
+			 * over
+			 * lazy
+			 * dog
+			*/
+			
+			/*
+			foreach (var person in
+			    students.Select(s => (s.FirstName, s.LastName)).UnionBy(
+			        teachers.Select(t => (FirstName: t.First, LastName: t.Last)), s => (s.FirstName, s.LastName)))
+			{
+			    Console.WriteLine($"{person.FirstName} {person.LastName}");
+			}
+			*/
+		}
+	}
+	
+	public enum GradeLevel
+	{
+	    FirstYear = 1,
+	    SecondYear,
+	    ThirdYear,
+	    FourthYear
+	};
+	
+	public class Student
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	    public required int ID { get; init; }
+	
+	    public required GradeLevel Year { get; init; }
+	    public required List<int> Scores { get; init; }
+	
+	    public required int DepartmentID { get; init; }
+	}
+	
+	public class Teacher
+	{
+	    public required string First { get; init; }
+	    public required string Last { get; init; }
+	    public required int ID { get; init; }
+	    public required string City { get; init; }
+	}
+	
+	public class Department
+	{
+	    public required string Name { get; init; }
+	    public int ID { get; init; }
+	
+	    public required int TeacherID { get; init; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/projection-operations
+namespace DotnetCSharpLinqStandardQueryOperatorsProjectionOperations
+{
+	public class ProjectionOperations
+	{
+		public static void RunProjectionOperations()
+		{
+			List<string> words = ["an", "apple", "a", "day"];
+	
+			var query = from word in words
+			            select word.Substring(0, 1);
+			
+			foreach (string s in query)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			/* This code produces the following output:
+			
+			    a
+			    a
+			    a
+			    d
+			*/
+
+			var query2 = words.Select(word => word.Substring(0, 1));
+			
+			foreach (string s in query2)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			/* This code produces the following output:
+			
+			    a
+			    a
+			    a
+			    d
+			*/
+			
+			List<string> phrases = ["an apple a day", "the quick brown fox"];
+
+			var query3 = from phrase in phrases
+			            from word in phrase.Split(' ')
+			            select word;
+			
+			foreach (string s in query)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			/* This code produces the following output:
+			
+			    an
+			    apple
+			    a
+			    day
+			    the
+			    quick
+			    brown
+			    fox
+			*/
+			
+			var query4 = phrases.SelectMany(phrase => phrase.Split(' '));
+
+			foreach (string s in query4)
+			{
+			    Console.WriteLine(s);
+			}
+			
+			/* This code produces the following output:
+			
+			    an
+			    apple
+			    a
+			    day
+			    the
+			    quick
+			    brown
+			    fox
+			*/
+			
+			// An int array with 7 elements.
+			IEnumerable<int> numbers = [1, 2, 3, 4, 5, 6, 7];
+			// A char array with 6 elements.
+			IEnumerable<char> letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+			
+			
+			var query5 = from number in numbers
+			            from letter in letters
+			            select (number, letter);
+			
+			foreach (var item in query5)
+			{
+			    Console.WriteLine(item);
+			}
+			
+			var method = numbers
+			    .SelectMany(number => letters,
+			    (number, letter) => (number, letter));
+			
+			foreach (var item in method)
+			{
+			    Console.WriteLine(item);
+			}
+			
+			foreach ((int number, char letter) in numbers.Zip(letters))
+			{
+			    Console.WriteLine($"Number: {number} zipped with letter: '{letter}'");
+			}
+			// This code produces the following output:
+			//     Number: 1 zipped with letter: 'A'
+			//     Number: 2 zipped with letter: 'B'
+			//     Number: 3 zipped with letter: 'C'
+			//     Number: 4 zipped with letter: 'D'
+			//     Number: 5 zipped with letter: 'E'
+			//     Number: 6 zipped with letter: 'F'
+			
+			// A string array with 8 elements.
+			IEnumerable<string> emoji = [ "🤓", "🔥", "🎉", "👀", "⭐", "💜", "✔", "💯"];
+			
+			foreach ((int number, char letter, string em) in numbers.Zip(letters, emoji))
+			{
+			    Console.WriteLine(
+			        $"Number: {number} is zipped with letter: '{letter}' and emoji: {em}");
+			}
+			// This code produces the following output:
+			//     Number: 1 is zipped with letter: 'A' and emoji: 🤓
+			//     Number: 2 is zipped with letter: 'B' and emoji: 🔥
+			//     Number: 3 is zipped with letter: 'C' and emoji: 🎉
+			//     Number: 4 is zipped with letter: 'D' and emoji: 👀
+			//     Number: 5 is zipped with letter: 'E' and emoji: ⭐
+			//     Number: 6 is zipped with letter: 'F' and emoji: 💜
+			
+			foreach (string result in
+			    numbers.Zip(letters, (number, letter) => $"{number} = {letter} ({(int)letter})"))
+			{
+			    Console.WriteLine(result);
+			}
+			// This code produces the following output:
+			//     1 = A (65)
+			//     2 = B (66)
+			//     3 = C (67)
+			//     4 = D (68)
+			//     5 = E (69)
+			//     6 = F (70)
+			
+			
+			
+		}
+		
+		static void SelectVsSelectMany()
+		{
+		    List<Bouquet> bouquets =
+		    [
+		        new Bouquet { Flowers = ["sunflower", "daisy", "daffodil", "larkspur"] },
+		        new Bouquet { Flowers = ["tulip", "rose", "orchid"] },
+		        new Bouquet { Flowers = ["gladiolis", "lily", "snapdragon", "aster", "protea"] },
+		        new Bouquet { Flowers = ["larkspur", "lilac", "iris", "dahlia"] }
+		    ];
+		
+		    IEnumerable<List<string>> query1 = bouquets.Select(bq => bq.Flowers);
+		
+		    IEnumerable<string> query2 = bouquets.SelectMany(bq => bq.Flowers);
+		
+		    Console.WriteLine("Results by using Select():");
+		    // Note the extra foreach loop here.
+		    foreach (IEnumerable<string> collection in query1)
+		    {
+		        foreach (string item in collection)
+		        {
+		            Console.WriteLine(item);
+		        }
+		    }
+		
+		    Console.WriteLine("\nResults by using SelectMany():");
+		    foreach (string item in query2)
+		    {
+		        Console.WriteLine(item);
+		    }
+		}
+		
+	}
+	
+	class Bouquet
+	{
+	    public required List<string> Flowers { get; init; }
+	}
+	
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/filtering-data
 namespace DotnetCSharpLinqStandardQueryOperatorsFilteringData
 {
@@ -149,6 +2999,36 @@ namespace DotnetCSharpLinqStandardQueryOperatorsFilteringData
 	{
 		public static void RunDotnetCSharpLinqStandardQueryOperatorsFilteringData()
 		{
+			string[] words = ["the", "quick", "brown", "fox", "jumps"];
+
+			IEnumerable<string> query = from word in words
+			                            where word.Length == 3
+			                            select word;
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			
+			    the
+			    fox
+			*/
+			
+			IEnumerable<string> query2 =
+			    words.Where(word => word.Length == 3);
+			
+			foreach (string str in query)
+			{
+			    Console.WriteLine(str);
+			}
+			
+			/* This code produces the following output:
+			
+			    the
+			    fox
+			*/
 			
 		}
 	
@@ -3353,7 +6233,7 @@ namespace DotnetCSharpFundamentalsCodingStyleCodingConventions
 			Action<string, string> actionExample2 = (x, y) =>
 			    Console.WriteLine($"x is: {x}, y is {y}");
 			
-			Func<string, int> funcExample1 = x => Convert.ToInt32(x);
+			Func<string, int> funcExample1 = x => System.Convert.ToInt32(x);
 			
 			Func<int, int, int> funcExample2 = (x, y) => x + y;
 			
@@ -3396,10 +6276,10 @@ namespace DotnetCSharpFundamentalsCodingStyleCodingConventions
 			*/
 			
 			Console.Write("Enter a dividend: ");
-			int dividend = Convert.ToInt32(Console.ReadLine());
+			int dividend = System.Convert.ToInt32(Console.ReadLine());
 			
 			Console.Write("Enter a divisor: ");
-			int divisor = Convert.ToInt32(Console.ReadLine());
+			int divisor = System.Convert.ToInt32(Console.ReadLine());
 			
 			if ((divisor != 0) && (dividend / divisor) is var result)
 			{
