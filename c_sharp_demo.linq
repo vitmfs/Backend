@@ -14,7 +14,10 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using static System.Linq.Expressions.Expression;
 using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 //namespace GlobalNamespace;
+//using Newtonsoft.Json;
 
 namespace ProgramNamespace
 { 
@@ -144,6 +147,2345 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/delegates-overview
+namespace DotnetCSharpDelegatesOverview
+{
+	public class DelegatesOverview
+	{
+		public static void RunDelegatesOverview()
+		{
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/iterators
+namespace DotnetCSharpIterators
+{
+	public static class Iterators
+	{
+		public static void RunIterators()
+		{
+			/*
+			foreach (var item in collection)
+			{
+			    Console.WriteLine(item?.ToString());
+			}
+			*/
+			
+			/*
+			await foreach (var item in asyncSequence)
+			{
+			Console.WriteLine(item?.ToString());
+			}
+			*/
+			
+			/*
+			IEnumerator<int> enumerator = collection.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+			    var item = enumerator.Current;
+			    Console.WriteLine(item.ToString());
+			}
+			
+			{
+			    var enumerator = collection.GetEnumerator();
+			    try
+			    {
+			        while (enumerator.MoveNext())
+			        {
+			            var item = enumerator.Current;
+			            Console.WriteLine(item.ToString());
+			        }
+			    }
+			    finally
+			    {
+			        // dispose of enumerator.
+			    }
+			}
+			
+			{
+			    var enumerator = collection.GetAsyncEnumerator();
+			    try
+			    {
+			        while (await enumerator.MoveNextAsync())
+			        {
+			            var item = enumerator.Current;
+			            Console.WriteLine(item.ToString());
+			        }
+			    }
+			    finally
+			    {
+			        // dispose of async enumerator.
+					(enumerator as IDisposable)?.Dispose();
+					
+					if (enumerator is IAsyncDisposable asyncDisposable)
+        				await asyncDisposable.DisposeAsync();
+						
+					finally
+					{
+					   ((IDisposable)enumerator).Dispose();
+					}
+			    }
+			}
+			*/
+			
+			
+			
+		}
+		
+		public static IEnumerable<int> GetSingleDigitNumbers()
+		{
+		    yield return 0;
+		    yield return 1;
+		    yield return 2;
+		    yield return 3;
+		    yield return 4;
+		    yield return 5;
+		    yield return 6;
+		    yield return 7;
+		    yield return 8;
+		    yield return 9;
+		}
+		
+		public static IEnumerable<int> GetSingleDigitNumbersLoop()
+		{
+		    int index = 0;
+		    while (index < 10)
+		        yield return index++;
+		}
+		
+		public static IEnumerable<int> GetSetsOfNumbers()
+		{
+		    int index = 0;
+		    while (index < 10)
+		        yield return index++;
+		
+		    yield return 50;
+		
+		    index = 100;
+		    while (index < 110)
+		        yield return index++;
+		}
+		
+		public static async IAsyncEnumerable<int> GetSetsOfNumbersAsync()
+		{
+		    int index = 0;
+		    while (index < 10)
+		        yield return index++;
+		
+		    await Task.Delay(500);
+		
+		    yield return 50;
+		
+		    await Task.Delay(500);
+		
+		    index = 100;
+		    while (index < 110)
+		        yield return index++;
+		}
+		
+		public static IEnumerable<T> Sample<T>(this IEnumerable<T> sourceSequence, int interval)
+		{
+		    int index = 0;
+		    foreach (T item in sourceSequence)
+		    {
+		        if (index++ % interval == 0)
+		            yield return item;
+		    }
+		}
+		
+		/*
+		public IEnumerable<int> GetSingleDigitNumbers()
+		{
+		    int index = 0;
+		    while (index < 10)
+		        yield return index++;
+		
+		    yield return 50;
+		
+		    // generates a compile time error:
+		    var items = new int[] {100, 101, 102, 103, 104, 105, 106, 107, 108, 109 };
+		    return items;
+		}
+		*/
+		
+		public static IEnumerable<int> GetFirstDecile()
+		{
+		    int index = 0;
+		    while (index < 10)
+		        yield return index++;
+		
+		    yield return 50;
+		
+		    var items = new int[] {100, 101, 102, 103, 104, 105, 106, 107, 108, 109 };
+		    foreach (var item in items)
+		        yield return item;
+		}
+		
+		public static IEnumerable<int> GetSingleDigitOddNumbers(bool getCollection)
+		{
+		    if (getCollection == false)
+		        return new int[0];
+		    else
+		        return IteratorMethod();
+		}
+		
+		private static IEnumerable<int> IteratorMethod()
+		{
+		    int index = 0;
+		    while (index < 10)
+		    {
+		        if (index % 2 == 1)
+		            yield return index;
+		        index++;
+		    }
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/methods
+namespace DotnetCSharpMethods
+{
+	public class CSharpMethods
+	{
+		public static void RunCSharpMethods()
+		{
+			
+		}
+	}
+	
+	namespace MotorCycleExample
+	{
+	    abstract class Motorcycle
+	    {
+	        // Anyone can call this.
+	        public void StartEngine() {/* Method statements here */ }
+	
+	        // Only derived classes can call this.
+	        protected void AddGas(int gallons) { /* Method statements here */ }
+	
+	        // Derived classes can override the base class implementation.
+	        public virtual int Drive(int miles, int speed) { /* Method statements here */ return 1; }
+	
+	        // Derived classes can override the base class implementation.
+	        public virtual int Drive(TimeSpan time, int speed) { /* Method statements here */ return 0; }
+	
+	        // Derived classes must implement this.
+	        public abstract double GetTopSpeed();
+	    }
+		
+		class TestMotorcycle : Motorcycle
+		{
+		    public override double GetTopSpeed() => 108.4;
+		
+		    static void RunMain()
+		    {
+		        var moto = new TestMotorcycle();
+		
+		        moto.StartEngine();
+		        moto.AddGas(15);
+		        _ = moto.Drive(5, 20);
+		        double speed = moto.GetTopSpeed();
+		        Console.WriteLine($"My top speed is {speed}");
+				
+				int travelTime = moto.Drive(170, speed: 55);
+		    }
+		}
+		
+		/*
+		class TestMotorcycle : Motorcycle
+		{
+		    public override int Drive(int miles, int speed) =>
+		        (int)Math.Round((double)miles / speed, 0);
+		
+		    public override double GetTopSpeed() => 108.4;
+		
+		    static void Main()
+		    {
+		        var moto = new TestMotorcycle();
+		        moto.StartEngine();
+		        moto.AddGas(15);
+		        int travelTime = moto.Drive(speed: 60, miles: 170);
+		        Console.WriteLine($"Travel time: approx. {travelTime} hours");
+		    }
+		}
+		// The example displays the following output:
+		//      Travel time: approx. 3 hours
+		*/
+		
+		public class Person
+		{
+		    public string FirstName = default!;
+		}
+		
+		public static class ClassTypeExample
+		{
+		    public static void RunMain()
+		    {
+		        Person p1 = new() { FirstName = "John" };
+		        Person p2 = new() { FirstName = "John" };
+		        Console.WriteLine($"p1 = p2: {p1.Equals(p2)}");
+		    }
+		}
+		// The example displays the following output:
+		//      p1 = p2: False
+	}
+	
+	public static class SquareExample
+	{
+	    public static void RunMain()
+	    {
+	        // Call with an int variable.
+	        int num = 4;
+	        int productA = Square(num);
+	
+	        // Call with an integer literal.
+	        int productB = Square(12);
+	
+	        // Call with an expression that evaluates to int.
+	        int productC = Square(productA * 3);
+	    }
+	
+	    static int Square(int i)
+	    {
+	        // Store input argument in a local variable.
+	        int input = i;
+	        return input * input;
+	    }
+	}
+	
+	namespace methods
+	{
+		public class Person
+		{
+		    public string FirstName = default!;
+		
+		    public override bool Equals(object? obj) =>
+		        obj is Person p2 &&
+		        FirstName.Equals(p2.FirstName);
+		
+		    public override int GetHashCode() => FirstName.GetHashCode();
+		}
+		
+		public static class Example
+		{
+		    public static void RunMain()
+		    {
+		        Person p1 = new() { FirstName = "John" };
+		        Person p2 = new() { FirstName = "John" };
+		        Console.WriteLine($"p1 = p2: {p1.Equals(p2)}");
+		    }
+		}
+		// The example displays the following output:
+		//      p1 = p2: True
+	}
+	
+	public static class ByValueExample
+	{
+	    public static void RunMain()
+	    {
+	        var value = 20;
+	        Console.WriteLine("In Main, value = {0}", value);
+	        ModifyValue(value);
+	        Console.WriteLine("Back in Main, value = {0}", value);
+	    }
+	
+	    static void ModifyValue(int i)
+	    {
+	        i = 30;
+	        Console.WriteLine("In ModifyValue, parameter value = {0}", i);
+	        return;
+	    }
+	}
+	// The example displays the following output:
+	//      In Main, value = 20
+	//      In ModifyValue, parameter value = 30
+	//      Back in Main, value = 20
+	
+	public class SampleRefType
+	{
+	    public int value;
+	}
+	
+	public static class ByRefTypeExample
+	{
+	    public static void RunMain()
+	    {
+	        var rt = new SampleRefType { value = 44 };
+	        ModifyObject(rt);
+	        Console.WriteLine(rt.value);
+	    }
+	
+	    static void ModifyObject(SampleRefType obj) => obj.value = 33;
+	}
+	
+	public static class ByRefExample2
+	{
+	    public static void RunMain()
+	    {
+	        var value = 20;
+	        Console.WriteLine("In Main, value = {0}", value);
+	        ModifyValue(ref value);
+	        Console.WriteLine("Back in Main, value = {0}", value);
+	    }
+	
+	    private static void ModifyValue(ref int i)
+	    {
+	        i = 30;
+	        Console.WriteLine("In ModifyValue, parameter value = {0}", i);
+	        return;
+	    }
+	}
+	// The example displays the following output:
+	//      In Main, value = 20
+	//      In ModifyValue, parameter value = 30
+	//      Back in Main, value = 30
+	
+	public static class RefSwapExample
+	{
+	    static void RunMain()
+	    {
+	        int i = 2, j = 3;
+	        Console.WriteLine($"i = {i}  j = {j}");
+	
+	        Swap(ref i, ref j);
+	
+	        Console.WriteLine($"i = {i}  j = {j}");
+	    }
+	
+	    static void Swap(ref int x, ref int y) =>
+	        (y, x) = (x, y);
+	}
+	// The example displays the following output:
+	//      i = 2  j = 3
+	//      i = 3  j = 2
+	
+	static class ParamsExample
+	{
+	    static void RunMain()
+	    {
+	        string fromArray = GetVowels(["apple", "banana", "pear"]);
+	        Console.WriteLine($"Vowels from collection expression: '{fromArray}'");
+	
+	        string fromMultipleArguments = GetVowels("apple", "banana", "pear");
+	        Console.WriteLine($"Vowels from multiple arguments: '{fromMultipleArguments}'");
+	
+	        string fromNull = GetVowels(null);
+	        Console.WriteLine($"Vowels from null: '{fromNull}'");
+	
+	        string fromNoValue = GetVowels();
+	        Console.WriteLine($"Vowels from no value: '{fromNoValue}'");
+	    }
+	
+	    static string GetVowels(params IEnumerable<string>? input)
+	    {
+	        if (input == null || !input.Any())
+	        {
+	            return string.Empty;
+	        }
+	
+	        char[] vowels = ['A', 'E', 'I', 'O', 'U'];
+	        return string.Concat(
+	            input.SelectMany(
+	                word => word.Where(letter => vowels.Contains(char.ToUpper(letter)))));
+	    }
+	}
+	
+	// The example displays the following output:
+	//     Vowels from array: 'aeaaaea'
+	//     Vowels from multiple arguments: 'aeaaaea'
+	//     Vowels from null: ''
+	//     Vowels from no value: ''
+	
+	public class Options
+	{
+	    public void ExampleMethod(int required, int optionalInt = default,
+	                              string? description = default)
+	    {
+	        var msg = $"{description ?? "N/A"}: {required} + {optionalInt} = {required + optionalInt}";
+	        Console.WriteLine(msg);
+	    }
+	}
+	
+	public static class OptionsExample
+	{
+	    public static void RunMain()
+	    {
+	        var opt = new Options();
+	        opt.ExampleMethod(10);
+	        opt.ExampleMethod(10, 2);
+	        opt.ExampleMethod(12, description: "Addition with zero:");
+			
+			/*
+			int result = obj.DivideTwoNumbers(6,2);
+			// The result is 3.
+			Console.WriteLine(result);
+			
+			int result = obj.AddTwoNumbers(1, 2);
+			result = obj.SquareANumber(result);
+			// The result is 9.
+			Console.WriteLine(result);
+			
+			result = obj.SquareANumber(obj.AddTwoNumbers(1, 2));
+			// The result is 9.
+			Console.WriteLine(result);
+			*/
+			
+			/*
+			var person = GetPersonalInfo("111111111");
+			Console.WriteLine($"{person.Item1} {person.Item3}: age = {person.Item4}");
+			
+			var person = GetPersonalInfo("111111111");
+			Console.WriteLine($"{person.FName} {person.LName}: age = {person.Age}");
+			*/
+			
+			
+	    }
+		
+		/*
+		public (string FName, string MName, string LName, int Age) GetPersonalInfo(string id)
+		{
+		    PersonInfo per = PersonInfo.RetrieveInfoById(id);
+		    return (per.FirstName, per.MiddleName, per.LastName, per.Age);
+		}
+		*/
+	}
+	// The example displays the following output:
+	//      N/A: 10 + 0 = 10
+	//      N/A: 10 + 2 = 12
+	//      Addition with zero:: 12 + 0 = 12
+	
+	class SimpleMath
+	{
+	    public int AddTwoNumbers(int number1, int number2) =>
+	        number1 + number2;
+	
+	    public int SquareANumber(int number) =>
+	        number * number;
+	}
+	
+	class SimpleMathExtension
+	{
+	    public int DivideTwoNumbers(int number1, int number2)
+	    {
+	        return number1 / number2;
+	    }
+		
+		/*
+		public (string, string, string, int) GetPersonalInfo(string id)
+		{
+		    PersonInfo per = PersonInfo.RetrieveInfoById(id);
+		    return (per.FirstName, per.MiddleName, per.LastName, per.Age);
+		}
+		*/
+	}
+	
+	public static class ArrayValueExample
+	{
+	    static void RunMain()
+	    {
+	        int[] values = [2, 4, 6, 8];
+	        DoubleValues(values);
+	        foreach (var value in values)
+	        {
+	            Console.Write("{0}  ", value);
+	        }
+	    }
+	
+	    public static void DoubleValues(int[] arr)
+	    {
+	        for (var ctr = 0; ctr <= arr.GetUpperBound(0); ctr++)
+	        {
+	            arr[ctr] *= 2;
+	        }
+	    }
+	}
+	// The example displays the following output:
+	//       4  8  12  16
+	
+	class Program
+	{
+	    static Task RunMain() => DoSomethingAsync();
+	
+	    static async Task DoSomethingAsync()
+	    {
+	        Task<int> delayTask = DelayAsync();
+	        int result = await delayTask;
+	
+	        // The previous two statements may be combined into
+	        // the following statement.
+	        //int result = await DelayAsync();
+	
+	        Console.WriteLine($"Result: {result}");
+	    }
+	
+	    static async Task<int> DelayAsync()
+	    {
+	        await Task.Delay(100);
+	        return 5;
+	    }
+		
+		/*
+		public Point Move(int dx, int dy) => new Point(x + dx, y + dy);
+		public void Print() => Console.WriteLine(First + " " + Last);
+		// Works with operators, properties, and indexers too.
+		public static Complex operator +(Complex a, Complex b) => a.Add(b);
+		public string Name => First + " " + Last;
+		public Customer this[long id] => store.LookupCustomer(id);
+		*/
+	}
+	// Example output:
+	//   Result: 5
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/nullable-migration-strategies
+namespace DotnetCSharpNullableMigrationStrategies
+{
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references
+namespace DotnetCSharpNullableReferences
+{
+	public class NullableReferences
+	{
+		public static void RunNullableReferences()
+		{
+			string message = "Hello, World!";
+			int length = message.Length; // dereferencing "message"
+			
+			Collection<int> c = default;
+    		c[10] = 1;    // CS8602: Possible dereference of null
+			
+			string? message2 = null;
+
+			// warning: dereference null.
+			Console.WriteLine($"The length of the message is {message2.Length}");
+			
+			var originalMessage = message2;
+			message2 = "Hello, World!";
+			
+			// No warning. Analysis determined "message" is not-null.
+			Console.WriteLine($"The length of the message is {message2.Length}");
+			
+			// warning!
+			Console.WriteLine(originalMessage.Length);
+			
+			string? name = string.Empty;
+			
+			var x = name!.Length;
+			
+			
+			
+			
+		}
+		
+		/*
+		void FindRoot(Node node, Action<Node> processNode)
+		{
+		    for (var current = node; current != null; current = current.Parent)
+		    {
+		        processNode(current);
+		    }
+		}
+		*/
+		
+		//bool IsNull(string? s) => s == null;
+		
+		bool IsNull([NotNullWhen(false)] string? s) => s == null;
+		
+		void PrintMessageUpper(string? message)
+		{
+		    if (!IsNull(message))
+		    {
+		        Console.WriteLine($"{DateTime.Now}: {message.ToUpper()}");
+		    }
+		}
+
+	}
+	
+	public class Collection<T>
+	{
+	    private T[] array = new T[100];
+	    public T this[int index]
+	    {
+	        get => array[index];
+	        set => array[index] = value;
+	    }
+	}
+	
+	public class Person
+	{
+	    public string FirstName { get; set; }
+	    public string LastName { get; set; }
+	
+	    public Person(string firstName, string lastName)
+	    {
+	        FirstName = firstName;
+	        LastName = lastName;
+	    }
+	
+	    public Person() : this("John", "Doe") { }
+	}
+	
+	public class Student : Person
+	{
+	    public string Major { get; set; }
+	
+	    public Student(string firstName, string lastName, string major)
+	        : base(firstName, lastName)
+	    {
+	        SetMajor(major);
+	    }
+	
+	    public Student(string firstName, string lastName) :
+	        base(firstName, lastName)
+	    {
+	        SetMajor();
+	    }
+	
+	    public Student()
+	    {
+	        SetMajor();
+	    }
+	
+	    [MemberNotNull(nameof(Major))]
+	    private void SetMajor(string? major = default)
+	    {
+	        Major = major ?? "Undeclared";
+	    }
+	}
+	
+	public struct Student2
+	{
+	    public string FirstName;
+	    public string? MiddleName;
+	    public string LastName;
+	}
+	
+	public static class Program
+	{
+	    public static void PrintStudent(Student2 student)
+	    {
+	        Console.WriteLine($"First name: {student.FirstName.ToUpper()}");
+	        Console.WriteLine($"Middle name: {student.MiddleName?.ToUpper()}");
+	        Console.WriteLine($"Last name: {student.LastName.ToUpper()}");
+	    }
+	
+	    public static void RunMain() => PrintStudent(default);
+	}
+	
+	public struct S<T>
+	{
+	    public T Prop { get; set; }
+	}
+	
+	public static class Program2
+	{
+	    public static void RunMain()
+	    {
+	        string s = default(S<string>).Prop;
+	    }
+	}
+	
+	public static class Program3
+	{
+	    public static void RunMain()
+	    {
+	        string[] values = new string[10];
+	        string s = values[0];
+	        Console.WriteLine(s.ToUpper());
+			
+			var a = new A(string.Empty);
+	    }
+	}
+	
+	public class A
+	{
+	    private string _name;
+	    private B _b;
+	
+	    public A(string name)
+	    {
+	        ArgumentNullException.ThrowIfNullOrEmpty(name);
+	        _name = name;
+	        _b = new B();
+	    }
+	
+	  ~A()
+	  {
+	      Dispose();
+	  }
+	
+	  public void Dispose()
+	  {
+	      _b.Dispose();
+	      GC.SuppressFinalize(this);
+	  }
+	}
+	
+	public class B: IDisposable
+	{
+	    public void Dispose() { }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/generate-consume-asynchronous-stream
+namespace DotnetCSharpAsynchronousProgrammingGenerateConsumeAsynchronousStream
+{
+	public class GenerateConsumeAsynchronousStream
+	{
+		public static void RunGenerateConsumeAsynchronousStream()
+		{
+			/*
+			finalResults.Merge(issues(results)["nodes"]!);
+			progress?.Report(issuesReturned);
+			cancel.ThrowIfCancellationRequested();
+			
+			foreach (JObject issue in issues(results)["nodes"]!)
+    			yield return issue;
+			*/
+			
+			/*
+			var progressReporter = new progressStatus((num) =>
+			{
+			    Console.WriteLine($"Received {num} issues in total");
+			});
+			CancellationTokenSource cancellationSource = new CancellationTokenSource();
+			
+			try
+			{
+			    var results = await RunPagedQueryAsync(client, PagedIssueQuery, "docs",
+			        cancellationSource.Token, progressReporter);
+			    foreach(var issue in results)
+			        Console.WriteLine(issue);
+			}
+			catch (OperationCanceledException)
+			{
+			    Console.WriteLine("Work has been cancelled");
+			}
+			*/
+			
+			/*
+			int num = 0;
+			await foreach (var issue in RunPagedQueryAsync(client, PagedIssueQuery, "docs"))
+			{
+			    Console.WriteLine(issue);
+			    Console.WriteLine($"Received {++num} issues in total");
+			}
+			
+			int num = 0;
+			var enumerator = RunPagedQueryAsync(client, PagedIssueQuery, "docs").GetAsyncEnumerator();
+			try
+			{
+			    while (await enumerator.MoveNextAsync())
+			    {
+			        var issue = enumerator.Current;
+			        Console.WriteLine(issue);
+			        Console.WriteLine($"Received {++num} issues in total");
+			    }
+			} finally
+			{
+			    if (enumerator != null)
+			        await enumerator.DisposeAsync();
+			}
+			*/
+		}
+		/*
+		static async Task RunMain(string[] args)
+		{
+		    //Follow these steps to create a GitHub Access Token
+		    // https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/#creating-a-token
+		    //Select the following permissions for your GitHub Access Token:
+		    // - repo:status
+		    // - public_repo
+		    // Replace the 3rd parameter to the following code with your GitHub access token.
+		    var key = GetEnvVariable("GitHubKey",
+		    "You must store your GitHub key in the 'GitHubKey' environment variable",
+		    "");
+		
+		    var client = new GitHubClient(new Octokit.ProductHeaderValue("IssueQueryDemo"))
+		    {
+		        Credentials = new Octokit.Credentials(key)
+		    };
+		
+		    var progressReporter = new progressStatus((num) =>
+		    {
+		        Console.WriteLine($"Received {num} issues in total");
+		    });
+		    CancellationTokenSource cancellationSource = new CancellationTokenSource();
+		
+		    try
+		    {
+		        var results = await RunPagedQueryAsync(client, PagedIssueQuery, "docs",
+		            cancellationSource.Token, progressReporter);
+		        foreach(var issue in results)
+		            Console.WriteLine(issue);
+		    }
+		    catch (OperationCanceledException)
+		    {
+		        Console.WriteLine("Work has been cancelled");
+		    }
+		}
+		
+		private static async Task<JArray> RunPagedQueryAsync(GitHubClient client, string queryText, string repoName, CancellationToken cancel, IProgress<int> progress)
+		{
+		    var issueAndPRQuery = new GraphQLRequest
+		    {
+		        Query = queryText
+		    };
+		    issueAndPRQuery.Variables["repo_name"] = repoName;
+		
+		    JArray finalResults = new JArray();
+		    bool hasMorePages = true;
+		    int pagesReturned = 0;
+		    int issuesReturned = 0;
+		
+		    // Stop with 10 pages, because these are large repos:
+		    while (hasMorePages && (pagesReturned++ < 10))
+		    {
+		        var postBody = issueAndPRQuery.ToJsonText();
+		        var response = await client.Connection.Post<string>(new Uri("https://api.github.com/graphql"),
+		            postBody, "application/json", "application/json");
+		
+		        JObject results = JObject.Parse(response.HttpResponse.Body.ToString()!);
+		
+		        int totalCount = (int)issues(results)["totalCount"]!;
+		        hasMorePages = (bool)pageInfo(results)["hasPreviousPage"]!;
+		        issueAndPRQuery.Variables["start_cursor"] = pageInfo(results)["startCursor"]!.ToString();
+		        issuesReturned += issues(results)["nodes"]!.Count();
+		        finalResults.Merge(issues(results)["nodes"]!);
+		        progress?.Report(issuesReturned);
+		        cancel.ThrowIfCancellationRequested();
+		    }
+		    return finalResults;
+		
+		    JObject issues(JObject result) => (JObject)result["data"]!["repository"]!["issues"]!;
+		    JObject pageInfo(JObject result) => (JObject)issues(result)["pageInfo"]!;
+		}
+		*/
+		
+		/*
+		private static async IAsyncEnumerable<JToken> RunPagedQueryAsync(GitHubClient client,
+    		string queryText, string repoName)
+		*/
+		
+		/*
+		private static async IAsyncEnumerable<JToken> RunPagedQueryAsync(GitHubClient client,
+		    string queryText, string repoName)
+		{
+		    var issueAndPRQuery = new GraphQLRequest
+		    {
+		        Query = queryText
+		    };
+		    issueAndPRQuery.Variables["repo_name"] = repoName;
+		
+		    bool hasMorePages = true;
+		    int pagesReturned = 0;
+		    int issuesReturned = 0;
+		
+		    // Stop with 10 pages, because these are large repos:
+		    while (hasMorePages && (pagesReturned++ < 10))
+		    {
+		        var postBody = issueAndPRQuery.ToJsonText();
+		        var response = await client.Connection.Post<string>(new Uri("https://api.github.com/graphql"),
+		            postBody, "application/json", "application/json");
+		
+		        JObject results = JObject.Parse(response.HttpResponse.Body.ToString()!);
+		
+		        int totalCount = (int)issues(results)["totalCount"]!;
+		        hasMorePages = (bool)pageInfo(results)["hasPreviousPage"]!;
+		        issueAndPRQuery.Variables["start_cursor"] = pageInfo(results)["startCursor"]!.ToString();
+		        issuesReturned += issues(results)["nodes"]!.Count();
+		
+		        foreach (JObject issue in issues(results)["nodes"]!)
+		            yield return issue;
+		    }
+		
+		    JObject issues(JObject result) => (JObject)result["data"]!["repository"]!["issues"]!;
+		    JObject pageInfo(JObject result) => (JObject)issues(result)["pageInfo"]!;
+		}
+		*/
+		
+		/*
+		private static async IAsyncEnumerable<JToken> RunPagedQueryAsync(GitHubClient client,
+		    string queryText, string repoName, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+		{
+		    var issueAndPRQuery = new GraphQLRequest
+		    {
+		        Query = queryText
+		    };
+		    issueAndPRQuery.Variables["repo_name"] = repoName;
+		
+		    bool hasMorePages = true;
+		    int pagesReturned = 0;
+		    int issuesReturned = 0;
+		
+		    // Stop with 10 pages, because these are large repos:
+		    while (hasMorePages && (pagesReturned++ < 10))
+		    {
+		        var postBody = issueAndPRQuery.ToJsonText();
+		        var response = await client.Connection.Post<string>(new Uri("https://api.github.com/graphql"),
+		            postBody, "application/json", "application/json");
+		
+		        JObject results = JObject.Parse(response.HttpResponse.Body.ToString()!);
+		
+		        int totalCount = (int)issues(results)["totalCount"]!;
+		        hasMorePages = (bool)pageInfo(results)["hasPreviousPage"]!;
+		        issueAndPRQuery.Variables["start_cursor"] = pageInfo(results)["startCursor"]!.ToString();
+		        issuesReturned += issues(results)["nodes"]!.Count();
+		
+		        foreach (JObject issue in issues(results)["nodes"]!)
+		            yield return issue;
+		    }
+		
+		    JObject issues(JObject result) => (JObject)result["data"]!["repository"]!["issues"]!;
+		    JObject pageInfo(JObject result) => (JObject)issues(result)["pageInfo"]!;
+		}
+		*/
+		
+		/*
+		private static async Task EnumerateWithCancellation(GitHubClient client)
+		{
+		    int num = 0;
+		    var cancellation = new CancellationTokenSource();
+		    await foreach (var issue in RunPagedQueryAsync(client, PagedIssueQuery, "docs")
+		        .WithCancellation(cancellation.Token))
+		    {
+		        Console.WriteLine(issue);
+		        Console.WriteLine($"Received {++num} issues in total");
+		    }
+		}
+		*/
+	}
+	
+	/*
+	public class GraphQLRequest
+	{
+	    [JsonProperty("query")]
+	    public string? Query { get; set; }
+	
+	    [JsonProperty("variables")]
+	    public IDictionary<string, object> Variables { get; } = new Dictionary<string, object>();
+	
+	    public string ToJsonText() =>
+	        JsonConvert.SerializeObject(this);
+	}
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/cancel-async-tasks-after-a-period-of-time
+namespace DotnetCSharpAsynchronousProgrammingCancelAsyncTasksAfterAPeriodOfTime
+{
+	public class CancelAsyncTasksAfterAPeriodOfTime
+	{
+		public static void RunCancelAsyncTasksAfterAPeriodOfTime()
+		{
+			
+		}
+		
+		static async Task RunMain()
+		{
+		    Console.WriteLine("Application started.");
+			/*
+		    try
+		    {
+		        s_cts.CancelAfter(3500);
+		
+		        await SumPageSizesAsync();
+		    }
+		    catch (OperationCanceledException)
+		    {
+		        Console.WriteLine("\nTasks cancelled: timed out.\n");
+		    }
+		    finally
+		    {
+		        s_cts.Dispose();
+		    }
+			*/
+		    Console.WriteLine("Application ending.");
+		}
+	}
+	
+	class Program
+	{
+	    static readonly CancellationTokenSource s_cts = new CancellationTokenSource();
+	
+	    static readonly HttpClient s_client = new HttpClient
+	    {
+	        MaxResponseContentBufferSize = 1_000_000
+	    };
+	
+	    static readonly IEnumerable<string> s_urlList = new string[]
+	    {
+	            "https://learn.microsoft.com",
+	            "https://learn.microsoft.com/aspnet/core",
+	            "https://learn.microsoft.com/azure",
+	            "https://learn.microsoft.com/azure/devops",
+	            "https://learn.microsoft.com/dotnet",
+	            "https://learn.microsoft.com/dynamics365",
+	            "https://learn.microsoft.com/education",
+	            "https://learn.microsoft.com/enterprise-mobility-security",
+	            "https://learn.microsoft.com/gaming",
+	            "https://learn.microsoft.com/graph",
+	            "https://learn.microsoft.com/microsoft-365",
+	            "https://learn.microsoft.com/office",
+	            "https://learn.microsoft.com/powershell",
+	            "https://learn.microsoft.com/sql",
+	            "https://learn.microsoft.com/surface",
+	            "https://learn.microsoft.com/system-center",
+	            "https://learn.microsoft.com/visualstudio",
+	            "https://learn.microsoft.com/windows",
+	            "https://learn.microsoft.com/maui"
+	    };
+	
+	    static async Task RunMain()
+	    {
+	        Console.WriteLine("Application started.");
+	
+	        try
+	        {
+	            s_cts.CancelAfter(3500);
+	
+	            await SumPageSizesAsync();
+	        }
+	        catch (OperationCanceledException)
+	        {
+	            Console.WriteLine("\nTasks cancelled: timed out.\n");
+	        }
+	        finally
+	        {
+	            s_cts.Dispose();
+	        }
+	
+	        Console.WriteLine("Application ending.");
+	    }
+	
+	    static async Task SumPageSizesAsync()
+	    {
+	        var stopwatch = Stopwatch.StartNew();
+	
+	        int total = 0;
+	        foreach (string url in s_urlList)
+	        {
+	            int contentLength = await ProcessUrlAsync(url, s_client, s_cts.Token);
+	            total += contentLength;
+	        }
+	
+	        stopwatch.Stop();
+	
+	        Console.WriteLine($"\nTotal bytes returned:  {total:#,#}");
+	        Console.WriteLine($"Elapsed time:          {stopwatch.Elapsed}\n");
+	    }
+	
+	    static async Task<int> ProcessUrlAsync(string url, HttpClient client, CancellationToken token)
+	    {
+	        HttpResponseMessage response = await client.GetAsync(url, token);
+	        byte[] content = await response.Content.ReadAsByteArrayAsync(token);
+	        Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+	
+	        return content.Length;
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/cancel-an-async-task-or-a-list-of-tasks
+namespace DotnetCSharpAsynchronousProgrammingCancelAnAsyncTaskOrAListOfTasks
+{
+	public class AsyncTaskOrAListOfTasks
+	{
+		public static async Task RunAsyncTaskOrAListOfTasks()
+		{
+			int total = 0;
+			foreach (string url in s_urlList)
+			{
+			    int contentLength = await ProcessUrlAsync(url, s_client, s_cts.Token);
+			    total += contentLength;
+			}
+		}
+		
+		static readonly CancellationTokenSource s_cts = new CancellationTokenSource();
+
+		static readonly HttpClient s_client = new HttpClient
+		{
+		    MaxResponseContentBufferSize = 1_000_000
+		};
+		
+		static readonly IEnumerable<string> s_urlList = new string[]
+		{
+		    "https://learn.microsoft.com",
+		    "https://learn.microsoft.com/aspnet/core",
+		    "https://learn.microsoft.com/azure",
+		    "https://learn.microsoft.com/azure/devops",
+		    "https://learn.microsoft.com/dotnet",
+		    "https://learn.microsoft.com/dynamics365",
+		    "https://learn.microsoft.com/education",
+		    "https://learn.microsoft.com/enterprise-mobility-security",
+		    "https://learn.microsoft.com/gaming",
+		    "https://learn.microsoft.com/graph",
+		    "https://learn.microsoft.com/microsoft-365",
+		    "https://learn.microsoft.com/office",
+		    "https://learn.microsoft.com/powershell",
+		    "https://learn.microsoft.com/sql",
+		    "https://learn.microsoft.com/surface",
+		    "https://learn.microsoft.com/system-center",
+		    "https://learn.microsoft.com/visualstudio",
+		    "https://learn.microsoft.com/windows",
+		    "https://learn.microsoft.com/maui"
+		};
+		
+		static async Task RunMain()
+		{
+		    Console.WriteLine("Application started.");
+		    Console.WriteLine("Press the ENTER key to cancel...\n");
+		
+		    Task cancelTask = Task.Run(() =>
+		    {
+		        while (Console.ReadKey().Key != ConsoleKey.Enter)
+		        {
+		            Console.WriteLine("Press the ENTER key to cancel...");
+		        }
+		
+		        Console.WriteLine("\nENTER key pressed: cancelling downloads.\n");
+		        s_cts.Cancel();
+		    });
+		
+		    Task sumPageSizesTask = SumPageSizesAsync();
+		
+		    Task finishedTask = await Task.WhenAny(new[] { cancelTask, sumPageSizesTask });
+		    if (finishedTask == cancelTask)
+		    {
+		        // wait for the cancellation to take place:
+		        try
+		        {
+		            await sumPageSizesTask;
+		            Console.WriteLine("Download task completed before cancel request was processed.");
+		        }
+		        catch (TaskCanceledException)
+		        {
+		            Console.WriteLine("Download task has been cancelled.");
+		        }
+		    }
+		
+		    Console.WriteLine("Application ending.");
+		}
+		
+		static async Task SumPageSizesAsync()
+		{
+		    var stopwatch = Stopwatch.StartNew();
+		
+		    int total = 0;
+		    foreach (string url in s_urlList)
+		    {
+		        int contentLength = await ProcessUrlAsync(url, s_client, s_cts.Token);
+		        total += contentLength;
+		    }
+		
+		    stopwatch.Stop();
+		
+		    Console.WriteLine($"\nTotal bytes returned:  {total:#,#}");
+		    Console.WriteLine($"Elapsed time:          {stopwatch.Elapsed}\n");
+		}
+		
+		static async Task<int> ProcessUrlAsync(string url, HttpClient client, CancellationToken token)
+		{
+		    HttpResponseMessage response = await client.GetAsync(url, token);
+		    byte[] content = await response.Content.ReadAsByteArrayAsync(token);
+		    Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+		
+		    return content.Length;
+		}
+	}
+	
+	class Program
+	{
+	    static readonly CancellationTokenSource s_cts = new CancellationTokenSource();
+	
+	    static readonly HttpClient s_client = new HttpClient
+	    {
+	        MaxResponseContentBufferSize = 1_000_000
+	    };
+	
+	    static readonly IEnumerable<string> s_urlList = new string[]
+	    {
+	            "https://learn.microsoft.com",
+	            "https://learn.microsoft.com/aspnet/core",
+	            "https://learn.microsoft.com/azure",
+	            "https://learn.microsoft.com/azure/devops",
+	            "https://learn.microsoft.com/dotnet",
+	            "https://learn.microsoft.com/dynamics365",
+	            "https://learn.microsoft.com/education",
+	            "https://learn.microsoft.com/enterprise-mobility-security",
+	            "https://learn.microsoft.com/gaming",
+	            "https://learn.microsoft.com/graph",
+	            "https://learn.microsoft.com/microsoft-365",
+	            "https://learn.microsoft.com/office",
+	            "https://learn.microsoft.com/powershell",
+	            "https://learn.microsoft.com/sql",
+	            "https://learn.microsoft.com/surface",
+	            "https://learn.microsoft.com/system-center",
+	            "https://learn.microsoft.com/visualstudio",
+	            "https://learn.microsoft.com/windows",
+	            "https://learn.microsoft.com/maui"
+	    };
+	
+	    static async Task RunMain()
+	    {
+	        Console.WriteLine("Application started.");
+	        Console.WriteLine("Press the ENTER key to cancel...\n");
+	
+	        Task cancelTask = Task.Run(() =>
+	        {
+	            while (Console.ReadKey().Key != ConsoleKey.Enter)
+	            {
+	                Console.WriteLine("Press the ENTER key to cancel...");
+	            }
+	
+	            Console.WriteLine("\nENTER key pressed: cancelling downloads.\n");
+	            s_cts.Cancel();
+	        });
+	
+	        Task sumPageSizesTask = SumPageSizesAsync();
+	
+	        Task finishedTask = await Task.WhenAny(new[] { cancelTask, sumPageSizesTask });
+	        if (finishedTask == cancelTask)
+	        {
+	            // wait for the cancellation to take place:
+	            try
+	            {
+	                await sumPageSizesTask;
+	                Console.WriteLine("Download task completed before cancel request was processed.");
+	            }
+	            catch (OperationCanceledException)
+	            {
+	                Console.WriteLine("Download task has been cancelled.");
+	            }
+	        }
+	
+	        Console.WriteLine("Application ending.");
+	    }
+	
+	    static async Task SumPageSizesAsync()
+	    {
+	        var stopwatch = Stopwatch.StartNew();
+	
+	        int total = 0;
+	        foreach (string url in s_urlList)
+	        {
+	            int contentLength = await ProcessUrlAsync(url, s_client, s_cts.Token);
+	            total += contentLength;
+	        }
+	
+	        stopwatch.Stop();
+	
+	        Console.WriteLine($"\nTotal bytes returned:  {total:#,#}");
+	        Console.WriteLine($"Elapsed time:          {stopwatch.Elapsed}\n");
+	    }
+	
+	    static async Task<int> ProcessUrlAsync(string url, HttpClient client, CancellationToken token)
+	    {
+	        HttpResponseMessage response = await client.GetAsync(url, token);
+	        byte[] content = await response.Content.ReadAsByteArrayAsync(token);
+	        Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+	
+	        return content.Length;
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/using-async-for-file-access
+namespace DotnetCSharpAsynchronousProgrammingUsingAsyncForFileAccess
+{
+	public class AsynchronousProgrammingUsingAsyncForFileAccess
+	{
+		public static void RunAsynchronousProgrammingUsingAsyncForFileAccess()
+		{
+			//Task theTask = sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+			//await theTask;
+			
+		}
+		
+		public async Task SimpleWriteAsync()
+		{
+		    string filePath = "simple.txt";
+		    string text = $"Hello World";
+		
+		    await File.WriteAllTextAsync(filePath, text);
+		}
+		
+		public async Task ProcessWriteAsync()
+		{
+		    string filePath = "temp.txt";
+		    string text = $"Hello World{Environment.NewLine}";
+		
+		    await WriteTextAsync(filePath, text);
+		}
+		
+		async Task WriteTextAsync(string filePath, string text)
+		{
+		    byte[] encodedText = Encoding.Unicode.GetBytes(text);
+		
+		    using var sourceStream =
+		        new FileStream(
+		            filePath,
+		            FileMode.Create, FileAccess.Write, FileShare.None,
+		            bufferSize: 4096, useAsync: true);
+		
+		    await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+		}
+		
+		public async Task SimpleReadAsync()
+		{
+		    string filePath = "simple.txt";
+		    string text = await File.ReadAllTextAsync(filePath);
+		
+		    Console.WriteLine(text);
+		}
+		
+		public async Task ProcessReadAsync()
+		{
+		    try
+		    {
+		        string filePath = "temp.txt";
+		        if (File.Exists(filePath) != false)
+		        {
+		            string text = await ReadTextAsync(filePath);
+		            Console.WriteLine(text);
+		        }
+		        else
+		        {
+		            Console.WriteLine($"file not found: {filePath}");
+		        }
+		    }
+		    catch (Exception ex)
+		    {
+		        Console.WriteLine(ex.Message);
+		    }
+		}
+		
+		async Task<string> ReadTextAsync(string filePath)
+		{
+		    using var sourceStream =
+		        new FileStream(
+		            filePath,
+		            FileMode.Open, FileAccess.Read, FileShare.Read,
+		            bufferSize: 4096, useAsync: true);
+		
+		    var sb = new StringBuilder();
+		
+		    byte[] buffer = new byte[0x1000];
+		    int numRead;
+		    while ((numRead = await sourceStream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+		    {
+		        string text = Encoding.Unicode.GetString(buffer, 0, numRead);
+		        sb.Append(text);
+		    }
+		
+		    return sb.ToString();
+		}
+		
+		public async Task SimpleParallelWriteAsync()
+		{
+		    string folder = Directory.CreateDirectory("tempfolder").Name;
+		    IList<Task> writeTaskList = new List<Task>();
+		
+		    for (int index = 11; index <= 20; ++ index)
+		    {
+		        string fileName = $"file-{index:00}.txt";
+		        string filePath = $"{folder}/{fileName}";
+		        string text = $"In file {index}{Environment.NewLine}";
+		
+		        writeTaskList.Add(File.WriteAllTextAsync(filePath, text));
+		    }
+		
+		    await Task.WhenAll(writeTaskList);
+		}
+		
+		public async Task ProcessMultipleWritesAsync()
+		{
+		    IList<FileStream> sourceStreams = new List<FileStream>();
+		
+		    try
+		    {
+		        string folder = Directory.CreateDirectory("tempfolder").Name;
+		        IList<Task> writeTaskList = new List<Task>();
+		
+		        for (int index = 1; index <= 10; ++ index)
+		        {
+		            string fileName = $"file-{index:00}.txt";
+		            string filePath = $"{folder}/{fileName}";
+		
+		            string text = $"In file {index}{Environment.NewLine}";
+		            byte[] encodedText = Encoding.Unicode.GetBytes(text);
+		
+		            var sourceStream =
+		                new FileStream(
+		                    filePath,
+		                    FileMode.Create, FileAccess.Write, FileShare.None,
+		                    bufferSize: 4096, useAsync: true);
+		
+		            Task writeTask = sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+		            sourceStreams.Add(sourceStream);
+		
+		            writeTaskList.Add(writeTask);
+		        }
+		
+		        await Task.WhenAll(writeTaskList);
+		    }
+		    finally
+		    {
+		        foreach (FileStream sourceStream in sourceStreams)
+		        {
+		            sourceStream.Close();
+		        }
+		    }
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/start-multiple-async-tasks-and-process-them-as-they-complete
+namespace DotnetCSharpAsynchronousProgrammingStartMultipleAsyncTasksAndProcessThemAsTheyComplete
+{
+	public class StartMultipleAsyncTasksAndProcessThemAsTheyComplete
+	{
+		public static void RunStartMultipleAsyncTasksAndProcessThemAsTheyComplete()
+		{
+			
+		}
+	}
+	
+	class Program
+	{
+		/*
+	    static void RunMain(string[] args)
+	    {
+	        Console.WriteLine("Hello World!");
+			
+			List<Task<int>> downloadTasks = downloadTasksQuery.ToList();
+			
+			Task<int> finishedTask = await Task.WhenAny(downloadTasks);
+			
+			downloadTasks.Remove(finishedTask);
+			
+			total += await finishedTask;
+			
+			while (downloadTasks.Any())
+		    {
+		        Task<int> finishedTask = await Task.WhenAny(downloadTasks);
+		        downloadTasks.Remove(finishedTask);
+		        total += await finishedTask;
+		    }
+			
+			await foreach (Task<int> t in Task.WhenEach(downloadTasks))
+		    {
+		        total += await t;
+		    }
+			
+			HttpClient s_client = new()
+			{
+			    MaxResponseContentBufferSize = 1_000_000
+			};
+			
+			IEnumerable<string> s_urlList = new string[]
+			{
+			    "https://learn.microsoft.com",
+			    "https://learn.microsoft.com/aspnet/core",
+			    "https://learn.microsoft.com/azure",
+			    "https://learn.microsoft.com/azure/devops",
+			    "https://learn.microsoft.com/dotnet",
+			    "https://learn.microsoft.com/dynamics365",
+			    "https://learn.microsoft.com/education",
+			    "https://learn.microsoft.com/enterprise-mobility-security",
+			    "https://learn.microsoft.com/gaming",
+			    "https://learn.microsoft.com/graph",
+			    "https://learn.microsoft.com/microsoft-365",
+			    "https://learn.microsoft.com/office",
+			    "https://learn.microsoft.com/powershell",
+			    "https://learn.microsoft.com/sql",
+			    "https://learn.microsoft.com/surface",
+			    "https://learn.microsoft.com/system-center",
+			    "https://learn.microsoft.com/visualstudio",
+			    "https://learn.microsoft.com/windows",
+			    "https://learn.microsoft.com/maui"
+			};
+			
+			await SumPageSizesAsync();
+			
+			
+	    }
+		*/
+		
+		static Task RunMain() => SumPageSizesAsync();
+		
+		static readonly HttpClient s_client = new HttpClient
+		{
+		    MaxResponseContentBufferSize = 1_000_000
+		};
+		
+		static readonly IEnumerable<string> s_urlList = new string[]
+		{
+		    "https://learn.microsoft.com",
+		    "https://learn.microsoft.com/aspnet/core",
+		    "https://learn.microsoft.com/azure",
+		    "https://learn.microsoft.com/azure/devops",
+		    "https://learn.microsoft.com/dotnet",
+		    "https://learn.microsoft.com/dynamics365",
+		    "https://learn.microsoft.com/education",
+		    "https://learn.microsoft.com/enterprise-mobility-security",
+		    "https://learn.microsoft.com/gaming",
+		    "https://learn.microsoft.com/graph",
+		    "https://learn.microsoft.com/microsoft-365",
+		    "https://learn.microsoft.com/office",
+		    "https://learn.microsoft.com/powershell",
+		    "https://learn.microsoft.com/sql",
+		    "https://learn.microsoft.com/surface",
+		    "https://learn.microsoft.com/system-center",
+		    "https://learn.microsoft.com/visualstudio",
+		    "https://learn.microsoft.com/windows",
+		    "https://learn.microsoft.com/maui"
+		};
+		
+		static async Task SumPageSizesAsync()
+		{
+		    var stopwatch = Stopwatch.StartNew();
+		
+		    IEnumerable<Task<int>> downloadTasksQuery =
+		        from url in s_urlList
+		        select ProcessUrlAsync(url, s_client);
+		
+		    List<Task<int>> downloadTasks = downloadTasksQuery.ToList();
+		
+		    int total = 0;
+		    while (downloadTasks.Any())
+		    {
+		        Task<int> finishedTask = await Task.WhenAny(downloadTasks);
+		        downloadTasks.Remove(finishedTask);
+		        total += await finishedTask;
+		    }
+		
+		    stopwatch.Stop();
+		
+		    Console.WriteLine($"\nTotal bytes returned:  {total:#,#}");
+		    Console.WriteLine($"Elapsed time:          {stopwatch.Elapsed}\n");
+		}
+		
+		IEnumerable<Task<int>> downloadTasksQuery =
+		    from url in s_urlList
+		    select ProcessUrlAsync(url, s_client);
+			
+		static async Task<int> ProcessUrlAsync(string url, HttpClient client)
+		{
+		    byte[] content = await client.GetByteArrayAsync(url);
+		    Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+		
+		    return content.Length;
+		}
+		
+		/*
+		static async Task<int> ProcessUrlAsync(string url, HttpClient client)
+		{
+		    byte[] content = await client.GetByteArrayAsync(url);
+		    Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+		
+		    return content.Length;
+		}
+		*/
+		
+		/*
+		async Task SumPageSizesAsync()
+		{
+		    var stopwatch = Stopwatch.StartNew();
+		
+		    IEnumerable<Task<int>> downloadTasksQuery =
+		        from url in s_urlList
+		        select ProcessUrlAsync(url, s_client);
+		
+		    List<Task<int>> downloadTasks = downloadTasksQuery.ToList();
+		
+		    int total = 0;
+		    while (downloadTasks.Any())
+		    {
+		        Task<int> finishedTask = await Task.WhenAny(downloadTasks);
+		        downloadTasks.Remove(finishedTask);
+		        total += await finishedTask;
+		    }
+		
+		    stopwatch.Stop();
+		
+		    Console.WriteLine($"\nTotal bytes returned:    {total:#,#}");
+		    Console.WriteLine($"Elapsed time:              {stopwatch.Elapsed}\n");
+		}
+		
+		static async Task<int> ProcessUrlAsync(string url, HttpClient client)
+		{
+		    byte[] content = await client.GetByteArrayAsync(url);
+		    Console.WriteLine($"{url,-60} {content.Length,10:#,#}");
+		
+		    return content.Length;
+		}
+		
+		// Example output:
+		// https://learn.microsoft.com                                      132,517
+		// https://learn.microsoft.com/powershell                            57,375
+		// https://learn.microsoft.com/gaming                                33,549
+		// https://learn.microsoft.com/aspnet/core                           88,714
+		// https://learn.microsoft.com/surface                               39,840
+		// https://learn.microsoft.com/enterprise-mobility-security          30,903
+		// https://learn.microsoft.com/microsoft-365                         67,867
+		// https://learn.microsoft.com/windows                               26,816
+		// https://learn.microsoft.com/maui                               57,958
+		// https://learn.microsoft.com/dotnet                                78,706
+		// https://learn.microsoft.com/graph                                 48,277
+		// https://learn.microsoft.com/dynamics365                           49,042
+		// https://learn.microsoft.com/office                                67,867
+		// https://learn.microsoft.com/system-center                         42,887
+		// https://learn.microsoft.com/education                             38,636
+		// https://learn.microsoft.com/azure                                421,663
+		// https://learn.microsoft.com/visualstudio                          30,925
+		// https://learn.microsoft.com/sql                                   54,608
+		// https://learn.microsoft.com/azure/devops                          86,034
+		
+		// Total bytes returned:    1,454,184
+		// Elapsed time:            00:00:01.1290403
+		*/
+			
+		
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-return-types
+namespace DotnetCSharpAsynchronousProgrammingAsyncReturnTypes
+{
+	public class AsynchronousProgrammingAsyncReturnTypes
+	{
+		public static async Task RunAsynchronousProgrammingAsyncReturnTypes()
+		{
+			Task waitAndApologizeTask = WaitAndApologizeAsync();
+
+			string output =
+			    $"Today is {DateTime.Now:D}\n" +
+			    $"The current time is {DateTime.Now.TimeOfDay:t}\n" +
+			    "The current temperature is 76 degrees.\n";
+			
+			await waitAndApologizeTask;
+			Console.WriteLine(output);
+			
+			var getLeisureHoursTask = GetLeisureHoursAsync();
+
+			string message =
+			    $"Today is {DateTime.Today:D}\n" +
+			    "Today's hours of leisure: " +
+			    $"{await getLeisureHoursTask}";
+			
+			Console.WriteLine(message);
+			
+		}
+		
+		public static async Task DisplayCurrentInfoAsync()
+		{
+		    await WaitAndApologizeAsync();
+		
+		    Console.WriteLine($"Today is {DateTime.Now:D}");
+		    Console.WriteLine($"The current time is {DateTime.Now.TimeOfDay:t}");
+		    Console.WriteLine("The current temperature is 76 degrees.");
+		}
+		
+		static async Task WaitAndApologizeAsync()
+		{
+		    await Task.Delay(2000);
+		
+		    Console.WriteLine("Sorry for the delay...\n");
+		}
+		// Example output:
+		//    Sorry for the delay...
+		//
+		// Today is Monday, August 17, 2020
+		// The current time is 12:59:24.2183304
+		// The current temperature is 76 degrees.
+		
+		public static async Task ShowTodaysInfoAsync()
+		{
+		    string message =
+		        $"Today is {DateTime.Today:D}\n" +
+		        "Today's hours of leisure: " +
+		        $"{await GetLeisureHoursAsync()}";
+		
+		    Console.WriteLine(message);
+		}
+		
+		static async Task<int> GetLeisureHoursAsync()
+		{
+		    DayOfWeek today = await Task.FromResult(DateTime.Now.DayOfWeek);
+		
+		    int leisureHours =
+		        today is DayOfWeek.Saturday || today is DayOfWeek.Sunday
+		        ? 16 : 5;
+		
+		    return leisureHours;
+		}
+		// Example output:
+		//    Today is Wednesday, May 24, 2017
+		//    Today's hours of leisure: 5
+	}
+	
+	public class NaiveButton
+	{
+	    public event EventHandler? Clicked;
+	
+	    public void Click()
+	    {
+	        Console.WriteLine("Somebody has clicked a button. Let's raise the event...");
+	        Clicked?.Invoke(this, EventArgs.Empty);
+	        Console.WriteLine("All listeners are notified.");
+	    }
+	}
+	
+	public class AsyncVoidExample
+	{
+	    static readonly TaskCompletionSource<bool> s_tcs = new TaskCompletionSource<bool>();
+	
+	    public static async Task MultipleEventHandlersAsync()
+	    {
+	        Task<bool> secondHandlerFinished = s_tcs.Task;
+	
+	        var button = new NaiveButton();
+	
+	        button.Clicked += OnButtonClicked1;
+	        button.Clicked += OnButtonClicked2Async;
+	        button.Clicked += OnButtonClicked3;
+	
+	        Console.WriteLine("Before button.Click() is called...");
+	        button.Click();
+	        Console.WriteLine("After button.Click() is called...");
+	
+	        await secondHandlerFinished;
+	    }
+	
+	    private static void OnButtonClicked1(object? sender, EventArgs e)
+	    {
+	        Console.WriteLine("   Handler 1 is starting...");
+	        Task.Delay(100).Wait();
+	        Console.WriteLine("   Handler 1 is done.");
+	    }
+	
+	    private static async void OnButtonClicked2Async(object? sender, EventArgs e)
+	    {
+	        Console.WriteLine("   Handler 2 is starting...");
+	        Task.Delay(100).Wait();
+	        Console.WriteLine("   Handler 2 is about to go async...");
+	        await Task.Delay(500);
+	        Console.WriteLine("   Handler 2 is done.");
+	        s_tcs.SetResult(true);
+	    }
+	
+	    private static void OnButtonClicked3(object? sender, EventArgs e)
+	    {
+	        Console.WriteLine("   Handler 3 is starting...");
+	        Task.Delay(100).Wait();
+	        Console.WriteLine("   Handler 3 is done.");
+	    }
+	}
+	// Example output:
+	//
+	// Before button.Click() is called...
+	// Somebody has clicked a button. Let's raise the event...
+	//    Handler 1 is starting...
+	//    Handler 1 is done.
+	//    Handler 2 is starting...
+	//    Handler 2 is about to go async...
+	//    Handler 3 is starting...
+	//    Handler 3 is done.
+	// All listeners are notified.
+	// After button.Click() is called...
+	//    Handler 2 is done.
+	
+	class Program
+	{
+	    static readonly Random s_rnd = new Random();
+	
+	    static async Task RunMain() =>
+	        Console.WriteLine($"You rolled {await GetDiceRollAsync()}");
+	
+	    static async ValueTask<int> GetDiceRollAsync()
+	    {
+	        Console.WriteLine("Shaking dice...");
+	
+	        int roll1 = await RollAsync();
+	        int roll2 = await RollAsync();
+	
+	        return roll1 + roll2;
+	    }
+	
+	    static async ValueTask<int> RollAsync()
+	    {
+	        await Task.Delay(500);
+	
+	        int diceRoll = s_rnd.Next(1, 7);
+	        return diceRoll;
+	    }
+		
+		static async IAsyncEnumerable<string> ReadWordsFromStreamAsync()
+		{
+		    string data =
+		        @"This is a line of text.
+		              Here is the second line of text.
+		              And there is one more for good measure.
+		              Wait, that was the penultimate line.";
+		
+		    using var readStream = new StringReader(data);
+		
+		    string? line = await readStream.ReadLineAsync();
+		    while (line != null)
+		    {
+		        foreach (string word in line.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+		        {
+		            yield return word;
+		        }
+		
+		        line = await readStream.ReadLineAsync();
+		    }
+		}
+	}
+	// Example output:
+	//    Shaking dice...
+	//    You rolled 8
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/task-asynchronous-programming-model
+namespace DotnetCSharpAsynchronousProgrammingTaskAsynchronousProgrammingModel
+{
+	public class AsynchronousProgrammingModel
+	{
+		public static void RunAsynchronousProgrammingModel()
+		{
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/task-asynchronous-programming-model
+namespace DotnetCSharpAsynchronousProgrammingTaskAsynchronousProgrammingModel
+{
+	public class AsynchronousProgrammingModel2
+	{
+		public static async Task RunAsynchronousProgrammingModel()
+		{
+			Task<int> returnedTaskTResult = GetTaskOfTResultAsync();
+			int intResult = await returnedTaskTResult;
+			// Single line
+			// int intResult = await GetTaskOfTResultAsync();
+			
+			async Task GetTaskAsync()
+			{
+			    await Task.Delay(0);
+			    // No return statement needed
+			}
+			
+			Task returnedTask = GetTaskAsync();
+			await returnedTask;
+			// Single line
+			await GetTaskAsync();
+		}
+		public async Task<int> GetUrlContentLengthAsync()
+		{
+		    using var client = new HttpClient();
+		
+		    Task<string> getStringTask =
+		        client.GetStringAsync("https://learn.microsoft.com/dotnet");
+		
+		    DoIndependentWork();
+		
+		    string contents = await getStringTask;
+			//string contents = await client.GetStringAsync("https://learn.microsoft.com/dotnet");
+		
+		    return contents.Length;
+		}
+		
+		void DoIndependentWork()
+		{
+		    Console.WriteLine("Working...");
+		}
+		
+		static async Task<int> GetTaskOfTResultAsync()
+		{
+		    int hours = 0;
+		    await Task.Delay(0);
+		
+		    return hours;
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-scenarios
+namespace DotnetCSharpAsynchronousProgrammingAsyncScenarios
+{
+	public class AsyncScenarios
+	{
+		public static void RunAsyncScenarios()
+		{
+			// When you cannot use await
+			//Task<string> task = GetDataAsync();
+			//string result = task.GetAwaiter().GetResult();
+			
+			// Offload to thread pool to avoid context deadlocks
+			//string result = Task.Run(async () => await GetDataAsync()).GetAwaiter().GetResult();
+			
+			//Task<string> task = GetDataAsync();
+			//task.Wait();
+			//string result = task.Result;
+			
+			
+			
+		}
+		
+		/*
+		s_downloadButton.Clicked += async (o, e) =>
+		{
+		    // This line will yield control to the UI as the request
+		    // from the web service is happening.
+		    //
+		    // The UI thread is now free to perform other work.
+		    var stringData = await s_httpClient.GetStringAsync(URL);
+		    DoSomethingWithData(stringData);
+		};
+		*/
+		/*
+		static DamageResult CalculateDamageDone()
+		{
+		    return new DamageResult()
+		    {
+		        // Code omitted:
+		        //
+		        // Does an expensive calculation and returns
+		        // the result of that calculation.
+		    };
+		}
+		
+		s_calculateButton.Clicked += async (o, e) =>
+		{
+		    // This line will yield control to the UI while CalculateDamageDone()
+		    // performs its work. The UI thread is free to perform other work.
+		    var damageResult = await Task.Run(() => CalculateDamageDone());
+		    DisplayDamage(damageResult);
+		};
+		*/
+		
+		/*
+		[HttpGet, Route("DotNetCount")]
+		static public async Task<int> GetDotNetCountAsync(string URL)
+		{
+		    // Suspends GetDotNetCountAsync() to allow the caller (the web server)
+		    // to accept another request, rather than blocking on this one.
+		    var html = await s_httpClient.GetStringAsync(URL);
+		    return Regex.Matches(html, @"\.NET").Count;
+		}
+		*/
+		
+		/*
+		private readonly HttpClient _httpClient = new HttpClient();
+
+		private async void OnSeeTheDotNetsButtonClick(object sender, RoutedEventArgs e)
+		{
+		    // Capture the task handle here so we can await the background task later.
+		    var getDotNetFoundationHtmlTask = _httpClient.GetStringAsync("https://dotnetfoundation.org");
+		
+		    // Any other work on the UI thread can be done here, such as enabling a Progress Bar.
+		    // It's important to do the extra work here before the "await" call,
+		    // so the user sees the progress bar before execution of this method is yielded.
+		    NetworkProgressBar.IsEnabled = true;
+		    NetworkProgressBar.Visibility = Visibility.Visible;
+		
+		    // The await operator suspends OnSeeTheDotNetsButtonClick(), returning control to its caller.
+		    // This action is what allows the app to be responsive and not block the UI thread.
+		    var html = await getDotNetFoundationHtmlTask;
+		    int count = Regex.Matches(html, @"\.NET").Count;
+		
+		    DotNetCountLabel.Text = $"Number of .NETs on dotnetfoundation.org: {count}";
+		
+		    NetworkProgressBar.IsEnabled = false;
+		    NetworkProgressBar.Visibility = Visibility.Collapsed;
+		}
+		*/
+		
+		/*
+		private static async Task<User> GetUserAsync(int userId)
+		{
+		    // Code omitted:
+		    //
+		    // Given a user Id {userId}, retrieves a User object corresponding
+		    // to the entry in the database with {userId} as its Id.
+		
+		    return await Task.FromResult(new User() { id = userId });
+		}
+		
+		private static async Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds)
+		{
+		    var getUserTasks = new List<Task<User>>();
+		    foreach (int userId in userIds)
+		    {
+		        getUserTasks.Add(GetUserAsync(userId));
+		    }
+		
+		    return await Task.WhenAll(getUserTasks);
+		}
+		*/
+		
+		/*
+		private static async Task<User[]> GetUsersByLINQAsync(IEnumerable<int> userIds)
+		{
+		    var getUserTasks = userIds.Select(id => GetUserAsync(id)).ToArray();
+		    return await Task.WhenAll(getUserTasks);
+		}
+		*/
+		
+		/*
+		private static async Task ProcessTasksAsTheyCompleteAsync(IEnumerable<int> userIds)
+		{
+		    var getUserTasks = userIds.Select(id => GetUserAsync(id)).ToList();
+		    
+		    while (getUserTasks.Count > 0)
+		    {
+		        Task<User> completedTask = await Task.WhenAny(getUserTasks);
+		        getUserTasks.Remove(completedTask);
+		        
+		        User user = await completedTask;
+		        Console.WriteLine($"Processed user {user.id}");
+		    }
+		}
+		*/
+		
+		
+	}
+	
+	class Button
+	{
+	    public Func<object, object, Task>? Clicked
+	    {
+	        get;
+	        internal set;
+	    }
+	}
+	
+	class DamageResult
+	{
+	    public int Damage
+	    {
+	        get { return 0; }
+	    }
+	}
+	
+	class User
+	{
+	    public bool isEnabled
+	    {
+	        get;
+	        set;
+	    }
+	
+	    public int id
+	    {
+	        get;
+	        set;
+	    }
+	}
+	
+	/*
+	public class Program
+	{
+	    private static readonly Button s_downloadButton = new();
+	    private static readonly Button s_calculateButton = new();
+	
+	    private static readonly HttpClient s_httpClient = new();
+	
+	    private static readonly IEnumerable<string> s_urlList = new string[]
+	    {
+	            "https://learn.microsoft.com",
+	            "https://learn.microsoft.com/aspnet/core",
+	            "https://learn.microsoft.com/azure",
+	            "https://learn.microsoft.com/azure/devops",
+	            "https://learn.microsoft.com/dotnet",
+	            "https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio",
+	            "https://learn.microsoft.com/education",
+	            "https://learn.microsoft.com/shows/net-core-101/what-is-net",
+	            "https://learn.microsoft.com/enterprise-mobility-security",
+	            "https://learn.microsoft.com/gaming",
+	            "https://learn.microsoft.com/graph",
+	            "https://learn.microsoft.com/microsoft-365",
+	            "https://learn.microsoft.com/office",
+	            "https://learn.microsoft.com/powershell",
+	            "https://learn.microsoft.com/sql",
+	            "https://learn.microsoft.com/surface",
+	            "https://dotnetfoundation.org",
+	            "https://learn.microsoft.com/visualstudio",
+	            "https://learn.microsoft.com/windows",
+	            "https://learn.microsoft.com/maui"
+	    };
+	
+	    private static void Calculate()
+	    {
+	        static DamageResult CalculateDamageDone()
+	        {
+	            return new DamageResult()
+	            {
+	                // Code omitted:
+	                //
+	                // Does an expensive calculation and returns
+	                // the result of that calculation.
+	            };
+	        }
+	
+	        s_calculateButton.Clicked += async (o, e) =>
+	        {
+	            // This line will yield control to the UI while CalculateDamageDone()
+	            // performs its work. The UI thread is free to perform other work.
+	            var damageResult = await Task.Run(() => CalculateDamageDone());
+	            DisplayDamage(damageResult);
+	        };
+	    }
+	
+	    private static void DisplayDamage(DamageResult damage)
+	    {
+	        Console.WriteLine(damage.Damage);
+	    }
+	
+	    private static void Download(string URL)
+	    {
+	        s_downloadButton.Clicked += async (o, e) =>
+	        {
+	            // This line will yield control to the UI as the request
+	            // from the web service is happening.
+	            //
+	            // The UI thread is now free to perform other work.
+	            var stringData = await s_httpClient.GetStringAsync(URL);
+	            DoSomethingWithData(stringData);
+	        };
+	    }
+	
+	    private static void DoSomethingWithData(object stringData)
+	    {
+	        Console.WriteLine($"Displaying data: {stringData}");
+	    }
+	
+	    private static async Task<User> GetUserAsync(int userId)
+	    {
+	        // Code omitted:
+	        //
+	        // Given a user Id {userId}, retrieves a User object corresponding
+	        // to the entry in the database with {userId} as its Id.
+	
+	        return await Task.FromResult(new User() { id = userId });
+	    }
+	
+	    private static async Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds)
+	    {
+	        var getUserTasks = new List<Task<User>>();
+	        foreach (int userId in userIds)
+	        {
+	            getUserTasks.Add(GetUserAsync(userId));
+	        }
+	
+	        return await Task.WhenAll(getUserTasks);
+	    }
+	
+	    private static async Task<User[]> GetUsersByLINQAsync(IEnumerable<int> userIds)
+	    {
+	        var getUserTasks = userIds.Select(id => GetUserAsync(id)).ToArray();
+	        return await Task.WhenAll(getUserTasks);
+	    }
+	
+	    private static async Task ProcessTasksAsTheyCompleteAsync(IEnumerable<int> userIds)
+	    {
+	        var getUserTasks = userIds.Select(id => GetUserAsync(id)).ToList();
+	        
+	        while (getUserTasks.Count > 0)
+	        {
+	            Task<User> completedTask = await Task.WhenAny(getUserTasks);
+	            getUserTasks.Remove(completedTask);
+	            
+	            User user = await completedTask;
+	            Console.WriteLine($"Processed user {user.id}");
+	        }
+	    }
+	
+	    [HttpGet, Route("DotNetCount")]
+	    static public async Task<int> GetDotNetCountAsync(string URL)
+	    {
+	        // Suspends GetDotNetCountAsync() to allow the caller (the web server)
+	        // to accept another request, rather than blocking on this one.
+	        var html = await s_httpClient.GetStringAsync(URL);
+	        return Regex.Matches(html, @"\.NET").Count;
+	    }
+	
+	    static async Task Main()
+	    {
+	        Console.WriteLine("Application started.");
+	
+	        Console.WriteLine("Counting '.NET' phrase in websites...");
+	        int total = 0;
+	        foreach (string url in s_urlList)
+	        {
+	            var result = await GetDotNetCountAsync(url);
+	            Console.WriteLine($"{url}: {result}");
+	            total += result;
+	        }
+	        Console.WriteLine("Total: " + total);
+	
+	        Console.WriteLine("Retrieving User objects with list of IDs...");
+	        IEnumerable<int> ids = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+	        var users = await GetUsersAsync(ids);
+	        foreach (User? user in users)
+	        {
+	            Console.WriteLine($"{user.id}: isEnabled={user.isEnabled}");
+	        }
+	
+	        Console.WriteLine("Processing tasks as they complete...");
+	        await ProcessTasksAsTheyCompleteAsync(ids);
+	
+	        Console.WriteLine("Application ending.");
+	    }
+	}
+	*/
+	
+	// Example output:
+	//
+	// Application started.
+	// Counting '.NET' phrase in websites...
+	// https://learn.microsoft.com: 0
+	// https://learn.microsoft.com/aspnet/core: 57
+	// https://learn.microsoft.com/azure: 1
+	// https://learn.microsoft.com/azure/devops: 2
+	// https://learn.microsoft.com/dotnet: 83
+	// https://learn.microsoft.com/dotnet/desktop/wpf/get-started/create-app-visual-studio: 31
+	// https://learn.microsoft.com/education: 0
+	// https://learn.microsoft.com/shows/net-core-101/what-is-net: 42
+	// https://learn.microsoft.com/enterprise-mobility-security: 0
+	// https://learn.microsoft.com/gaming: 0
+	// https://learn.microsoft.com/graph: 0
+	// https://learn.microsoft.com/microsoft-365: 0
+	// https://learn.microsoft.com/office: 0
+	// https://learn.microsoft.com/powershell: 0
+	// https://learn.microsoft.com/sql: 0
+	// https://learn.microsoft.com/surface: 0
+	// https://dotnetfoundation.org: 16
+	// https://learn.microsoft.com/visualstudio: 0
+	// https://learn.microsoft.com/windows: 0
+	// https://learn.microsoft.com/maui: 6
+	// Total: 238
+	// Retrieving User objects with list of IDs...
+	// 1: isEnabled= False
+	// 2: isEnabled= False
+	// 3: isEnabled= False
+	// 4: isEnabled= False
+	// 5: isEnabled= False
+	// 6: isEnabled= False
+	// 7: isEnabled= False
+	// 8: isEnabled= False
+	// 9: isEnabled= False
+	// 0: isEnabled= False
+	// Application ending.
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/
 namespace DotnetCSharpAsynchronousProgramming
 {
@@ -237,6 +2579,326 @@ namespace DotnetCSharpAsynchronousProgramming
 	            Console.WriteLine("Pouring coffee");
 	            return new Coffee();
 	        }
+			
+			
+			static async Task RunMain(string[] args)
+			{
+			    Coffee cup = PourCoffee();
+			    Console.WriteLine("coffee is ready");
+				/*
+			    Egg eggs = await FryEggsAsync(2);
+			    Console.WriteLine("eggs are ready");
+			
+			    HashBrown hashBrown = await FryHashBrownsAsync(3);
+			    Console.WriteLine("hash browns are ready");
+			
+			    Toast toast = await ToastBreadAsync(2);
+			    ApplyButter(toast);
+			    ApplyJam(toast);
+			    Console.WriteLine("toast is ready");
+				*/
+			    Juice oj = PourOJ();
+			    Console.WriteLine("oj is ready");
+			    Console.WriteLine("Breakfast is ready!");
+				/*
+				Coffee cup = PourCoffee();
+				Console.WriteLine("Coffee is ready");
+				
+				Task<Egg> eggsTask = FryEggsAsync(2);
+				Egg eggs = await eggsTask;
+				Console.WriteLine("Eggs are ready");
+				
+				Task<HashBrown> hashBrownTask = FryHashBrownsAsync(3);
+				HashBrown hashBrown = await hashBrownTask;
+				Console.WriteLine("Hash browns are ready");
+				
+				Task<Toast> toastTask = ToastBreadAsync(2);
+				Toast toast = await toastTask;
+				ApplyButter(toast);
+				ApplyJam(toast);
+				Console.WriteLine("Toast is ready");
+				
+				Juice oj = PourOJ();
+				Console.WriteLine("Oj is ready");
+				Console.WriteLine("Breakfast is ready!");
+				*/
+				/*
+				Coffee cup = PourCoffee();
+				Console.WriteLine("Coffee is ready");
+				
+				Task<Egg> eggsTask = FryEggsAsync(2);
+				Task<HashBrown> hashBrownTask = FryHashBrownsAsync(3);
+				Task<Toast> toastTask = ToastBreadAsync(2);
+				
+				Toast toast = await toastTask;
+				ApplyButter(toast);
+				ApplyJam(toast);
+				Console.WriteLine("Toast is ready");
+				Juice oj = PourOJ();
+				Console.WriteLine("Oj is ready");
+				
+				Egg eggs = await eggsTask;
+				Console.WriteLine("Eggs are ready");
+				HashBrown hashBrown = await hashBrownTask;
+				Console.WriteLine("Hash browns are ready");
+				
+				Console.WriteLine("Breakfast is ready!");
+				*/
+				
+				Console.WriteLine("Fire! Toast is ruined!");
+				//throw new InvalidOperationException("The toaster is on fire");
+				
+				//await Task.WhenAll(eggsTask, hashBrownTask, toastTask);
+				Console.WriteLine("Eggs are ready");
+				Console.WriteLine("Hash browns are ready");
+				Console.WriteLine("Toast is ready");
+				Console.WriteLine("Breakfast is ready!");
+				/*
+				var breakfastTasks = new List<Task> { eggsTask, hashBrownTask, toastTask };
+				while (breakfastTasks.Count > 0)
+				{
+				    Task finishedTask = await Task.WhenAny(breakfastTasks);
+				    if (finishedTask == eggsTask)
+				    {
+				        Console.WriteLine("Eggs are ready");
+				    }
+				    else if (finishedTask == hashBrownTask)
+				    {
+				        Console.WriteLine("Hash browns are ready");
+				    }
+				    else if (finishedTask == toastTask)
+				    {
+				        Console.WriteLine("Toast is ready");
+				    }
+				    await finishedTask;
+				    breakfastTasks.Remove(finishedTask);
+				}
+				*/
+				
+				
+			}
+			
+			/*
+			static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
+			{
+			    var toast = await ToastBreadAsync(number);
+			    ApplyButter(toast);
+			    ApplyJam(toast);
+			
+			    return toast;
+			}
+			*/
+			/*
+			static async Task Main(string[] args)
+			{
+			    Coffee cup = PourCoffee();
+			    Console.WriteLine("coffee is ready");
+			
+			    var eggsTask = FryEggsAsync(2);
+			    var hashBrownTask = FryHashBrownsAsync(3);
+			    var toastTask = MakeToastWithButterAndJamAsync(2);
+			
+			    var eggs = await eggsTask;
+			    Console.WriteLine("eggs are ready");
+			
+			    var hashBrown = await hashBrownTask;
+			    Console.WriteLine("hash browns are ready");
+			
+			    var toast = await toastTask;
+			    Console.WriteLine("toast is ready");
+			
+			    Juice oj = PourOJ();
+			    Console.WriteLine("oj is ready");
+			    Console.WriteLine("Breakfast is ready!");
+			}
+			*/
+			
+			private static async Task<Toast> ToastBreadAsync(int slices)
+			{
+			    for (int slice = 0; slice < slices; slice++)
+			    {
+			        Console.WriteLine("Putting a slice of bread in the toaster");
+			    }
+			    Console.WriteLine("Start toasting...");
+			    await Task.Delay(2000);
+			    Console.WriteLine("Fire! Toast is ruined!");
+			    throw new InvalidOperationException("The toaster is on fire");
+			    await Task.Delay(1000);
+			    Console.WriteLine("Remove toast from toaster");
+			
+			    return new Toast();
+			}
+	    }
+	}
+	
+	namespace AsyncBreakfast
+	{
+	
+	    class AsyncBreakfast
+	    {
+	        static async Task RunMain(string[] args)
+	        {
+	            Coffee cup = PourCoffee();
+	            Console.WriteLine("coffee is ready");
+	
+	            var eggsTask = FryEggsAsync(2);
+	            var hashBrownTask = FryHashBrownsAsync(3);
+	            var toastTask = MakeToastWithButterAndJamAsync(2);
+	
+	            var breakfastTasks = new List<Task> { eggsTask, hashBrownTask, toastTask };
+	            while (breakfastTasks.Count > 0)
+	            {
+	                Task finishedTask = await Task.WhenAny(breakfastTasks);
+	                if (finishedTask == eggsTask)
+	                {
+	                    Console.WriteLine("eggs are ready");
+	                }
+	                else if (finishedTask == hashBrownTask)
+	                {
+	                    Console.WriteLine("hash browns are ready");
+	                }
+	                else if (finishedTask == toastTask)
+	                {
+	                    Console.WriteLine("toast is ready");
+	                }
+	                await finishedTask;
+	                breakfastTasks.Remove(finishedTask);
+	            }
+	
+	            Juice oj = PourOJ();
+	            Console.WriteLine("oj is ready");
+	            Console.WriteLine("Breakfast is ready!");
+	        }
+	
+	        static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
+	        {
+	            var toast = await ToastBreadAsync(number);
+	            ApplyButter(toast);
+	            ApplyJam(toast);
+	
+	            return toast;
+	        }
+	
+	        private static Juice PourOJ()
+	        {
+	            Console.WriteLine("Pouring orange juice");
+	            return new Juice();
+	        }
+	
+	        private static void ApplyJam(Toast toast) =>
+	            Console.WriteLine("Putting jam on the toast");
+	
+	        private static void ApplyButter(Toast toast) =>
+	            Console.WriteLine("Putting butter on the toast");
+	
+	        private static async Task<Toast> ToastBreadAsync(int slices)
+	        {
+	            for (int slice = 0; slice < slices; slice++)
+	            {
+	                Console.WriteLine("Putting a slice of bread in the toaster");
+	            }
+	            Console.WriteLine("Start toasting...");
+	            await Task.Delay(3000);
+	            Console.WriteLine("Remove toast from toaster");
+	
+	            return new Toast();
+	        }
+	
+	        private static async Task<HashBrown> FryHashBrownsAsync(int patties)
+	        {
+	            Console.WriteLine($"putting {patties} hash brown patties in the pan");
+	            Console.WriteLine("cooking first side of hash browns...");
+	            await Task.Delay(3000);
+	            for (int patty = 0; patty < patties; patty++)
+	            {
+	                Console.WriteLine("flipping a hash brown patty");
+	            }
+	            Console.WriteLine("cooking the second side of hash browns...");
+	            await Task.Delay(3000);
+	            Console.WriteLine("Put hash browns on plate");
+	
+	            return new HashBrown();
+	        }
+	
+	        private static async Task<Egg> FryEggsAsync(int howMany)
+	        {
+	            Console.WriteLine("Warming the egg pan...");
+	            await Task.Delay(3000);
+	            Console.WriteLine($"cracking {howMany} eggs");
+	            Console.WriteLine("cooking the eggs ...");
+	            await Task.Delay(3000);
+	            Console.WriteLine("Put eggs on plate");
+	
+	            return new Egg();
+	        }
+	
+	        private static Coffee PourCoffee()
+	        {
+	            Console.WriteLine("Pouring coffee");
+	            return new Coffee();
+	        }
+			
+			// Using ContinueWith - demonstrates the complexity when chaining operations
+			/*
+			static Task MakeBreakfastWithContinueWith()
+			{
+			    return StartCookingEggsAsync()
+			        .ContinueWith(eggsTask =>
+			        {
+			            var eggs = eggsTask.Result;
+			            Console.WriteLine("Eggs ready, starting bacon...");
+			            return StartCookingBaconAsync();
+			        })
+			        .Unwrap()
+			        .ContinueWith(baconTask =>
+			        {
+			            var bacon = baconTask.Result;
+			            Console.WriteLine("Bacon ready, starting toast...");
+			            return StartToastingBreadAsync();
+			        })
+			        .Unwrap()
+			        .ContinueWith(toastTask =>
+			        {
+			            var toast = toastTask.Result;
+			            Console.WriteLine("Toast ready, applying butter...");
+			            return ApplyButterAsync(toast);
+			        })
+			        .Unwrap()
+			        .ContinueWith(butteredToastTask =>
+			        {
+			            var butteredToast = butteredToastTask.Result;
+			            Console.WriteLine("Butter applied, applying jam...");
+			            return ApplyJamAsync(butteredToast);
+			        })
+			        .Unwrap()
+			        .ContinueWith(finalToastTask =>
+			        {
+			            var finalToast = finalToastTask.Result;
+			            Console.WriteLine("Breakfast completed with ContinueWith!");
+			        });
+			}
+			*/
+			
+			// Using async/await - much cleaner and easier to read
+			/*
+			static async Task MakeBreakfastWithAsyncAwait()
+			{
+			    var eggs = await StartCookingEggsAsync();
+			    Console.WriteLine("Eggs ready, starting bacon...");
+			    
+			    var bacon = await StartCookingBaconAsync();
+			    Console.WriteLine("Bacon ready, starting toast...");
+			    
+			    var toast = await StartToastingBreadAsync();
+			    Console.WriteLine("Toast ready, applying butter...");
+			    
+			    var butteredToast = await ApplyButterAsync(toast);
+			    Console.WriteLine("Butter applied, applying jam...");
+			    
+			    var finalToast = await ApplyJamAsync(butteredToast);
+			    Console.WriteLine("Breakfast completed with async/await!");
+			}
+			*/
 	    }
 	}
 	
