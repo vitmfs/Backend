@@ -147,6 +147,663 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/how-to/concatenate-multiple-strings
+namespace DotnetCSharpHowToConcatenateMultipleStrings
+{
+	public class ConcatenateMultipleStrings
+	{
+		public static void RunConcatenateMultipleStrings()
+		{
+			// Concatenation of literals is performed at compile time, not run time.
+			string text = "Historically, the world of data and the world of objects " +
+			"have not been well integrated. Programmers work in C# or Visual Basic " +
+			"and also in SQL or XQuery. On the one side are concepts such as classes, " +
+			"objects, fields, inheritance, and .NET Framework APIs. On the other side " +
+			"are tables, columns, rows, nodes, and separate languages for dealing with " +
+			"them. Data types often require translation between the two worlds; there are " +
+			"different standard functions. Because the object world has no notion of query, a " +
+			"query can only be represented as a string without compile-time type checking or " +
+			"IntelliSense support in the IDE. Transferring data from SQL tables or XML trees to " +
+			"objects in memory is often tedious and error-prone.";
+			
+			Console.WriteLine(text);
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/how-to/parse-strings-using-split
+namespace DotnetCSharpHowToParseStringsUsingSplit
+{
+	public class ParseStringsUsingSplit
+	{
+		public static void RunParseStringsUsingSplit()
+		{
+			string phrase = "The quick brown fox jumps over the lazy dog.";
+			string[] words = phrase.Split(' ');
+			
+			foreach (var word in words)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			
+			string phrase2 = "The quick brown fox jumps over the lazy dog.";
+			string[] words2 = phrase2.Split(' ');
+			
+			for (int i = 0; i < words.Length; i++)
+			{
+			    Console.WriteLine($"Index {i}: <{words2[i]}>");
+			}
+			
+			char[] delimiterChars = [' ', ',', '.', ':', '\t'];
+
+			string text = "one\ttwo three:four,five six seven";
+			Console.WriteLine($"Original text: '{text}'");
+			
+			string[] words3 = text.Split(delimiterChars);
+			Console.WriteLine($"{words3.Length} words in text:");
+			
+			foreach (var word in words3)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			
+			char[] delimiterChars2 = [' ', ',', '.', ':', '\t'];
+
+			string text2 = "one\ttwo :,five six seven";
+			Console.WriteLine($"Original text: '{text2}'");
+			
+			string[] words4 = text.Split(delimiterChars);
+			Console.WriteLine($"{words4.Length} words in text:");
+			
+			foreach (var word in words4)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			
+			string[] separatingStrings = ["<<", "..."];
+
+			string text3 = "one<<two......three<four";
+			Console.WriteLine($"Original text: '{text3}'");
+			
+			string[] words5 = text.Split(separatingStrings, StringSplitOptions.RemoveEmptyEntries);
+			Console.WriteLine($"{words5.Length} substrings in text:");
+			
+			foreach (var word in words5)
+			{
+			    Console.WriteLine(word);
+			}
+			
+			string phrase3 = "The quick brown fox jumps over the lazy dog.";
+			string[] words6 = phrase3.Split(' ', 4, StringSplitOptions.None);
+			
+			foreach (var word in words6)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			
+			string phrase4 = "The quick brown    fox     jumps over the lazy dog.";
+			string[] words7 = phrase4.Split(' ');
+			
+			foreach (var word in words7)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			
+			string numerals = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10";
+			string[] words8 = numerals.Split(',', StringSplitOptions.TrimEntries);
+			
+			Console.WriteLine("Trimmed entries:");
+			foreach (var word in words8)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+			words8 = numerals.Split(',', StringSplitOptions.None);
+			Console.WriteLine("Untrimmed entries:");
+			foreach (var word in words8)
+			{
+			    Console.WriteLine($"<{word}>");
+			}
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/versioning
+namespace DotnetCSharpVersioning
+{
+	public class Versioning
+	{
+		public static void RunVersioning()
+		{
+			BaseClass b = new BaseClass();
+		    DerivedClass d = new DerivedClass();
+		
+		    b.MyMethod();
+		    d.MyMethod();
+			
+			//MyBaseClass b = new MyBaseClass();
+			//MyDerivedClass d = new MyDerivedClass();
+		
+		    //Console.WriteLine($"Base Method One: {b.MethodOne()}");
+		    //Console.WriteLine($"Derived Method One: {d.MethodOne()}");
+			
+		}
+		
+		// Version 1.0.0
+		public void SaveFile(string filename) { }
+		
+		// Version 2.0.0 - MAJOR increment required
+		public void SaveFile(string filename, bool overwrite) { } // Added required parameter
+		
+		// Version 1.0.0 - returns null when file not found
+		public string ReadFile(string path) => File.Exists(path) ? File.ReadAllText(path) : null;
+		
+		// Version 2.0.0 - MAJOR increment required
+		public string ReadFile2(string path) => File.ReadAllText(path); // Now throws exception when file not found
+		
+		// Version 1.0.0
+		public void Log(string message) { }
+		
+		// Version 1.1.0 - MINOR increment
+		public void Log2(string message) { } // Original method unchanged
+		//public void Log3(string message, LogLevel level) { } // New overload added
+		
+		// Version 1.0.0
+		public void SaveFile2(string filename) { }
+		
+		// Version 1.1.0 - MINOR increment
+		public void SaveFile3(string filename, bool overwrite = false) { } // Optional parameter
+		
+		// Version 1.0.0 - has a bug
+		public int Divide(int a, int b)
+		{
+		    return a / b; // Bug: doesn't handle division by zero
+		}
+		
+		// Version 1.0.1 - PATCH increment
+		public int Divide2(int a, int b)
+		{
+		    if (b == 0) throw new ArgumentException("Cannot divide by zero");
+		    return a / b; // Bug fixed, behavior improved but API unchanged
+		}
+		
+		// Version 1.0.0
+		public List<int> SortNumbers(List<int> numbers)
+		{
+		    return numbers.OrderBy(x => x).ToList(); // Slower implementation
+		}
+		
+		// Version 1.0.1 - PATCH increment
+		public List<int> SortNumbers2(List<int> numbers)
+		{
+		    var result = new List<int>(numbers);
+		    result.Sort(); // Faster implementation, same API
+		    return result;
+		}
+	}
+	
+	// Version 1.0.0
+	public class Calculator
+	{
+	    public int Add(int a, int b) => a + b;
+	    public int Subtract(int a, int b) => a - b; // This method exists
+	}
+	
+	// Version 2.0.0 - MAJOR increment required
+	public class Calculator2
+	{
+	    public int Add(int a, int b) => a + b;
+	    // Subtract method removed - breaking change!
+	}
+	
+	// Version 1.0.0
+	public class Calculator3
+	{
+	    public int Add(int a, int b) => a + b;
+	}
+	
+	// Version 1.1.0 - MINOR increment
+	public class Calculator4
+	{
+	    public int Add(int a, int b) => a + b;
+	    public int Multiply(int a, int b) => a * b; // New method added
+	}
+	
+	public class BaseClass
+	{
+	    public void MyMethod()
+	    {
+	        Console.WriteLine("A base method");
+	    }
+	}
+	
+	public class DerivedClass : BaseClass
+	{
+	    public new void MyMethod()
+	    {
+	        Console.WriteLine("A derived method");
+	    }
+	}
+	
+	public class MyBaseClass
+	{
+	    public virtual string MethodOne()
+	    {
+	        return "Method One";
+	    }
+	}
+	
+	public class MyDerivedClass : MyBaseClass
+	{
+	    public override string MethodOne()
+	    {
+	        return "Derived Method One";
+	    }
+	}
+
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/distinguish-delegates-events
+namespace DotnetCSharpDistinguishDelegatesEvents
+{
+	public class DistinguishDelegatesEvents
+	{
+		public static void RunDistinguishDelegatesEvents()
+		{
+			
+		}
+	}
+}
+//https://learn.microsoft.com/en-us/dotnet/csharp/modern-events
+namespace DotnetCSharpModernEvents
+{
+	public class ModernEvents
+	{
+		public static void RunModernEvents()
+		{
+			/*
+			worker.StartWorking += async (sender, eventArgs) =>
+			{
+			    try
+			    {
+			        await DoWorkAsync();
+			    }
+			    catch (Exception e)
+			    {
+			        //Some form of logging.
+			        Console.WriteLine($"Async task failure: {e.ToString()}");
+			        // Consider gracefully, and quickly exiting.
+			    }
+			};
+			*/
+			
+		}
+	}
+	
+	internal struct SearchDirectoryArgs
+	{
+	    internal string CurrentSearchDirectory { get; }
+	    internal int TotalDirs { get; }
+	    internal int CompletedDirs { get; }
+	
+	    internal SearchDirectoryArgs(string dir, int totalDirs, int completedDirs) : this()
+	    {
+	        CurrentSearchDirectory = dir;
+	        TotalDirs = totalDirs;
+	        CompletedDirs = completedDirs;
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/event-pattern
+namespace DotnetCSharpEventPattern
+{
+	public class EventPattern
+	{
+		public static void RunEventPattern()
+		{
+			var fileLister = new FileSearcher();
+			int filesFound = 0;
+			
+			EventHandler<FileFoundArgs> onFileFound = (sender, eventArgs) =>
+			{
+			    Console.WriteLine(eventArgs.FoundFile);
+			    filesFound++;
+			};
+			
+			fileLister.FileFound += onFileFound;
+			
+			fileLister.FileFound -= onFileFound;
+			
+			EventHandler<FileFoundArgs> onFileFound2 = (sender, eventArgs) =>
+			{
+			    Console.WriteLine(eventArgs.FoundFile);
+			    eventArgs.CancelRequested = true;
+			};
+			
+			/*
+			fileLister.DirectoryChanged += (sender, eventArgs) =>
+			{
+			    Console.Write($"Entering '{eventArgs.CurrentSearchDirectory}'.");
+			    Console.WriteLine($" {eventArgs.CompletedDirs} of {eventArgs.TotalDirs} completed...");
+			};
+			*/
+			
+			
+		}
+		
+		//void EventRaised(object sender, EventArgs args);
+		
+		public event EventHandler<FileFoundArgs>? FileFound;
+		
+		internal event EventHandler<SearchDirectoryArgs> DirectoryChanged
+		{
+		    add { _directoryChanged += value; }
+		    remove { _directoryChanged -= value; }
+		}
+		private EventHandler<SearchDirectoryArgs>? _directoryChanged;
+		
+		public void Search(string directory, string searchPattern, bool searchSubDirs = false)
+		{
+		    if (searchSubDirs)
+		    {
+		        var allDirectories = Directory.GetDirectories(directory, "*.*", SearchOption.AllDirectories);
+		        var completedDirs = 0;
+		        var totalDirs = allDirectories.Length + 1;
+		        foreach (var dir in allDirectories)
+		        {
+		            _directoryChanged?.Invoke(this, new (dir, totalDirs, completedDirs++));
+		            // Search 'dir' and its subdirectories for files that match the search pattern:
+		            SearchDirectory(dir, searchPattern);
+		        }
+		        // Include the Current Directory:
+		        _directoryChanged?.Invoke(this, new (directory, totalDirs, completedDirs++));
+		        SearchDirectory(directory, searchPattern);
+		    }
+		    else
+		    {
+		        SearchDirectory(directory, searchPattern);
+		    }
+		}
+		
+		private void SearchDirectory(string directory, string searchPattern)
+		{
+		    foreach (var file in Directory.EnumerateFiles(directory, searchPattern))
+		    {
+		        var args = new FileFoundArgs(file);
+		        FileFound?.Invoke(this, args);
+		        if (args.CancelRequested)
+		            break;
+		    }
+		}
+	}
+	
+	public class FileFoundArgs : EventArgs
+	{
+	    public string FoundFile { get; }
+		public bool CancelRequested { get; set; }
+	
+	    public FileFoundArgs(string fileName) => FoundFile = fileName;
+		
+		/*
+		private void SearchDirectory(string directory, string searchPattern)
+		{
+		    foreach (var file in Directory.EnumerateFiles(directory, searchPattern))
+		    {
+		        var args = new FileFoundArgs(file);
+		        FileFound?.Invoke(this, args);
+		        if (args.CancelRequested)
+		            break;
+		    }
+		}
+		*/
+	}
+	
+	public class FileSearcher
+	{
+	    public event EventHandler<FileFoundArgs>? FileFound;
+	
+	    public void Search(string directory, string searchPattern)
+	    {
+	        foreach (var file in Directory.EnumerateFiles(directory, searchPattern))
+	        {
+	            FileFound?.Invoke(this, new FileFoundArgs(file));
+	        }
+	    }
+	}
+	
+	internal class SearchDirectoryArgs : EventArgs
+	{
+	    internal string CurrentSearchDirectory { get; }
+	    internal int TotalDirs { get; }
+	    internal int CompletedDirs { get; }
+	
+	    internal SearchDirectoryArgs(string dir, int totalDirs, int completedDirs)
+	    {
+	        CurrentSearchDirectory = dir;
+	        TotalDirs = totalDirs;
+	        CompletedDirs = completedDirs;
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/events-overview
+namespace DotnetCSharpEventsOverview
+{
+	public class EventsOverview
+	{
+		//public event EventHandler<FileFoundArgs>? FileFound;
+		
+		public static void RunEventsOverview()
+		{
+			//FileFound?.Invoke(this, new FileFoundArgs(file));
+			
+			/*
+			var fileLister = new FileSearcher();
+			int filesFound = 0;
+			
+			EventHandler<FileFoundArgs> onFileFound = (sender, eventArgs) =>
+			{
+			    Console.WriteLine(eventArgs.FoundFile);
+			    filesFound++;
+			};
+			
+			fileLister.FileFound += onFileFound;
+			
+			fileLister.FileFound -= onFileFound;
+			*/
+			
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/delegates-patterns
+namespace DotnetCSharpDelegatesPatterns
+{
+	public static class DelegatesPatterns
+	{
+		public static void RunDelegatesPatterns()
+		{
+			//var smallNumbers = numbers.Where(n => n < 10);
+			
+			Logger.WriteMessage += LoggingMethods.LogToConsole;
+			
+			var file = new FileLogger("log.txt");
+			
+			var fileOutput = new FileLogger("log.txt");
+			Logger.WriteMessage += LoggingMethods.LogToConsole; // LoggingMethods is the static class we utilized earlier
+			
+			Logger.WriteMessage -= LoggingMethods.LogToConsole;
+			
+			
+		}
+		
+		public static IEnumerable<TSource> Where<TSource> (this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+		{
+			return null;
+		}
+	}
+	
+	/*
+	public static class Logger
+	{
+	    public static Action<string>? WriteMessage;
+	
+	    public static void LogMessage(string msg)
+	    {
+	        if (WriteMessage is not null)
+	            WriteMessage(msg);
+	    }
+	}
+	*/
+	
+	public static class LoggingMethods
+	{
+	    public static void LogToConsole(string message)
+	    {
+	        Console.Error.WriteLine(message);
+	    }
+	}
+	
+	public enum Severity
+	{
+	    Verbose,
+	    Trace,
+	    Information,
+	    Warning,
+	    Error,
+	    Critical
+	}
+	
+	/*
+	public static class Logger
+	{
+	    public static Action<string>? WriteMessage;
+	
+	    public static void LogMessage(Severity s, string component, string msg)
+	    {
+	        var outputMsg = $"{DateTime.Now}\t{s}\t{component}\t{msg}";
+	        if (WriteMessage is not null)
+	            WriteMessage(outputMsg);
+	    }
+	}
+	*/
+	
+	public static class Logger
+	{
+	    public static Action<string>? WriteMessage;
+	
+	    public static Severity LogLevel { get; set; } = Severity.Warning;
+	
+	    public static void LogMessage(Severity s, string component, string msg)
+	    {
+	        if (s < LogLevel)
+	            return;
+	
+	        var outputMsg = $"{DateTime.Now}\t{s}\t{component}\t{msg}";
+	        if (WriteMessage is not null)
+	            WriteMessage(outputMsg);
+	    }
+		
+		public static void LogMessage(string msg)
+		{
+		    WriteMessage?.Invoke(msg);
+		}
+	}
+	
+	public class FileLogger
+	{
+	    private readonly string logPath;
+	    public FileLogger(string path)
+	    {
+	        logPath = path;
+	        Logger.WriteMessage += LogMessage;
+	    }
+	
+	    public void DetachLog() => Logger.WriteMessage -= LogMessage;
+	    // make sure this can't throw.
+	    private void LogMessage(string msg)
+	    {
+	        try
+	        {
+	            using (var log = File.AppendText(logPath))
+	            {
+	                log.WriteLine(msg);
+	                log.Flush();
+	            }
+	        }
+	        catch (Exception)
+	        {
+	            // Hmm. We caught an exception while
+	            // logging. We can't really log the
+	            // problem (since it's the log that's failing).
+	            // So, while normally, catching an exception
+	            // and doing nothing isn't wise, it's really the
+	            // only reasonable option here.
+	        }
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/delegates-strongly-typed
+namespace DotnetCSharpDelegatesStronglyTyped
+{
+	public class DelegateStronglyTyped
+	{
+		public delegate void Action();
+		public delegate void Action<in T>(T arg);
+		public delegate void Action<in T1, in T2>(T1 arg1, T2 arg2);
+		// Other variations removed for brevity.
+		
+		public delegate TResult Func<out TResult>();
+		public delegate TResult Func<in T1, out TResult>(T1 arg);
+		public delegate TResult Func<in T1, in T2, out TResult>(T1 arg1, T2 arg2);
+		// Other variations removed for brevity
+		
+		public delegate bool Predicate<in T>(T obj);
+		
+		Func<string, bool> TestForString;
+		Predicate<string> AnotherTestForString;
+		
+		
+		
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/delegate-class
+namespace DotnetCSharpDelegateClass
+{
+	public class DelegateClass
+	{
+		// Define a simple delegate that can point to methods taking two integers and returning an integer
+		public delegate int Calculator(int x, int y);
+		
+		// From the .NET Core library
+		public delegate int Comparison<in T>(T left, T right);
+		
+		// Inside a class definition:
+		//public Comparison<T> comparator;
+		
+		public static void RunDelegateClass()
+		{
+			//int result = comparator(left, right);
+			
+			//phrases.Sort(CompareLength);
+			
+			//Comparison<string> comparer = CompareLength;
+			//phrases.Sort(comparer);
+			
+			//Comparison<string> comparer = (left, right) => left.Length.CompareTo(right.Length);
+			//phrases.Sort(comparer);
+			
+			
+		}
+		
+		private static int CompareLength(string left, string right) =>
+    		left.Length.CompareTo(right.Length);
+	}
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/delegates-overview
 namespace DotnetCSharpDelegatesOverview
 {
