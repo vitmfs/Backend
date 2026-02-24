@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
+using Day = System.DayOfWeek;
 //using Excel = Microsoft.Office.Interop.Excel;
 //using Word = Microsoft.Office.Interop.Word;
 //using Excel = Microsoft.Office.Interop.Excel;
@@ -155,6 +156,3151 @@ namespace ProgramNamespace
     }
 }
 
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time
+namespace DotnetCSharpProgrammingGuideGenericsGenericsInTheRunTime
+{
+	public class GenericsInTheRunTime
+	{
+		public static void RunGenericsInTheRunTime()
+		{
+			Stack<int>? stack;
+			
+			Stack<int> stackOne = new Stack<int>();
+			Stack<int> stackTwo = new Stack<int>();
+			
+			Stack<Customer> customers;
+			
+			Stack<Order> orders = new Stack<Order>();
+			
+			customers = new Stack<Customer>();
+		}
+	}
+	
+	class Customer { }
+	class Order { }
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-delegates
+namespace DotnetCSharpProgrammingGuideGenericsGenericDelegates
+{
+	public class GenericDelegates
+	{
+		public static void RunGenericDelegates()
+		{
+			Del<int> m1 = new Del<int>(Notify);
+			
+			Del<int> m2 = Notify;
+		}
+		
+		public delegate void Del<T>(T item);
+		public static void Notify(int i) { }
+		
+		private static void DoWork(float[] items) { }
+
+		public static void TestStack()
+		{
+		    Stack<float> s = new Stack<float>();
+		    Stack<float>.StackDelegate d = DoWork;
+		}
+		
+		delegate void StackEventHandler<T, U>(T sender, U eventArgs);
+		
+		/*
+		public static void Test()
+		{
+		    Stack<double> s = new Stack<double>();
+		    SampleClass o = new SampleClass();
+		    s.StackEvent += o.HandleStackChange;
+		}
+		*/
+	}
+	
+	class Stack<T>
+	{
+	    public delegate void StackDelegate(T[] items);
+	}
+	
+	/*
+	class Stack<T>
+	{
+	    public class StackEventArgs : System.EventArgs { }
+	    public event StackEventHandler<Stack<T>, StackEventArgs>? StackEvent;
+	
+	    protected virtual void OnStackChanged(StackEventArgs a)
+	    {
+	        if (StackEvent is not null)
+	            StackEvent(this, a);
+	    }
+	}
+	
+	class SampleClass
+	{
+	    public void HandleStackChange<T>(Stack<T> stack, Stack<T>.StackEventArgs args) { }
+	}
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-and-arrays
+namespace DotnetCSharpProgrammingGuideGenericsGenericsAndArrays
+{
+	public class GenericsAndArrays
+	{
+		public static void RunGenericsAndArrays()
+		{
+			
+		}
+	}
+	
+	class Program
+	{
+	    static void RunMain()
+	    {
+	        int[] arr = [0, 1, 2, 3, 4];
+	        List<int> list = new List<int>();
+	
+	        for (int x = 5; x < 10; x++)
+	        {
+	            list.Add(x);
+	        }
+	
+	        ProcessItems<int>(arr);
+	        ProcessItems<int>(list);
+	    }
+	
+	    static void ProcessItems<T>(IList<T> coll)
+	    {
+	        // IsReadOnly returns True for the array and False for the List.
+	        System.Console.WriteLine
+	            ("IsReadOnly returns {0} for this collection.",
+	            coll.IsReadOnly);
+	
+	        // The following statement causes a run-time exception for the
+	        // array, but not for the List.
+	        //coll.RemoveAt(4);
+	
+	        foreach (T item in coll)
+	        {
+	            System.Console.Write(item?.ToString() + " ");
+	        }
+	        System.Console.WriteLine();
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-methods
+namespace DotnetCSharpProgrammingGuideGenericsGenericMethods
+{
+	public class GenericMethods
+	{
+		public static void RunGenericMethods()
+		{
+			//Swap(ref a, ref b);
+		}
+		
+		static void Swap<T>(ref T lhs, ref T rhs)
+		{
+		    T temp;
+		    temp = lhs;
+		    lhs = rhs;
+		    rhs = temp;
+		}
+		
+		public static void TestSwap()
+		{
+		    int a = 1;
+		    int b = 2;
+		
+		    Swap<int>(ref a, ref b);
+		    System.Console.WriteLine(a + " " + b);
+		}
+		
+		void SwapIfGreater<T>(ref T lhs, ref T rhs) where T : System.IComparable<T>
+		{
+		    T temp;
+		    if (lhs.CompareTo(rhs) > 0)
+		    {
+		        temp = lhs;
+		        lhs = rhs;
+		        rhs = temp;
+		    }
+		}
+		
+		void DoWork() { }
+		void DoWork<T>() { }
+		void DoWork<T, U>() { }
+		
+		T[] Swap<T>(T a, T b)
+		{
+		    return [b, a];
+		}
+	}
+	
+	class SampleClass<T>
+	{
+	    void Swap(ref T lhs, ref T rhs) { }
+	}
+	
+	class GenericList<T>
+	{
+	    // CS0693.
+	    void SampleMethod<T>() { }
+	}
+	
+	class GenericList2<T>
+	{
+	    // No warning.
+	    void SampleMethod<U>() { }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-interfaces
+namespace DotnetCSharpProgrammingGuideGenericsGenericInterfaces
+{
+	public class GenericInterfaces
+	{
+		public static void RunGenericInterfaces()
+		{
+			
+		}
+	}
+	
+	//Type parameter T in angle brackets.
+	public class GenericList<T> : System.Collections.Generic.IEnumerable<T>
+	{
+	    protected Node head;
+	    protected Node current = null;
+	
+	    // Nested class is also generic on T
+	    protected class Node
+	    {
+	        public Node next;
+	        private T data;  //T as private member datatype
+	
+	        public Node(T t)  //T used in non-generic constructor
+	        {
+	            next = null;
+	            data = t;
+	        }
+	
+	        public Node Next
+	        {
+	            get { return next; }
+	            set { next = value; }
+	        }
+	
+	        public T Data  //T as return type of property
+	        {
+	            get { return data; }
+	            set { data = value; }
+	        }
+	    }
+	
+	    public GenericList()  //constructor
+	    {
+	        head = null;
+	    }
+	
+	    public void AddHead(T t)  //T as method parameter type
+	    {
+	        Node n = new Node(t);
+	        n.Next = head;
+	        head = n;
+	    }
+	
+	    // Implementation of the iterator
+	    public System.Collections.Generic.IEnumerator<T> GetEnumerator()
+	    {
+	        Node current = head;
+	        while (current != null)
+	        {
+	            yield return current.Data;
+	            current = current.Next;
+	        }
+	    }
+	
+	    // IEnumerable<T> inherits from IEnumerable, therefore this class
+	    // must implement both the generic and non-generic versions of
+	    // GetEnumerator. In most cases, the non-generic method can
+	    // simply call the generic method.
+	    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
+	}
+	
+	public class SortedList<T> : GenericList<T> where T : System.IComparable<T>
+	{
+	    // A simple, unoptimized sort algorithm that
+	    // orders list elements from lowest to highest:
+	
+	    public void BubbleSort()
+	    {
+	        if (null == head || null == head.Next)
+	        {
+	            return;
+	        }
+	        bool swapped;
+	
+	        do
+	        {
+	            Node previous = null;
+	            Node current = head;
+	            swapped = false;
+	
+	            while (current.next != null)
+	            {
+	                //  Because we need to call this method, the SortedList
+	                //  class is constrained on IComparable<T>
+	                if (current.Data.CompareTo(current.next.Data) > 0)
+	                {
+	                    Node tmp = current.next;
+	                    current.next = current.next.next;
+	                    tmp.next = current;
+	
+	                    if (previous == null)
+	                    {
+	                        head = tmp;
+	                    }
+	                    else
+	                    {
+	                        previous.next = tmp;
+	                    }
+	                    previous = tmp;
+	                    swapped = true;
+	                }
+	                else
+	                {
+	                    previous = current;
+	                    current = current.next;
+	                }
+	            }
+	        } while (swapped);
+	    }
+	}
+	
+	// A simple class that implements IComparable<T> using itself as the
+	// type argument. This is a common design pattern in objects that
+	// are stored in generic lists.
+	public class Person : System.IComparable<Person>
+	{
+	    string name;
+	    int age;
+	
+	    public Person(string s, int i)
+	    {
+	        name = s;
+	        age = i;
+	    }
+	
+	    // This will cause list elements to be sorted on age values.
+	    public int CompareTo(Person p)
+	    {
+	        return age - p.age;
+	    }
+	
+	    public override string ToString()
+	    {
+	        return name + ":" + age;
+	    }
+	
+	    // Must implement Equals.
+	    public bool Equals(Person p)
+	    {
+	        return (this.age == p.age);
+	    }
+	}
+	
+	public class Program
+	{
+	    public static void RunMain()
+	    {
+	        //Declare and instantiate a new generic SortedList class.
+	        //Person is the type argument.
+	        SortedList<Person> list = new SortedList<Person>();
+	
+	        //Create name and age values to initialize Person objects.
+	        string[] names =
+	        [
+	            "Franscoise",
+	            "Bill",
+	            "Li",
+	            "Sandra",
+	            "Gunnar",
+	            "Alok",
+	            "Hiroyuki",
+	            "Maria",
+	            "Alessandro",
+	            "Raul"
+	        ];
+	
+	        int[] ages = [45, 19, 28, 23, 18, 9, 108, 72, 30, 35];
+	
+	        //Populate the list.
+	        for (int x = 0; x < 10; x++)
+	        {
+	            list.AddHead(new Person(names[x], ages[x]));
+	        }
+	
+	        //Print out unsorted list.
+	        foreach (Person p in list)
+	        {
+	            System.Console.WriteLine(p.ToString());
+	        }
+	        System.Console.WriteLine("Done with unsorted list");
+	
+	        //Sort the list.
+	        list.BubbleSort();
+	
+	        //Print out sorted list.
+	        foreach (Person p in list)
+	        {
+	            System.Console.WriteLine(p.ToString());
+	        }
+	        System.Console.WriteLine("Done with sorted list");
+	    }
+	}
+	
+	class Stack<T> where T : System.IComparable<T>, IEnumerable<T>
+	{
+	}
+	
+	interface IDictionary<K, V>
+	{
+	}
+	
+	interface IMonth<T> { }
+
+	interface IJanuary : IMonth<int> { }  //No error
+	interface IFebruary<T> : IMonth<int> { }  //No error
+	interface IMarch<T> : IMonth<T> { }    //No error
+	                                       //interface IApril<T>  : IMonth<T, U> {}  //Error
+										   
+	interface IBaseInterface<T> { }
+
+	class SampleClass : IBaseInterface<string> { }
+	
+	interface IBaseInterface1<T> { }
+	interface IBaseInterface2<T, U> { }
+	
+	class SampleClass1<T> : IBaseInterface1<T> { }          //No error
+	class SampleClass2<T> : IBaseInterface2<T, string> { }  //No error
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-classes
+namespace DotnetCSharpProgrammingGuideGenericsGenericClasses
+{
+	public class GenericsGenericClasses
+	{
+		public static void RunGenericsGenericClasses()
+		{
+			
+		}
+		
+		void Swap<T>(List<T> list1, List<T> list2)
+		{
+		    //code to swap items
+		}
+		
+		void Swap(List<int> list1, List<int> list2)
+		{
+		    //code to swap items
+		}
+	}
+	
+	class BaseNode { }
+	class BaseNodeGeneric<T> { }
+	
+	// concrete type
+	class NodeConcrete<T> : BaseNode { }
+	
+	//closed constructed type
+	class NodeClosed<T> : BaseNodeGeneric<int> { }
+	
+	//open constructed type
+	class NodeOpen<T> : BaseNodeGeneric<T> { }
+	
+	//No error
+	class Node1 : BaseNodeGeneric<int> { }
+	
+	//Generates an error
+	//class Node2 : BaseNodeGeneric<T> {}
+	
+	//Generates an error
+	//class Node3 : T {}
+	
+	class BaseNodeMultiple<T, U> { }
+
+	//No error
+	class Node4<T> : BaseNodeMultiple<T, int> { }
+	
+	//No error
+	class Node5<T, U> : BaseNodeMultiple<T, U> { }
+	
+	//Generates an error
+	//class Node6<T> : BaseNodeMultiple<T, U> {}
+	
+	class NodeItem<T> where T : System.IComparable<T>, new() { }
+	class SpecialNodeItem<T> : NodeItem<T> where T : System.IComparable<T>, new() { }
+	
+	class SuperKeyType<K, V, U>
+	    where U : System.IComparable<U>
+	    where V : new()
+	{ }
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/constraints-on-type-parameters
+namespace DotnetCSharpProgrammingGuideGenericsConstraintsOnTypeParameters
+{
+	public class GenericsConstraintsOnTypeParameters
+	{
+		public static void RunGenericsConstraintsOnTypeParameters()
+		{
+			Action first = () => Console.WriteLine("this");
+			Action second = () => Console.WriteLine("that");
+			
+			//var combined = first.TypeSafeCombine(second);
+			//combined!();
+			
+			Func<bool> test = () => true;
+			// Combine signature ensures combined delegates must
+			// have the same type.
+			//var badCombined = first.TypeSafeCombine(test);
+			
+			/*
+			var map = EnumNamedValues<Rainbow>();
+
+			foreach (var pair in map)
+			    Console.WriteLine($"{pair.Key}:\t{pair.Value}");
+			*/
+			
+		}
+		
+		public static void OpEqualsTest<T>(T s, T t) where T : class
+		{
+		    Console.WriteLine(s == t);
+		}
+		
+		private static void TestStringEquality()
+		{
+		    string s1 = "target";
+		    System.Text.StringBuilder sb = new("target");
+		    string s2 = sb.ToString();
+		    OpEqualsTest(s1, s2);
+		}
+		
+		/*
+		unsafe public static byte[] ToByteArray<T>(this T argument) where T : unmanaged
+		{
+		    var size = sizeof(T);
+		    var result = new byte[size];
+		    byte* p = (byte*)&argument;
+		    for (var i = 0; i < size; i++)
+		        result[i] = *p++;
+		    return result;
+		}
+		
+		extension<TDelegate>(TDelegate source) where TDelegate : System.Delegate
+		{
+		    public TDelegate? TypeSafeCombine(TDelegate target)
+		        => Delegate.Combine(source, target) as TDelegate;
+		}
+		
+		extension<T>(T) where T : System.Enum
+		{
+		    public static Dictionary<int, string> EnumNamedValues()
+		    {
+		        var result = new Dictionary<int, string>();
+		        var values = Enum.GetValues(typeof(T));
+		
+		        foreach (int item in values)
+		            result.Add(item, Enum.GetName(typeof(T), item)!);
+		        return result;
+		    }
+		}
+		*/
+	}
+	
+	public class Employee
+	{
+	    public Employee(string name, int id) => (Name, ID) = (name, id);
+	    public string Name { get; set; }
+	    public int ID { get; set; }
+	}
+	
+	public class GenericList<T> where T : Employee
+	{
+	    private class Node
+	    {
+	        public Node(T t) => (Next, Data) = (null, t);
+	
+	        public Node? Next { get; set; }
+	        public T Data { get; set; }
+	    }
+	
+	    private Node? head;
+	
+	    public void AddHead(T t)
+	    {
+	        Node n = new(t) { Next = head };
+	        head = n;
+	    }
+	
+	    public IEnumerator<T> GetEnumerator()
+	    {
+	        Node? current = head;
+	
+	        while (current is not null)
+	        {
+	            yield return current.Data;
+	            current = current.Next;
+	        }
+	    }
+	
+	    public T? FindFirstOccurrence(string s)
+	    {
+	        Node? current = head;
+	
+	        while (current is not null)
+	        {
+	            //The constraint enables access to the Name property.
+	            if (current.Data.Name == s)
+	            {
+	                return current.Data;
+	            }
+	            else
+	            {
+	                current = current.Next;
+	            }
+	        }
+	        return null;
+	    }
+	}
+	
+	class EmployeeList<T> where T : notnull, Employee, IComparable<T>, new()
+	{
+	    public void AddDefault()
+	    {
+	        T t = new();
+	    }
+	}
+	
+	class Base { }
+	class Test<T, U>
+	    where U : struct
+	    where T : Base, new()
+	{ }
+	
+	public class List<T>
+	{
+	    public void Add<U>(List<U> items) where U : T {/*...*/}
+	}
+	
+	//Type parameter V is used as a type constraint.
+	public class SampleClass<T, U, V> where T : V { }
+	
+	enum Rainbow
+	{
+	    Red,
+	    Orange,
+	    Yellow,
+	    Green,
+	    Blue,
+	    Indigo,
+	    Violet
+	}
+	
+	/*
+	public interface IAdditionSubtraction<T> where T : IAdditionSubtraction<T>
+	{
+	    static abstract T operator +(T left, T right);
+	    static abstract T operator -(T left, T right);
+	}
+	*/
+	
+	public interface IAdditionSubtraction<T> where T : IAdditionSubtraction<T>
+	{
+	    static abstract IAdditionSubtraction<T> operator +(
+	        IAdditionSubtraction<T> left,
+	        IAdditionSubtraction<T> right);
+	
+	    static abstract IAdditionSubtraction<T> operator -(
+	        IAdditionSubtraction<T> left,
+	        IAdditionSubtraction<T> right);
+	}
+	
+	class SomeClass<T, S>
+    where T : allows ref struct
+    where S : T
+	{
+	    // etc
+	}
+	
+	public class Allow<T> where T : allows ref struct
+	{
+	
+	}
+	
+	public class Disallow<T>
+	{
+	}
+	
+	public class Example<T> where T : allows ref struct
+	{
+	    private Allow<T> fieldOne; // Allowed. T is allowed to be a ref struct
+	
+	    //private Disallow<T> fieldTwo; // Error. T is not allowed to be a ref struct
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generic-type-parameters
+namespace DotnetCSharpProgrammingGuideGenericsGenericsGenericTypeParameters
+{
+	public class GenericTypeParameters
+	{
+		public static void RunGenericTypeParameters()
+		{
+			//GenericList<float> list1 = new GenericList<float>();
+			//GenericList<ExampleClass> list2 = new GenericList<ExampleClass>();
+			//GenericList<ExampleStruct> list3 = new GenericList<ExampleStruct>();
+			
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
+namespace DotnetCSharpProgrammingGuideEventsHowToImplementCustomEventAccessors
+{
+	public class CustomEventAccessors
+	{
+		public static void RunCustomEventAccessors()
+		{
+			
+		}
+		
+		/*
+		event EventHandler IDrawingObject.OnDraw
+		{
+		    add
+		    {
+		        lock (objectLock)
+		        {
+		            PreDrawEvent += value;
+		        }
+		    }
+		    remove
+		    {
+		        lock (objectLock)
+		        {
+		            PreDrawEvent -= value;
+		        }
+		    }
+		}
+		*/
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-interface-events
+namespace DotnetCSharpProgrammingGuideEventsHowToImplementInterfaceEvents
+{
+	public class InterfaceEvents
+	{
+		public static void RunImplementInterfaceEvents()
+		{
+			
+		}
+	}
+	
+	namespace ImplementInterfaceEvents  
+	{  
+	    public interface IDrawingObject  
+	    {  
+	        event EventHandler ShapeChanged;  
+	    }  
+	    public class MyEventArgs : EventArgs
+	    {  
+	        // class members  
+	    }  
+	    public class Shape : IDrawingObject  
+	    {  
+	        public event EventHandler? ShapeChanged;  
+	        void ChangeShape()  
+	        {  
+	            // Do something here before the event…  
+	
+	            OnShapeChanged(new MyEventArgs(/*arguments*/));  
+	
+	            // or do something here after the event.
+	        }  
+	        protected virtual void OnShapeChanged(MyEventArgs e)  
+	        {  
+	            ShapeChanged?.Invoke(this, e);  
+	        }  
+	    }  
+	}
+	
+	namespace WrapTwoInterfaceEvents
+	{
+	    using System;
+	
+	    public interface IDrawingObject
+	    {
+	        // Raise this event before drawing
+	        // the object.
+	        event EventHandler OnDraw;
+	    }
+	    public interface IShape
+	    {
+	        // Raise this event after drawing
+	        // the shape.
+	        event EventHandler OnDraw;
+	    }
+	
+	    // Base class event publisher inherits two
+	    // interfaces, each with an OnDraw event
+	    public class Shape : IDrawingObject, IShape
+	    {
+	        // Create an event for each interface event
+	        event EventHandler PreDrawEvent;
+	        event EventHandler PostDrawEvent;
+	
+	        object objectLock = new Object();
+	
+	        // Explicit interface implementation required.
+	        // Associate IDrawingObject's event with
+	        // PreDrawEvent
+	        #region IDrawingObjectOnDraw
+	        event EventHandler IDrawingObject.OnDraw
+	        {
+	            add
+	            {
+	                lock (objectLock)
+	                {
+	                    PreDrawEvent += value;
+	                }
+	            }
+	            remove
+	            {
+	                lock (objectLock)
+	                {
+	                    PreDrawEvent -= value;
+	                }
+	            }
+	        }
+	        #endregion
+	        // Explicit interface implementation required.
+	        // Associate IShape's event with
+	        // PostDrawEvent
+	        event EventHandler IShape.OnDraw
+	        {
+	            add
+	            {
+	                lock (objectLock)
+	                {
+	                    PostDrawEvent += value;
+	                }
+	            }
+	            remove
+	            {
+	                lock (objectLock)
+	                {
+	                    PostDrawEvent -= value;
+	                }
+	            }
+	        }
+	
+	        // For the sake of simplicity this one method
+	        // implements both interfaces.
+	        public void Draw()
+	        {
+	            // Raise IDrawingObject's event before the object is drawn.
+	            PreDrawEvent?.Invoke(this, EventArgs.Empty);
+	
+	            Console.WriteLine("Drawing a shape.");
+	
+	            // Raise IShape's event after the object is drawn.
+	            PostDrawEvent?.Invoke(this, EventArgs.Empty);
+	        }
+	    }
+	    public class Subscriber1
+	    {
+	        // References the shape object as an IDrawingObject
+	        public Subscriber1(Shape shape)
+	        {
+	            IDrawingObject d = (IDrawingObject)shape;
+	            d.OnDraw += d_OnDraw;
+	        }
+	
+	        void d_OnDraw(object sender, EventArgs e)
+	        {
+	            Console.WriteLine("Sub1 receives the IDrawingObject event.");
+	        }
+	    }
+	    // References the shape object as an IShape
+	    public class Subscriber2
+	    {
+	        public Subscriber2(Shape shape)
+	        {
+	            IShape d = (IShape)shape;
+	            d.OnDraw += d_OnDraw;
+	        }
+	
+	        void d_OnDraw(object sender, EventArgs e)
+	        {
+	            Console.WriteLine("Sub2 receives the IShape event.");
+	        }
+	    }
+	
+	    public class Program
+	    {
+	        static void RunMain(string[] args)
+	        {
+	            Shape shape = new Shape();
+	            Subscriber1 sub = new Subscriber1(shape);
+	            Subscriber2 sub2 = new Subscriber2(shape);
+	            shape.Draw();
+	
+	            // Keep the console window open in debug mode.
+	            System.Console.WriteLine("Press any key to exit.");
+	            System.Console.ReadKey();
+	        }
+	    }
+	}
+	/* Output:
+	    Sub1 receives the IDrawingObject event.
+	    Drawing a shape.
+	    Sub2 receives the IShape event.
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-raise-base-class-events-in-derived-classes
+namespace DotnetCSharpProgrammingGuideEventsHowToRaiseBaseClassEventsInDerivedClasses
+{
+	public class RaiseBaseClassEventsInDerivedClasses
+	{
+		public static void RunRaiseBaseClassEventsInDerivedClasses()
+		{
+			
+		}
+	}
+	
+	namespace BaseClassEvents
+	{
+	    // Special EventArgs class to hold info about Shapes.
+	    public class ShapeEventArgs : EventArgs
+	    {
+	        public ShapeEventArgs(double area)
+	        {
+	            NewArea = area;
+	        }
+	
+	        public double NewArea { get; }
+	    }
+	
+	    // Base class event publisher
+	    public abstract class Shape
+	    {
+	        protected double _area;
+	
+	        public double Area
+	        {
+	            get => _area;
+	            set => _area = value;
+	        }
+	
+	        // The event. Note that by using the generic EventHandler<T> event type
+	        // we do not need to declare a separate delegate type.
+	        public event EventHandler<ShapeEventArgs> ShapeChanged;
+	
+	        public abstract void Draw();
+	
+	        //The event-invoking method that derived classes can override.
+	        protected virtual void OnShapeChanged(ShapeEventArgs e)
+	        {
+	            // Safely raise the event for all subscribers
+	            ShapeChanged?.Invoke(this, e);
+	        }
+	    }
+	
+	    public class Circle : Shape
+	    {
+	        private double _radius;
+	
+	        public Circle(double radius)
+	        {
+	            _radius = radius;
+	            _area = 3.14 * _radius * _radius;
+	        }
+	
+	        public void Update(double d)
+	        {
+	            _radius = d;
+	            _area = 3.14 * _radius * _radius;
+	            OnShapeChanged(new ShapeEventArgs(_area));
+	        }
+	
+	        protected override void OnShapeChanged(ShapeEventArgs e)
+	        {
+	            // Do any circle-specific processing here.
+	
+	            // Call the base class event invocation method.
+	            base.OnShapeChanged(e);
+	        }
+	
+	        public override void Draw()
+	        {
+	            Console.WriteLine("Drawing a circle");
+	        }
+	    }
+	
+	    public class Rectangle : Shape
+	    {
+	        private double _length;
+	        private double _width;
+	
+	        public Rectangle(double length, double width)
+	        {
+	            _length = length;
+	            _width = width;
+	            _area = _length * _width;
+	        }
+	
+	        public void Update(double length, double width)
+	        {
+	            _length = length;
+	            _width = width;
+	            _area = _length * _width;
+	            OnShapeChanged(new ShapeEventArgs(_area));
+	        }
+	
+	        protected override void OnShapeChanged(ShapeEventArgs e)
+	        {
+	            // Do any rectangle-specific processing here.
+	
+	            // Call the base class event invocation method.
+	            base.OnShapeChanged(e);
+	        }
+	
+	        public override void Draw()
+	        {
+	            Console.WriteLine("Drawing a rectangle");
+	        }
+	    }
+	
+	    // Represents the surface on which the shapes are drawn
+	    // Subscribes to shape events so that it knows
+	    // when to redraw a shape.
+	    public class ShapeContainer
+	    {
+	        private readonly List<Shape> _list;
+	
+	        public ShapeContainer()
+	        {
+	            _list = new List<Shape>();
+	        }
+	
+	        public void AddShape(Shape shape)
+	        {
+	            _list.Add(shape);
+	
+	            // Subscribe to the base class event.
+	            shape.ShapeChanged += HandleShapeChanged;
+	        }
+	
+	        // ...Other methods to draw, resize, etc.
+	
+	        private void HandleShapeChanged(object sender, ShapeEventArgs e)
+	        {
+	            if (sender is Shape shape)
+	            {
+	                // Diagnostic message for demonstration purposes.
+	                Console.WriteLine($"Received event. Shape area is now {e.NewArea}");
+	
+	                // Redraw the shape here.
+	                shape.Draw();
+	            }
+	        }
+	    }
+	
+	    class Test
+	    {
+	        static void RunMain()
+	        {
+	            //Create the event publishers and subscriber
+	            var circle = new Circle(54);
+	            var rectangle = new Rectangle(12, 9);
+	            var container = new ShapeContainer();
+	
+	            // Add the shapes to the container.
+	            container.AddShape(circle);
+	            container.AddShape(rectangle);
+	
+	            // Cause some events to be raised.
+	            circle.Update(57);
+	            rectangle.Update(7, 7);
+	
+	            // Keep the console window open in debug mode.
+	            Console.WriteLine("Press any key to continue...");
+	            Console.ReadKey();
+	        }
+	    }
+	}
+	/* Output:
+	        Received event. Shape area is now 10201.86
+	        Drawing a circle
+	        Received event. Shape area is now 49
+	        Drawing a rectangle
+	 */
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-subscribe-to-and-unsubscribe-from-events
+namespace DotnetCSharpProgrammingGuideEventsHowToSubscribeToAndUnsubscribeFromEvents
+{
+	public class SubscribeToAndUnsubscribeFromEvents
+	{
+		public static void RunSubscribeToAndUnsubscribeFromEvents()
+		{
+			//this.Load += new System.EventHandler(this.Form1_Load);
+			
+			//publisher.RaiseCustomEvent += HandleCustomEvent;
+			
+			/*
+			publisher.RaiseCustomEvent += (object o, CustomEventArgs e) =>
+			{  
+			  string s = o.ToString() + " " + e.ToString();  
+			  Console.WriteLine(s);  
+			};
+			*/
+			
+			//publisher.RaiseCustomEvent -= HandleCustomEvent;
+			
+		}
+		
+		private void Form1_Load(object sender, System.EventArgs e)
+		{
+		    // Add your form load event handling code here.
+		}
+		
+		/*
+		void HandleCustomEvent(object sender, CustomEventArgs a)  
+		{  
+		   // Do something useful here.  
+		}
+		*/
+		
+		/*
+		public Form1()  
+		{  
+		    InitializeComponent();  
+		    this.Click += (s,e) =>
+		        {
+		            MessageBox.Show(((MouseEventArgs)e).Location.ToString());
+		        };
+		}
+		*/
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/
+namespace DotnetCSharpProgrammingGuideEvents
+{
+	public class GuideEvents
+	{
+		public static void RunGuideEvents()
+		{
+			
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/indexers-in-interfaces
+namespace DotnetCSharpProgrammingGuideIndexersIndexersInInterfaces
+{
+	public class IndexersInInterfaces
+	{
+		public static void RunIndexersInInterfaces()
+		{
+			IndexerClass test = new IndexerClass();
+			System.Random rand = System.Random.Shared;
+			// Call the indexer to initialize its elements.
+			for (int i = 0; i < 10; i++)
+			{
+			    test[i] = rand.Next();
+			}
+			for (int i = 0; i < 10; i++)
+			{
+			    System.Console.WriteLine($"Element #{i} = {test[i]}");
+			}
+			
+			/* Sample output:
+			    Element #0 = 360877544
+			    Element #1 = 327058047
+			    Element #2 = 1913480832
+			    Element #3 = 1519039937
+			    Element #4 = 601472233
+			    Element #5 = 323352310
+			    Element #6 = 1422639981
+			    Element #7 = 1797892494
+			    Element #8 = 875761049
+			    Element #9 = 393083859
+			*/
+			
+		}
+		
+		/*
+		string IIndexInterface.this[int index]
+		{
+		}
+		
+		string IEmployee.this[int index]
+		{
+		}
+		
+		string ICitizen.this[int index]
+		{
+		}
+		*/
+	}
+	
+	public interface ISomeInterface
+	{
+	    //...
+	
+	    // Indexer declaration:
+	    string this[int index]
+	    {
+	        get;
+	        set;
+	    }
+	}
+	
+	// Indexer on an interface:
+	public interface IIndexInterface
+	{
+	    // Indexer declaration:
+	    int this[int index]
+	    {
+	        get;
+	        set;
+	    }
+	}
+	
+	// Implementing the interface.
+	class IndexerClass : IIndexInterface
+	{
+	    private int[] arr = new int[100];
+	    public int this[int index]   // indexer declaration
+	    {
+	        // The arr object will throw IndexOutOfRange exception.
+	        get => arr[index];
+	        set => arr[index] = value;
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/using-indexers
+namespace DotnetCSharpProgrammingGuideIndexersUsingIndexers
+{
+	public class UsingIndexers
+	{
+		public static void RunUsingIndexers()
+		{
+			var tempRecord = new TempRecord();
+
+			// Use the indexer's set accessor
+			tempRecord[3] = 58.3F;
+			tempRecord[5] = 60.1F;
+			
+			// Use the indexer's get accessor
+			for (int i = 0; i < 10; i++)
+			{
+			    Console.WriteLine($"Element #{i} = {tempRecord[i]}");
+			}
+			
+			var week = new DayCollection();
+			Console.WriteLine(week["Fri"]);
+			
+			try
+			{
+			    Console.WriteLine(week["Made-up day"]);
+			}
+			catch (ArgumentOutOfRangeException e)
+			{
+			    Console.WriteLine($"Not supported input: {e.Message}");
+			}
+			
+			/*
+			var week = new DayOfWeekCollection();
+			Console.WriteLine(week[DayOfWeek.Friday]);
+			
+			try
+			{
+			    Console.WriteLine(week[(DayOfWeek)43]);
+			}
+			catch (ArgumentOutOfRangeException e)
+			{
+			    Console.WriteLine($"Not supported input: {e.Message}");
+			}
+			*/
+		}
+		
+		/*
+		// Indexer declaration
+		public int this[int index]
+		{
+		    // get and set accessors
+		}
+		*/
+		
+		/*
+		// Indexer declaration
+		[System.Runtime.CompilerServices.IndexerName("TheItem")]
+		public int this[int index]
+		{
+		    // get and set accessors
+		}
+		*/
+	}
+	
+	public class TempRecord
+	{
+	    // Array of temperature values
+	    float[] temps =
+	    [
+	        56.2F, 56.7F, 56.5F, 56.9F, 58.8F,
+	        61.3F, 65.9F, 62.1F, 59.2F, 57.5F
+	    ];
+	
+	    // To enable client code to validate input
+	    // when accessing your indexer.
+	    public int Length => temps.Length;
+	    
+	    // Indexer declaration.
+	    // If index is out of range, the temps array will throw the exception.
+	    public float this[int index]
+	    {
+	        get => temps[index];
+	        set => temps[index] = value;
+	    }
+	}
+	
+	// Using a string as an indexer value
+	class DayCollection
+	{
+	    string[] days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+	
+	    // Indexer with only a get accessor with the expression-bodied definition:
+	    public int this[string day] => FindDayIndex(day);
+	
+	    private int FindDayIndex(string day)
+	    {
+	        for (int j = 0; j < days.Length; j++)
+	        {
+	            if (days[j] == day)
+	            {
+	                return j;
+	            }
+	        }
+	
+	        throw new ArgumentOutOfRangeException(
+	            nameof(day),
+	            $"Day {day} is not supported.\nDay input must be in the form \"Sun\", \"Mon\", etc");
+	    }
+	}
+	
+	class DayOfWeekCollection
+	{
+	    Day[] days =
+	    [
+	        Day.Sunday, Day.Monday, Day.Tuesday, Day.Wednesday,
+	        Day.Thursday, Day.Friday, Day.Saturday
+	    ];
+	
+	    // Indexer with only a get accessor with the expression-bodied definition:
+	    public int this[Day day] => FindDayIndex(day);
+	
+	    private int FindDayIndex(Day day)
+	    {
+	        for (int j = 0; j < days.Length; j++)
+	        {
+	            if (days[j] == day)
+	            {
+	                return j;
+	            }
+	        }
+	        throw new ArgumentOutOfRangeException(
+	            nameof(day),
+	            $"Day {day} is not supported.\nDay input must be a defined System.DayOfWeek value.");
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/
+namespace DotnetCSharpProgrammingGuideIndexers
+{
+	public class Indexers
+	{
+		public static void RunIndexers()
+		{
+			
+		}
+	}
+	
+	public class SampleCollection<T>
+	{
+	   // Declare an array to store the data elements.
+	   private T[] arr = new T[100];
+	
+	   // Define the indexer to allow client code to use [] notation.
+	   public T this[int i]
+	   {
+	      get => arr[i];
+	      set => arr[i] = value;
+	   }
+	}
+	
+	public class ReadOnlySampleCollection<T>(params IEnumerable<T> items)
+	{
+	   // Declare an array to store the data elements.
+	   private T[] arr = [.. items];
+	
+	   public T this[int i] => arr[i];
+	
+	}
+	
+	public record Measurements(double HiTemp, double LoTemp, double AirPressure);
+
+	public class DataSamples
+	{
+	    private class Page
+	    {
+	        private readonly List<Measurements> pageData = new ();
+	        private readonly int _startingIndex;
+	        private readonly int _length;
+	
+	        public Page(int startingIndex, int length)
+	        {
+	            _startingIndex = startingIndex;
+	            _length = length;
+	
+	            // This stays as random stuff:
+	            var generator = new Random();
+	            for (int i = 0; i < length; i++)
+	            {
+	                var m = new Measurements(HiTemp: generator.Next(50, 95),
+	                    LoTemp: generator.Next(12, 49),
+	                    AirPressure: 28.0 + generator.NextDouble() * 4
+	                );
+	                pageData.Add(m);
+	            }
+	        }
+	        public bool HasItem(int index) =>
+	            ((index >= _startingIndex) &&
+	            (index < _startingIndex + _length));
+	
+	        public Measurements this[int index]
+	        {
+	            get
+	            {
+	                LastAccess = DateTime.Now;
+	                return pageData[index - _startingIndex];
+	            }
+	            set
+	            {
+	                pageData[index - _startingIndex] = value;
+	                Dirty = true;
+	                LastAccess = DateTime.Now;
+	            }
+	        }
+	
+	        public bool Dirty { get; private set; } = false;
+	        public DateTime LastAccess { get; set; } = DateTime.Now;
+	    }
+	
+	    private readonly int _totalSize;
+	    private readonly List<Page> pagesInMemory = new ();
+	
+	    public DataSamples(int totalSize)
+	    {
+	        this._totalSize = totalSize;
+	    }
+	
+	    public Measurements this[int index]
+	    {
+	        get
+	        {
+	            if (index < 0) throw new IndexOutOfRangeException("Cannot index less than 0");
+	            if (index >= _totalSize) throw new IndexOutOfRangeException("Cannot index past the end of storage");
+	
+	            var page = updateCachedPagesForAccess(index);
+	            return page[index];
+	        }
+	        set
+	        {
+	            if (index < 0) throw new IndexOutOfRangeException("Cannot index less than 0");
+	            if (index >= _totalSize) throw new IndexOutOfRangeException("Cannot index past the end of storage");
+	            var page = updateCachedPagesForAccess(index);
+	
+	            page[index] = value;
+	        }
+	    }
+	
+	    private Page updateCachedPagesForAccess(int index)
+	    {
+	        foreach (var p in pagesInMemory)
+	        {
+	            if (p.HasItem(index))
+	            {
+	                return p;
+	            }
+	        }
+	        var startingIndex = (index / 1000) * 1000;
+	        var newPage = new Page(startingIndex, 1000);
+	        addPageToCache(newPage);
+	        return newPage;
+	    }
+	
+	    private void addPageToCache(Page p)
+	    {
+	        if (pagesInMemory.Count > 4)
+	        {
+	            // remove oldest non-dirty page:
+	            var oldest = pagesInMemory
+	                .Where(page => !page.Dirty)
+	                .OrderBy(page => page.LastAccess)
+	                .FirstOrDefault();
+	            // Note that this may keep more than 5 pages in memory
+	            // if too much is dirty
+	            if (oldest != null)
+	                pagesInMemory.Remove(oldest);
+	        }
+	        pagesInMemory.Add(p);
+	    }
+	}
+	
+	public class ArgsProcessor
+	{
+	    private readonly ArgsActions _actions;
+	
+	    public ArgsProcessor(ArgsActions actions)
+	    {
+	        _actions = actions;
+	    }
+	
+	    public void Process(string[] args)
+	    {
+	        foreach (var arg in args)
+	        {
+	            _actions[arg]?.Invoke();
+	        }
+	    }
+	
+	}
+	public class ArgsActions
+	{
+	    readonly private Dictionary<string, Action> _argsActions = new();
+	
+	    public Action this[string s]
+	    {
+	        get
+	        {
+	            Action? action;
+	            Action defaultAction = () => { };
+	            return _argsActions.TryGetValue(s, out action) ? action : defaultAction;
+	        }
+	    }
+	
+	    public void SetOption(string s, Action a)
+	    {
+	        _argsActions[s] = a;
+	    }
+	}
+	
+	public class DailyTemperatureData
+	{
+	    private readonly Dictionary<DateOnly, (double High, double Low)> _temperatureData = new();
+	
+	    // Indexer using DateOnly for date-only scenarios
+	    public (double High, double Low) this[DateOnly date]
+	    {
+	        get
+	        {
+	            if (_temperatureData.TryGetValue(date, out var temp))
+	            {
+	                return temp;
+	            }
+	            throw new KeyNotFoundException($"No temperature data available for {date:yyyy-MM-dd}");
+	        }
+	        set
+	        {
+	            _temperatureData[date] = value;
+	        }
+	    }
+	
+	    // Overload using DateTime for convenience, but only uses the date part
+	    public (double High, double Low) this[DateTime dateTime]
+	    {
+	        get => this[DateOnly.FromDateTime(dateTime)];
+	        set => this[DateOnly.FromDateTime(dateTime)] = value;
+	    }
+	
+	    public bool HasDataFor(DateOnly date) => _temperatureData.ContainsKey(date);
+	
+	    public IEnumerable<DateOnly> AvailableDates => _temperatureData.Keys;
+	}
+	
+	public class Mandelbrot(int maxIterations)
+	{
+	
+	    public int this[double x, double y]
+	    {
+	        get
+	        {
+	            var iterations = 0;
+	            var x0 = x;
+	            var y0 = y;
+	
+	            while ((x * x + y * y < 4) &&
+	                (iterations < maxIterations))
+	            { 
+	                (x, y) = (x * x - y * y + x0, 2 * x * y + y0);
+	                iterations++;
+	            }
+	            return iterations;
+	        }
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/how-to-determine-whether-a-string-represents-a-numeric-value
+namespace DotnetCSharpProgrammingGuideStringsHowToDetermineWhetherAStringRepresentsANumericValue
+{
+	public class StringRepresentsANumericValue
+	{
+		public static void RunStringRepresentsANumericValue()
+		{
+			int i = 0;
+			string s = "108";  
+			bool result = int.TryParse(s, out i); //i now = 108
+			
+			string numString = "1287543"; //"1287543.0" will return false for a long
+			long number1 = 0;
+			bool canConvert = long.TryParse(numString, out number1);
+			if (canConvert == true)
+			Console.WriteLine($"number1 now = {number1}");
+			else
+			Console.WriteLine("numString is not a valid long");
+			
+			byte number2 = 0;
+			numString = "255"; // A value of 256 will return false
+			canConvert = byte.TryParse(numString, out number2);
+			if (canConvert == true)
+			Console.WriteLine($"number2 now = {number2}");
+			else
+			Console.WriteLine("numString is not a valid byte");
+			
+			decimal number3 = 0;
+			numString = "27.3"; //"27" is also a valid decimal
+			canConvert = decimal.TryParse(numString, out number3);
+			if (canConvert == true)
+			Console.WriteLine($"number3 now = {number3}");
+			else
+			Console.WriteLine("number3 is not a valid decimal");
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/strings/
+namespace DotnetCSharpProgrammingGuideStrings
+{
+	public class ProgrammingGuideStrings
+	{
+		public static void RunProgrammingGuideStrings()
+		{
+			// Declare without initializing.
+			string message1;
+			
+			// Initialize to null.
+			string? message2 = null;
+			
+			// Initialize as an empty string.
+			// Use the Empty constant instead of the literal "".
+			string message3 = System.String.Empty;
+			
+			// Initialize with a regular string literal.
+			string oldPath = "c:\\Program Files\\Microsoft Visual Studio 8.0";
+			
+			// Initialize with a verbatim string literal.
+			string newPath = @"c:\Program Files\Microsoft Visual Studio 9.0";
+			
+			// Use System.String if you prefer.
+			System.String greeting = "Hello World!";
+			
+			// In local variables (i.e. within a method body)
+			// you can use implicit typing.
+			var temp = "I'm still a strongly-typed System.String!";
+			
+			// Use a const string to prevent 'message4' from
+			// being used to store another string value.
+			const string message4 = "You can't get rid of me!";
+			
+			// Use the String constructor only when creating
+			// a string from a char*, char[], or sbyte*. See
+			// System.String documentation for details.
+			char[] letters = { 'A', 'B', 'C' };
+			string alphabet = new string(letters);
+			
+			string s1 = "A string is more ";
+			string s2 = "than the sum of its chars.";
+			
+			// Concatenate s1 and s2. This actually creates a new
+			// string object and stores it in s1, releasing the
+			// reference to the original object.
+			s1 += s2;
+			
+			System.Console.WriteLine(s1);
+			// Output: A string is more than the sum of its chars.
+			
+			string str1 = "Hello ";
+			string str2 = str1;
+			str1 += "World";
+			
+			System.Console.WriteLine(str2);
+			//Output: Hello
+			
+			string columns = "Column 1\tColumn 2\tColumn 3";
+			//Output: Column 1        Column 2        Column 3
+			
+			string rows = "Row 1\r\nRow 2\r\nRow 3";
+			/* Output:
+			    Row 1
+			    Row 2
+			    Row 3
+			*/
+			
+			//string title = "\"The \u00C6olean Harp\", by Samuel Taylor Coleridge";
+			//Output: "The Æolean Harp", by Samuel Taylor Coleridge
+			
+			string title = "\"The \u00C6olean Harp\", by Samuel Taylor Coleridge";
+			//Output: "The Æolean Harp", by Samuel Taylor Coleridge
+			
+			string filePath = @"C:\Users\scoleridge\Documents\";
+			//Output: C:\Users\scoleridge\Documents\
+			
+			string text = @"My pensive SARA ! thy soft cheek reclined
+			    Thus on mine arm, most soothing sweet it is
+			    To sit beside our Cot,...";
+			/* Output:
+			My pensive SARA ! thy soft cheek reclined
+			    Thus on mine arm, most soothing sweet it is
+			    To sit beside our Cot,...
+			*/
+			
+			string quote = @"Her name was ""Sara.""";
+			//Output: Her name was "Sara."
+			
+			string singleLine = """Friends say "hello" as they pass by.""";
+			string multiLine = """
+			    "Hello World!" is typically the first program someone writes.
+			    """;
+			string embeddedXML = """
+			       <element attr = "content">
+			           <body style="normal">
+			               Here is the main text
+			           </body>
+			           <footer>
+			               Excerpts from "An amazing story"
+			           </footer>
+			       </element >
+			       """;
+			// The line "<element attr = "content">" starts in the first column.
+			// All whitespace left of that column is removed from the string.
+			
+			string rawStringLiteralDelimiter = """"
+			    Raw string literals are delimited 
+			    by a string of at least three double quotes,
+			    like this: """
+			    """";
+			/*
+			// CS8997: Unterminated raw string literal.
+			var multiLineStart = """This
+			    is the beginning of a string 
+			    """;
+			
+			// CS9000: Raw string literal delimiter must be on its own line.
+			var multiLineEnd = """
+			    This is the beginning of a string """;
+			
+			// CS8999: Line does not start with the same whitespace as the closing line
+			// of the raw string literal
+			var noOutdenting = """
+			    A line of text.
+			Trying to outdent the second line.
+			    """;
+			*/
+			
+			string jsonString = """
+			{
+			  "Date": "2019-08-01T00:00:00-07:00",
+			  "TemperatureCelsius": 25,
+			  "Summary": "Hot",
+			  "DatesAvailable": [
+			    "2019-08-01T00:00:00-07:00",
+			    "2019-08-02T00:00:00-07:00"
+			  ],
+			  "TemperatureRanges": {
+			    "Cold": {
+			      "High": 20,
+			      "Low": -10
+			    },
+			    "Hot": {
+			      "High": 60,
+			      "Low": 20
+			    }
+			            },
+			  "SummaryWords": [
+			    "Cool",
+			    "Windy",
+			    "Humid"
+			  ]
+			}
+			""";
+			
+			var jh = (firstName: "Jupiter", lastName: "Hammon", born: 1711, published: 1761);
+			Console.WriteLine($"{jh.firstName} {jh.lastName} was an African American poet born in {jh.born}.");
+			Console.WriteLine($"He was first published in {jh.published} at the age of {jh.published - jh.born}.");
+			Console.WriteLine($"He'd be over {Math.Round((2018d - jh.born) / 100d) * 100d} years old today.");
+			
+			// Output:
+			// Jupiter Hammon was an African American poet born in 1711.
+			// He was first published in 1761 at the age of 50.
+			// He'd be over 300 years old today.
+			
+			int X = 2;
+			int Y = 3;
+			
+			var pointMessage = $$"""The point {{{X}}, {{Y}}} is {{Math.Sqrt(X * X + Y * Y)}} from the origin.""";
+			
+			Console.WriteLine(pointMessage);
+			// Output:
+			// The point {2, 3} is 3.605551275463989 from the origin.
+			
+			
+			var jh2 = (firstName: "Jupiter", lastName: "Hammon", born: 1711, published: 1761);
+			Console.WriteLine($@"{jh2.firstName} {jh2.lastName}
+			    was an African American poet born in {jh2.born}.");
+			Console.WriteLine(@$"He was first published in {jh2.published}
+			at the age of {jh2.published - jh2.born}.");
+			
+			// Output:
+			// Jupiter Hammon
+			//     was an African American poet born in 1711.
+			// He was first published in 1761
+			// at the age of 50.
+			
+			var pw = (firstName: "Phillis", lastName: "Wheatley", born: 1753, published: 1773);
+			Console.WriteLine("{0} {1} was an African American poet born in {2}.", pw.firstName, pw.lastName, pw.born);
+			Console.WriteLine("She was first published in {0} at the age of {1}.", pw.published, pw.published - pw.born);
+			Console.WriteLine("She'd be over {0} years old today.", Math.Round((2018d - pw.born) / 100d) * 100d);
+			
+			// Output:
+			// Phillis Wheatley was an African American poet born in 1753.
+			// She was first published in 1773 at the age of 20.
+			// She'd be over 300 years old today.
+			
+			string s3 = "Visual C# Express";
+			System.Console.WriteLine(s3.Substring(7, 2));
+			// Output: "C#"
+			
+			System.Console.WriteLine(s3.Replace("C#", "Basic"));
+			// Output: "Visual Basic Express"
+			
+			// Index values are zero-based
+			int index = s3.IndexOf("C");
+			// index = 7
+			
+			string s5 = "Printing backwards";
+
+			for (int i = 0; i < s5.Length; i++)
+			{
+			    System.Console.Write(s5[s5.Length - i - 1]);
+			}
+			// Output: "sdrawkcab gnitnirP"
+			
+			string question = "hOW DOES mICROSOFT wORD DEAL WITH THE cAPS lOCK KEY?";
+			System.Text.StringBuilder sb = new System.Text.StringBuilder(question);
+			
+			for (int j = 0; j < sb.Length; j++)
+			{
+			    if (System.Char.IsLower(sb[j]) == true)
+			        sb[j] = System.Char.ToUpper(sb[j]);
+			    else if (System.Char.IsUpper(sb[j]) == true)
+			        sb[j] = System.Char.ToLower(sb[j]);
+			}
+			// Store the new string.
+			string corrected = sb.ToString();
+			System.Console.WriteLine(corrected);
+			// Output: How does Microsoft Word deal with the Caps Lock key?
+			
+			string s = String.Empty;
+			
+			string str = "hello";
+			string? nullStr = null;
+			string emptyStr = String.Empty;
+			
+			string tempStr = str + nullStr;
+			// Output of the following line: hello
+			Console.WriteLine(tempStr);
+			
+			bool b = (emptyStr == nullStr);
+			// Output of the following line: False
+			Console.WriteLine(b);
+			
+			// The following line creates a new empty string.
+			string newStr = emptyStr + nullStr;
+			
+			// Null strings and empty strings behave differently. The following
+			// two lines display 0.
+			Console.WriteLine(emptyStr.Length);
+			Console.WriteLine(newStr.Length);
+			// The following line raises a NullReferenceException.
+			//Console.WriteLine(nullStr.Length);
+			
+			// The null character can be displayed and counted, like other chars.
+			string s12 = "\x0" + "abc";
+			string s22 = "abc" + "\x0";
+			// Output of the following line: * abc*
+			Console.WriteLine("*" + s12 + "*");
+			// Output of the following line: *abc *
+			Console.WriteLine("*" + s22 + "*");
+			// Output of the following line: 4
+			Console.WriteLine(s22.Length);
+			
+			//System.Text.StringBuilder sb = new System.Text.StringBuilder("Rat: the ideal pet");
+			//sb[0] = 'C';
+			//System.Console.WriteLine(sb.ToString());
+			//Outputs Cat: the ideal pet
+			
+			var sb2 = new StringBuilder();
+
+			// Create a string composed of numbers 0 - 9
+			for (int i = 0; i < 10; i++)
+			{
+			    sb2.Append(i.ToString());
+			}
+			Console.WriteLine(sb2);  // displays 0123456789
+			
+			// Copy one character of the string (not possible with a System.String)
+			sb2[0] = sb2[9];
+			
+			Console.WriteLine(sb2);  // displays 9123456789
+		}
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/how-to-declare-instantiate-and-use-a-delegate
+namespace DotnetCSharpProgrammingGuideDelegatesHowToDeclareInstantiateAndUseADelegate
+{
+	public class InstantiateAndUseADelegate
+	{
+		public static void RunInstantiateAndUseADelegate()
+		{
+			// Create an instance of the delegate.
+			NotifyCallback del1 = new NotifyCallback(Notify);
+			
+			NotifyCallback del2 = Notify;
+			
+			// Instantiate NotifyCallback by using an anonymous method.
+			NotifyCallback del3 = delegate (string name)
+			{
+			    Console.WriteLine($"Notification received for: {name}");
+			};
+			
+			// Instantiate NotifyCallback by using a lambda expression.
+			NotifyCallback del4 = name => Console.WriteLine($"Notification received for: {name}");
+		}
+		
+		// Declare a delegate.
+		delegate void NotifyCallback(string str);
+		
+		// Declare a method with the same signature as the delegate.
+		static void Notify(string name)
+		{
+		    Console.WriteLine($"Notification received for: {name}");
+		}
+	}
+	
+	// Describes a book in the book list:
+	public record struct Book(string Title, string Author, decimal Price, bool Paperback);
+	
+	// Declare a delegate type for processing a book:
+	public delegate void ProcessBookCallback(Book book);
+	
+	// Maintains a book database.
+	public class BookDB
+	{
+	    // List of all books in the database:
+	    List<Book> list = new();
+	
+	    // Add a book to the database:
+	    public void AddBook(string title, string author, decimal price, bool paperBack) =>
+	        list.Add(new Book(title, author, price, paperBack));
+	
+	    // Call a passed-in delegate on each paperback book to process it:
+	    public void ProcessPaperbackBooks(ProcessBookCallback processBook)
+	    {
+	        foreach (Book b in list)
+	        {
+	            if (b.Paperback)
+	            {
+	                // Calling the delegate:
+	                processBook(b);
+	            }
+	        }
+	    }
+	}
+	
+	// Using the Bookstore classes:
+	
+	// Class to total and average prices of books:
+	class PriceTotaller
+	{
+	    private int countBooks = 0;
+	    private decimal priceBooks = 0.0m;
+	
+	    internal void AddBookToTotal(Book book)
+	    {
+	        countBooks += 1;
+	        priceBooks += book.Price;
+	    }
+	
+	    internal decimal AveragePrice() => priceBooks / countBooks;
+	}
+	
+	// Class to test the book database:
+	class Test
+	{
+	    // Print the title of the book.
+	    static void PrintTitle(Book b) => Console.WriteLine($"   {b.Title}");
+	
+	    // Execution starts here.
+	    static void RunMain()
+	    {
+	        BookDB bookDB = new BookDB();
+	
+	        // Initialize the database with some books:
+	        AddBooks(bookDB);
+	
+	        // Print all the titles of paperbacks:
+	        Console.WriteLine("Paperback Book Titles:");
+	
+	        // Create a new delegate object associated with the static
+	        // method Test.PrintTitle:
+	        bookDB.ProcessPaperbackBooks(PrintTitle);
+	
+	        // Get the average price of a paperback by using
+	        // a PriceTotaller object:
+	        PriceTotaller totaller = new PriceTotaller();
+	
+	        // Create a new delegate object associated with the nonstatic
+	        // method AddBookToTotal on the object totaller:
+	        bookDB.ProcessPaperbackBooks(totaller.AddBookToTotal);
+	
+	        Console.WriteLine($"Average Paperback Book Price: ${totaller.AveragePrice():#.##}");
+	    }
+	
+	    // Initialize the book database with some test books:
+	    static void AddBooks(BookDB bookDB)
+	    {
+	        bookDB.AddBook("The C Programming Language", "Brian W. Kernighan and Dennis M. Ritchie", 19.95m, true);
+	        bookDB.AddBook("The Unicode Standard 2.0", "The Unicode Consortium", 39.95m, true);
+	        bookDB.AddBook("The MS-DOS Encyclopedia", "Ray Duncan", 129.95m, false);
+	        bookDB.AddBook("Dogbert's Clues for the Clueless", "Scott Adams", 12.00m, true);
+	    }
+	}
+	/* Output:
+	Paperback Book Titles:
+	   The C Programming Language
+	   The Unicode Standard 2.0
+	   Dogbert's Clues for the Clueless
+	Average Paperback Book Price: $23.97
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/how-to-combine-delegates-multicast-delegates
+namespace DotnetCSharpProgrammingGuideDelegatesHowToCombineDelegatesMulticastDelegates
+{
+	public class MulticastDelegates
+	{
+		public static void RunMulticastDelegates()
+		{
+			
+		}
+		
+		
+	}
+	
+	class TestClass
+	{
+	    // Define two methods that have the same signature as CustomCallback.
+	    static void Hello(string s)
+	    {
+	        Console.WriteLine($"  Hello, {s}!");
+	    }
+	
+	    static void Goodbye(string s)
+	    {
+	        Console.WriteLine($"  Goodbye, {s}!");
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Declare instances of the custom delegate.
+	        CustomCallback hiDel, byeDel, multiDel, multiMinusHiDel;
+	
+	        // In this example, you can omit the custom delegate if you
+	        // want to and use Action<string> instead.
+	        //Action<string> hiDel, byeDel, multiDel, multiMinusHiDel;
+	
+	        // Initialize the delegate object hiDel that references the
+	        // method Hello.
+	        hiDel = Hello;
+	
+	        // Initialize the delegate object byeDel that references the
+	        // method Goodbye.
+	        byeDel = Goodbye;
+	
+	        // The two delegates, hiDel and byeDel, are combined to
+	        // form multiDel.
+	        multiDel = hiDel + byeDel;
+	
+	        // Remove hiDel from the multicast delegate, leaving byeDel,
+	        // which calls only the method Goodbye.
+	        multiMinusHiDel = (multiDel - hiDel)!;
+	
+	        Console.WriteLine("Invoking delegate hiDel:");
+	        hiDel("A");
+	        Console.WriteLine("Invoking delegate byeDel:");
+	        byeDel("B");
+	        Console.WriteLine("Invoking delegate multiDel:");
+	        multiDel("C");
+	        Console.WriteLine("Invoking delegate multiMinusHiDel:");
+	        multiMinusHiDel("D");
+	    }
+		
+		// Define a custom delegate that has a string parameter and returns void.
+		delegate void CustomCallback(string s);
+	}
+	/* Output:
+	Invoking delegate hiDel:
+	  Hello, A!
+	Invoking delegate byeDel:
+	  Goodbye, B!
+	Invoking delegate multiDel:
+	  Hello, C!
+	  Goodbye, C!
+	Invoking delegate multiMinusHiDel:
+	  Goodbye, D!
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/delegates-with-named-vs-anonymous-methods
+namespace DotnetCSharpProgrammingGuideDelegatesDelegatesWithNamedVsAnonymousMethods
+{
+	public class DelegatesWithNamedVsAnonymousMethods
+	{
+		public static void RunDelegatesWithNamedVsAnonymousMethods()
+		{
+			// Instantiate the delegate using the method as a parameter.
+			//WorkCallback d = obj.DoWork;
+			
+			var read = Console.Read; // Just one overload; Func<int> inferred
+			//var write = Console.Write; // ERROR: Multiple overloads, can't choose
+		}
+		
+		// Declare a delegate.
+		delegate void WorkCallback(int x);
+		
+		// Define a named method.
+		void DoWork(int k) { /* ... */ }
+		
+		// Declare a delegate
+		delegate void MultiplyCallback(int i, double j);
+		
+		// Declare a delegate
+		delegate void Callback();
+	}
+	
+	class MathClass
+	{
+	    static void RunMain()
+	    {
+	        MathClass m = new MathClass();
+	
+	        // Delegate instantiation using "MultiplyNumbers"
+	        //MultiplyCallback d = m.MultiplyNumbers;
+	
+	        // Invoke the delegate object.
+	        Console.WriteLine("Invoking the delegate using 'MultiplyNumbers':");
+	        for (int i = 1; i <= 5; i++)
+	        {
+	            //d(i, 2);
+	        }
+	
+	        // Keep the console window open in debug mode.
+	        Console.WriteLine("Press any key to exit.");
+	        Console.ReadKey();
+	    }
+	
+	    // Declare the associated method.
+	    void MultiplyNumbers(int m, double n)
+	    {
+	        Console.Write(m * n + " ");
+	    }
+	}
+	/* Output:
+	    Invoking the delegate using 'MultiplyNumbers':
+	    2 4 6 8 10
+	*/
+	
+	class SampleClass
+	{
+	    public void InstanceMethod()
+	    {
+	        Console.WriteLine("A message from the instance method.");
+	    }
+	
+	    static public void StaticMethod()
+	    {
+	        Console.WriteLine("A message from the static method.");
+	    }
+	}
+	
+	class TestSampleClass
+	{
+	    static void RunMain()
+	    {
+	        var sc = new SampleClass();
+	
+	        // Map the delegate to the instance method:
+			//Callback d = sc.InstanceMethod;
+			//d();
+	
+	        // Map to the static method:
+			//d = SampleClass.StaticMethod;
+			//d();
+	    }
+	}
+	/* Output:
+	    A message from the instance method.
+	    A message from the static method.
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/using-delegates
+namespace DotnetCSharpProgrammingGuideDelegatesUsingDelegates
+{
+	public class UsingDelegates
+	{
+		public static void RunUsingDelegates()
+		{
+			// Instantiate the delegate.
+			//Callback handler = DelegateMethod;
+			
+			// Call the delegate.
+			//handler("Hello World");
+			
+			//MethodWithCallback(1, 2, handler);
+			
+			//var obj = new MethodClass();
+			//Callback d1 = obj.Method1;
+			//Callback d2 = obj.Method2;
+			//Callback d3 = DelegateMethod;
+			
+			////Both types of assignment are valid.
+			//Callback allMethodsDelegate = d1 + d2;
+			//allMethodsDelegate += d3;
+			
+			//remove Method1
+			//allMethodsDelegate -= d1;
+			
+			// copy AllMethodsDelegate while removing d2
+			//Callback oneMethodDelegate = (allMethodsDelegate - d2)!;
+			
+			//int invocationCount = d1.GetInvocationList().GetLength(0);
+			
+			
+		}
+		
+		// Create a method for a delegate.
+		public static void DelegateMethod(string message)
+		{
+		    Console.WriteLine(message);
+		}
+		
+		/*
+		public static void MethodWithCallback(int param1, int param2, Callback callback)
+		{
+		    callback("The number is: " + (param1 + param2).ToString());
+		}
+		*/
+		
+		delegate void Callback1();
+		delegate void Callback2();
+		
+		static void method(Callback1 d, Callback2 e, System.Delegate f)
+		{
+		    // Compile-time error.
+		    //Console.WriteLine(d == e);
+		
+		    // OK at compile-time. False if the run-time type of f
+		    // is not the same as that of d.
+		    //Console.WriteLine(d == f);
+		}
+		
+		
+	}
+	
+	public class MethodClass
+	{
+	    public void Method1(string message) { }
+	    public void Method2(string message) { }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/
+namespace DotnetCSharpProgrammingGuideDelegates
+{
+	public class Delegates
+	{
+		public static void RunDelegates()
+		{
+			
+		}
+		
+		public delegate int PerformCalculation(int x, int y);
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/how-to-explicitly-implement-members-of-two-interfaces
+namespace DotnetCSharpProgrammingGuideInterfacesHowToExplicitlyImplementMembersOfTwoInterfaces
+{
+	public class ImplementMembersOfTwoInterfaces
+	{
+		public static void RunImplementMembersOfTwoInterfaces()
+		{
+			// Normal implementation:
+			//public float Length() => _lengthInches;
+			//public float Width() => _widthInches;
+			
+			// Explicit implementation:
+			//float IMetricDimensions.Length() => _lengthInches * 2.54f;
+			//float IMetricDimensions.Width() => _widthInches * 2.54f;
+		}
+		
+		public static void Test()
+		{
+		    Box box1 = new(30.0f, 20.0f);
+		    IMetricDimensions mDimensions = box1;
+		
+			//Console.WriteLine($"Length(in): {box1.Length()}");
+			//Console.WriteLine($"Width (in): {box1.Width()}");
+			//Console.WriteLine($"Length(cm): {mDimensions.Length()}");
+			//Console.WriteLine($"Width (cm): {mDimensions.Width()}");
+		}
+	}
+	
+	// Declare the English units interface:
+	interface IEnglishDimensions
+	{
+	    float Length();
+	    float Width();
+	}
+	
+	// Declare the metric units interface:
+	interface IMetricDimensions
+	{
+	    float Length();
+	    float Width();
+	}
+	
+	// Declare the Box class that implements the two interfaces:
+	// IEnglishDimensions and IMetricDimensions:
+	class Box : IEnglishDimensions, IMetricDimensions
+	{
+	    float _lengthInches;
+	    float _widthInches;
+	
+	    public Box(float lengthInches, float widthInches)
+	    {
+	        _lengthInches = lengthInches;
+	        _widthInches = widthInches;
+	    }
+	
+	    // Explicitly implement the members of IEnglishDimensions:
+	    float IEnglishDimensions.Length() => _lengthInches;
+	
+	    float IEnglishDimensions.Width() => _widthInches;
+	
+	    // Explicitly implement the members of IMetricDimensions:
+	    float IMetricDimensions.Length() => _lengthInches * 2.54f;
+	
+	    float IMetricDimensions.Width() => _widthInches * 2.54f;
+	
+	    static void RunMain()
+	    {
+	        // Declare a class instance box1:
+	        Box box1 = new(30.0f, 20.0f);
+	
+	        // Declare an instance of the English units interface:
+	        IEnglishDimensions eDimensions = box1;
+	
+	        // Declare an instance of the metric units interface:
+	        IMetricDimensions mDimensions = box1;
+	
+	        // Print dimensions in English units:
+	        Console.WriteLine($"Length(in): {eDimensions.Length()}");
+	        Console.WriteLine($"Width (in): {eDimensions.Width()}");
+	
+	        // Print dimensions in metric units:
+	        Console.WriteLine($"Length(cm): {mDimensions.Length()}");
+	        Console.WriteLine($"Width (cm): {mDimensions.Width()}");
+	    }
+	}
+	/* Output:
+	    Length(in): 30
+	    Width (in): 20
+	    Length(cm): 76.2
+	    Width (cm): 50.8
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/how-to-explicitly-implement-interface-members
+namespace DotnetCSharpProgrammingGuideInterfacesHowToExplicitlyImplementInterfaceMembers
+{
+	public class ImplementInterfaceMembers
+	{
+		public static void RunImplementInterfaceMembers()
+		{
+			//Console.WriteLine($"Length: {dimensions.GetLength()}");
+			//Console.WriteLine($"Width: {dimensions.GetWidth()}");
+		}
+	}
+	
+	interface IDimensions
+	{
+	    float GetLength();
+	    float GetWidth();
+	}
+	
+	class Box : IDimensions
+	{
+	    float _lengthInches;
+	    float _widthInches;
+	
+	    Box(float length, float width)
+	    {
+	        _lengthInches = length;
+	        _widthInches = width;
+	    }
+	    // Explicit interface member implementation:
+	    float IDimensions.GetLength()
+	    {
+	        return _lengthInches;
+	    }
+	    // Explicit interface member implementation:
+	    float IDimensions.GetWidth()
+	    {
+	        return _widthInches;
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Declare a class instance box1:
+	        Box box1 = new(30.0f, 20.0f);
+	
+	        // Declare an interface instance dimensions:
+	        IDimensions dimensions = box1;
+	
+	        // The following commented lines would produce compilation
+	        // errors because they try to access an explicitly implemented
+	        // interface member from a class instance:
+	        //Console.WriteLine($"Length: {box1.GetLength()}");
+	        //Console.WriteLine($"Width: {box1.GetWidth()}");
+	
+	        // Print out the dimensions of the box by calling the methods
+	        // from an instance of the interface:
+	        Console.WriteLine($"Length: {dimensions.GetLength()}");
+	        Console.WriteLine($"Width: {dimensions.GetWidth()}");
+	    }
+	}
+	/* Output:
+	    Length: 30
+	    Width: 20
+	*/
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation
+namespace DotnetCSharpProgrammingGuideInterfacesExplicitInterfaceImplementation
+{
+	public class ExplicitInterfaceImplementation
+	{
+		public static void RunExplicitInterfaceImplementation()
+		{
+			SampleClass sample = new SampleClass();
+			IControl control = sample;
+			ISurface surface = sample;
+			
+			// The following lines all call the same method.
+			//sample.Paint();
+			//control.Paint();
+			//surface.Paint();
+			
+			// Output:
+			// Paint method in SampleClass
+			// Paint method in SampleClass
+			// Paint method in SampleClass
+			
+			/*
+			SampleClass sample = new SampleClass();
+			IControl control = sample;
+			ISurface surface = sample;
+			
+			// The following lines all call the same method.
+			//sample.Paint(); // Compiler error.
+			control.Paint();  // Calls IControl.Paint on SampleClass.
+			surface.Paint();  // Calls ISurface.Paint on SampleClass.
+			*/
+			// Output:
+			// IControl.Paint
+			// ISurface.Paint
+			
+			/*
+			var sample = new SampleClass();
+			//sample.Paint();// "Paint" isn't accessible.
+			var control = sample as IControl;
+			control.Paint();
+			*/
+		}
+	}
+	
+	public interface IControl
+	{
+	    void Paint();
+	}
+	public interface ISurface
+	{
+	    void Paint();
+	}
+	
+	/*
+	public class SampleClass : IControl, ISurface
+	{
+	    // Both ISurface.Paint and IControl.Paint call this method.
+	    public void Paint()
+	    {
+	        Console.WriteLine("Paint method in SampleClass");
+	    }
+	}
+	*/
+	
+	public class SampleClass : IControl, ISurface
+	{
+	    void IControl.Paint()
+	    {
+	        System.Console.WriteLine("IControl.Paint");
+	    }
+	    void ISurface.Paint()
+	    {
+	        System.Console.WriteLine("ISurface.Paint");
+	    }
+	}
+	
+	interface ILeft
+	{
+	    int P { get;}
+	}
+	interface IRight
+	{
+	    int P();
+	}
+	
+	class Middle : ILeft, IRight
+	{
+	    public int P() { return 0; }
+	    int ILeft.P { get { return 0; } }
+	}
+	
+	/*
+	public interface IControl
+	{
+	    void Paint() => Console.WriteLine("Default Paint method");
+	}
+	public class SampleClass : IControl
+	{
+	    // Paint() is inherited from IControl.
+	}
+	*/
+	
+	
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-return-subsets-of-element-properties-in-a-query
+namespace DotnetCSharpProgrammingGuideClassesAndStructsHowToReturnSubsetsOfElementPropertiesInAQuery
+{
+	public class HowToReturnSubsetsOfElementPropertiesInAQuery
+	{
+		public static void RunHowToReturnSubsetsOfElementPropertiesInAQuery()
+		{
+			//select new { First = student.FirstName, Last = student.LastName };
+			
+			//Console.WriteLine(student.First + " " + student.Last);
+			
+		}
+		
+		/*
+		private static void QueryByScore()
+		{
+		    // Create the query. var is required because
+		    // the query produces a sequence of anonymous types.
+		    var queryHighScores =
+		        from student in students
+		        where student.ExamScores[0] > 95
+		        select new { student.FirstName, student.LastName };
+		
+		    // Execute the query.
+		    foreach (var obj in queryHighScores)
+		    {
+		        // The anonymous type's properties were not named. Therefore
+		        // they have the same names as the Student properties.
+		        Console.WriteLine(obj.FirstName + ", " + obj.LastName);
+		    }
+		}
+		*/
+		/* Output:
+		Adams, Terry
+		Fakhouri, Fadi
+		Garcia, Cesar
+		Omelchenko, Svetlana
+		Zabokritski, Eugene
+		*/
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods
+namespace DotnetCSharpProgrammingGuideClassesAndStructsPartialClassesAndMethods
+{
+	public class ClassesAndStructsPartialClassesAndMethods
+	{
+		public static void RunClassesAndStructsPartialClassesAndMethods()
+		{
+			
+		}
+		
+		/*
+		// Definition in file1.cs
+		partial void OnNameChanged();
+		
+		// Implementation in file2.cs
+		partial void OnNameChanged()
+		{
+		  // method body
+		}
+		*/
+	}
+	
+	// This is in Employee_Part1.cs
+	public partial class Employee
+	{
+	    public void DoWork()
+	    {
+	        Console.WriteLine("Employee is working.");
+	    }
+	}
+	
+	// This is in Employee_Part2.cs
+	public partial class Employee
+	{
+	    public void GoToLunch()
+	    {
+	        Console.WriteLine("Employee is at lunch.");
+	    }
+	}
+	
+	//Main program demonstrating the Employee class usage
+	public class Program
+	{
+	    public static void RunMain()
+	    {
+	        Employee emp = new Employee();
+	        emp.DoWork();
+	        emp.GoToLunch();
+	    }
+	}
+	
+	// Expected Output:
+	// Employee is working.
+	// Employee is at lunch.
+	
+	class Container
+	{
+	    partial class Nested
+	    {
+	        void Test() { }
+	    }
+	
+	    partial class Nested
+	    {
+	        void Test2() { }
+	    }
+	}
+	
+	[SerializableAttribute]
+	partial class Moon { }
+	
+	[ObsoleteAttribute]
+	partial class Moon { }
+	
+	/*
+	[SerializableAttribute]
+	[ObsoleteAttribute]
+	class Moon { }
+	*/
+	
+	//partial class Earth : Planet, IRotate { }
+	//partial class Earth : IRevolve { }
+	
+	//class Earth : Planet, IRotate, IRevolve { }
+	
+	public partial class A { }
+	//public class A { }  // Error, must also be marked partial
+	
+	partial class ClassWithNestedClass
+	{
+	    partial class NestedClass { }
+	}
+	
+	partial class ClassWithNestedClass
+	{
+	    partial class NestedClass { }
+	}
+	
+	// This is in Coords_Part1.cs
+	 public partial class Coords
+	 {
+	     private int x;
+	     private int y;
+	
+	     public Coords(int x, int y)
+	     {
+	         this.x = x;
+	         this.y = y;
+	     }
+	 }
+	
+	 // This is in Coords_Part2.cs
+	 public partial class Coords
+	 {
+	     public void PrintCoords()
+	     {
+	         Console.WriteLine("Coords: {0},{1}", x, y);
+	     }
+	 }
+	
+	// Main program demonstrating the Coords class usage
+	 class TestCoords
+	 {
+	     static void RunMain()
+	     {
+	         Coords myCoords = new Coords(10, 15);
+	         myCoords.PrintCoords();
+	
+	         // Keep the console window open in debug mode.
+	         Console.WriteLine("Press any key to exit.");
+	         Console.ReadKey();
+	     }
+	 }
+	 // Output: Coords: 10,15
+	 
+	 partial interface ITest
+	{
+	    void Interface_Test();
+	}
+	
+	partial interface ITest
+	{
+	    void Interface_Test2();
+	}
+	
+	partial struct S1
+	{
+	    void Struct_Test() { }
+	}
+	
+	partial struct S1
+	{
+	    void Struct_Test2() { }
+	}
+	
+	// in file1.cs
+	public partial class PropertyBag
+	{
+	    // Defining declaration
+	    public partial int MyProperty { get; set; }
+	}
+	
+	// In file2.cs
+	public partial class PropertyBag
+	{
+	    // Defining declaration
+	    public partial int MyProperty { get => field; set; }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/nested-types
+namespace DotnetCSharpProgrammingGuideClassesAndStructsNestedTypes
+{
+	public class GuideClassesAndStructsNestedTypes
+	{
+		public static void RunGuideClassesAndStructsNestedTypes()
+		{
+			
+		}
+	}
+	
+	/*
+	public class Container
+	{
+	    class Nested
+	    {
+	        Nested() { }
+	    }
+	}
+	
+	public class Container
+	{
+	    public class Nested
+	    {
+	        Nested() { }
+	    }
+	}
+	*/
+	
+	public class Container
+	{
+	    public class Nested
+	    {
+	        private Container? parent;
+	
+	        public Nested()
+	        {
+	        }
+	        public Nested(Container parent)
+	        {
+	            this.parent = parent;
+	        }
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-initialize-a-dictionary-with-a-collection-initializer
+namespace DotnetCSharpProgrammingGuideClassesAndStructsHowToInitializeADictionaryWithACollectionInitializer
+{
+	public class InitializeADictionaryWithACollectionInitializer
+	{
+		public static void RunInitializeADictionaryWithACollectionInitializer()
+		{
+			
+		}
+	}
+	
+	public class HowToDictionaryInitializer
+	{
+	    class StudentName
+	    {
+	        public string? FirstName { get; set; }
+	        public string? LastName { get; set; }
+	        public int ID { get; set; }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var students = new Dictionary<int, StudentName>()
+	        {
+	            { 111, new StudentName { FirstName="Sachin", LastName="Karnik", ID=211 } },
+	            { 112, new StudentName { FirstName="Dina", LastName="Salimzianova", ID=317 } },
+	            { 113, new StudentName { FirstName="Andy", LastName="Ruth", ID=198 } }
+	        };
+	
+	        foreach(var index in Enumerable.Range(111, 3))
+	        {
+	            Console.WriteLine($"Student {index} is {students[index].FirstName} {students[index].LastName}");
+	        }
+	        Console.WriteLine();		
+	
+	        var students2 = new Dictionary<int, StudentName>()
+	        {
+	            [111] = new StudentName { FirstName="Sachin", LastName="Karnik", ID=211 },
+	            [112] = new StudentName { FirstName="Dina", LastName="Salimzianova", ID=317 } ,
+	            [113] = new StudentName { FirstName="Andy", LastName="Ruth", ID=198 }
+	        };
+	
+	        foreach (var index in Enumerable.Range(111, 3))
+	        {
+	            Console.WriteLine($"Student {index} is {students2[index].FirstName} {students2[index].LastName}");
+	        }
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/how-to-initialize-objects-by-using-an-object-initializer
+namespace DotnetCSharpProgrammingGuideClassesAndStructsHowToInitializeObjectsByUsingAnObjectInitializer
+{
+	public class UsingAnObjectInitializer
+	{
+		public static void RunUsingAnObjectInitializer()
+		{
+			
+		}
+	}
+	
+	public class HowToObjectInitializers
+	{
+	    public static void RunMain()
+	    {
+	        // Declare a StudentName by using the constructor that has two parameters.
+	        StudentName student1 = new StudentName("Craig", "Playstead");
+	
+	        // Make the same declaration by using an object initializer and sending
+	        // arguments for the first and last names. The parameterless constructor is
+	        // invoked in processing this declaration, not the constructor that has
+	        // two parameters.
+	        StudentName student2 = new StudentName
+	        {
+	            FirstName = "Craig",
+	            LastName = "Playstead"
+	        };
+	
+	        // Declare a StudentName by using an object initializer and sending
+	        // an argument for only the ID property. No corresponding constructor is
+	        // necessary. Only the parameterless constructor is used to process object
+	        // initializers.
+	        StudentName student3 = new StudentName
+	        {
+	            ID = 183
+	        };
+	
+	        // Declare a StudentName by using an object initializer and sending
+	        // arguments for all three properties. No corresponding constructor is
+	        // defined in the class.
+	        StudentName student4 = new StudentName
+	        {
+	            FirstName = "Craig",
+	            LastName = "Playstead",
+	            ID = 116
+	        };
+	
+	        Console.WriteLine(student1.ToString());
+	        Console.WriteLine(student2.ToString());
+	        Console.WriteLine(student3.ToString());
+	        Console.WriteLine(student4.ToString());
+	    }
+	    // Output:
+	    // Craig  0
+	    // Craig  0
+	    //   183
+	    // Craig  116
+	
+	    public class StudentName
+	    {
+	        // This constructor has no parameters. The parameterless constructor
+	        // is invoked in the processing of object initializers.
+	        // You can test this by changing the access modifier from public to
+	        // private. The declarations in Main that use object initializers will
+	        // fail.
+	        public StudentName() { }
+	
+	        // The following constructor has parameters for two of the three
+	        // properties.
+	        public StudentName(string first, string last)
+	        {
+	            FirstName = first;
+	            LastName = last;
+	        }
+	
+	        // Properties.
+	        public string? FirstName { get; set; }
+	        public string? LastName { get; set; }
+	        public int ID { get; set; }
+	
+	        public override string ToString() => FirstName + "  " + ID;
+	    }
+	}
+	
+	public class HowToIndexInitializer
+	{
+	    public class BaseballTeam
+	    {
+	        private string[] players = new string[9];
+	        private readonly List<string> positionAbbreviations = new List<string>
+	        {
+	            "P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"
+	        };
+	
+	        public string this[int position]
+	        {
+	            // Baseball positions are 1 - 9.
+	            get { return players[position-1]; }
+	            set { players[position-1] = value; }
+	        }
+	        public string this[string position]
+	        {
+	            get { return players[positionAbbreviations.IndexOf(position)]; }
+	            set { players[positionAbbreviations.IndexOf(position)] = value; }
+	        }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var team = new BaseballTeam
+	        {
+	            ["RF"] = "Mookie Betts",
+	            [4] = "Jose Altuve",
+	            ["CF"] = "Mike Trout"
+	        };
+	
+	        Console.WriteLine(team["2B"]);
+	    }
+	}
+	
+	public class ObjectInitializersExecutionOrder
+	{
+	    public static void RunMain()
+	    {
+	        new Person { FirstName = "Paisley", LastName = "Smith", City = "Dallas" };
+	        new Dog(2) { Name = "Mike" };
+	    }
+	
+	    public class Dog
+	    {
+	        private int age;
+	        private string name;
+	
+	        public Dog(int age)
+	        {
+	            Console.WriteLine("Hello from Dog's non-parameterless constructor");
+	            this.age = age;
+	        }
+	
+	        public required string Name
+	        {
+	            get { return name; }
+	
+	            set
+	            {
+	                Console.WriteLine("Hello from setter of Dog's required property 'Name'");
+	                name = value;
+	            }
+	        }
+	    }
+	
+	    public class Person
+	    {
+	        private string firstName;
+	        private string lastName;
+	        private string city;
+	
+	        public Person()
+	        {
+	            Console.WriteLine("Hello from Person's parameterless constructor");
+	        }
+	
+	        public required string FirstName
+	        {
+	            get { return firstName; }
+	
+	            set
+	            {
+	                Console.WriteLine("Hello from setter of Person's required property 'FirstName'");
+	                firstName = value;
+	            }
+	        }
+	
+	        public string LastName
+	        {
+	            get { return lastName; }
+	
+	            init
+	            {
+	                Console.WriteLine("Hello from setter of Person's init property 'LastName'");
+	                lastName = value;
+	            }
+	        }
+	
+	        public string City
+	        {
+	            get { return city; }
+	
+	            set
+	            {
+	                Console.WriteLine("Hello from setter of Person's property 'City'");
+	                city = value;
+	            }
+	        }
+	    }
+	
+	    // Output:
+	    // Hello from Person's parameterless constructor
+	    // Hello from setter of Person's required property 'FirstName'
+	    // Hello from setter of Person's init property 'LastName'
+	    // Hello from setter of Person's property 'City'
+	    // Hello from Dog's non-parameterless constructor
+	    // Hello from setter of Dog's required property 'Name'
+	}
+	
+	public class ObjectInitializerWithoutNew
+	{
+	    public class Address
+	    {
+	        public string Street { get; set; } = "";
+	        public string City { get; set; } = "";
+	        public string State { get; set; } = "";
+	    }
+	
+	    public class Person
+	    {
+	        public string Name { get; set; } = "";
+	        public Address HomeAddress { get; set; } = new(); // Property with setter
+	    }
+	
+	    public static void Examples()
+	    {
+	        // Example 1: Using object initializer WITHOUT 'new' keyword
+	        // This modifies the existing Address instance created in the constructor
+	        var person1 = new Person
+	        {
+	            Name = "Alice",
+	            HomeAddress = { Street = "123 Main St", City = "Anytown", State = "CA" }
+	        };
+	        
+	        // Example 2: Using object initializer WITH 'new' keyword
+	        // This creates a completely new Address instance
+	        var person2 = new Person
+	        {
+	            Name = "Bob",
+	            HomeAddress = new Address { Street = "456 Oak Ave", City = "Somewhere", State = "NY" }
+	        };
+	
+	        // Both approaches work, but they behave differently:
+	        // - person1.HomeAddress is the same instance that was created in Person's constructor
+	        // - person2.HomeAddress is a new instance, replacing the one from the constructor
+	
+	        Console.WriteLine($"Person 1: {person1.Name} at {person1.HomeAddress.Street}, {person1.HomeAddress.City}, {person1.HomeAddress.State}");
+	        Console.WriteLine($"Person 2: {person2.Name} at {person2.HomeAddress.Street}, {person2.HomeAddress.City}, {person2.HomeAddress.State}");
+	    }
+	}
+}
+
 //https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
 namespace DotnetCSharpProgrammingGuideClassesAndStructsObjectAndCollectionInitializers
 {
@@ -162,8 +3308,554 @@ namespace DotnetCSharpProgrammingGuideClassesAndStructsObjectAndCollectionInitia
 	{
 		public static void RunClassesAndStructsObjectAndCollectionInitializers()
 		{
+			Cat cat = new Cat { Age = 10, Name = "Fluffy" };
+			Cat sameCat = new Cat("Fluffy"){ Age = 10 };
+			
+			var identity = new Matrix
+			{
+			    [0, 0] = 1.0,
+			    [0, 1] = 0.0,
+			    [0, 2] = 0.0,
+			
+			    [1, 0] = 0.0,
+			    [1, 1] = 1.0,
+			    [1, 2] = 0.0,
+			
+			    [2, 0] = 0.0,
+			    [2, 1] = 0.0,
+			    [2, 2] = 1.0,
+			};
+			
+			/*
+			var thing = new IndexersExample
+			{
+			    name = "object one",
+			    [1] = '1',
+			    [2] = '4',
+			    [3] = '9',
+			    Size = Math.PI,
+			    ['C',4] = "Middle C"
+			}
+			*/
+			
+			var pet = new { Age = 10, Name = "Fluffy" };
+			
+			/*
+			var productInfos =
+			    from p in products
+			    select new { p.ProductName, p.UnitPrice };
+			*/
+			
+			//foreach(var p in productInfos){...}
+			
+			//select new {p.ProductName, Price = p.UnitPrice};
+			
+			// `Age` field is necessary to be initialized.
+			// You don't need to initialize `Name` property
+			//var pet = new Pet() { Age = 10};
+			
+			// Compiler error:
+			// Error CS9035 Required member 'Pet.Age' must be set in the object initializer or attribute constructor.
+			// var pet = new Pet();
+			
+			// The `LastName` property can be set only during initialization. It CAN'T be modified afterwards.
+			// The `FirstName` property can be modified after initialization.
+			//var pet = new Person() { FirstName = "Joe", LastName = "Doe"};
+			
+			// You can assign the FirstName property to a different value.
+			//pet.FirstName = "Jane";
+			
+			// Compiler error:
+			// Error CS8852  Init - only property or indexer 'Person.LastName' can only be assigned in an object initializer,
+			//               or on 'this' or 'base' in an instance constructor or an 'init' accessor.
+			// pet.LastName = "Kowalski";
+			
+			//List<int> digits = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+			//List<int> digits2 = new List<int> { 0 + 1, 12 % 3, MakeInt() };
+			
+			List<Cat> cats =
+			[
+			    new Cat { Name = "Sylvester", Age = 8 },
+			    new Cat { Name = "Whiskers", Age = 2 },
+			    new Cat { Name = "Sasha", Age = 14 }
+			];
+			
+			List<Cat?> moreCats = new List<Cat?>
+			{
+			    new Cat{ Name = "Furrytail", Age=5 },
+			    new Cat{ Name = "Peaches", Age=4 },
+			    null
+			};
+			
+			List<Cat> allCats = [.. cats, .. moreCats];
+			
+			List<Cat> additionalCats = [.. cats, new Cat { Name = "Furrytail", Age = 5 }, .. moreCats];
+			
+			var numbers = new Dictionary<int, string>
+			{
+			    [7] = "seven",
+			    [9] = "nine",
+			    [13] = "thirteen"
+			};
+			
+			var moreNumbers = new Dictionary<int, string>
+			{
+			    {19, "nineteen" },
+			    {23, "twenty-three" },
+			    {42, "forty-two" }
+			};
 			
 		}
+		
+		/*
+		public static void CollectionExpressionWithArgumentsExample()
+		{
+		    string[] values = ["one", "two", "three"];
+		
+		    // Use with() to pass capacity to the List<T> constructor
+		    List<string> names = [with(capacity: values.Length * 2), .. values];
+		
+		    Console.WriteLine($"Created List<string> with capacity: {names.Capacity}");
+		    Console.WriteLine($"List contains {names.Count} elements: [{string.Join(", ", names)}]");
+		
+		    // Use with() to pass a comparer to the HashSet<T> constructor
+		    HashSet<string> caseInsensitiveSet = [with(StringComparer.OrdinalIgnoreCase), "Hello", "HELLO"];
+		    // caseInsensitiveSet contains only one element because "Hello" and "HELLO" are equal
+		
+		    Console.WriteLine($"HashSet with case-insensitive comparer contains {caseInsensitiveSet.Count} elements: [{string.Join(", ", caseInsensitiveSet)}]");
+		    Console.WriteLine("Note: 'Hello' and 'HELLO' are treated as the same element due to OrdinalIgnoreCase comparer");
+		}
+		*/
+		
+		/*
+		CatOwner owner = new CatOwner
+		{
+		    Cats = new List<Cat>
+		    {
+		        new Cat{ Name = "Sylvester", Age=8 },
+		        new Cat{ Name = "Whiskers", Age=2 },
+		        new Cat{ Name = "Sasha", Age=14 }
+		    }
+		};
+		*/
+		
+		CatOwner owner = new CatOwner
+		{
+		    Cats =
+		    {
+		        new Cat{ Name = "Sylvester", Age=8 },
+		        new Cat{ Name = "Whiskers", Age=2 },
+		        new Cat{ Name = "Sasha", Age=14 }
+		    }
+		};
+		
+		/*
+		CatOwner owner = new ();
+		owner.Cats.Add(new Cat{ Name = "Sylvester", Age=8 });
+		owner.Cats.Add(new Cat{ Name = "Whiskers", Age=2 });
+		owner.Cats.Add(new Cat{ Name = "Sasha", Age=14 });
+		*/
+		
+		
+	}
+	
+	public class Cat
+	{
+	    // Automatically implemented properties.
+	    public int Age { get; set; }
+	    public string? Name { get; set; }
+	
+	    public Cat()
+	    {
+	    }
+	
+	    public Cat(string name)
+	    {
+	        this.Name = name;
+	    }
+	}
+	
+	public class Matrix
+	{
+	    private double[,] storage = new double[3, 3];
+	
+	    public double this[int row, int column]
+	    {
+	        // The embedded array will throw out of range exceptions as appropriate.
+	        get { return storage[row, column]; }
+	        set { storage[row, column] = value; }
+	    }
+	}
+	
+	public class IndexersExample
+	{
+		//public string name;
+		//public double Size { set { ... }; }
+		//public char this[int i] { set { ... }; }
+		//public string this[char c, int i] { set { ... }; }
+	}
+	
+	public class Pet
+	{
+	    public required int Age;
+	    public string Name;
+	}
+	
+	public class Person
+	{
+	    public string FirstName { get; set; }
+	    public string LastName { get; init; }
+	}
+	
+	public class HowToClassTypedInitializer
+	{
+	    public class EmbeddedClassTypeA
+	    {
+	        public int I { get; set; }
+	        public bool B { get; set; }
+	        public string S { get; set; }
+	        public EmbeddedClassTypeB ClassB { get; set; }
+	
+	        public override string ToString() => $"{I}|{B}|{S}|||{ClassB}";
+	
+	        public EmbeddedClassTypeA()
+	        {
+	            Console.WriteLine($"Entering EmbeddedClassTypeA constructor. Values are: {this}");
+	            I = 3;
+	            B = true;
+	            S = "abc";
+	            ClassB = new() { BB = true, BI = 43 };
+	            Console.WriteLine($"Exiting EmbeddedClassTypeA constructor. Values are: {this})");
+	        }
+	    }
+	
+	    public class EmbeddedClassTypeB
+	    {
+	        public int BI { get; set; }
+	        public bool BB { get; set; }
+	        public string BS { get; set; }
+	
+	        public override string ToString() => $"{BI}|{BB}|{BS}";
+	
+	        public EmbeddedClassTypeB()
+	        {
+	            Console.WriteLine($"Entering EmbeddedClassTypeB constructor. Values are: {this}");
+	            BI = 23;
+	            BB = false;
+	            BS = "BBBabc";
+	            Console.WriteLine($"Exiting EmbeddedClassTypeB constructor. Values are: {this})");
+	        }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var a = new EmbeddedClassTypeA
+	        {
+	            I = 103,
+	            B = false,
+	            ClassB = { BI = 100003 }
+	        };
+	        Console.WriteLine($"After initializing EmbeddedClassTypeA: {a}");
+	
+	        var a2 = new EmbeddedClassTypeA
+	        {
+	            I = 103,
+	            B = false,
+	            ClassB = new() { BI = 100003 } //New instance
+	        };
+	        Console.WriteLine($"After initializing EmbeddedClassTypeA a2: {a2}");
+	    }
+	
+	    // Output:
+	    //Entering EmbeddedClassTypeA constructor Values are: 0|False||||
+	    //Entering EmbeddedClassTypeB constructor Values are: 0|False|
+	    //Exiting EmbeddedClassTypeB constructor Values are: 23|False|BBBabc)
+	    //Exiting EmbeddedClassTypeA constructor Values are: 3|True|abc|||43|True|BBBabc)
+	    //After initializing EmbeddedClassTypeA: 103|False|abc|||100003|True|BBBabc
+	    //Entering EmbeddedClassTypeA constructor Values are: 0|False||||
+	    //Entering EmbeddedClassTypeB constructor Values are: 0|False|
+	    //Exiting EmbeddedClassTypeB constructor Values are: 23|False|BBBabc)
+	    //Exiting EmbeddedClassTypeA constructor Values are: 3|True|abc|||43|True|BBBabc)
+	    //Entering EmbeddedClassTypeB constructor Values are: 0|False|
+	    //Exiting EmbeddedClassTypeB constructor Values are: 23|False|BBBabc)
+	    //After initializing EmbeddedClassTypeA a2: 103|False|abc|||100003|False|BBBabc
+	}
+	
+	public class ReadOnlyPropertyExample
+	{
+	    public class Settings
+	    {
+	        public string Theme { get; set; } = "Light";
+	        public int FontSize { get; set; } = 12;
+	    }
+	
+	    public class Application
+	    {
+	        public string Name { get; set; } = "";
+	        // This property is read-only - it can only be set during construction
+	        public Settings AppSettings { get; } = new();
+	    }
+	
+	    public static void Example()
+	    {
+	        // You can still initialize the nested object's properties
+	        // even though AppSettings property has no setter
+	        var app = new Application
+	        {
+	            Name = "MyApp",
+	            AppSettings = { Theme = "Dark", FontSize = 14 }
+	        };
+	
+	        // This would cause a compile error because AppSettings has no setter:
+	        // app.AppSettings = new Settings { Theme = "Dark", FontSize = 14 };
+	
+	        Console.WriteLine($"App: {app.Name}, Theme: {app.AppSettings.Theme}, Font Size: {app.AppSettings.FontSize}");
+	    }
+	}
+	
+	public class CatOwner
+	{
+	    public IList<Cat> Cats { get; } = new List<Cat>();
+	}
+	
+	public class InitializationSample
+	{
+	    public class Cat
+	    {
+	        // Automatically implemented properties.
+	        public int Age { get; set; }
+	        public string? Name { get; set; }
+	
+	        public Cat() { }
+	
+	        public Cat(string name)
+	        {
+	            Name = name;
+	        }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        Cat cat = new Cat { Age = 10, Name = "Fluffy" };
+	        Cat sameCat = new Cat("Fluffy"){ Age = 10 };
+	
+	        List<Cat> cats =
+	        [
+	            new Cat { Name = "Sylvester", Age = 8 },
+	            new Cat { Name = "Whiskers", Age = 2 },
+	            new Cat { Name = "Sasha", Age = 14 }
+	        ];
+	
+	        List<Cat?> moreCats = new List<Cat?>
+	        {
+	            new Cat { Name = "Furrytail", Age = 5 },
+	            new Cat { Name = "Peaches", Age = 4 },
+	            null
+	        };
+	
+	        List<Cat> allCats = [.. cats, new Cat { Name = "Łapka", Age = 5 }, cat, .. moreCats];
+	
+	        // Display results.
+	        foreach (Cat? c in allCats)
+	        {
+	            if (c != null)
+	            {
+	                System.Console.WriteLine(c.Name);
+	            }
+	            else
+	            {
+	                System.Console.WriteLine("List element has null value.");
+	            }
+	        }
+	    }
+	    // Output:
+	    // Sylvester
+	    // Whiskers
+	    // Sasha
+	    // Łapka
+	    // Fluffy
+	    // Furrytail
+	    // Peaches
+	    // List element has null value.
+	}
+	
+	public class FullExample
+	{
+	    class FormattedAddresses : IEnumerable<string>
+	    {
+	        private List<string> internalList = new();
+	        public IEnumerator<string> GetEnumerator() => internalList.GetEnumerator();
+	
+	        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => internalList.GetEnumerator();
+	
+	        public void Add(string firstname, string lastname,
+	            string street, string city,
+	            string state, string zipcode) => internalList.Add($"""
+	            {firstname} {lastname}
+	            {street}
+	            {city}, {state} {zipcode}
+	            """
+	            );
+	    }
+	
+	    public static void RunMain()
+	    {
+	        FormattedAddresses addresses = new FormattedAddresses()
+	        {
+	            {"John", "Doe", "123 Street", "Topeka", "KS", "00000" },
+	            {"Jane", "Smith", "456 Street", "Topeka", "KS", "00000" }
+	        };
+	
+	        Console.WriteLine("Address Entries:");
+	
+	        foreach (string addressEntry in addresses)
+	        {
+	            Console.WriteLine("\r\n" + addressEntry);
+	        }
+	    }
+	
+	    /*
+	        * Prints:
+	
+	        Address Entries:
+	
+	        John Doe
+	        123 Street
+	        Topeka, KS 00000
+	
+	        Jane Smith
+	        456 Street
+	        Topeka, KS 00000
+	        */
+	}
+	
+	public class DictionaryExample
+	{
+	    class RudimentaryMultiValuedDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, List<TValue>>> where TKey : notnull
+	    {
+	        private Dictionary<TKey, List<TValue>> internalDictionary = new Dictionary<TKey, List<TValue>>();
+	
+	        public IEnumerator<KeyValuePair<TKey, List<TValue>>> GetEnumerator() => internalDictionary.GetEnumerator();
+	
+	        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => internalDictionary.GetEnumerator();
+	
+	        public List<TValue> this[TKey key]
+	        {
+	            get => internalDictionary[key];
+	            set => Add(key, value);
+	        }
+	
+	        public void Add(TKey key, params TValue[] values) => Add(key, (IEnumerable<TValue>)values);
+	
+	        public void Add(TKey key, IEnumerable<TValue> values)
+	        {
+	            if (!internalDictionary.TryGetValue(key, out List<TValue>? storedValues))
+	            {
+	                internalDictionary.Add(key, storedValues = new());
+	            }
+	            storedValues.AddRange(values);
+	        }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        RudimentaryMultiValuedDictionary<string, string> rudimentaryMultiValuedDictionary1
+	            = new RudimentaryMultiValuedDictionary<string, string>()
+	            {
+	                {"Group1", "Bob", "John", "Mary" },
+	                {"Group2", "Eric", "Emily", "Debbie", "Jesse" }
+	            };
+	        RudimentaryMultiValuedDictionary<string, string> rudimentaryMultiValuedDictionary2
+	            = new RudimentaryMultiValuedDictionary<string, string>()
+	            {
+	                ["Group1"] = new List<string>() { "Bob", "John", "Mary" },
+	                ["Group2"] = new List<string>() { "Eric", "Emily", "Debbie", "Jesse" }
+	            };
+	        RudimentaryMultiValuedDictionary<string, string> rudimentaryMultiValuedDictionary3
+	            = new RudimentaryMultiValuedDictionary<string, string>()
+	            {
+	                {"Group1", new string []{ "Bob", "John", "Mary" } },
+	                { "Group2", new string[]{ "Eric", "Emily", "Debbie", "Jesse" } }
+	            };
+	
+	        Console.WriteLine("Using first multi-valued dictionary created with a collection initializer:");
+	
+	        foreach (KeyValuePair<string, List<string>> group in rudimentaryMultiValuedDictionary1)
+	        {
+	            Console.WriteLine($"\r\nMembers of group {group.Key}: ");
+	
+	            foreach (string member in group.Value)
+	            {
+	                Console.WriteLine(member);
+	            }
+	        }
+	
+	        Console.WriteLine("\r\nUsing second multi-valued dictionary created with a collection initializer using indexing:");
+	
+	        foreach (KeyValuePair<string, List<string>> group in rudimentaryMultiValuedDictionary2)
+	        {
+	            Console.WriteLine($"\r\nMembers of group {group.Key}: ");
+	
+	            foreach (string member in group.Value)
+	            {
+	                Console.WriteLine(member);
+	            }
+	        }
+	        Console.WriteLine("\r\nUsing third multi-valued dictionary created with a collection initializer using indexing:");
+	
+	        foreach (KeyValuePair<string, List<string>> group in rudimentaryMultiValuedDictionary3)
+	        {
+	            Console.WriteLine($"\r\nMembers of group {group.Key}: ");
+	
+	            foreach (string member in group.Value)
+	            {
+	                Console.WriteLine(member);
+	            }
+	        }
+	    }
+	
+	    /*
+	        * Prints:
+	
+	        Using first multi-valued dictionary created with a collection initializer:
+	
+	        Members of group Group1:
+	        Bob
+	        John
+	        Mary
+	
+	        Members of group Group2:
+	        Eric
+	        Emily
+	        Debbie
+	        Jesse
+	
+	        Using second multi-valued dictionary created with a collection initializer using indexing:
+	
+	        Members of group Group1:
+	        Bob
+	        John
+	        Mary
+	
+	        Members of group Group2:
+	        Eric
+	        Emily
+	        Debbie
+	        Jesse
+	
+	        Using third multi-valued dictionary created with a collection initializer using indexing:
+	
+	        Members of group Group1:
+	        Bob
+	        John
+	        Mary
+	
+	        Members of group Group2:
+	        Eric
+	        Emily
+	        Debbie
+	        Jesse
+	        */
 	}
 }
 
