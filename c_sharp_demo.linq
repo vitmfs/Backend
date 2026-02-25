@@ -2,6 +2,7 @@
   <Namespace>System.Runtime.InteropServices</Namespace>
 </Query>
 
+global using BandPass = (int Min, int Max);
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
 using Day = System.DayOfWeek;
+using Range2 = (int Minimum, int Maximum);
 //using Excel = Microsoft.Office.Interop.Excel;
 //using Word = Microsoft.Office.Interop.Word;
 //using Excel = Microsoft.Office.Interop.Excel;
@@ -154,6 +156,2352 @@ namespace ProgramNamespace
 		    }
 		}
     }
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/async
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/
+namespace DotnetCSharpLanguageReferenceKeywords
+{
+	public class Keywords
+	{
+		public static void RunKeywords()
+		{
+			//BaseClass bc = new BaseClass();   // Error
+		}
+	}
+	
+	public abstract class Vehicle
+	{
+	    protected string _brand;
+	    
+	    // Constructor - implemented method in abstract class
+	    public Vehicle(string brand) => _brand = brand;
+	    
+	    // Implemented method - provides functionality that all vehicles share
+	    public string GetInfo() => $"This is a {_brand} vehicle.";
+	    
+	    // Another implemented method
+	    public virtual void StartEngine() => Console.WriteLine($"{_brand} engine is starting...");
+	    
+	    // Abstract method - must be implemented by derived classes
+	    public abstract void Move();
+	    
+	    // Abstract property - must be implemented by derived classes  
+	    public abstract int MaxSpeed { get; }
+	}
+	
+	public class Car : Vehicle
+	{
+	    public Car(string brand) : base(brand) { }
+	    
+	    // Implementation of abstract method
+	    public override void Move() => Console.WriteLine($"{_brand} car is driving on the road.");
+	    
+	    // Implementation of abstract property
+	    public override int MaxSpeed => 200;
+	}
+	
+	public class Boat : Vehicle
+	{
+	    public Boat(string brand) : base(brand) { }
+	    
+	    // Implementation of abstract method
+	    public override void Move() => Console.WriteLine($"{_brand} boat is sailing on the water.");
+	    
+	    // Implementation of abstract property
+	    public override int MaxSpeed => 50;
+	}
+	
+	public class AbstractExample
+	{
+	    public static void Examples()
+	    {
+	        // Cannot instantiate abstract class: Vehicle v = new Vehicle("Generic"); // Error!
+	        
+	        Car car = new Car("Toyota");
+	        Boat boat = new Boat("Yamaha");
+	        
+	        // Using implemented methods from abstract class
+	        Console.WriteLine(car.GetInfo());
+	        car.StartEngine();
+	        
+	        // Using abstract methods implemented in derived class
+	        car.Move();
+	        Console.WriteLine($"Max speed: {car.MaxSpeed} km/h");
+	        
+	        Console.WriteLine();
+	        
+	        Console.WriteLine(boat.GetInfo());
+	        boat.StartEngine();
+	        boat.Move();
+	        Console.WriteLine($"Max speed: {boat.MaxSpeed} km/h");
+	    }
+	}
+	
+	class Program
+	{
+	    static void RunMain()
+	    {
+	        AbstractExample.Examples();
+	    }
+	}
+	/* Output:
+	This is a Toyota vehicle.
+	Toyota engine is starting...
+	Toyota car is driving on the road.
+	Max speed: 200 km/h
+	
+	This is a Yamaha vehicle.
+	Yamaha engine is starting...
+	Yamaha boat is sailing on the water.
+	Max speed: 50 km/h
+	*/
+	
+	abstract class Shape
+	{
+	    public abstract int GetArea();
+		//public abstract void MyMethod();
+	}
+	
+	class Square : Shape
+	{
+	    private int _side;
+	
+	    public Square(int n) => _side = n;
+	
+	    // GetArea method is required to avoid a compile-time error.
+	    public override int GetArea() => _side * _side;
+	
+	    static void RunMain()
+	    {
+	        var sq = new Square(12);
+	        Console.WriteLine($"Area of the square = {sq.GetArea()}");
+	    }
+	}
+	// Output: Area of the square = 144
+	
+	interface I
+	{
+	    void M();
+	}
+	
+	abstract class C : I
+	{
+	    public abstract void M();
+	}
+	
+	// Abstract class
+	abstract class BaseClass
+	{
+	    protected int _x = 100;
+	    protected int _y = 150;
+	
+	    // Abstract method
+	    public abstract void AbstractMethod();
+	
+	    // Abstract properties
+	    public abstract int X { get; }
+	    public abstract int Y { get; }
+	}
+	
+	class DerivedClass : BaseClass
+	{
+	    public override void AbstractMethod()
+	    {
+	        _x++;
+	        _y++;
+	    }
+	
+	    public override int X   // overriding property
+	    {
+	        get
+	        {
+	            return _x + 10;
+	        }
+	    }
+	
+	    public override int Y   // overriding property
+	    {
+	        get
+	        {
+	            return _y + 10;
+	        }
+	    }
+	
+	    static void RunMain()
+	    {
+	        var o = new DerivedClass();
+	        o.AbstractMethod();
+	        Console.WriteLine($"x = {o.X}, y = {o.Y}");
+	    }
+	}
+	// Output: x = 111, y = 161
+	
+	public abstract class Shape2
+	{
+	    public string Color { get; set; }
+	
+	    // Constructor of the abstract class
+	    protected Shape2(string color)
+	    {
+	        Color = color;
+	        Console.WriteLine($"Created a shape with color {color}.");
+	    }
+	
+	    // Abstract method that must be implemented by derived classes
+	    public abstract double CalculateArea();
+	}
+	
+	public class Square2 : Shape2
+	{
+	    public double Side { get; set; }
+	
+	    // Constructor of the derived class calling the base class constructor
+	    public Square2(string color, double side) : base(color)
+	    {
+	        Side = side;
+	    }
+	
+	    public override double CalculateArea()
+	    {
+	        return Side * Side;
+	    }
+	}
+	
+	public class Program2
+	{
+	    public static void RunMain(string[] args)
+	     {
+	            Square2 square = new Square2("red", 5);
+	            Console.WriteLine($"Area of the square: {square.CalculateArea()}");            
+	     }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types
+namespace DotnetCSharpLanguageReferenceKeywordsReferenceTypes
+{
+	public class ReferenceTypes
+	{
+		public static void RunReferenceTypes()
+		{
+			string a = "hello";
+			string b = "h";
+			// Append to contents of 'b'.
+			b += "ello";
+			Console.WriteLine(a == b);
+			Console.WriteLine(object.ReferenceEquals(a, b));
+			
+			//string a = "good " + "morning";
+			
+			//string b = "h";
+			//b += "ello";
+			
+			string str = "test";
+			char x = str[2];  // x = 's';
+			
+			var message = """
+			"This is a very important message."
+			""";
+			Console.WriteLine(message);
+			// output: "This is a very important message."
+			
+			var message2 = """
+		    "This is a very important message."
+		    """;
+			Console.WriteLine(message2);
+			// output: "This is a very important message."
+			// The leftmost whitespace is not part of the raw string literal
+			
+			var json= """
+		    {
+		        "prop": 0
+		    }
+		    """;
+			
+			var shortText = """He said "hello!" this morning.""";
+			
+			string a2 = "\\\u0066\n F";
+			Console.WriteLine(a);
+			// Output:
+			// \f
+			//  F
+			
+			ReadOnlySpan<byte> AuthWithTrailingSpace = new byte[] { 0x41, 0x55, 0x54, 0x48, 0x20 };
+			ReadOnlySpan<byte> AuthStringLiteral = "AUTH "u8;
+			
+			byte[] AuthStringLiteral2 = "AUTH "u8.ToArray();
+			
+			Action<string> stringAction = str => {};
+			Action<object> objectAction = obj => {};
+			
+			// Valid due to implicit reference conversion of
+			// objectAction to Action<string>, but might fail
+			// at run time.
+			Action<string> combination = stringAction + objectAction;
+			
+			Action<string> stringAction2 = str => {};
+			Action<object> objectAction2 = obj => {};
+			
+			// Creates a new delegate instance with a runtime type of Action<string>.
+			Action<string> wrappedObjectAction = new Action<string>(objectAction2);
+			
+			// The two Action<string> delegate instances can now be combined.
+			Action<string> combination2 = stringAction2 + wrappedObjectAction;
+			
+			/*
+			Person person = new("Nancy", "Davolio");
+		    Console.WriteLine(person);
+		    // output: Person { FirstName = Nancy, LastName = Davolio }
+			*/
+			
+			Person3 person = new("Nancy", "Davolio", "12345");
+    		Console.WriteLine(person.FirstName); //output: Nancy
+			
+			Person4 person4 = new("Nancy", "Davolio", "12345");
+    		Console.WriteLine(person4.FirstName); //output: Nancy
+			
+			Person6 person6 = new("Nancy", "Davolio", new string[1] { "555-1234" });
+		    Console.WriteLine(person6.PhoneNumbers[0]); // output: 555-1234
+		
+		    person6.PhoneNumbers[0] = "555-6789";
+		    Console.WriteLine(person6.PhoneNumbers[0]); // output: 555-6789
+			
+			var phoneNumbers = new string[2];
+		    Person7 person1 = new("Nancy", "Davolio", phoneNumbers);
+		    Person7 person2 = new("Nancy", "Davolio", phoneNumbers);
+		    Console.WriteLine(person1 == person2); // output: True
+		
+		    person1.PhoneNumbers[0] = "555-1234";
+		    Console.WriteLine(person1 == person2); // output: True
+		
+		    Console.WriteLine(ReferenceEquals(person1, person2)); // output: False
+			
+			Person8 person3 = new("Nancy", "Davolio") { PhoneNumbers = new string[1] };
+		    Console.WriteLine(person1);
+		    // output: Person { FirstName = Nancy, LastName = Davolio, PhoneNumbers = System.String[] }
+		
+		    Person8 person5 = person3 with { FirstName = "John" };
+		    Console.WriteLine(person5);
+		    // output: Person { FirstName = John, LastName = Davolio, PhoneNumbers = System.String[] }
+		    Console.WriteLine(person5 == person3); // output: False
+		
+		    person2 = person1 with { PhoneNumbers = new string[1] };
+		    Console.WriteLine(person2);
+		    // output: Person { FirstName = Nancy, LastName = Davolio, PhoneNumbers = System.String[] }
+		    Console.WriteLine(person1 == person2); // output: False
+		
+		    person2 = person1 with { };
+		    Console.WriteLine(person1 == person2); // output: True
+			
+			Point4 p1 = new Point4(3, 4);
+			Console.WriteLine($"Original point: {p1}");
+			p1 = p1 with { Y = 8 };
+			Console.WriteLine($"Modified point: {p1}");
+			// Output:
+			// Original point: Point { X = 3, Y = 4, Distance = 5 }
+			// Modified point: Point { X = 3, Y = 8, Distance = 8.54400374531753 }
+			
+			PointInit pt1 = new PointInit(3, 4);
+			Console.WriteLine($"Original point: {pt1}");
+			pt1 = pt1 with { Y = 8 };
+			Console.WriteLine($"Incorrect Modified point: {pt1}");
+			// Output:
+			// Original point: PointInit { X = 3, Y = 4, Distance = 5 }
+			// Modified point: PointInit { X = 3, Y = 8, Distance = 5 }
+			
+			Person9 teacher = new Teacher("Nancy", "Davolio", 3);
+		    Console.WriteLine(teacher);
+		    // output: Teacher { FirstName = Nancy, LastName = Davolio, Grade = 3 }
+			
+			/*
+			Person teacher = new Teacher("Nancy", "Davolio", 3);
+		    Person student = new Student("Nancy", "Davolio", 3);
+		    Console.WriteLine(teacher == student); // output: False
+		
+		    Student student2 = new Student("Nancy", "Davolio", 3);
+		    Console.WriteLine(student2 == student); // output: True
+			*/
+			
+			/*
+			Point p1 = new NamedPoint("A", 1, 2) { Zbase = 3, Zderived = 4 };
+
+		    Point p2 = p1 with { X = 5, Y = 6, Zbase = 7 }; // Can't set Name or Zderived
+		    Console.WriteLine(p2 is NamedPoint);  // output: True
+		    Console.WriteLine(p2);
+		    // output: NamedPoint { X = 5, Y = 6, Zbase = 7, Name = A, Zderived = 4 }
+		
+		    Point p3 = (NamedPoint)p1 with { Name = "B", X = 5, Y = 6, Zbase = 7, Zderived = 8 };
+		    Console.WriteLine(p3);
+		    // output: NamedPoint { X = 5, Y = 6, Zbase = 7, Name = B, Zderived = 8 }
+			*/
+			
+			/*
+			Person teacher = new Teacher("Nancy", "Davolio", 3);
+		    Console.WriteLine(teacher);
+		    // output: Teacher { FirstName = Nancy, LastName = Davolio, Grade = 3 }
+			*/
+			
+			/*
+			Person teacher = new Teacher("Nancy", "Davolio", new string[2] { "555-1234", "555-6789" }, 3);
+		    Console.WriteLine(teacher);
+		    // output: Teacher { FirstName = Nancy, LastName = Davolio, PhoneNumber1 = 555-1234, PhoneNumber2 = 555-6789, Grade = 3 }
+			*/
+			
+			string notNull = "Hello";
+			string? nullable = default;
+			notNull = nullable!; // null forgiveness
+			
+			/*
+			var nullEmpty = System.String?.Empty; // Not allowed
+			var maybeObject = new object?(); // Not allowed
+			try
+			{
+			    if (thing is string? nullableString) // not allowed
+			        Console.WriteLine(nullableString);
+			} catch (Exception? e) // Not Allowed
+			{
+			    Console.WriteLine("error");
+			}
+			*/
+			
+			string shortDescription = default; // Warning! non-nullable set to null;
+			var product = new ProductDescription(shortDescription); // Warning! static analysis knows shortDescription maybe null.
+			
+			string description = "widget";
+			var item = new ProductDescription(description);
+			
+			item.SetDescriptions(description, "These widgets will do everything.");
+			
+			// Create a list of strings by using a
+			// collection initializer.
+			List<string> salmons = ["chinook", "coho", "pink", "sockeye"];
+			
+			// Iterate through the list.
+			foreach (var salmon in salmons)
+			{
+			    Console.Write(salmon + " ");
+			}
+			// Output: chinook coho pink sockeye
+			
+			// Remove an element from the list by specifying
+			// the object.
+			salmons.Remove("coho");
+			
+			
+			// Iterate using the index:
+			for (var index = 0; index < salmons.Count; index++)
+			{
+			    Console.Write(salmons[index] + " ");
+			}
+			// Output: chinook pink sockeye
+			
+			// Add the removed element
+			salmons.Add("coho");
+			// Iterate through the list.
+			foreach (var salmon in salmons)
+			{
+			    Console.Write(salmon + " ");
+			}
+			// Output: chinook pink sockeye coho
+			
+			List<int> numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+			// Remove odd numbers.
+			for (var index = numbers.Count - 1; index >= 0; index--)
+			{
+			    if (numbers[index] % 2 == 1)
+			    {
+			        // Remove the element by specifying
+			        // the zero-based index in the list.
+			        numbers.RemoveAt(index);
+			    }
+			}
+			
+			// Iterate through the list.
+			// A lambda expression is placed in the ForEach method
+			// of the List(T) object.
+			numbers.ForEach(
+			    number => Console.Write(number + " "));
+			// Output: 0 2 4 6 8
+			
+			/*
+			if (elements.ContainsKey(symbol) == false)
+			{
+			    Console.WriteLine(symbol + " not found");
+			}
+			else
+			{
+			    Element theElement = elements[symbol];
+			    Console.WriteLine("found: " + theElement.Name);
+			}
+			*/
+			
+			/*
+			if (elements.TryGetValue(symbol, out Element? theElement) == false)
+			    Console.WriteLine(symbol + " not found");
+			else
+			    Console.WriteLine("found: " + theElement.Name);
+			*/
+			
+			/*
+			type?[] arrayName; // non nullable array of nullable element types.
+			type[]? arrayName; // nullable array of non-nullable element types.
+			type?[]? arrayName; // nullable array of nullable element types.
+			*/
+			
+			int[] numbers2 = new int[10]; // All values are 0
+			string[] messages = new string[10]; // All values are null.
+			
+			// Declare a single-dimensional array of 5 integers.
+			int[] array1 = new int[5];
+			
+			// Declare and set array element values.
+			int[] array2 = [1, 2, 3, 4, 5, 6];
+			
+			// Declare a two dimensional array.
+			int[,] multiDimensionalArray1 = new int[2, 3];
+			
+			// Declare and set array element values.
+			int[,] multiDimensionalArray2 = { { 1, 2, 3 }, { 4, 5, 6 } };
+			
+			// Declare a jagged array.
+			int[][] jaggedArray = new int[6][];
+			
+			// Set the values of the first array in the jagged array structure.
+			jaggedArray[0] = [1, 2, 3, 4];
+			
+			// Collection expressions:
+			int[] array = [1, 2, 3, 4, 5, 6];
+			// Alternative syntax:
+			int[] array3 = {1, 2, 3, 4, 5, 6};
+			
+			int[] array4 = new int[5];
+			string[] weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+			
+			Console.WriteLine(weekDays[0]);
+			Console.WriteLine(weekDays[1]);
+			Console.WriteLine(weekDays[2]);
+			Console.WriteLine(weekDays[3]);
+			Console.WriteLine(weekDays[4]);
+			Console.WriteLine(weekDays[5]);
+			Console.WriteLine(weekDays[6]);
+			
+			/*Output:
+			Sun
+			Mon
+			Tue
+			Wed
+			Thu
+			Fri
+			Sat
+			*/
+			
+			int[,] array2DDeclaration = new int[4, 2];
+
+			int[,,] array3DDeclaration = new int[4, 2, 3];
+			
+			// Two-dimensional array.
+			int[,] array2DInitialization =  { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 } };
+			// Three-dimensional array.
+			int[,,] array3D = new int[,,] { { { 1, 2, 3 }, { 4,   5,  6 } },
+			                                { { 7, 8, 9 }, { 10, 11, 12 } } };
+			
+			// Accessing array elements.
+			System.Console.WriteLine(array2DInitialization[0, 0]);
+			System.Console.WriteLine(array2DInitialization[0, 1]);
+			System.Console.WriteLine(array2DInitialization[1, 0]);
+			System.Console.WriteLine(array2DInitialization[1, 1]);
+			
+			System.Console.WriteLine(array2DInitialization[3, 0]);
+			System.Console.WriteLine(array2DInitialization[3, 1]);
+			// Output:
+			// 1
+			// 2
+			// 3
+			// 4
+			// 7
+			// 8
+			
+			System.Console.WriteLine(array3D[1, 0, 1]);
+			System.Console.WriteLine(array3D[1, 1, 2]);
+			// Output:
+			// 8
+			// 12
+			
+			// Getting the total count of elements or the length of a given dimension.
+			var allLength = array3D.Length;
+			/*
+			var total = 1;
+			for (int i = 0; i < array3D.Rank; i++)
+			{
+			    total *= array3D.GetLength(i);
+			}
+			System.Console.WriteLine($"{allLength} equals {total}");
+			*/
+			// Output:
+			// 12 equals 12
+			
+			int[,] numbers2D = { { 9, 99 }, { 3, 33 }, { 5, 55 } };
+			/*
+			foreach (int i in numbers2D)
+			{
+			    System.Console.Write($"{i} ");
+			}
+			*/
+			// Output: 9 99 3 33 5 55
+			
+			int[,,] array3D2 = new int[,,] { { { 1, 2, 3 }, { 4,   5,  6 } },
+			                        { { 7, 8, 9 }, { 10, 11, 12 } } };
+			/*
+			foreach (int i in array3D2)
+			{
+			    System.Console.Write($"{i} ");
+			}
+			*/
+			// Output: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+			
+			int[,,] array3D3 = new int[,,] { { { 1, 2, 3 }, { 4,   5,  6 } },
+                        { { 7, 8, 9 }, { 10, 11, 12 } } };
+			/*
+			for (int i = 0; i < array3D3.GetLength(0); i++)
+			{
+			    for (int j = 0; j < array3D3.GetLength(1); j++)
+			    {
+			        for (int k = 0; k < array3D3.GetLength(2); k++)
+			        {
+			            System.Console.Write($"{array3D3[i, j, k]} ");
+			        }
+			        System.Console.WriteLine();
+			    }
+			    System.Console.WriteLine();
+			}
+			*/
+			// Output (including blank lines):
+			// 1 2 3
+			// 4 5 6
+			//
+			// 7 8 9
+			// 10 11 12
+			//
+			
+			int[][] jaggedArray2 = new int[3][];
+
+			jaggedArray2[0] = [1, 3, 5, 7, 9];
+			jaggedArray2[1] = [0, 2, 4, 6];
+			jaggedArray2[2] = [11, 22];
+			
+			int[][] jaggedArray3 =
+			[
+			    [1, 3, 5, 7, 9],
+			    [0, 2, 4, 6],
+			    [11, 22]
+			];
+			
+			// Assign 77 to the second element ([1]) of the first array ([0]):
+			jaggedArray3[0][1] = 77;
+			
+			// Assign 88 to the second element ([1]) of the third array ([2]):
+			jaggedArray3[2][1] = 88;
+			
+			int[][,] jaggedArray4 =
+			[
+			    new int[,] { {1,3}, {5,7} },
+			    new int[,] { {0,2}, {4,6}, {8,10} },
+			    new int[,] { {11,22}, {99,88}, {0,9} }
+			];
+			
+			Console.Write("{0}", jaggedArray4[0][1, 0]);
+			Console.WriteLine(jaggedArray4.Length);
+			
+			// Declare the array of two elements.
+			int[][] arr = new int[2][];
+			
+			// Initialize the elements.
+			arr[0] = [1, 3, 5, 7, 9];
+			arr[1] = [2, 4, 6, 8];
+			
+			// Display the array elements.
+			/*
+			for (int i = 0; i < arr.Length; i++)
+			{
+			    System.Console.Write("Element({0}): ", i);
+			
+			    for (int j = 0; j < arr[i].Length; j++)
+			    {
+			        System.Console.Write("{0}{1}", arr[i][j], j == (arr[i].Length - 1) ? "" : " ");
+			    }
+			    System.Console.WriteLine();
+			}
+			*/
+			/* Output:
+			    Element(0): 1 3 5 7 9
+			    Element(1): 2 4 6 8
+			*/
+			
+			int[] a3 = new[] { 1, 10, 100, 1000 }; // int[]
+
+			// Accessing array
+			Console.WriteLine("First element: " + a3[0]);
+			Console.WriteLine("Second element: " + a3[1]);
+			Console.WriteLine("Third element: " + a3[2]);
+			Console.WriteLine("Fourth element: " + a3[3]);
+			/* Outputs
+			First element: 1
+			Second element: 10
+			Third element: 100
+			Fourth element: 1000
+			*/
+			
+			var b1 = new[] { "hello", null, "world" }; // string[]
+			
+			// Accessing elements of an array using 'string.Join' method
+			Console.WriteLine(string.Join(" ", b1));
+			/* Output
+			hello  world
+			*/
+			
+			// single-dimension jagged array
+			int[][] c =
+			[
+			    [1,2,3,4],
+			    [5,6,7,8]
+			];
+			// Looping through the outer array
+			for (int k = 0; k < c.Length; k++)
+			{
+			    // Looping through each inner array
+			    for (int j = 0; j < c[k].Length; j++)
+			    {
+			        // Accessing each element and printing it to the console
+			        Console.WriteLine($"Element at c[{k}][{j}] is: {c[k][j]}");
+			    }
+			}
+			/* Outputs
+			Element at c[0][0] is: 1
+			Element at c[0][1] is: 2
+			Element at c[0][2] is: 3
+			Element at c[0][3] is: 4
+			Element at c[1][0] is: 5
+			Element at c[1][1] is: 6
+			Element at c[1][2] is: 7
+			Element at c[1][3] is: 8
+			*/
+			
+			// jagged array of strings
+			string[][] d =
+			[
+			    ["Luca", "Mads", "Luke", "Dinesh"],
+			    ["Karen", "Suma", "Frances"]
+			];
+			
+			// Looping through the outer array
+			int i = 0;
+			foreach (var subArray in d)
+			{
+			    // Looping through each inner array
+			    int j = 0;
+			    foreach (var element in subArray)
+			    {
+			        // Accessing each element and printing it to the console
+			        Console.WriteLine($"Element at d[{i}][{j}] is: {element}");
+			        j++;
+			    }
+			    i++;
+			}
+			/* Outputs
+			Element at d[0][0] is: Luca
+			Element at d[0][1] is: Mads
+			Element at d[0][2] is: Luke
+			Element at d[0][3] is: Dinesh
+			Element at d[1][0] is: Karen
+			Element at d[1][1] is: Suma
+			Element at d[1][2] is: Frances
+			*/
+			
+			void ImplicitlyTypedArrays()
+			{
+				int[] a = new[] { 1, 10, 100, 1000 }; // int[]
+
+				// Accessing array
+				Console.WriteLine("First element: " + a[0]);
+				Console.WriteLine("Second element: " + a[1]);
+				Console.WriteLine("Third element: " + a[2]);
+				Console.WriteLine("Fourth element: " + a[3]);
+				/* Outputs
+				First element: 1
+				Second element: 10
+				Third element: 100
+				Fourth element: 1000
+				*/
+				
+				var b = new[] { "hello", null, "world" }; // string[]
+				
+				// Accessing elements of an array using 'string.Join' method
+				Console.WriteLine(string.Join(" ", b));
+				/* Output
+				hello  world
+				*/
+				
+				// single-dimension jagged array
+				int[][] c =
+				[
+				    [1,2,3,4],
+				    [5,6,7,8]
+				];
+				// Looping through the outer array
+				for (int k = 0; k < c.Length; k++)
+				{
+				    // Looping through each inner array
+				    for (int j = 0; j < c[k].Length; j++)
+				    {
+				        // Accessing each element and printing it to the console
+				        Console.WriteLine($"Element at c[{k}][{j}] is: {c[k][j]}");
+				    }
+				}
+				/* Outputs
+				Element at c[0][0] is: 1
+				Element at c[0][1] is: 2
+				Element at c[0][2] is: 3
+				Element at c[0][3] is: 4
+				Element at c[1][0] is: 5
+				Element at c[1][1] is: 6
+				Element at c[1][2] is: 7
+				Element at c[1][3] is: 8
+				*/
+				
+				// jagged array of strings
+				string[][] d =
+				[
+				    ["Luca", "Mads", "Luke", "Dinesh"],
+				    ["Karen", "Suma", "Frances"]
+				];
+				
+				// Looping through the outer array
+				int i = 0;
+				foreach (var subArray in d)
+				{
+				    // Looping through each inner array
+				    int j = 0;
+				    foreach (var element in subArray)
+				    {
+				        // Accessing each element and printing it to the console
+				        Console.WriteLine($"Element at d[{i}][{j}] is: {element}");
+				        j++;
+				    }
+				    i++;
+				}
+				/* Outputs
+				Element at d[0][0] is: Luca
+				Element at d[0][1] is: Mads
+				Element at d[0][2] is: Luke
+				Element at d[0][3] is: Dinesh
+				Element at d[1][0] is: Karen
+				Element at d[1][1] is: Suma
+				Element at d[1][2] is: Frances
+				*/
+				
+				int a3 = default(int);
+				
+				int a4 = default;
+				
+				var n = new System.Numerics.Complex();
+				Console.WriteLine(n);  // output: (0, 0)
+			}
+			
+			var contacts = new[]
+			{
+			    new
+			    {
+			        Name = "Eugene Zabokritski",
+			        PhoneNumbers = new[] { "206-555-0108", "425-555-0001" }
+			    },
+			    new
+			    {
+			        Name = "Hanying Feng",
+			        PhoneNumbers = new[] { "650-555-0199" }
+			    }
+			};
+
+		}
+		
+		/*
+		public override string ToString()
+		{
+		    StringBuilder stringBuilder = new StringBuilder();
+		    stringBuilder.Append("Teacher"); // type name
+		    stringBuilder.Append(" { ");
+		    if (PrintMembers(stringBuilder))
+		    {
+		        stringBuilder.Append(" ");
+		    }
+		    stringBuilder.Append("}");
+		    return stringBuilder.ToString();
+		}
+		*/
+		
+		private static void IterateThroughList()
+		{
+		    var theGalaxies = new List<Galaxy>
+		    {
+		        new (){ Name="Tadpole", MegaLightYears=400},
+		        new (){ Name="Pinwheel", MegaLightYears=25},
+		        new (){ Name="Milky Way", MegaLightYears=0},
+		        new (){ Name="Andromeda", MegaLightYears=3}
+		    };
+		
+		    foreach (Galaxy theGalaxy in theGalaxies)
+		    {
+		        Console.WriteLine(theGalaxy.Name + "  " + theGalaxy.MegaLightYears);
+		    }
+		
+		    // Output:
+		    //  Tadpole  400
+		    //  Pinwheel  25
+		    //  Milky Way  0
+		    //  Andromeda  3
+		}
+		
+		private static void IterateThruDictionary()
+		{
+		    Dictionary<string, Element> elements = BuildDictionary();
+		
+		    foreach (KeyValuePair<string, Element> kvp in elements)
+		    {
+		        Element theElement = kvp.Value;
+		
+		        Console.WriteLine("key: " + kvp.Key);
+		        Console.WriteLine("values: " + theElement.Symbol + " " +
+		            theElement.Name + " " + theElement.AtomicNumber);
+		    }
+		}
+		
+		private static Dictionary<string, Element> BuildDictionary() =>
+		    new ()
+		    {
+		        {"K",
+		            new (){ Symbol="K", Name="Potassium", AtomicNumber=19}},
+		        {"Ca",
+		            new (){ Symbol="Ca", Name="Calcium", AtomicNumber=20}},
+		        {"Sc",
+		            new (){ Symbol="Sc", Name="Scandium", AtomicNumber=21}},
+		        {"Ti",
+		            new (){ Symbol="Ti", Name="Titanium", AtomicNumber=22}}
+		    };
+			
+		private static void ListEvenNumbers()
+		{
+		    foreach (int number in EvenSequence(5, 18))
+		    {
+		        Console.Write(number.ToString() + " ");
+		    }
+		    Console.WriteLine();
+		    // Output: 6 8 10 12 14 16 18
+		}
+		
+		private static IEnumerable<int> EvenSequence(
+		    int firstNumber, int lastNumber)
+		{
+		    // Yield even numbers in the range.
+		    for (var number = firstNumber; number <= lastNumber; number++)
+		    {
+		        if (number % 2 == 0)
+		        {
+		            yield return number;
+		        }
+		    }
+		}
+		
+		private static void ShowLINQ()
+		{
+		    List<Element> elements = BuildList();
+		
+		    // LINQ Query.
+		    var subset = from theElement in elements
+		                 where theElement.AtomicNumber < 22
+		                 orderby theElement.Name
+		                 select theElement;
+		
+		    foreach (Element theElement in subset)
+		    {
+		        Console.WriteLine(theElement.Name + " " + theElement.AtomicNumber);
+		    }
+		
+		    // Output:
+		    //  Calcium 20
+		    //  Potassium 19
+		    //  Scandium 21
+		}
+		
+		private static List<Element> BuildList() => new()
+		    {
+		        { new(){ Symbol="K", Name="Potassium", AtomicNumber=19}},
+		        { new(){ Symbol="Ca", Name="Calcium", AtomicNumber=20}},
+		        { new(){ Symbol="Sc", Name="Scandium", AtomicNumber=21}},
+		        { new(){ Symbol="Ti", Name="Titanium", AtomicNumber=22}}
+		    };
+			
+		static void Print2DArray(int[,] arr)
+		{
+		    // Display the array elements.
+		    for (int i = 0; i < arr.GetLength(0); i++)
+		    {
+		        for (int j = 0; j < arr.GetLength(1); j++)
+		        {
+		            System.Console.WriteLine($"Element({i},{j})={arr[i,j]}");
+		        }
+		    }
+		}
+		static void ExampleUsage()
+		{
+		    // Pass the array as an argument.
+		    Print2DArray(new int[,] { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 } });
+		}
+		/* Output:
+		    Element(0,0)=1
+		    Element(0,1)=2
+		    Element(1,0)=3
+		    Element(1,1)=4
+		    Element(2,0)=5
+		    Element(2,1)=6
+		    Element(3,0)=7
+		    Element(3,1)=8
+		*/
+		
+		public static void Display(IEnumerable<int> numbers)
+		{
+		    if (numbers is null)
+		    {
+		        return;
+		    }
+		
+		    Console.WriteLine(string.Join(" ", numbers));
+		}
+		
+		
+	}
+	
+	public delegate void MessageDelegate(string message);
+	//public delegate int AnotherDelegate(MyType m, long num);
+	
+	class Program
+	{
+	    static void RunMain(string[] args)
+	    {
+	        dynamic dyn = 1;
+	        object obj = 1;
+	
+	        // Rest the mouse pointer over dyn and obj to see their
+	        // types at compile time.
+	        System.Console.WriteLine(dyn.GetType());
+	        System.Console.WriteLine(obj.GetType());
+	    }
+	}
+	
+	namespace DynamicExamples
+	{
+	    class Program
+	    {
+	        static void RunMain(string[] args)
+	        {
+	            ExampleClass ec = new ExampleClass();
+	            Console.WriteLine(ec.ExampleMethod(10));
+	            Console.WriteLine(ec.ExampleMethod("value"));
+	
+	            // The following line causes a compiler error because ExampleMethod
+	            // takes only one argument.
+	            //Console.WriteLine(ec.ExampleMethod(10, 4));
+	
+	            dynamic dynamic_ec = new ExampleClass();
+	            Console.WriteLine(dynamic_ec.ExampleMethod(10));
+	
+	            // Because dynamic_ec is dynamic, the following call to ExampleMethod
+	            // with two arguments does not produce an error at compile time.
+	            // However, it does cause a run-time error.
+	            //Console.WriteLine(dynamic_ec.ExampleMethod(10, 4));
+	        }
+	    }
+	
+	    class ExampleClass
+	    {
+	        static dynamic _field;
+	        dynamic Prop { get; set; }
+	
+	        public dynamic ExampleMethod(dynamic d)
+	        {
+	            dynamic local = "Local variable";
+	            int two = 2;
+	
+	            if (d is int)
+	            {
+	                return local;
+	            }
+	            else
+	            {
+	                return two;
+	            }
+	        }
+	    }
+	}
+	// Results:
+	// Local variable
+	// 2
+	// Local variable
+	
+	//public record Person(string FirstName, string LastName);
+	
+	public record Person
+	{
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	};
+	
+	public readonly record struct Point(double X, double Y, double Z);
+	
+	public record struct Point2
+	{
+	    public double X { get; init; }
+	    public double Y { get; init; }
+	    public double Z { get; init; }
+	}
+	
+	public record struct DataMeasurement(DateTime TakenAt, double Measurement);
+	
+	public record struct Point3
+	{
+	    public double X { get; set; }
+	    public double Y { get; set; }
+	    public double Z { get; set; }
+	}
+	
+	//public record Person(string FirstName, string LastName);
+	
+	/// <summary>
+	/// Person record type
+	/// </summary>
+	/// <param name="FirstName">First Name</param>
+	/// <param name="LastName">Last Name</param>
+	/// <remarks>
+	/// The person type is a positional record containing the
+	/// properties for the first and last name. Those properties
+	/// map to the JSON elements "firstName" and "lastName" when
+	/// serialized or deserialized.
+	/// </remarks>
+	public record Person2([property: JsonPropertyName("firstName")] string FirstName,
+	    [property: JsonPropertyName("lastName")] string LastName);
+		
+	public record Person3(string FirstName, string LastName, string Id)
+	{
+	    internal string Id { get; init; } = Id;
+	}
+	
+	public record Person4(string FirstName, string LastName, string Id)
+	{
+	    internal readonly string Id = Id; // this.Id set to parameter Id
+	}
+	
+	public record Person5(string FirstName, string LastName)
+	{
+	    public string[] PhoneNumbers { get; init; } = [];
+	};
+	
+	public record Person6(string FirstName, string LastName, string[] PhoneNumbers);
+	
+	public record Person7(string FirstName, string LastName, string[] PhoneNumbers);
+	
+	public record Person8(string FirstName, string LastName)
+	{
+	    public string[] PhoneNumbers { get; init; }
+	}
+	
+	public record Point4(int X, int Y)
+	{
+	    public double Distance => Math.Sqrt(X * X + Y * Y);
+	}
+	
+	public record PointInit(int X, int Y)
+	{
+	    public double Distance { get; } = Math.Sqrt(X * X + Y * Y);
+	}
+	
+	public abstract record Person9(string FirstName, string LastName);
+	public record Teacher(string FirstName, string LastName, int Grade)
+	    : Person9(FirstName, LastName);
+		
+	public abstract record Person10(string FirstName, string LastName);
+	public record Teacher2(string FirstName, string LastName, int Grade)
+	    : Person10(FirstName, LastName);
+	public record Student(string FirstName, string LastName, int Grade)
+	    : Person10(FirstName, LastName);
+		
+	public record Point5(int X, int Y)
+	{
+	    public int Zbase { get; set; }
+	};
+	public record NamedPoint(string Name, int X, int Y) : Point5(X, Y)
+	{
+	    public int Zderived { get; set; }
+	};
+	
+	/*
+	public abstract record Person(string FirstName, string LastName);
+	public record Teacher(string FirstName, string LastName, int Grade)
+	    : Person(FirstName, LastName);
+	public record Student(string FirstName, string LastName, int Grade)
+	    : Person(FirstName, LastName);
+	
+	public static void Main()
+	{
+	    Person teacher = new Teacher("Nancy", "Davolio", 3);
+	    Console.WriteLine(teacher);
+	    // output: Teacher { FirstName = Nancy, LastName = Davolio, Grade = 3 }
+	}
+	*/
+	
+	/*
+	public abstract record Person(string FirstName, string LastName, string[] PhoneNumbers)
+	{
+	    protected virtual bool PrintMembers(StringBuilder stringBuilder)
+	    {
+	        stringBuilder.Append($"FirstName = {FirstName}, LastName = {LastName}, ");
+	        stringBuilder.Append($"PhoneNumber1 = {PhoneNumbers[0]}, PhoneNumber2 = {PhoneNumbers[1]}");
+	        return true;
+	    }
+	}
+	
+	public record Teacher(string FirstName, string LastName, string[] PhoneNumbers, int Grade)
+	    : Person(FirstName, LastName, PhoneNumbers)
+	{
+	    protected override bool PrintMembers(StringBuilder stringBuilder)
+	    {
+	        if (base.PrintMembers(stringBuilder))
+	        {
+	            stringBuilder.Append(", ");
+	        }
+	        ;
+	        stringBuilder.Append($"Grade = {Grade}");
+	        return true;
+	    }
+	};
+	*/
+	
+	/*
+	public abstract record Person(string FirstName, string LastName);
+	public record Teacher(string FirstName, string LastName, int Grade)
+	    : Person(FirstName, LastName);
+	public record Student(string FirstName, string LastName, int Grade)
+	    : Person(FirstName, LastName);
+	
+	public static void Main()
+	{
+	    Person teacher = new Teacher("Nancy", "Davolio", 3);
+	    var (firstName, lastName) = teacher; // Doesn't deconstruct Grade
+	    Console.WriteLine($"{firstName}, {lastName}");// output: Nancy, Davolio
+	
+	    var (fName, lName, grade) = (Teacher)teacher;
+	    Console.WriteLine($"{fName}, {lName}, {grade}");// output: Nancy, Davolio, 3
+	}
+	*/
+	
+	class TestClass
+	{
+	    // Methods, properties, fields, events, delegates
+	    // and nested classes go here.
+	}
+	
+	class Child
+	{
+	    private int age;
+	    private string name;
+	
+	    // Default constructor:
+	    public Child()
+	    {
+	        name = "N/A";
+	    }
+	
+	    // Constructor:
+	    public Child(string name, int age)
+	    {
+	        this.name = name;
+	        this.age = age;
+	    }
+	
+	    // Printing method:
+	    public void PrintChild()
+	    {
+	        Console.WriteLine("{0}, {1} years old.", name, age);
+	    }
+	}
+	
+	class StringTest
+	{
+	    static void RunMain()
+	    {
+	        // Create objects by using the new operator:
+	        Child child1 = new Child("Craig", 11);
+	        Child child2 = new Child("Sally", 10);
+	
+	        // Create an object using the default constructor:
+	        Child child3 = new Child();
+	
+	        // Display results:
+	        Console.Write("Child #1: ");
+	        child1.PrintChild();
+	        Console.Write("Child #2: ");
+	        child2.PrintChild();
+	        Console.Write("Child #3: ");
+	        child3.PrintChild();
+	    }
+	}
+	/* Output:
+	    Child #1: Craig, 11 years old.
+	    Child #2: Sally, 10 years old.
+	    Child #3: N/A, 0 years old.
+	*/
+	
+	interface ISampleInterface
+	{
+	    void SampleMethod();
+	}
+	
+	class ImplementationClass : ISampleInterface
+	{
+	    // Explicit interface member implementation:
+	    void ISampleInterface.SampleMethod()
+	    {
+	        // Method implementation.
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Declare an interface instance.
+	        ISampleInterface obj = new ImplementationClass();
+	
+	        // Call the member.
+	        obj.SampleMethod();
+	    }
+	}
+	
+	public interface INamed
+	{
+	  public string Name {get; set;}
+	}
+	
+	public interface I1
+	{
+	    void M1();
+	}
+	
+	public interface I2 : I1
+	{
+	    void M2();
+	}
+	
+	public class C : I2
+	{
+	    // implements I1.M1
+	    public void M1() { }
+	    // implements I2.M2
+	    public void M2() { }
+	}
+	
+	interface IPoint
+	{
+	    // Property signatures:
+	    int X { get; set; }
+	
+	    int Y { get; set; }
+	
+	    double Distance { get; }
+	}
+	
+	class Point6 : IPoint
+	{
+	    // Constructor:
+	    public Point6(int x, int y)
+	    {
+	        X = x;
+	        Y = y;
+	    }
+	
+	    // Property implementation:
+	    public int X { get; set; }
+	
+	    public int Y { get; set; }
+	
+	    // Property implementation
+	    public double Distance =>
+	       Math.Sqrt(X * X + Y * Y);
+	}
+	
+	class MainClass
+	{
+	    static void PrintPoint(IPoint p)
+	    {
+	        Console.WriteLine("x={0}, y={1}", p.X, p.Y);
+	    }
+	
+	    static void RunMain()
+	    {
+	        IPoint p = new Point6(2, 3);
+	        Console.Write("My Point: ");
+	        PrintPoint(p);
+	    }
+	}
+	// Output: My Point: x=2, y=3
+	
+	public class ProductDescription
+	{
+	    private string shortDescription;
+	    private string? detailedDescription;
+	
+	    public ProductDescription() // Warning! shortDescription not initialized.
+	    {
+	    }
+	
+	    public ProductDescription(string productDescription) =>
+	        this.shortDescription = productDescription;
+	
+	    public void SetDescriptions(string productDescription, string? details=null)
+	    {
+	        shortDescription = productDescription;
+	        detailedDescription = details;
+	    }
+	
+	    public string GetDescription()
+	    {
+	        if (detailedDescription.Length == 0) // Warning! dereference possible null
+	        {
+	            return shortDescription;
+	        }
+	        else
+	        {
+	            return $"{shortDescription}\n{detailedDescription}";
+	        }
+	    }
+	
+	    public string FullDescription()
+	    {
+	        if (detailedDescription == null)
+	        {
+	            return shortDescription;
+	        }
+	        else if (detailedDescription.Length > 0) // OK, detailedDescription can't be null.
+	        {
+	            return $"{shortDescription}\n{detailedDescription}";
+	        }
+	        return shortDescription;
+	    }
+	}
+	
+	public class Galaxy
+	{
+	    public string Name { get; set; }
+	    public int MegaLightYears { get; set; }
+	}
+	
+	public class Element
+	{
+	    public required string Symbol { get; init; }
+	    public required string Name { get; init; }
+	    public required int AtomicNumber { get; init; }
+	}
+	
+	class ArrayExample
+	{
+	    static void DisplayArray(string[] arr) => Console.WriteLine(string.Join(" ", arr));
+	
+	    // Change the array by reversing its elements.
+	    static void ChangeArray(string[] arr) => Array.Reverse(arr);
+	
+	    static void ChangeArrayElements(string[] arr)
+	    {
+	        // Change the value of the first three array elements.
+	        arr[0] = "Mon";
+	        arr[1] = "Wed";
+	        arr[2] = "Fri";
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Declare and initialize an array.
+	        string[] weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	        // Display the array elements.
+	        DisplayArray(weekDays);
+	        Console.WriteLine();
+	
+	        // Reverse the array.
+	        ChangeArray(weekDays);
+	        // Display the array again to verify that it stays reversed.
+	        Console.WriteLine("Array weekDays after the call to ChangeArray:");
+	        DisplayArray(weekDays);
+	        Console.WriteLine();
+	
+	        // Assign new values to individual array elements.
+	        ChangeArrayElements(weekDays);
+	        // Display the array again to verify that it has changed.
+	        Console.WriteLine("Array weekDays after the call to ChangeArrayElements:");
+	        DisplayArray(weekDays);
+	    }
+	}
+	// The example displays the following output:
+	//         Sun Mon Tue Wed Thu Fri Sat
+	//
+	//        Array weekDays after the call to ChangeArray:
+	//        Sat Fri Thu Wed Tue Mon Sun
+	//
+	//        Array weekDays after the call to ChangeArrayElements:
+	//        Mon Wed Fri Wed Tue Mon Sun
+	
+	public struct Coords<T>
+	{
+	    public T X;
+	    public T Y;
+	}
+	
+	public class UnmanagedTypes
+	{
+	    public static void RunMain()
+	    {
+	        DisplaySize<Coords<int>>();
+	        DisplaySize<Coords<double>>();
+	    }
+	
+	    private unsafe static void DisplaySize<T>() where T : unmanaged
+	    {
+	        Console.WriteLine($"{typeof(T)} is unmanaged and its size is {sizeof(T)} bytes");
+	    }
+	}
+	// Output:
+	// Coords`1[System.Int32] is unmanaged and its size is 8 bytes
+	// Coords`1[System.Double] is unmanaged and its size is 16 bytes
+	
+	public struct Coords2<T> where T : unmanaged
+	{
+	    public T X;
+	    public T Y;
+	}
+
+
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types
+namespace DotnetCSharpLanguageReferenceBuiltinTypesBuiltInTypesValueTypes
+{
+	public class Types
+	{
+		public static void RunTypes()
+		{
+			int a = 123;
+			System.Int32 b = 123;
+			
+			int a2 = 123;
+			System.Int32 b2 = 123;
+			
+			var decimalLiteral = 42;
+			var hexLiteral = 0x2A;
+			var binaryLiteral = 0b_0010_1010;
+			
+			byte a3 = 17;
+			//byte b3 = 300;   // CS0031: Constant value '300' cannot be converted to a 'byte'
+			
+			var signedByte = (sbyte)42;
+			var longVariable = (long)42;
+			
+			//Console.WriteLine($"size of nint = {sizeof(nint)}");
+			//Console.WriteLine($"size of nuint = {sizeof(nuint)}");
+			
+			// output when run in a 64-bit process
+			//size of nint = 8
+			//size of nuint = 8
+			
+			// output when run in a 32-bit process
+			//size of nint = 4
+			//size of nuint = 4
+			
+			Console.WriteLine($"nint.MinValue = {nint.MinValue}");
+			Console.WriteLine($"nint.MaxValue = {nint.MaxValue}");
+			Console.WriteLine($"nuint.MinValue = {nuint.MinValue}");
+			Console.WriteLine($"nuint.MaxValue = {nuint.MaxValue}");
+			
+			// output when run in a 64-bit process
+			//nint.MinValue = -9223372036854775808
+			//nint.MaxValue = 9223372036854775807
+			//nuint.MinValue = 0
+			//nuint.MaxValue = 18446744073709551615
+			
+			// output when run in a 32-bit process
+			//nint.MinValue = -2147483648
+			//nint.MaxValue = 2147483647
+			//nuint.MinValue = 0
+			//nuint.MaxValue = 4294967295
+			
+			double a4 = 12.3;
+			System.Double b4 = 12.3;
+			
+			double a5 = 1.0;
+			decimal b5 = 2.1m;
+			Console.WriteLine(a5 + (double)b5);
+			Console.WriteLine((decimal)a5 + b5);
+			
+			double d = 3D;
+			d = 4d;
+			d = 3.934_001;
+			
+			float f = 3_000.5F;
+			f = 5.4f;
+			
+			decimal myMoney = 3_000.5m;
+			myMoney = 400.75M;
+			
+			double d2 = 0.42e2;
+			Console.WriteLine(d);  // output 42
+			
+			float f2 = 134.45E-2f;
+			Console.WriteLine(f2);  // output: 1.3445
+			
+			decimal m = 1.5E6m;
+			Console.WriteLine(m);  // output: 1500000
+			
+			byte a6 = 13;
+			//byte b6 = 300;  // CS0031: Constant value '300' cannot be converted to a 'byte'
+			
+			bool check = true;
+			Console.WriteLine(check ? "Checked" : "Not checked");  // output: Checked
+			
+			Console.WriteLine(false ? "Checked" : "Not checked");  // output: Not checked
+			
+			var chars = new[]
+			{
+			    'j',
+			    '\u006A',
+			    '\x006A',
+			    (char)106,
+			};
+			Console.WriteLine(string.Join(" ", chars));  // output: j j j j
+			
+			var m1 = new Measurement2(5);
+		    Console.WriteLine(m1);  // output: 5 (Ordinary measurement)
+		
+		    var m2 = new Measurement();
+		    Console.WriteLine(m2);  // output: 0 ()
+		
+		    var m3 = default(Measurement);
+		    Console.WriteLine(m3);  // output: 0 ()
+			
+			(double, int) t1 = (4.5, 3);
+			Console.WriteLine($"Tuple with elements {t1.Item1} and {t1.Item2}.");
+			// Output:
+			// Tuple with elements 4.5 and 3.
+			
+			(double Sum, int Count) t2 = (4.5, 3);
+			Console.WriteLine($"Sum of {t2.Count} elements is {t2.Sum}.");
+			// Output:
+			// Sum of 3 elements is 4.5.
+			
+			(double, int) t = (4.5, 3);
+			Console.WriteLine(t.ToString());
+			Console.WriteLine($"Hash code of {t} is {t.GetHashCode()}.");
+			// Output:
+			// (4.5, 3)
+			// Hash code of (4.5, 3) is 718460086.
+			
+			/*
+			var t =
+			(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+			11, 12, 13, 14, 15, 16, 17, 18,
+			19, 20, 21, 22, 23, 24, 25, 26);
+			Console.WriteLine(t.Item26);  // output: 26
+			*/
+			
+			int[] xs = new int[] { 4, 7, 9 };
+			var limits = FindMinMax(xs);
+			Console.WriteLine($"Limits of [{string.Join(" ", xs)}] are {limits.min} and {limits.max}");
+			// Output:
+			// Limits of [4 7 9] are 4 and 9
+			
+			int[] ys = new int[] { -9, 0, 67, 100 };
+			var (minimum, maximum) = FindMinMax(ys);
+			Console.WriteLine($"Limits of [{string.Join(" ", ys)}] are {minimum} and {maximum}");
+			// Output:
+			// Limits of [-9 0 67 100] are -9 and 100
+			
+			(int min, int max) FindMinMax(int[] input)
+			{
+			    if (input is null || input.Length == 0)
+			    {
+			        throw new ArgumentException("Cannot find minimum and maximum of a null or empty array.");
+			    }
+			
+			    // Initialize min to MaxValue so every value in the input
+			    // is less than this initial value.
+			    var min = int.MaxValue;
+			    // Initialize max to MinValue so every value in the input
+			    // is greater than this initial value.
+			    var max = int.MinValue;
+			    foreach (var i in input)
+			    {
+			        if (i < min)
+			        {
+			            min = i;
+			        }
+			        if (i > max)
+			        {
+			            max = i;
+			        }
+			    }
+			    return (min, max);
+			}
+			
+			var t3 = (Sum: 4.5, Count: 3);
+			Console.WriteLine($"Sum of {t3.Count} elements is {t3.Sum}.");
+			
+			(double Sum, int Count) d3 = (4.5, 3);
+			Console.WriteLine($"Sum of {d3.Count} elements is {d3.Sum}.");
+			
+			var t4 = (Sum: 4.5, Count: 3);
+			Console.WriteLine($"Sum of {t4.Count} elements is {t4.Sum}.");
+			
+			(double Sum, int Count) d4 = (4.5, 3);
+			Console.WriteLine($"Sum of {d4.Count} elements is {d4.Sum}.");
+			
+			var sum = 4.5;
+			var count = 3;
+			var t5 = (sum, count);
+			Console.WriteLine($"Sum of {t5.count} elements is {t5.sum}.");
+			
+			var a7 = 1;
+			var t6 = (a7, b: 2, 3);
+			Console.WriteLine($"The 1st element is {t6.Item1} (same as {t6.a7}).");
+			Console.WriteLine($"The 2nd element is {t6.Item2} (same as {t6.b}).");
+			Console.WriteLine($"The 3rd element is {t6.Item3}.");
+			// Output:
+			// The 1st element is 1 (same as 1).
+			// The 2nd element is 2 (same as 2).
+			// The 3rd element is 3.
+			
+			BandPass bracket = (40, 100);
+			Console.WriteLine($"The bandpass filter is {bracket.Min} to {bracket.Max}");
+			
+			(int a8 , int b8) = bracket;
+			Console.WriteLine($"The bracket is {a8} to {b8}");
+			
+			Range2 r = bracket;
+			Console.WriteLine($"The range is {r.Minimum} to {r.Maximum}");
+			
+			(int, double) t7 = (17, 3.14);
+			(double First, double Second) t8 = (0.0, 1.0);
+			t8 = t7;
+			Console.WriteLine($"{nameof(t8)}: {t8.First} and {t8.Second}");
+			// Output:
+			// t2: 17 and 3.14
+			
+			(double A, double B) t9 = (2.0, 3.0);
+			t9 = t8;
+			Console.WriteLine($"{nameof(t9)}: {t9.A} and {t9.B}");
+			// Output:
+			// t3: 17 and 3.14
+			
+			var t10 = ("post office", 3.6);
+			var (destination, distance) = t10;
+			Console.WriteLine($"Distance to {destination} is {distance} kilometers.");
+			// Output:
+			// Distance to post office is 3.6 kilometers.
+			
+			var t11 = ("post office", 3.6);
+			(var destination2, double distance2) = t11;
+			Console.WriteLine($"Distance to {destination2} is {distance2} kilometers.");
+			// Output:
+			// Distance to post office is 3.6 kilometers.
+			
+			var destination3 = string.Empty;
+			var distance3 = 0.0;
+			
+			var t12 = ("post office", 3.6);
+			(destination3, distance3) = t12;
+			Console.WriteLine($"Distance to {destination3} is {distance3} kilometers.");
+			// Output:
+			// Distance to post office is 3.6 kilometers.
+			
+			for (int i = 4; i < 20;  i++)
+			{
+			    if (Math.DivRem(i, 3) is ( Quotient: var q, Remainder: 0 ))
+			    {
+			        Console.WriteLine($"{i} is divisible by 3, with quotient {q}");
+			    }
+			}
+			
+			void TupleEquality()
+			{
+				(int a, byte b) left = (5, 10);
+				(long a, int b) right = (5, 10);
+				Console.WriteLine(left == right);  // output: True
+				Console.WriteLine(left != right);  // output: False
+				
+				var t1 = (A: 5, B: 10);
+				var t2 = (B: 5, A: 10);
+				Console.WriteLine(t1 == t2);  // output: True
+				Console.WriteLine(t1 != t2);  // output: False
+			}
+			
+			Console.WriteLine((Display(1), Display(2)) == (Display(3), Display(4)));
+
+			int Display(int s)
+			{
+			    Console.WriteLine(s);
+			    return s;
+			}
+			// Output:
+			// 1
+			// 2
+			// 3
+			// 4
+			// False
+			
+			var limitsLookup = new Dictionary<int, (int Min, int Max)>()
+			{
+			    [2] = (4, 10),
+			    [4] = (10, 20),
+			    [6] = (0, 23)
+			};
+			
+			if (limitsLookup.TryGetValue(4, out (int Min, int Max) limits2))
+			{
+			    Console.WriteLine($"Found limits: min is {limits2.Min}, max is {limits2.Max}");
+			}
+			// Output:
+			// Found limits: min is 10, max is 20
+			
+			double? pi = 3.14;
+			char? letter = 'a';
+			
+			int m4 = 10;
+			int? m5 = m4;
+			
+			bool? flag = null;
+			
+			// An array of a nullable value type:
+			int?[] arr = new int?[10];
+			
+			int? a12 = 42;
+			if (a12 is int valueOfA)
+			{
+			    Console.WriteLine($"a is {valueOfA}");
+			}
+			else
+			{
+			    Console.WriteLine("a does not have a value");
+			}
+			// Output:
+			// a is 42
+			
+			int? b6 = 10;
+			if (b6.HasValue)
+			{
+			    Console.WriteLine($"b is {b6.Value}");
+			}
+			else
+			{
+			    Console.WriteLine("b does not have a value");
+			}
+			// Output:
+			// b is 10
+			
+			int? c = 7;
+			if (c != null)
+			{
+			    Console.WriteLine($"c is {c.Value}");
+			}
+			else
+			{
+			    Console.WriteLine("c does not have a value");
+			}
+			// Output:
+			// c is 7
+			
+			int? a11 = 28;
+			int b7 = a11 ?? -1;
+			Console.WriteLine($"b is {b7}");  // output: b is 28
+			
+			int? c1 = null;
+			int d5 = c1 ?? -1;
+			Console.WriteLine($"d is {d5}");  // output: d is -1
+			
+			int? n = null;
+
+			//int m1 = n;    // Doesn't compile
+			int n2 = (int)n; // Compiles, but throws an exception if n is null
+			
+			int? a13 = 10;
+			int? b9 = null;
+			int? c2 = 10;
+			
+			a13++;        // a is 11
+			a13 = a13 * c2;  // a is 110
+			a13 = a13 + b9;  // a is null
+			
+			
+			int? a14 = 10;
+			Console.WriteLine($"{a14} >= null is {a14 >= null}");
+			Console.WriteLine($"{a14} < null is {a14 < null}");
+			Console.WriteLine($"{a14} == null is {a14 == null}");
+			// Output:
+			// 10 >= null is False
+			// 10 < null is False
+			// 10 == null is False
+			
+			int? b10 = null;
+			int? c3 = null;
+			Console.WriteLine($"null >= null is {b10 >= c3}");
+			Console.WriteLine($"null == null is {b10 == c3}");
+			// Output:
+			// null >= null is False
+			// null == null is True
+			
+			int a15 = 41;
+			object aBoxed = a15;
+			int? aNullable = (int?)aBoxed;
+			Console.WriteLine($"Value of aNullable: {aNullable}");
+			
+			object aNullableBoxed = aNullable;
+			if (aNullableBoxed is int valueOfA2)
+			{
+			    Console.WriteLine($"aNullableBoxed is boxed int: {valueOfA2}");
+			}
+			// Output:
+			// Value of aNullable: 41
+			// aNullableBoxed is boxed int: 41
+			
+			Console.WriteLine($"int? is {(IsNullable(typeof(int?)) ? "nullable" : "non nullable")} value type");
+			Console.WriteLine($"int is {(IsNullable(typeof(int)) ? "nullable" : "non-nullable")} value type");
+			
+			bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;
+			
+			// Output:
+			// int? is nullable value type
+			// int is non-nullable value type
+			
+			int? a16 = 17;
+			Type typeOfA = a16.GetType();
+			Console.WriteLine(typeOfA.FullName);
+			// Output:
+			// System.Int32
+			
+			int? a17 = 14;
+			if (a17 is int)
+			{
+			    Console.WriteLine("int? instance is compatible with int");
+			}
+			
+			int b11 = 17;
+			if (b11 is int?)
+			{
+			    Console.WriteLine("int instance is compatible with int?");
+			}
+			// Output:
+			// int? instance is compatible with int
+			// int instance is compatible with int?
+			
+
+			
+		}
+	}
+	
+	public struct MutablePoint
+	{
+	    public int X;
+	    public int Y;
+	
+	    public MutablePoint(int x, int y) => (X, Y) = (x, y);
+	
+	    public override string ToString() => $"({X}, {Y})";
+	}
+	
+	public class Program
+	{
+	    public static void RunMain()
+	    {
+	        var p1 = new MutablePoint(1, 2);
+	        var p2 = p1;
+	        p2.Y = 200;
+	        Console.WriteLine($"{nameof(p1)} after {nameof(p2)} is modified: {p1}");
+	        Console.WriteLine($"{nameof(p2)}: {p2}");
+	
+	        MutateAndDisplay(p2);
+	        Console.WriteLine($"{nameof(p2)} after passing to a method: {p2}");
+	    }
+	
+	    private static void MutateAndDisplay(MutablePoint p)
+	    {
+	        p.X = 100;
+	        Console.WriteLine($"Point mutated in a method: {p}");
+	    }
+	}
+	// Expected output:
+	// p1 after p2 is modified: (1, 2)
+	// p2: (1, 200)
+	// Point mutated in a method: (100, 200)
+	// p2 after passing to a method: (1, 200)
+	
+	public struct TaggedInteger
+	{
+	    public int Number;
+	    private List<string> tags;
+	
+	    public TaggedInteger(int n)
+	    {
+	        Number = n;
+	        tags = new List<string>();
+	    }
+	
+	    public void AddTag(string tag) => tags.Add(tag);
+	
+	    public override string ToString() => $"{Number} [{string.Join(", ", tags)}]";
+	}
+	
+	public class Program2
+	{
+	    public static void RunMain()
+	    {
+	        var n1 = new TaggedInteger(0);
+	        n1.AddTag("A");
+	        Console.WriteLine(n1);  // output: 0 [A]
+	
+	        var n2 = n1;
+	        n2.Number = 7;
+	        n2.AddTag("B");
+	
+	        Console.WriteLine(n1);  // output: 0 [A, B]
+	        Console.WriteLine(n2);  // output: 7 [A, B]
+	    }
+	}
+	
+	enum Season
+	{
+	    Spring,
+	    Summer,
+	    Autumn,
+	    Winter
+	}
+	
+	enum ErrorCode : ushort
+	{
+	    None = 0,
+	    Unknown = 1,
+	    ConnectionLost = 100,
+	    OutlierReading = 200
+	}
+	
+	public enum GpioPort
+	{
+	    GpioA = 1,
+	    GpioB,
+	    GpioC,
+	    GpioD
+	}
+	
+	public class ZeroConversionExample
+	{
+	    public static void RunMain()
+	    {
+	        // This compiles without warning but creates an invalid enum value
+	        GpioPort port1 = (GpioPort)0;
+	        Console.WriteLine($"port1: {port1}"); // Output: port1: 0
+	
+	        // This also compiles due to implicit conversion from zero
+	        GpioPort port2 = GetPort(0);
+	        Console.WriteLine($"port2: {port2}"); // Output: port2: 0
+	
+	        // Check if the enum value is valid
+	        bool isValid1 = Enum.IsDefined(typeof(GpioPort), port1);
+	        bool isValid2 = Enum.IsDefined(typeof(GpioPort), port2);
+	        Console.WriteLine($"port1 is valid: {isValid1}"); // Output: port1 is valid: False
+	        Console.WriteLine($"port2 is valid: {isValid2}"); // Output: port2 is valid: False
+	
+	        // Safer approach - validate enum values
+	        if (Enum.IsDefined(typeof(GpioPort), 0))
+	        {
+	            GpioPort safePort = (GpioPort)0;
+	        }
+	        else
+	        {
+	            Console.WriteLine("Value 0 is not a valid GpioPort");
+	            // Handle the invalid case appropriately
+	        }
+			
+			var p1 = new Coords3(0, 0);
+		    Console.WriteLine(p1);  // output: (0, 0)
+		
+		    var p2 = p1 with { X = 3 };
+		    Console.WriteLine(p2);  // output: (3, 0)
+		
+		    var p3 = p1 with { X = 1, Y = 4 };
+		    Console.WriteLine(p3);  // output: (1, 4)
+			
+			var m1 = new Measurement();
+		    Console.WriteLine(m1);  // output: NaN (Undefined)
+		
+		    var m2 = default(Measurement);
+		    Console.WriteLine(m2);  // output: 0 ()
+		
+		    var ms = new Measurement[2];
+		    Console.WriteLine(string.Join(", ", ms));  // output: 0 (), 0 ()
+			
+			// All elements have default values of 0:
+			//TemperatureRange[] lastMonth = new TemperatureRange[30];
+	    }
+	
+	    public static GpioPort GetPort(GpioPort port)
+	    {
+	        return port;
+	    }
+	}
+	
+	[Flags]
+	public enum Days
+	{
+	    None      = 0b_0000_0000,  // 0
+	    Monday    = 0b_0000_0001,  // 1
+	    Tuesday   = 0b_0000_0010,  // 2
+	    Wednesday = 0b_0000_0100,  // 4
+	    Thursday  = 0b_0000_1000,  // 8
+	    Friday    = 0b_0001_0000,  // 16
+	    Saturday  = 0b_0010_0000,  // 32
+	    Sunday    = 0b_0100_0000,  // 64
+	    Weekend   = Saturday | Sunday
+	}
+	
+	public class FlagsEnumExample
+	{
+	    public static void RunMain()
+	    {
+	        Days meetingDays = Days.Monday | Days.Wednesday | Days.Friday;
+	        Console.WriteLine(meetingDays);
+	        // Output:
+	        // Monday, Wednesday, Friday
+	
+	        Days workingFromHomeDays = Days.Thursday | Days.Friday;
+	        Console.WriteLine($"Join a meeting by phone on {meetingDays & workingFromHomeDays}");
+	        // Output:
+	        // Join a meeting by phone on Friday
+	
+	        bool isMeetingOnTuesday = (meetingDays & Days.Tuesday) == Days.Tuesday;
+	        Console.WriteLine($"Is there a meeting on Tuesday: {isMeetingOnTuesday}");
+	        // Output:
+	        // Is there a meeting on Tuesday: False
+	
+	        var a = (Days)37;
+	        Console.WriteLine(a);
+	        // Output:
+	        // Monday, Wednesday, Saturday
+	    }
+	}
+	
+	public enum Season2
+	{
+	    Spring,
+	    Summer,
+	    Autumn,
+	    Winter
+	}
+	
+	public class EnumConversionExample
+	{
+	    public static void RunMain()
+	    {
+	        Season a = Season.Autumn;
+	        Console.WriteLine($"Integral value of {a} is {(int)a}");  // output: Integral value of Autumn is 2
+	
+	        var b = (Season2)1;
+	        Console.WriteLine(b);  // output: Summer
+	
+	        var c = (Season2)4;
+	        Console.WriteLine(c);  // output: 4
+	    }
+	}
+	
+	public struct Coords
+	{
+	    public Coords(double x, double y)
+	    {
+	        X = x;
+	        Y = y;
+	    }
+	
+	    public double X { get; }
+	    public double Y { get; }
+	
+	    public override string ToString() => $"({X}, {Y})";
+	}
+	
+	public readonly struct Coords2
+	{
+	    public Coords2(double x, double y)
+	    {
+	        X = x;
+	        Y = y;
+	    }
+	
+	    public double X { get; init; }
+	    public double Y { get; init; }
+	
+	    public override string ToString() => $"({X}, {Y})";
+		
+		public readonly double Sum()
+		{
+		    return X + Y;
+		}
+		
+		/*
+		private int counter;
+		public int Counter
+		{
+		    readonly get => counter;
+		    set => counter = value;
+		}
+		*/
+		
+		//public readonly double X { get; init; }
+	}
+	
+	public readonly struct Coords3
+	{
+	    public Coords3(double x, double y)
+	    {
+	        X = x;
+	        Y = y;
+	    }
+	
+	    public double X { get; init; }
+	    public double Y { get; init; }
+	
+	    public override string ToString() => $"({X}, {Y})";
+	}
+	
+	[System.Runtime.CompilerServices.InlineArray(10)]
+	public struct CharBuffer
+	{
+	    private char _firstElement;
+	}
+	
+	[System.Runtime.CompilerServices.InlineArray(10)]
+	public struct CharBufferWithPointer
+	{
+	    private unsafe char* _pointerElement;    // CS9184
+	}
+	
+	[System.Runtime.CompilerServices.InlineArray(10)]
+	public struct CharBufferWithReferenceType
+	{
+	    private string _referenceElement;
+	}
+	
+	public readonly struct Measurement
+	{
+	    public Measurement()
+	    {
+	        Value = double.NaN;
+	        Description = "Undefined";
+	    }
+	
+	    public Measurement(double value, string description)
+	    {
+	        Value = value;
+	        Description = description;
+	    }
+	
+	    public double Value { get; init; }
+	    public string Description { get; init; }
+	
+	    public override string ToString() => $"{Value} ({Description})";
+	}
+	
+	public readonly struct Measurement2
+	{
+	    public Measurement2(double value)
+	    {
+	        Value = value;
+	    }
+	
+	    public Measurement2(double value, string description)
+	    {
+	        Value = value;
+	        Description = description;
+	    }
+	
+	    public Measurement2(string description)
+	    {
+	        Description = description;
+	    }
+	
+	    public double Value { get; init; }
+	    public string Description { get; init; } = "Ordinary measurement";
+	
+	    public override string ToString() => $"{Value} ({Description})";
+	}
+	
+	public static class StructWithoutNew
+	{
+	    public struct Coords
+	    {
+	        public double x;
+	        public double y;
+	    }
+	
+	    public static void RunMain()
+	    {
+	        Coords p;
+	        p.x = 3;
+	        p.y = 4;
+	        Console.WriteLine($"({p.x}, {p.y})");  // output: (3, 4)
+	    }
+	}
+	
+	public ref struct CustomRef
+	{
+	    public bool IsValid;
+	    public Span<int> Inputs;
+	    public Span<int> Outputs;
+	}
+	
+	public readonly ref struct ConversionRequest
+	{
+	    public ConversionRequest(double rate, ReadOnlySpan<double> values)
+	    {
+	        Rate = rate;
+	        Values = values;
+	    }
+	
+	    public double Rate { get; }
+	    public ReadOnlySpan<double> Values { get; }
+	}
+	
+	public ref struct RefFieldExample
+	{
+	    private ref int number;
+	
+	    public int GetNumber()
+	    {
+	        if (System.Runtime.CompilerServices.Unsafe.IsNullRef(ref number))
+	        {
+	            throw new InvalidOperationException("The number ref field is not initialized.");
+	        }
+	
+	        return number;
+	    }
+	}
+	
+	public readonly ref struct Span<T>
+	{
+	    internal readonly ref T _reference;
+	    private readonly int _length;
+	
+	    // Omitted for brevity...
+	}
+	
+	
 }
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time
