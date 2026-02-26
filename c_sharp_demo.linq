@@ -23,12 +23,24 @@ using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
 using Day = System.DayOfWeek;
 using Range2 = (int Minimum, int Maximum);
+using static System.Console;
+using static System.String;
+// Using alias directive for a class.
+using AliasToMyClass = DotnetCSharpLanguageReferenceKeywords.NameSpace1.MyClass;
+using S = System.Net.Sockets;
+// Using alias directive for a generic class.
+using UsingAlias = DotnetCSharpLanguageReferenceKeywords.NameSpace2.MyClass<int>;
+//using static Color;
 //using Excel = Microsoft.Office.Interop.Excel;
 //using Word = Microsoft.Office.Interop.Word;
 //using Excel = Microsoft.Office.Interop.Excel;
 //using Word = Microsoft.Office.Interop.Word;
 //namespace GlobalNamespace;
 //using Newtonsoft.Json;
+//extern alias GridV1;  
+//extern alias GridV2;
+//using Class1V1 = GridV1::Namespace.Class1;
+//using Class1V2 = GridV2::Namespace.Class1;
 
 namespace ProgramNamespace
 { 
@@ -158,17 +170,278 @@ namespace ProgramNamespace
     }
 }
 
-//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/async
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/add
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/
 namespace DotnetCSharpLanguageReferenceKeywords
 {
 	public class Keywords
 	{
+		public const double GravitationalConstant = 6.673e-11;
+		private const string ProductName = "Visual C#";
+		public const double X = 1.0, Y = 2.0, Z = 3.0;
+		
+		public const int C1 = 5;
+		public const int C2 = C1 + 100;
+		
 		public static void RunKeywords()
 		{
 			//BaseClass bc = new BaseClass();   // Error
+			
+			//string contents = await httpClient.GetStringAsync(requestUrl);
+			
+			const int X = 0;
+			
+			const string Language = "C#";
+			const string Platform = ".NET";
+			const string FullProductName = $"{Platform} - Language: {Language}";
+			
+			unsafe
+			{
+			    // Unsafe context: can use pointers here.
+			}
+
+			int number = 1;
+			new Keywords().Method(ref number);
+			Console.WriteLine(number);
+			// Output: 45
+			
+			int initializeInMethod;
+			new Keywords().OutArgExample(out initializeInMethod);
+			Console.WriteLine(initializeInMethod);     // value is now 44
+			
+			string numberAsString = "1640";
+
+			if (Int32.TryParse(numberAsString, out int number2))
+			    Console.WriteLine($"Converted '{numberAsString}' to {number2}");
+			else
+			    Console.WriteLine($"Unable to convert '{numberAsString}'");
+			// The example displays the following output:
+			//       Converted '1640' to 1640
+			
+			//ForceByRef(in options);
+			//ForceByRef(ref options);
+			//ForceByRef(options); // Warning! variable should be passed with `ref` or `in`
+			//ForceByRef(new OptionStruct()); // Warning, but an expression, so no variable to reference
+			
+			/*
+			var largeStruct = new LargeStruct { Value1 = 42, Value2 = 3.14, Value3 = "Hello" };
+
+			// Using 'in' avoids copying the large struct and prevents modification
+			ProcessLargeStruct(in largeStruct);
+			Console.WriteLine($"Original value unchanged: {largeStruct.Value1}");
+			
+			// Without 'in', the struct would be copied (less efficient for large structs)
+			ProcessLargeStructByValue(largeStruct);
+			Console.WriteLine($"Original value still unchanged: {largeStruct.Value1}");
+			*/
+			
+			Method2(5); // OK, temporary variable created.
+			//Method2(5L); // CS1503: no implicit conversion from long to int
+			short s = 0;
+			Method2(s); // OK, temporary int created with the value 0
+			//Method2(in s); // CS1503: cannot convert from in short to in int
+			int i = 42;
+			Method2(i); // passed by readonly reference
+			Method2(in i); // passed by readonly reference, explicitly using `in`
+			
+			Method3(5); // Calls overload passed by value
+			//Method3(5L); // CS1503: no implicit conversion from long to int
+			short s2 = 0;
+			Method3(s); // Calls overload passed by value.
+			//Method3(in s); // CS1503: cannot convert from in short to in int
+			int i2 = 42;
+			Method3(i2); // Calls overload passed by value
+			Method3(in i2); // passed by readonly reference, explicitly using `in`
+			
+			bool check = true;
+			Console.WriteLine(check ? "Checked" : "Not checked");  // output: Checked
+			
+			Console.WriteLine(false ? "Checked" : "Not checked");  // output: Not checked
+			
 		}
+		
+					//Task
+					//Task<TResult>
+					//void (avoid)
+		public async Task<int> ExampleMethodAsync()
+		{
+		    return 0;
+		}
+		
+		/*
+		private async void StartButton_Click(object sender, RoutedEventArgs e)
+		{
+		    // ExampleMethodAsync returns a Task<int>, which means that the method
+		    // eventually produces an int result. However, ExampleMethodAsync returns
+		    // the Task<int> value as soon as it reaches an await.
+		    ResultsTextBox.Text += "\n";
+		
+		    try
+		    {
+		        int length = await ExampleMethodAsync();
+		        // Note that you could put "await ExampleMethodAsync()" in the next line where
+		        // "length" is, but due to when '+=' fetches the value of ResultsTextBox, you
+		        // would not see the global side effect of ExampleMethodAsync setting the text.
+		        ResultsTextBox.Text += String.Format("Length: {0:N0}\n", length);
+		    }
+		    catch (Exception)
+		    {
+		        // Process the exception if one occurs.
+		    }
+		}
+		
+		public async Task<int> ExampleMethodAsync()
+		{
+		    var httpClient = new HttpClient();
+		    int exampleInt = (await httpClient.GetStringAsync("http://msdn.microsoft.com")).Length;
+		    ResultsTextBox.Text += "Preparing to finish ExampleMethodAsync.\n";
+		    // After the following return statement, any method that's awaiting
+		    // ExampleMethodAsync (in this case, StartButton_Click) can get the
+		    // integer result.
+		    return exampleInt;
+		}
+		// The example displays the following output:
+		// Preparing to finish ExampleMethodAsync.
+		// Length: 53292
+		*/
+		
+		[DllImport("avifil32.dll")]
+		private static extern void AVIFileInit();
+		
+		unsafe static void FastCopy(byte[] src, byte[] dst, int count)
+		{
+		    // Unsafe context: can use pointers here.
+		}
+		
+		unsafe static void FastCopy ( byte* ps, byte* pd, int count ) {}
+		
+		/*
+		public virtual double Area()
+		{
+		    return x * y;
+		}
+		*/
+		
+		void Method(ref int refArgument)
+		{
+		    refArgument = refArgument + 44;
+		}
+		
+		void OutArgExample(out int number)
+		{
+		    number = 44;
+		}
+		
+		/*
+		public static void ForceByRef(ref readonly OptionStruct thing)
+		{
+		    // elided
+		}
+		*/
+		
+		/*
+		void ProcessLargeStruct(in LargeStruct data)
+		{
+		    // Can read the values
+		    Console.WriteLine($"Processing: {data.Value1}, {data.Value2}, {data.Value3}");
+		    
+		    // Uncomment the following line to see error CS8331
+		    // data.Value1 = 99; // Compilation error: cannot assign to 'in' parameter
+		}
+		
+		void ProcessLargeStructByValue(LargeStruct data)
+		{
+		    // This method receives a copy of the struct
+		    Console.WriteLine($"Processing copy: {data.Value1}, {data.Value2}, {data.Value3}");
+		    
+		    // Modifying the copy doesn't affect the original
+		    data.Value1 = 99;
+		}
+		*/
+		
+		static void Method2(in int argument)
+		{
+		    // implementation removed
+		}
+		
+		static void Method3(int argument)
+		{
+		    // implementation removed
+		}
+		
+		static void Method3(in int argument)
+		{
+		    // implementation removed
+		}
+		
+		public static void ParamsModifierExample(params int[] list)
+		{
+		    for (int i = 0; i < list.Length; i++)
+		    {
+		        System.Console.Write(list[i] + " ");
+		    }
+		    System.Console.WriteLine();
+		}
+		
+		public static void ParamsModifierObjectExample(params object[] list)
+		{
+		    for (int i = 0; i < list.Length; i++)
+		    {
+		        System.Console.Write(list[i] + " ");
+		    }
+		    System.Console.WriteLine();
+		}
+		
+		public static void TryParamsCalls()
+		{
+		    // You can send a comma-separated list of arguments of the
+		    // specified type.
+		    ParamsModifierExample(1, 2, 3, 4);
+		    ParamsModifierObjectExample(1, 'a', "test");
+		
+		    // A params parameter accepts zero or more arguments.
+		    // The following calling statement displays only a blank line.
+		    ParamsModifierObjectExample();
+		
+		    // An array argument can be passed, as long as the array
+		    // type matches the parameter type of the method being called.
+		    int[] myIntArray = { 5, 6, 7, 8, 9 };
+		    ParamsModifierExample(myIntArray);
+		
+		    object[] myObjArray = { 2, 'b', "test", "again" };
+		    ParamsModifierObjectExample(myObjArray);
+		
+		    // The following call causes a compiler error because the object
+		    // array cannot be converted into an integer array.
+		    //ParamsModifierExample(myObjArray);
+		
+		    // The following call does not cause an error, but the entire
+		    // integer array becomes the first element of the params array.
+		    ParamsModifierObjectExample(myIntArray);
+		}
+		/*
+		Output:
+		    1 2 3 4
+		    1 a test
+		
+		    5 6 7 8 9
+		    2 b test again
+		    System.Int32[]
+		*/
+		
+		public void MyMethod<T>(T t) where T : IMyInterface { }
+		
+		delegate T MyDelegate<T>() where T : new();
+		/*
+		CalcTax(this);
+		
+		public int this[int param]
+		{
+		    get => array[param];
+		    set => array[param] = value;
+		}
+		*/
 	}
 	
 	public abstract class Vehicle
@@ -376,6 +649,1585 @@ namespace DotnetCSharpLanguageReferenceKeywords
 	            Square2 square = new Square2("red", 5);
 	            Console.WriteLine($"Area of the square: {square.CalculateArea()}");            
 	     }
+	}
+	
+	public class ConstTest
+	{
+	    class SampleClass
+	    {
+	        public int x;
+	        public int y;
+	        public const int C1 = 5;
+	        public const int C2 = C1 + 5;
+	
+	        public SampleClass(int p1, int p2)
+	        {
+	            x = p1;
+	            y = p2;
+	        }
+	    }
+	
+	    static void RunMain()
+	    {
+	        var mC = new SampleClass(11, 22);
+	        Console.WriteLine($"x = {mC.x}, y = {mC.y}");
+	        Console.WriteLine($"C1 = {SampleClass.C1}, C2 = {SampleClass.C2}");
+	    }
+	}
+	/* Output
+	    x = 11, y = 22
+	    C1 = 5, C2 = 10
+	*/
+	
+	public class SealedTest
+	{
+	    static void RunMain()
+	    {
+	        const int C = 707;
+	        Console.WriteLine($"My local constant = {C}");
+	    }
+	}
+	// Output: My local constant = 707
+	
+	public class SampleEventArgs
+	{
+	    public SampleEventArgs(string text) { Text = text; }
+	    public string Text { get; } // readonly
+	}
+	
+	public class Publisher
+	{
+	    // Declare the delegate (if using non-generic pattern).
+	    public delegate void SampleEventHandler(object sender, SampleEventArgs e);
+	
+	    // Declare the event.
+	    public event SampleEventHandler SampleEvent;
+	
+	    // Wrap the event in a protected virtual method
+	    // to enable derived classes to raise the event.
+	    protected virtual void RaiseSampleEvent()
+	    {
+	        // Raise the event in a thread-safe manner using the ?. operator.
+	        SampleEvent?.Invoke(this, new SampleEventArgs("Hello"));
+	    }
+	}
+	
+	//using System.Runtime.InteropServices;
+	class ExternTest
+	{
+	    [DllImport("User32.dll", CharSet=CharSet.Unicode)]
+	    public static extern int MessageBox(IntPtr h, string m, string c, int type);
+	
+	    static int RunMain()
+	    {
+	        string myString;
+	        Console.Write("Enter your message: ");
+	        myString = Console.ReadLine();
+	        return MessageBox((IntPtr)0, myString, "My Message Box", 0);
+	    }
+	}
+	
+	public class MainClass
+	{
+	    [DllImport("Cmdll.dll")]
+	      public static extern int SampleMethod(int x);
+	
+	    static void RunMain()
+	    {
+	        Console.WriteLine("SampleMethod() returns {0}.", SampleMethod(5));
+	    }
+	}
+	
+	// Contravariant interface.
+	interface IContravariant<in A> { }
+	
+	// Extending contravariant interface.
+	interface IExtContravariant<in A> : IContravariant<A> { }
+	
+	// Implementing contravariant interface.
+	class Sample<A> : IContravariant<A> { }
+	
+	class Program3
+	{
+		// Contravariant delegate.
+		public delegate void DContravariant<in A>(A argument);
+		
+		// Methods that match the delegate signature.
+		/*
+		public static void SampleControl(Control control)
+		{ }
+		public static void SampleButton(Button button)
+		{ }
+		*/
+
+	    static void Test()
+	    {
+	        IContravariant<Object> iobj = new Sample<Object>();
+	        IContravariant<String> istr = new Sample<String>();
+	
+	        // You can assign iobj to istr because
+	        // the IContravariant interface is contravariant.
+	        istr = iobj;
+	    }
+		
+		/*
+		public void Test()
+		{
+		
+		    // Instantiating the delegates with the methods.
+		    DContravariant<Control> dControl = SampleControl;
+		    DContravariant<Button> dButton = SampleButton;
+		
+		    // You can assign dControl to dButton
+		    // because the DContravariant delegate is contravariant.
+		    dButton = dControl;
+		
+		    // Invoke the delegate.
+		    dButton(new Button());
+		}
+		*/
+	}
+	
+	/*
+	public class BaseC
+	{
+	    public int x;
+	    public void Invoke() { }
+	}
+	public class DerivedC : BaseC
+	{
+	    new public void Invoke() { }
+	}
+	*/
+	
+	/*
+	public class BaseC
+	{
+	    public static int x = 55;
+	    public static int y = 22;
+	}
+	
+	public class DerivedC : BaseC
+	{
+	    // Hide field 'x'.
+	    new public static int x = 100;
+	
+	    static void RunMain()
+	    {
+	        // Display the new value of x:
+	        Console.WriteLine(x);
+	
+	        // Display the hidden value of x:
+	        Console.WriteLine(BaseC.x);
+	
+	        // Display the unhidden member y:
+	        Console.WriteLine(y);
+	    }
+	}
+	*/
+	/*
+	Output:
+	100
+	55
+	22
+	*/
+	
+	public class BaseC
+	{
+	    public class NestedC
+	    {
+	        public int x = 200;
+	        public int y;
+	    }
+	}
+	
+	public class DerivedC : BaseC
+	{
+	    // Nested type hiding the base type members.
+	    new public class NestedC
+	    {
+	        public int x = 100;
+	        public int y;
+	        public int z;
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Creating an object from the overlapping class:
+	        NestedC c1  = new NestedC();
+	
+	        // Creating an object from the hidden class:
+	        BaseC.NestedC c2 = new BaseC.NestedC();
+	
+	        Console.WriteLine(c1.x);
+	        Console.WriteLine(c2.x);
+	    }
+	}
+	/*
+	Output:
+	100
+	200
+	*/
+	
+	// Covariant interface.
+	interface ICovariant<out R> { }
+	
+	// Extending covariant interface.
+	interface IExtCovariant<out R> : ICovariant<R> { }
+	
+	
+	
+	class Program4
+	{
+		// Implementing covariant interface.
+		class Sample<R> : ICovariant<R> { }
+		
+	    static void Test()
+	    {
+	        ICovariant<Object> iobj = new Sample<Object>();
+	        ICovariant<String> istr = new Sample<String>();
+	
+	        // You can assign istr to iobj because
+	        // the ICovariant interface is covariant.
+	        iobj = istr;
+	    }
+	}
+	
+	/*
+	// Covariant delegate.
+	public delegate R DCovariant<out R>();
+	
+	// Methods that match the delegate signature.
+	public static Control SampleControl()
+	{ return new Control(); }
+	
+	public static Button SampleButton()
+	{ return new Button(); }
+	
+	public void Test()
+	{
+	    // Instantiate the delegates with the methods.
+	    DCovariant<Control> dControl = SampleControl;
+	    DCovariant<Button> dButton = SampleButton;
+	
+	    // You can assign dButton to dControl
+	    // because the DCovariant delegate is covariant.
+	    dControl = dButton;
+	
+	    // Invoke the delegate.
+	    dControl();
+	}
+	*/
+	
+	/*
+	abstract class Shape
+	{
+	    public abstract int GetArea();
+	}
+	
+	class Square : Shape
+	{
+	    private int _side;
+	
+	    public Square(int n) => _side = n;
+	
+	    // GetArea method is required to avoid a compile-time error.
+	    public override int GetArea() => _side * _side;
+	
+	    static void Main()
+	    {
+	        var sq = new Square(12);
+	        Console.WriteLine($"Area of the square = {sq.GetArea()}");
+	    }
+	}
+	// Output: Area of the square = 144
+	*/
+	
+	class TestOverride
+	{
+	    public class Employee
+	    {
+	        public string Name { get; }
+	
+	        // Basepay is defined as protected, so that it may be
+	        // accessed only by this class and derived classes.
+	        protected decimal _basepay;
+	
+	        // Constructor to set the name and basepay values.
+	        public Employee(string name, decimal basepay)
+	        {
+	            Name = name;
+	            _basepay = basepay;
+	        }
+	
+	        // Declared virtual so it can be overridden.
+	        public virtual decimal CalculatePay()
+	        {
+	            return _basepay;
+	        }
+	    }
+	
+	    // Derive a new class from Employee.
+	    public class SalesEmployee : Employee
+	    {
+	        // New field that will affect the base pay.
+	        private decimal _salesbonus;
+	
+	        // The constructor calls the base-class version, and
+	        // initializes the salesbonus field.
+	        public SalesEmployee(string name, decimal basepay, decimal salesbonus)
+	            : base(name, basepay)
+	        {
+	            _salesbonus = salesbonus;
+	        }
+	
+	        // Override the CalculatePay method
+	        // to take bonus into account.
+	        public override decimal CalculatePay()
+	        {
+	            return _basepay + _salesbonus;
+	        }
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Create some new employees.
+	        var employee1 = new SalesEmployee("Alice", 1000, 500);
+	        var employee2 = new Employee("Bob", 1200);
+	
+	        Console.WriteLine($"Employee1 {employee1.Name} earned: {employee1.CalculatePay()}");
+	        Console.WriteLine($"Employee2 {employee2.Name} earned: {employee2.CalculatePay()}");
+	    }
+	}
+	/*
+	    Output:
+	    Employee1 Alice earned: 1500
+	    Employee2 Bob earned: 1200
+	*/
+	
+	class Age
+	{
+		public readonly int y = 5;
+		
+	    private readonly int _year;
+	    Age(int year)
+	    {
+	        _year = year;
+	    }
+	    void ChangeYear()
+	    {
+	        //_year = 1967; // Compile error if uncommented.
+	    }
+	}
+	
+	public class SamplePoint
+	{
+	    public int x;
+	    // Initialize a readonly field
+	    public readonly int y = 25;
+	    public readonly int z;
+	
+	    public SamplePoint()
+	    {
+	        // Initialize a readonly instance field
+	        z = 24;
+	    }
+	
+	    public SamplePoint(int p1, int p2, int p3)
+	    {
+	        x = p1;
+	        y = p2;
+	        z = p3;
+	    }
+		
+	
+	    public static void RunMain()
+	    {
+	        SamplePoint p1 = new SamplePoint(11, 21, 32);   // OK
+	        Console.WriteLine($"p1: x={p1.x}, y={p1.y}, z={p1.z}");
+	        SamplePoint p2 = new SamplePoint();
+	        p2.x = 55;   // OK
+	        Console.WriteLine($"p2: x={p2.x}, y={p2.y}, z={p2.z}");
+			
+			//p2.y = 66;        // Error
+	    }
+	    /*
+	     Output:
+	        p1: x=11, y=21, z=32
+	        p2: x=55, y=25, z=24
+	    */
+		
+		/*
+		public readonly double Sum()
+		{
+		    return X + Y;
+		}
+		*/
+		
+		private static readonly SamplePoint s_origin = new SamplePoint(0, 0, 0);
+		public static ref readonly SamplePoint Origin => ref s_origin;
+	}
+	
+	public struct ReadonlyRefReadonlyExample
+	{
+	    private int _data;
+	
+	    public readonly ref readonly int ReadonlyRefReadonly(ref int reference)
+	    {
+	        // _data = 1; // Compile error if uncommented.
+	        return ref reference;
+	    }
+	}
+	
+	class A {}
+	sealed class B : A {}
+	
+	class X
+	{
+	    protected virtual void F() { Console.WriteLine("X.F"); }
+	    protected virtual void F2() { Console.WriteLine("X.F2"); }
+	}
+	
+	class Y : X
+	{
+	    sealed protected override void F() { Console.WriteLine("Y.F"); }
+	    protected override void F2() { Console.WriteLine("Y.F2"); }
+	}
+	
+	class Z : Y
+	{
+	    // Attempting to override F causes compiler error CS0239.
+	    // protected override void F() { Console.WriteLine("Z.F"); }
+	
+	    // Overriding F2 is allowed.
+	    protected override void F2() { Console.WriteLine("Z.F2"); }
+	}
+	
+	//public sealed override string ToString() => Value;
+	
+	sealed class SealedClass
+	{
+	    public int x;
+	    public int y;
+	}
+	
+	class SealedTest2
+	{
+	    static void RunMain()
+	    {
+	        var sc = new SealedClass();
+	        sc.x = 110;
+	        sc.y = 150;
+	        Console.WriteLine($"x = {sc.x}, y = {sc.y}");
+	    }
+	}
+	// Output: x = 110, y = 150
+	
+	class Calc1
+	{
+	    public void CalculateSum()
+	    {
+	        int a = 3;
+	        int b = 7;
+	
+	        // Static local function - cannot access 'a' or 'b' directly
+	        static int Add(int x, int y)
+	        {
+	            return x + y;
+	        }
+	
+	        int result = Add(a, b); 
+	        Console.WriteLine($"Sum: {result}");
+	    }
+	}
+	  /*
+	 Output:
+	 Sum: 10
+	 */
+	 
+	 class Calc2
+	{
+	    static void RunMain()
+	    {
+	        Func<int, int, int> add = static (a, b) => a + b;
+	
+	        int result = add(5, 10);
+	        Console.WriteLine($"Sum: {result}");
+	    }
+	}
+	/*
+	Output:
+	Sum: 15
+	*/
+	
+	static class CompanyEmployee
+	{
+	    public static void DoSomething() { /*...*/ }
+	    public static void DoSomethingElse() { /*...*/  }
+	}
+	
+	public class MyBaseC
+	{
+	    public struct MyStruct
+	    {
+	        public static int x = 100;
+	    }
+	}
+	
+	public class Employee4
+	{
+	    public string id;
+	    public string name;
+	
+	    public Employee4()
+	    {
+	    }
+	
+	    public Employee4(string name, string id)
+	    {
+	        this.name = name;
+	        this.id = id;
+	    }
+	
+	    public static int employeeCounter;
+	
+	    public static int AddEmployee()
+	    {
+	        return ++employeeCounter;
+	    }
+	}
+	
+	class MainClass2 : Employee4
+	{
+	    static void RunMain()
+	    {
+	        Console.Write("Enter the employee's name: ");
+	        string name = Console.ReadLine();
+	        Console.Write("Enter the employee's ID: ");
+	        string id = Console.ReadLine();
+	
+	        // Create and configure the employee object.
+	        Employee4 e = new Employee4(name, id);
+	        Console.Write("Enter the current number of employees: ");
+	        string n = Console.ReadLine();
+	        Employee4.employeeCounter = Int32.Parse(n);
+	        Employee4.AddEmployee();
+	
+	        // Display the new information.
+	        Console.WriteLine($"Name: {e.name}");
+	        Console.WriteLine($"ID:   {e.id}");
+	        Console.WriteLine($"New Number of Employees: {Employee4.employeeCounter}");
+	    }
+	}
+	/*
+	Input:
+	Matthias Berndt
+	AF643G
+	15
+	 *
+	Sample Output:
+	Enter the employee's name: Matthias Berndt
+	Enter the employee's ID: AF643G
+	Enter the current number of employees: 15
+	Name: Matthias Berndt
+	ID:   AF643G
+	New Number of Employees: 16
+	*/
+	
+	class Test
+	{
+	    static int x = y;
+	    static int y = 5;
+	
+	    static void RunMain()
+	    {
+	        Console.WriteLine(Test.x);
+	        Console.WriteLine(Test.y);
+	
+	        Test.x = 99;
+	        Console.WriteLine(Test.x);
+	    }
+	}
+	/*
+	Output:
+	    0
+	    5
+	    99
+	*/
+	
+	// compile with: -unsafe
+	class UnsafeTest
+	{
+	    // Unsafe method: takes pointer to int.
+	    unsafe static void SquarePtrParam(int* p)
+	    {
+	        *p *= *p;
+	    }
+	
+	    unsafe static void RunMain()
+	    {
+	        int i = 5;
+	        // Unsafe method: uses address-of operator (&).
+	        SquarePtrParam(&i);
+	        Console.WriteLine(i);
+	    }
+	}
+	// Output: 25
+	
+	class MyBaseClass
+	{
+	    // virtual automatically implemented property. Overrides can only
+	    // provide specialized behavior if they implement get and set accessors.
+	    public virtual string Name { get; set; }
+	
+	    // ordinary virtual property with backing field
+	    private int _num;
+	    public virtual int Number
+	    {
+	        get { return _num; }
+	        set { _num = value; }
+	    }
+	}
+	
+	class MyDerivedClass : MyBaseClass
+	{
+	    private string _name;
+	
+	    // Override automatically implemented property with ordinary property
+	    // to provide specialized accessor behavior.
+	    public override string Name
+	    {
+	        get
+	        {
+	            return _name;
+	        }
+	        set
+	        {
+	            if (!string.IsNullOrEmpty(value))
+	            {
+	                _name = value;
+	            }
+	            else
+	            {
+	                _name = "Unknown";
+	            }
+	        }
+	    }
+	}
+	
+	//public Cylinder(double r, double h): base(r, h) {}
+	
+	class TestClass
+	{
+	    public class Shape
+	    {
+	        public const double PI = Math.PI;
+	        protected double _x, _y;
+	
+	        public Shape()
+	        {
+	        }
+	
+	        public Shape(double x, double y)
+	        {
+	            _x = x;
+	            _y = y;
+	        }
+	
+	        public virtual double Area()
+	        {
+	            return _x * _y;
+	        }
+	    }
+	
+	    public class Circle : Shape
+	    {
+	        public Circle(double r) : base(r, 0)
+	        {
+	        }
+	
+	        public override double Area()
+	        {
+	            return PI * _x * _x;
+	        }
+	    }
+	
+	    public class Sphere : Shape
+	    {
+	        public Sphere(double r) : base(r, 0)
+	        {
+	        }
+	
+	        public override double Area()
+	        {
+	            return 4 * PI * _x * _x;
+	        }
+	    }
+	
+	    public class Cylinder : Shape
+	    {
+	        public Cylinder(double r, double h) : base(r, h)
+	        {
+	        }
+	
+	        public override double Area()
+	        {
+	            return 2 * PI * _x * _x + 2 * PI * _x * _y;
+	        }
+	    }
+	
+	    static void RunMain()
+	    {
+	        double r = 3.0, h = 5.0;
+	        Shape c = new Circle(r);
+	        Shape s = new Sphere(r);
+	        Shape l = new Cylinder(r, h);
+	        // Display results.
+	        Console.WriteLine($"Area of Circle   = {c.Area():F2}");
+	        Console.WriteLine($"Area of Sphere   = {s.Area():F2}");
+	        Console.WriteLine($"Area of Cylinder = {l.Area():F2}");
+	    }
+	}
+	/*
+	Output:
+	Area of Circle   = 28.27
+	Area of Sphere   = 113.10
+	Area of Cylinder = 150.80
+	*/
+	
+	class VolatileTest
+	{
+	    public volatile int sharedStorage;
+	
+	    public void Test(int i)
+	    {
+	        sharedStorage = i;
+	    }
+	}
+	
+	public class Worker
+	{
+	    // This method is called when the thread is started.
+	    public void DoWork()
+	    {
+	        bool work = false;
+	        while (!_shouldStop)
+	        {
+	            work = !work; // simulate some work
+	        }
+	        Console.WriteLine("Worker thread: terminating gracefully.");
+	    }
+	    public void RequestStop()
+	    {
+	        _shouldStop = true;
+	    }
+	    // Keyword volatile is used as a hint to the compiler that this data
+	    // member is accessed by multiple threads.
+	    private volatile bool _shouldStop;
+	}
+	
+	public class WorkerThreadExample
+	{
+	    public static void RunMain()
+	    {
+	        // Create the worker thread object. This does not start the thread.
+	        Worker workerObject = new Worker();
+	        Thread workerThread = new Thread(workerObject.DoWork);
+	
+	        // Start the worker thread.
+	        workerThread.Start();
+	        Console.WriteLine("Main thread: starting worker thread...");
+	
+	        // Loop until the worker thread activates.
+	        while (!workerThread.IsAlive)
+	            ;
+	
+	        // Put the main thread to sleep for 500 milliseconds to
+	        // allow the worker thread to do some work.
+	        Thread.Sleep(500);
+	
+	        // Request that the worker thread stop itself.
+	        workerObject.RequestStop();
+	
+	        // Use the Thread.Join method to block the current thread
+	        // until the object's thread terminates.
+	        workerThread.Join();
+	        Console.WriteLine("Main thread: worker thread has terminated.");
+	    }
+	    // Sample output:
+	    // Main thread: starting worker thread...
+	    // Worker thread: terminating gracefully.
+	    // Main thread: worker thread has terminated.
+	}
+	
+	public record struct Point(int X, int Y);
+	// This doesn't use a primary constructor because the properties implemented for `record` types are 
+	// readonly in record class types. That would prevent the mutations necessary for this example.
+	public record class Point3D
+	{
+	    public int X { get; set; }
+	    public int Y { get; set; }
+	    public int Z { get; set; }
+	}
+	
+	public class PassTypesByValue
+	{
+	    public static void Mutate(Point pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Mutate)}:\t\t{pt}");
+	        pt.X = 19;
+	        pt.Y = 23;
+	
+	        Console.WriteLine($"\tExit {nameof(Mutate)}:\t\t{pt}");
+	    }
+	    public static void Mutate(Point3D pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Mutate)}:\t\t{pt}");
+	        pt.X = 19;
+	        pt.Y = 23;
+	        pt.Z = 42;
+	
+	        Console.WriteLine($"\tExit {nameof(Mutate)}:\t\t{pt}");
+	    }
+	
+	    public static void TestPassTypesByValue()
+	    {
+	        Console.WriteLine("===== Value Types =====");
+	
+	        var ptStruct = new Point { X = 1, Y = 2 };
+	        Console.WriteLine($"After initialization:\t\t{ptStruct}");
+	
+	        Mutate(ptStruct);
+	
+	        Console.WriteLine($"After called {nameof(Mutate)}:\t\t{ptStruct}");
+	
+	        Console.WriteLine("===== Reference Types =====");
+	
+	        var ptClass = new Point3D { X = 1, Y = 2, Z = 3 };
+	
+	        Console.WriteLine($"After initialization:\t\t{ptClass}");
+	
+	        Mutate(ptClass);
+	        Console.WriteLine($"After called {nameof(Mutate)}:\t\t{ptClass}");
+	
+	        // Output:
+	        // ===== Value Types =====
+	        // After initialization:           Point { X = 1, Y = 2 }
+	        //         Enter Mutate:           Point { X = 1, Y = 2 }
+	        //         Exit Mutate:            Point { X = 19, Y = 23 }
+	        // After called Mutate:            Point { X = 1, Y = 2 }
+	        // ===== Reference Types =====
+	        // After initialization:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Enter Mutate:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Exit Mutate:            Point3D { X = 19, Y = 23, Z = 42 }
+	        // After called Mutate:            Point3D { X = 19, Y = 23, Z = 42 }
+	    }
+	}
+	
+	public class PassTypesByReference
+	{
+	    public static void Mutate(ref Point pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Mutate)}:\t\t{pt}");
+	        pt.X = 19;
+	        pt.Y = 23;
+	
+	        Console.WriteLine($"\tExit {nameof(Mutate)}:\t\t{pt}");
+	    }
+	    public static void Mutate(ref Point3D pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Mutate)}:\t\t{pt}");
+	        pt.X = 19;
+	        pt.Y = 23;
+	        pt.Z = 42;
+	
+	        Console.WriteLine($"\tExit {nameof(Mutate)}:\t\t{pt}");
+	    }
+	
+	    public static void TestPassTypesByReference()
+	    {
+	        Console.WriteLine("===== Value Types =====");
+	
+	        var pStruct = new Point { X = 1, Y = 2 };
+	        Console.WriteLine($"After initialization:\t\t{pStruct}");
+	
+	        Mutate(ref pStruct);
+	
+	        Console.WriteLine($"After called {nameof(Mutate)}:\t\t{pStruct}");
+	
+	        Console.WriteLine("===== Reference Types =====");
+	
+	        var pClass = new Point3D { X = 1, Y = 2, Z = 3 };
+	
+	        Console.WriteLine($"After initialization:\t\t{pClass}");
+	
+	        Mutate(ref pClass);
+	        Console.WriteLine($"After called {nameof(Mutate)}:\t\t{pClass}");
+	
+	        // Output:
+	        // ===== Value Types =====
+	        // After initialization:           Point { X = 1, Y = 2 }
+	        //         Enter Mutate:           Point { X = 1, Y = 2 }
+	        //         Exit Mutate:            Point { X = 19, Y = 23 }
+	        // After called Mutate:            Point { X = 19, Y = 23 }
+	        // ===== Reference Types =====
+	        // After initialization:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Enter Mutate:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Exit Mutate:            Point3D { X = 19, Y = 23, Z = 42 }
+	        // After called Mutate:            Point3D { X = 19, Y = 23, Z = 42 }
+	    }
+	}
+	
+	public class PassByValueReassignment
+	{
+	    public static void Reassign(Point pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Reassign)}:\t\t{pt}");
+	        pt = new Point { X = 13, Y = 29 };
+	
+	        Console.WriteLine($"\tExit {nameof(Reassign)}:\t\t{pt}");
+	    }
+	
+	    public static void Reassign(Point3D pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Reassign)}:\t\t{pt}");
+	        pt = new Point3D { X = 13, Y = 29, Z = -42 };
+	
+	        Console.WriteLine($"\tExit {nameof(Reassign)}:\t\t{pt}");
+	    }
+	
+	    public static void TestPassByValueReassignment()
+	    {
+	        Console.WriteLine("===== Value Types =====");
+	
+	        var ptStruct = new Point { X = 1, Y = 2 };
+	        Console.WriteLine($"After initialization:\t\t{ptStruct}");
+	
+	        Reassign(ptStruct);
+	
+	        Console.WriteLine($"After called {nameof(Reassign)}:\t\t{ptStruct}");
+	
+	        Console.WriteLine("===== Reference Types =====");
+	
+	        var ptClass = new Point3D { X = 1, Y = 2, Z = 3 };
+	
+	        Console.WriteLine($"After initialization:\t\t{ptClass}");
+	
+	        Reassign(ptClass);
+	        Console.WriteLine($"After called {nameof(Reassign)}:\t\t{ptClass}");
+	
+	        // Output:
+	        // ===== Value Types =====
+	        // After initialization:           Point { X = 1, Y = 2 }
+	        //         Enter Reassign:         Point { X = 1, Y = 2 }
+	        //         Exit Reassign:          Point { X = 13, Y = 29 }
+	        // After called Reassign:          Point { X = 1, Y = 2 }
+	        // ===== Reference Types =====
+	        // After initialization:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Enter Reassign:         Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Exit Reassign:          Point3D { X = 13, Y = 29, Z = -42 }
+	        // After called Reassign:          Point3D { X = 1, Y = 2, Z = 3 }
+	    }
+	}
+	
+	public class PassByReferenceReassignment
+	{
+	    public static void Reassign(ref Point pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Reassign)}:\t\t{pt}");
+	        pt = new Point { X = 13, Y = 29 };
+	
+	        Console.WriteLine($"\tExit {nameof(Reassign)}:\t\t{pt}");
+	    }
+	
+	    public static void Reassign(ref Point3D pt)
+	    {
+	        Console.WriteLine($"\tEnter {nameof(Reassign)}:\t\t{pt}");
+	        pt = new Point3D { X = 13, Y = 29, Z = -42 };
+	
+	        Console.WriteLine($"\tExit {nameof(Reassign)}:\t\t{pt}");
+	    }
+	
+	    public static void TestPassByReferenceReassignment()
+	    {
+	        Console.WriteLine("===== Value Types =====");
+	
+	        var ptStruct = new Point { X = 1, Y = 2 };
+	        Console.WriteLine($"After initialization:\t\t{ptStruct}");
+	
+	        Reassign(ref ptStruct);
+	
+	        Console.WriteLine($"After called {nameof(Reassign)}:\t\t{ptStruct}");
+	
+	        Console.WriteLine("===== Reference Types =====");
+	
+	        var ptClass = new Point3D { X = 1, Y = 2, Z = 3 };
+	
+	        Console.WriteLine($"After initialization:\t\t{ptClass}");
+	
+	        Reassign(ref ptClass);
+	        Console.WriteLine($"After called {nameof(Reassign)}:\t\t{ptClass}");
+	
+	        // Output:
+	        // ===== Value Types =====
+	        // After initialization:           Point { X = 1, Y = 2 }
+	        //         Enter Reassign:         Point { X = 1, Y = 2 }
+	        //         Exit Reassign:          Point { X = 13, Y = 29 }
+	        // After called Reassign:          Point { X = 13, Y = 29 }
+	        // ===== Reference Types =====
+	        // After initialization:           Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Enter Reassign:         Point3D { X = 1, Y = 2, Z = 3 }
+	        //         Exit Reassign:          Point3D { X = 13, Y = 29, Z = -42 }
+	        // After called Reassign:          Point3D { X = 13, Y = 29, Z = -42 }
+	    }
+	}
+	
+	namespace SampleNamespace
+	{
+	    class SampleClass { }
+	
+	    interface ISampleInterface { }
+	
+	    struct SampleStruct { }
+	
+	    enum SampleEnum { a, b }
+	
+	    delegate void SampleDelegate(int i);
+	
+	    namespace Nested
+	    {
+	        class SampleClass2 { }
+	    }
+		
+		class AnotherSampleClass
+		{
+		    public void AnotherSampleMethod()
+		    {
+		        System.Console.WriteLine(
+		            "SampleMethod inside SampleNamespace");
+		    }
+		}
+	}
+	
+	namespace MyCompany.Proj1
+	{
+	    class MyClass
+	    {
+	    }
+	}
+	
+	namespace MyCompany.Proj1
+	{
+	    class MyClass1
+	    {
+	    }
+	}
+	
+	namespace SomeNameSpace
+	{
+	    public class MyClass
+	    {
+	        static void RunMain()
+	        {
+	            Nested.NestedNameSpaceClass.SayHello();
+	        }
+	    }
+	
+	    // a nested namespace
+	    namespace Nested
+	    {
+	        public class NestedNameSpaceClass
+	        {
+	            public static void SayHello()
+	            {
+	                Console.WriteLine("Hello");
+	            }
+	        }
+	    }
+	}
+	// Output: Hello
+	
+	class Program5
+	{
+	    static void RunMain()
+	    {
+	        Console.WriteLine(Sqrt(3*3 + 4*4));
+	    }
+	}
+	
+	public class Circle
+	{
+	   public Circle(double radius)
+	   {
+	      Radius = radius;
+	   }
+	
+	   public double Radius { get; set; }
+	
+	   public double Diameter
+	   {
+	      get { return 2 * Radius; }
+	   }
+	
+	   public double Circumference
+	   {
+	      get { return 2 * Radius * Math.PI; }
+	   }
+	
+	   public double Area
+	   {
+	      get { return Math.PI * Math.Pow(Radius, 2); }
+	   }
+	}
+	
+	public class Circle2
+	{
+	   public Circle2(double radius)
+	   {
+	      Radius = radius;
+	   }
+	
+	   public double Radius { get; set; }
+	
+	   public double Diameter
+	   {
+	      get { return 2 * Radius; }
+	   }
+	
+	   public double Circumference
+	   {
+	      get { return 2 * Radius * PI; }
+	   }
+	
+	   public double Area
+	   {
+	      get { return PI * Pow(Radius, 2); }
+	   }
+	}
+	
+	class Program6
+	{
+	   static void RunMain()
+	   {
+	      Write("Enter a circle's radius: ");
+	      var input = ReadLine();
+	      if (!IsNullOrEmpty(input) && double.TryParse(input, out var radius)) {
+	         var c = new Circle(radius);
+	
+	         string s = "\nInformation about the circle:\n";
+	         s = s + Format("   Radius: {0:N2}\n", c.Radius);
+	         s = s + Format("   Diameter: {0:N2}\n", c.Diameter);
+	         s = s + Format("   Circumference: {0:N2}\n", c.Circumference);
+	         s = s + Format("   Area: {0:N2}\n", c.Area);
+	         WriteLine(s);
+	      }
+	      else {
+	         WriteLine("Invalid input...");
+	      }
+	   }
+	}
+	
+	public class Circle3
+	{
+	   public Circle3(double radius)
+	   {
+	      Radius = radius;
+	   }
+	
+	   public double Radius { get; set; }
+	
+	   public double Diameter
+	   {
+	      get { return 2 * Radius; }
+	   }
+	
+	   public double Circumference
+	   {
+	      get { return 2 * Radius * PI; }
+	   }
+	
+	   public double Area
+	   {
+	      get { return PI * Pow(Radius, 2); }
+	   }
+	}
+	// The example displays the following output:
+	//       Enter a circle's radius: 12.45
+	//
+	//       Information about the circle:
+	//          Radius: 12.45
+	//          Diameter: 24.90
+	//          Circumference: 78.23
+	//          Area: 486.95
+	
+	enum Color
+	{
+	    Red,
+	    Green,
+	    Blue
+	}
+	
+	/*
+	class Program7
+	{
+	    public static void RunMain()
+	    {
+	        Color color = Green;
+	    }
+	}
+	*/
+	
+	namespace PC
+	{
+	    // Define an alias for the nested namespace.
+	    using Project = PC.MyCompany.Project;
+	    class A
+	    {
+	        void M()
+	        {
+	            // Use the alias
+	            var mc = new Project.MyClass();
+	        }
+	    }
+	    namespace MyCompany
+	    {
+	        namespace Project
+	        {
+	            public class MyClass { }
+	        }
+	    }
+	}
+	
+	namespace NameSpace1
+	{
+	    public class MyClass
+	    {
+	        public override string ToString()
+	        {
+	            return "You are in NameSpace1.MyClass.";
+	        }
+	    }
+	}
+	
+	namespace NameSpace2
+	{
+	    class MyClass<T>
+	    {
+	        public override string ToString()
+	        {
+	            return "You are in NameSpace2.MyClass.";
+	        }
+	    }
+	}
+	
+	namespace NameSpace3
+	{
+	    class MainClass
+	    {
+	        static void RunMain()
+	        {
+	            var instance1 = new AliasToMyClass();
+	            Console.WriteLine(instance1);
+	
+	            var instance2 = new UsingAlias();
+	            Console.WriteLine(instance2);
+	        }
+	    }
+	}
+	// Output:
+	//    You are in NameSpace1.MyClass.
+	//    You are in NameSpace2.MyClass.
+
+	/*
+	class A
+	{
+	    public static int x;
+	}
+	
+	class C
+	{
+	    public void F(int A, object S)
+	    {
+	        // Use global::A.x instead of A.x
+	        global::A.x += A;
+	
+	        // Using ::, S must resolve to a namespace alias:
+	        S::Socket s = S as S::Socket;
+	
+	        // In this form, if S were a class, it would be a compile-time error:
+	        S.Socket s1 = S as S.Socket;
+	    }
+	}
+	*/
+	
+	class ItemFactory<T> where T : new()
+	{
+	    public T GetNewItem()
+	    {
+	        return new T();
+	    }
+	}
+	
+	public class ItemFactory2<T>
+	    where T : IComparable, new()
+	{  }
+	
+	public class AGenericClass<T> where T : IComparable<T> { }
+	
+	public class UsingEnum<T> where T : System.Enum { }
+
+	public class UsingDelegate<T> where T : System.Delegate { }
+	
+	public class Multicaster<T> where T : System.MulticastDelegate { }
+	
+	class MyClass<T, U>
+	    where T : class
+	    where U : struct
+	{ }
+	
+	public abstract class B2
+	{
+	    public void M<T>(T? item) where T : struct { }
+	    public abstract void M<T>(T? item);
+	
+	}
+	
+	public class D2 : B2
+	{
+	    // Without the "default" constraint, the compiler tries to override the first method in B
+	    public override void M<T>(T? item) where T : default { }
+	}
+	
+	#nullable enable
+	    class NotNullContainer<T>
+	        where T : notnull
+	    {
+	    }
+	#nullable restore
+	
+	class UnManagedWrapper<T>
+	    where T : unmanaged
+	{ }
+	
+	public class MyGenericClass<T> where T : IComparable<T>, new()
+	{
+	    // The following line is not possible without new() constraint:
+	    T item = new T();
+	}
+	
+	public class GenericRefStruct<T> where T : allows ref struct
+	{
+	    // Scoped is allowed because T might be a ref struct
+	    public void M(scoped T parm)
+	    {
+	
+	    }
+	}
+	
+	public interface IMyInterface { }
+
+	namespace CodeExample
+	{
+	    class Dictionary<TKey, TVal>
+	        where TKey : IComparable<TKey>
+	        where TVal : IMyInterface
+	    {
+	        public void Add(TKey key, TVal val) { }
+	    }
+	}
+	
+	public class Person
+	{
+	    protected string ssn = "444-55-6666";
+	    protected string name = "John L. Malgraine";
+	
+	    public virtual void GetInfo()
+	    {
+	        Console.WriteLine($"Name: {name}");
+	        Console.WriteLine($"SSN: {ssn}");
+	    }
+	}
+	class Employee : Person
+	{
+	    public readonly string id = "ABC567EFG";
+	    public override void GetInfo()
+	    {
+	        // Calling the base class GetInfo method:
+	        base.GetInfo();
+	        Console.WriteLine($"Employee ID: {id}");
+	    }
+	}
+	
+	class TestClass2
+	{
+	    static void RunMain()
+	    {
+	        Employee E = new Employee();
+	        E.GetInfo();
+	    }
+	}
+	/*
+	Output
+	Name: John L. Malgraine
+	SSN: 444-55-6666
+	Employee ID: ABC567EFG
+	*/
+	
+	public class BaseClass2
+	{
+	    private int num;
+	
+	    public BaseClass2() => 
+	        Console.WriteLine("in BaseClass()");
+	
+	    public BaseClass2(int i)
+	    {
+	        num = i;
+	        Console.WriteLine("in BaseClass(int i)");
+	    }
+	
+	    public int GetNum() => num;
+	}
+	
+	public class DerivedClass2 : BaseClass2
+	{
+	    // This constructor will call BaseClass.BaseClass()
+	    public DerivedClass2() : base() { }
+	
+	    // This constructor will call BaseClass.BaseClass(int i)
+	    public DerivedClass2(int i) : base(i) { }
+	
+	    static void RunMain()
+	    {
+	        DerivedClass2 md = new DerivedClass2();
+	        DerivedClass2 md1 = new DerivedClass2(1);
+	    }
+	}
+	/*
+	Output:
+	in BaseClass()
+	in BaseClass(int i)
+	*/
+	
+	public class Employee2
+	{
+	    private string alias;
+	    private string name;
+	
+	    public Employee2(string name, string alias)
+	    {
+	        // Use this to qualify the members of the class
+	        // instead of the constructor parameters.
+	        this.name = name;
+	        this.alias = alias;
+	    }
+	}
+	
+	class Employee3
+	{
+	    private string name;
+	    private string alias;
+	
+	    // Constructor:
+	    public Employee3(string name, string alias)
+	    {
+	        // Use this to qualify the fields, name and alias:
+	        this.name = name;
+	        this.alias = alias;
+	    }
+	
+	    // Printing method:
+	    public void printEmployee()
+	    {
+	        Console.WriteLine($"""
+	        Name: {name}
+	        Alias: {alias}
+	        """);
+	        // Passing the object to the CalcTax method by using this:
+	        Console.WriteLine($"Taxes: {Tax.CalcTax(this):C}");
+	    }
+	
+	    public decimal Salary { get; } = 3000.00m;
+	}
+	
+	class Tax
+	{
+	    public static decimal CalcTax(Employee3 E)=> 0.08m * E.Salary;
+	}
+	
+	class Program7
+	{
+	    static void RunMain()
+	    {
+	        // Create objects:
+	        Employee3 E1 = new Employee3("Mingda Pan", "mpan");
+	
+	        // Display results:
+	        E1.printEmployee();
+	    }
+	}
+	/*
+	Output:
+	    Name: Mingda Pan
+	    Alias: mpan
+	    Taxes: $240.00
+	 */
+	 
+	 class Program8
+	{
+	    class MyClass
+	    {
+	        public static void MyMethod() { }
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Set a breakpoint here to see that mc = null.
+	        // However, the compiler considers it "unassigned."
+	        // and generates a compiler error if you try to
+	        // use the variable.
+	        MyClass mc;
+	
+	        // Now the variable can be used, but...
+	        mc = null;
+	
+	        // ... a method call on a null object raises
+	        // a run-time NullReferenceException.
+	        // Uncomment the following line to see for yourself.
+	        // mc.MyMethod();
+	
+	        // Now mc has a value.
+	        mc = new MyClass();
+	
+	        // You can call its method.
+	        MyClass.MyMethod();
+	
+	        // Set mc to null again. The object it referenced
+	        // is no longer accessible and can now be garbage-collected.
+	        mc = null;
+	
+	        // A null string is not the same as an empty string.
+	        string s = null;
+	        string t = string.Empty; // Logically the same as ""
+	
+	        // Equals applied to any null object returns false.
+	        Console.WriteLine($"t.Equals(s) is {t.Equals(s)}");
+	
+	        // Equality operator also returns false when one
+	        // operand is null.
+	        Console.WriteLine($"Empty string {(s == t ? "equals" : "does not equal")} null string");
+	
+	        // Returns true.
+	        Console.WriteLine($"null == null is {null == null}");
+	
+	        // A value type cannot be null
+	        // int i = null; // Compiler error!
+	
+	        // Use a nullable value type instead:
+	        int? i = null;
+	
+	        // Keep the console window open in debug mode.
+	    }
 	}
 }
 
