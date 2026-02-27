@@ -25,11 +25,14 @@ using Day = System.DayOfWeek;
 using Range2 = (int Minimum, int Maximum);
 using static System.Console;
 using static System.String;
+using System.Collections.Immutable;
 // Using alias directive for a class.
 using AliasToMyClass = DotnetCSharpLanguageReferenceKeywords.NameSpace1.MyClass;
 using S = System.Net.Sockets;
+
 // Using alias directive for a generic class.
 using UsingAlias = DotnetCSharpLanguageReferenceKeywords.NameSpace2.MyClass<int>;
+
 //using static Color;
 //using Excel = Microsoft.Office.Interop.Excel;
 //using Word = Microsoft.Office.Interop.Word;
@@ -44,7 +47,6 @@ using UsingAlias = DotnetCSharpLanguageReferenceKeywords.NameSpace2.MyClass<int>
 
 namespace ProgramNamespace
 { 
-    
     public class Program { 
         
 		//static void Main() { }
@@ -170,7 +172,1853 @@ namespace ProgramNamespace
     }
 }
 
-//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/add
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/
+namespace DotnetCSharpLanguageReferenceOperators
+{
+	public class ReferenceOperators
+	{
+		public static void RunReferenceOperators()
+		{
+			int a, b, c;
+			a = 7;
+			b = a;
+			c = b++;
+			b = a + b * c;
+			c = a >= 100 ? b : c / 10;
+			a = (int)Math.Sqrt(b * b + c * c);
+			
+			string s = "String literal";
+			char l = s[s.Length - 1];
+			
+			//List<int> numbers = [..collection];
+			//b = numbers.FindLast(n => n > 1);
+			
+			Console.WriteLine("Hello, world!");
+			
+			var r = 2.3;
+			var message = $"The area of a circle with radius {r} is {Math.PI * r * r:F3}.";
+			Console.WriteLine(message);
+			// Output:
+			// The area of a circle with radius 2.3 is 16.619.
+			
+			int[] numbers = { 2, 3, 4, 5 };
+			var maximumSquare = numbers.Max(x => x * x);
+			Console.WriteLine(maximumSquare);
+			// Output:
+			// 25
+			
+			int[] scores = { 90, 97, 78, 68, 85 };
+			IEnumerable<int> highScoresQuery =
+			    from score in scores
+			    where score > 80
+			    orderby score descending
+			    select score;
+			Console.WriteLine(string.Join(" ", highScoresQuery));
+			// Output:
+			// 97 90 85
+			
+			var a1 = 2 + 2 * 2;
+			Console.WriteLine(a1); //  output: 6
+			
+			var a2 = (2 + 2) * 2;
+			Console.WriteLine(a2); //  output: 8
+			
+			int a3 = 13 / 5 / 2;
+			int b3 = 13 / (5 / 2);
+			Console.WriteLine($"a = {a3}, b = {b3}");  // output: a = 1, b = 6
+			
+			int i = 3;
+			Console.WriteLine(i);   // output: 3
+			Console.WriteLine(i++); // output: 3
+			Console.WriteLine(i);   // output: 4
+			
+			double a4 = 1.5;
+			Console.WriteLine(a4);   // output: 1.5
+			Console.WriteLine(++a4); // output: 2.5
+			Console.WriteLine(a4);   // output: 2.5
+			
+			int i1 = 3;
+			Console.WriteLine(i1);   // output: 3
+			Console.WriteLine(i1--); // output: 3
+			Console.WriteLine(i1);   // output: 2
+			
+			double a5 = 1.5;
+			Console.WriteLine(a5);   // output: 1.5
+			Console.WriteLine(--a5); // output: 0.5
+			Console.WriteLine(a5);   // output: 0.5
+			
+			Console.WriteLine(+4);     // output: 4
+
+			Console.WriteLine(-4);     // output: -4
+			Console.WriteLine(-(-4));  // output: 4
+			
+			uint a6 = 5;
+			var b6 = -a6;
+			Console.WriteLine(b6);            // output: -5
+			Console.WriteLine(b6.GetType());  // output: System.Int64
+			
+			Console.WriteLine(-double.NaN);  // output: NaN
+			
+			Console.WriteLine(5 * 2);         // output: 10
+			Console.WriteLine(0.5 * 2.5);     // output: 1.25
+			Console.WriteLine(0.1m * 23.4m);  // output: 2.34
+			
+			Console.WriteLine(13 / 5);    // output: 2
+			Console.WriteLine(-13 / 5);   // output: -2
+			Console.WriteLine(13 / -5);   // output: -2
+			Console.WriteLine(-13 / -5);  // output: 2
+			
+			Console.WriteLine(13 / 5.0);       // output: 2.6
+
+			//int a = 13;
+			//int b = 5;
+			//Console.WriteLine((double)a / b);  // output: 2.6
+			
+			Console.WriteLine(5 % 4);   // output: 1
+			Console.WriteLine(5 % -4);  // output: 1
+			Console.WriteLine(-5 % 4);  // output: -1
+			Console.WriteLine(-5 % -4); // output: -1
+			
+			Console.WriteLine(-5.2f % 2.0f); // output: -1.2
+			Console.WriteLine(5.9 % 3.1);    // output: 2.8
+			Console.WriteLine(5.9m % 3.1m);  // output: 2.8
+			
+			Console.WriteLine(5 + 4);       // output: 9
+			Console.WriteLine(5 + 4.3);     // output: 9.3
+			Console.WriteLine(5.1m + 4.2m); // output: 9.3
+			
+			Console.WriteLine(47 - 3);      // output: 44
+			Console.WriteLine(5 - 4.3);     // output: 0.7
+			Console.WriteLine(7.5m - 2.3m); // output: 5.2
+			
+			/*
+			int a = 5;
+			a += 9;
+			Console.WriteLine(a);  // output: 14
+			
+			a -= 4;
+			Console.WriteLine(a);  // output: 10
+			
+			a *= 2;
+			Console.WriteLine(a);  // output: 20
+			
+			a /= 4;
+			Console.WriteLine(a);  // output: 5
+			
+			a %= 3;
+			Console.WriteLine(a);  // output: 2
+			*/
+			
+			/*
+			byte a = 200;
+			byte b = 100;
+			
+			var c = a + b;
+			Console.WriteLine(c.GetType());  // output: System.Int32
+			Console.WriteLine(c);  // output: 300
+			
+			a += b;
+			Console.WriteLine(a);  // output: 44
+			*/
+			
+			Console.WriteLine(2 + 2 * 2);   // output: 6
+			Console.WriteLine((2 + 2) * 2); // output: 8
+			
+			Console.WriteLine(9 / 5 / 2);   // output: 0
+			Console.WriteLine(9 / (5 / 2)); // output: 4
+			
+			/*
+			int a = int.MinValue;
+			int b = -1;
+			try
+			{
+			    int c = unchecked(a / b);
+			}
+			catch (ArithmeticException)
+			{
+			    Console.WriteLine($"Overflow occurred when dividing {a} by {b}.");
+			}
+			*/
+			
+			/*
+			int a = int.MaxValue;
+			int b = 3;
+			
+			Console.WriteLine(unchecked(a + b));  // output: -2147483646
+			try
+			{
+			    int d = checked(a + b);
+			}
+			catch(OverflowException)
+			{
+			    Console.WriteLine($"Overflow occurred when adding {a} to {b}.");
+			}
+			*/
+			
+			/*
+			double a = 1.0 / 0.0;
+			Console.WriteLine(a);                    // output: Infinity
+			Console.WriteLine(double.IsInfinity(a)); // output: True
+			
+			Console.WriteLine(double.MaxValue + double.MaxValue); // output: Infinity
+			
+			double b = 0.0 / 0.0;
+			Console.WriteLine(b);                // output: NaN
+			Console.WriteLine(double.IsNaN(b));  // output: True
+			*/
+			
+			/*
+			Console.WriteLine(.41f % .2f); // output: 0.00999999
+
+			double a = 0.1;
+			double b = 3 * a;
+			Console.WriteLine(b == 0.3);   // output: False
+			Console.WriteLine(b - 0.3);    // output: 5.55111512312578E-17
+			
+			decimal c = 1 / 3.0m;
+			decimal d = 3 * c;
+			Console.WriteLine(d == 1.0m);  // output: False
+			Console.WriteLine(d);          // output: 0.9999999999999999999999999999
+			*/
+			
+			bool passed = false;
+			Console.WriteLine(!passed);  // output: True
+			Console.WriteLine(!true);    // output: False
+			
+			/*
+			bool SecondOperand()
+			{
+			    Console.WriteLine("Second operand is evaluated.");
+			    return true;
+			}
+			
+			bool a = false & SecondOperand();
+			Console.WriteLine(a);
+			// Output:
+			// Second operand is evaluated.
+			// False
+			
+			bool b = true & SecondOperand();
+			Console.WriteLine(b);
+			// Output:
+			// Second operand is evaluated.
+			// True
+			*/
+			
+			Console.WriteLine(true ^ true);    // output: False
+			Console.WriteLine(true ^ false);   // output: True
+			Console.WriteLine(false ^ true);   // output: True
+			Console.WriteLine(false ^ false);  // output: False
+			
+			/*
+			bool SecondOperand()
+			{
+			    Console.WriteLine("Second operand is evaluated.");
+			    return true;
+			}
+			
+			bool a = true | SecondOperand();
+			Console.WriteLine(a);
+			// Output:
+			// Second operand is evaluated.
+			// True
+			
+			bool b = false | SecondOperand();
+			Console.WriteLine(b);
+			// Output:
+			// Second operand is evaluated.
+			// True
+			*/
+			
+			/*
+			bool SecondOperand()
+			{
+			    Console.WriteLine("Second operand is evaluated.");
+			    return true;
+			}
+			
+			bool a = false && SecondOperand();
+			Console.WriteLine(a);
+			// Output:
+			// False
+			
+			bool b = true && SecondOperand();
+			Console.WriteLine(b);
+			// Output:
+			// Second operand is evaluated.
+			// True
+			*/
+			
+			/*
+			bool SecondOperand()
+			{
+			    Console.WriteLine("Second operand is evaluated.");
+			    return true;
+			}
+			
+			bool a = true || SecondOperand();
+			Console.WriteLine(a);
+			// Output:
+			// True
+			
+			bool b = false || SecondOperand();
+			Console.WriteLine(b);
+			// Output:
+			// Second operand is evaluated.
+			// True
+			*/
+			
+			bool? test = null;
+			Display(!test);         // output: null
+			Display(test ^ false);  // output: null
+			Display(test ^ null);   // output: null
+			Display(true ^ null);   // output: null
+			
+			void Display(bool? b) => Console.WriteLine(b is null ? "null" : b.Value.ToString());
+			
+			/*
+			bool test = true;
+			test &= false;
+			Console.WriteLine(test);  // output: False
+			
+			test |= true;
+			Console.WriteLine(test);  // output: True
+			
+			test ^= false;
+			Console.WriteLine(test);  // output: True
+			*/
+			
+			/*
+			Console.WriteLine(true | true & false);   // output: True
+			Console.WriteLine((true | true) & false); // output: False
+			
+			bool Operand(string name, bool value)
+			{
+			    Console.WriteLine($"Operand {name} is evaluated.");
+			    return value;
+			}
+			
+			var byDefaultPrecedence = Operand("A", true) || Operand("B", true) && Operand("C", false);
+			Console.WriteLine(byDefaultPrecedence);
+			// Output:
+			// Operand A is evaluated.
+			// True
+			
+			var changedOrder = (Operand("A", true) || Operand("B", true)) && Operand("C", false);
+			Console.WriteLine(changedOrder);
+			// Output:
+			// Operand A is evaluated.
+			// Operand C is evaluated.
+			// False
+			*/
+			
+			/*
+			uint a = 0b_0000_1111_0000_1111_0000_1111_0000_1100;
+			uint b = ~a;
+			Console.WriteLine(Convert.ToString(b, toBase: 2));
+			// Output:
+			// 11110000111100001111000011110011
+			*/
+			
+			/*
+			uint x = 0b_1100_1001_0000_0000_0000_0000_0001_0001;
+			Console.WriteLine($"Before: {Convert.ToString(x, toBase: 2)}");
+			
+			uint y = x << 4;
+			Console.WriteLine($"After:  {Convert.ToString(y, toBase: 2)}");
+			// Output:
+			// Before: 11001001000000000000000000010001
+			// After:  10010000000000000000000100010000
+			*/
+			
+			/*
+			byte a = 0b_1111_0001;
+
+			var b = a << 8;
+			Console.WriteLine(b.GetType());
+			Console.WriteLine($"Shifted byte: {Convert.ToString(b, toBase: 2)}");
+			// Output:
+			// System.Int32
+			// Shifted byte: 1111000100000000
+			*/
+			
+			/*
+			uint x = 0b_1001;
+			Console.WriteLine($"Before: {Convert.ToString(x, toBase: 2), 4}");
+			
+			uint y = x >> 2;
+			Console.WriteLine($"After:  {Convert.ToString(y, toBase: 2).PadLeft(4, '0'), 4}");
+			// Output:
+			// Before: 1001
+			// After:  0010
+			*/
+			
+			/*
+			int a = int.MinValue;
+			Console.WriteLine($"Before: {Convert.ToString(a, toBase: 2)}");
+			
+			int b = a >> 3;
+			Console.WriteLine($"After:  {Convert.ToString(b, toBase: 2)}");
+			// Output:
+			// Before: 10000000000000000000000000000000
+			// After:  11110000000000000000000000000000
+			*/
+			
+			/*
+			uint c = 0b_1000_0000_0000_0000_0000_0000_0000_0000;
+			Console.WriteLine($"Before: {Convert.ToString(c, toBase: 2), 32}");
+			
+			uint d = c >> 3;
+			Console.WriteLine($"After:  {Convert.ToString(d, toBase: 2).PadLeft(32, '0'), 32}");
+			// Output:
+			// Before: 10000000000000000000000000000000
+			// After:  00010000000000000000000000000000
+			*/
+			
+			/*
+			int x = -8;
+			Console.WriteLine($"Before:    {x,11}, hex: {x,8:x}, binary: {Convert.ToString(x, toBase: 2), 32}");
+			
+			int y = x >> 2;
+			Console.WriteLine($"After  >>: {y,11}, hex: {y,8:x}, binary: {Convert.ToString(y, toBase: 2), 32}");
+			
+			int z = x >>> 2;
+			Console.WriteLine($"After >>>: {z,11}, hex: {z,8:x}, binary: {Convert.ToString(z, toBase: 2).PadLeft(32, '0'), 32}");
+			// Output:
+			// Before:             -8, hex: fffffff8, binary: 11111111111111111111111111111000
+			// After  >>:          -2, hex: fffffffe, binary: 11111111111111111111111111111110
+			// After >>>:  1073741822, hex: 3ffffffe, binary: 00111111111111111111111111111110
+			*/
+			
+			/*
+			uint a = 0b_1111_1000;
+			uint b = 0b_1001_1101;
+			uint c = a & b;
+			Console.WriteLine(Convert.ToString(c, toBase: 2));
+			// Output:
+			// 10011000
+			*/
+			
+			/*
+			uint a = 0b_1111_1000;
+			uint b = 0b_0001_1100;
+			uint c = a ^ b;
+			Console.WriteLine(Convert.ToString(c, toBase: 2));
+			// Output:
+			// 11100100
+			*/
+			
+			/*
+			uint a = 0b_1010_0000;
+			uint b = 0b_1001_0001;
+			uint c = a | b;
+			Console.WriteLine(Convert.ToString(c, toBase: 2));
+			// Output:
+			// 10110001
+			*/
+			
+			/*
+			uint INITIAL_VALUE = 0b_1111_1000;
+
+			uint a = INITIAL_VALUE;
+			a &= 0b_1001_1101; 
+			Display(a);  // output: 10011000
+			
+			a = INITIAL_VALUE;
+			a |= 0b_0011_0001; 
+			Display(a);  // output: 11111001
+			
+			a = INITIAL_VALUE;
+			a ^= 0b_1000_0000;
+			Display(a);  // output: 01111000
+			
+			a = INITIAL_VALUE;
+			a <<= 2;
+			Display(a);  // output: 1111100000
+			
+			a = INITIAL_VALUE;
+			a >>= 4;
+			Display(a);  // output: 00001111
+			
+			a = INITIAL_VALUE;
+			a >>>= 4;
+			Display(a);  // output: 00001111
+			
+			void Display(uint x) => Console.WriteLine($"{Convert.ToString(x, toBase: 2).PadLeft(8, '0'), 8}");
+			*/
+			
+			/*
+			byte x = 0b_1111_0001;
+
+			int b = x << 8;
+			Console.WriteLine($"{Convert.ToString(b, toBase: 2)}");  // output: 1111000100000000
+			
+			x <<= 8;
+			Console.WriteLine(x);  // output: 0
+			*/
+			
+			/*
+			uint a = 0b_1101;
+			uint b = 0b_1001;
+			uint c = 0b_1010;
+			
+			uint d1 = a | b & c;
+			Display(d1);  // output: 1101
+			
+			uint d2 = (a | b) & c;
+			Display(d2);  // output: 1000
+			
+			void Display(uint x) => Console.WriteLine($"{Convert.ToString(x, toBase: 2), 4}");
+			*/
+			
+			/*
+			int count1 = 0b_0000_0001;
+			int count2 = 0b_1110_0001;
+			
+			int a = 0b_0001;
+			Console.WriteLine($"{a} << {count1} is {a << count1}; {a} << {count2} is {a << count2}");
+			// Output:
+			// 1 << 1 is 2; 1 << 225 is 2
+			
+			int b = 0b_0100;
+			Console.WriteLine($"{b} >> {count1} is {b >> count1}; {b} >> {count2} is {b >> count2}");
+			// Output:
+			// 4 >> 1 is 2; 4 >> 225 is 2
+			
+			int count = -31;
+			int c = 0b_0001;
+			Console.WriteLine($"{c} << {count} is {c << count}");
+			// Output:
+			// 1 << -31 is 2
+			*/
+			
+			Span<string> weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+			foreach (var day in weekDays)
+			{
+			    Console.WriteLine(day);
+			}
+			
+			string hydrogen = "H";
+			string helium = "He";
+			string lithium = "Li";
+			string beryllium = "Be";
+			string boron = "B";
+			string carbon = "C";
+			string nitrogen = "N";
+			string oxygen = "O";
+			string fluorine = "F";
+			string neon = "Ne";
+			string[] elements = [hydrogen, helium, lithium, beryllium, boron, carbon, nitrogen, oxygen, fluorine, neon];
+			foreach (var element in elements)
+			{
+			    Console.WriteLine(element);
+			}
+			
+			string[] vowels = ["a", "e", "i", "o", "u"];
+			string[] consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+			                       "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"];
+			string[] alphabet = [.. vowels, .. consonants, "y"];
+			
+			
+			
+			
+			
+		}
+		
+		// Initialize private field:
+		private static readonly ImmutableArray<string> _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		
+		// property with expression body:
+		public IEnumerable<int> MaxDays =>
+		    [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		
+		public int Sum(IEnumerable<int> values) =>
+		    values.Sum();
+		
+		public void Example()
+		{
+		    // As a parameter:
+		    int sum = Sum([1, 2, 3, 4, 5]);
+		}
+	}
+	
+	public record struct Point(int X, int Y)
+	{
+	    public static Point operator checked +(Point left, Point right)
+	    {
+	        checked
+	        {
+	            return new Point(left.X + right.X, left.Y + right.Y);
+	        }
+	    }
+	    
+	    public static Point operator +(Point left, Point right)
+	    {
+	        return new Point(left.X + right.X, left.Y + right.Y);
+	    }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/query-keywords
+namespace DotnetCSharpLanguageReferenceKeywordsQueryKeywords
+{
+	public class QueryKeywords
+	{
+		public static void RunQueryKeywords()
+		{
+			/*
+			// Query variable is an IEnumerable<IGrouping<char, Student>>
+			var studentQuery1 =
+			    from student in students
+			    group student by student.Last[0];
+				
+			// Group students by the first letter of their last name
+			// Query variable is an IEnumerable<IGrouping<char, Student>>
+			var studentQuery2 =
+			    from student in students
+			    group student by student.Last[0] into g
+			    orderby g.Key
+			    select g;
+				
+			// Iterate group items with a nested foreach. This IGrouping encapsulates
+			// a sequence of Student objects, and a Key of type char.
+			// For convenience, var can also be used in the foreach statement.
+			foreach (IGrouping<char, Student> studentGroup in studentQuery2)
+			{
+			     Console.WriteLine(studentGroup.Key);
+			     // Explicit type for student could also be used here.
+			     foreach (var student in studentGroup)
+			     {
+			         Console.WriteLine("   {0}, {1}", student.Last, student.First);
+			     }
+			 }
+			 
+			 // Same as previous example except we use the entire last name as a key.
+			// Query variable is an IEnumerable<IGrouping<string, Student>>
+			var studentQuery3 =
+			    from student in students
+			    group student by student.Last;
+				
+			//group person by new {name = person.surname, city = person.city};
+			
+			var innerJoinQuery =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID
+			    select new { ProductName = prod.Name, Category = category.Name }; //produces flat sequence
+				
+			var innerGroupJoinQuery =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID into prodGroup
+			    select new { CategoryName = category.Name, Products = prodGroup };
+				
+			var innerGroupJoinQuery2 =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID into prodGroup
+			    from prod2 in prodGroup
+			    where prod2.UnitPrice > 2.50M
+			    select prod2;
+				
+			var leftOuterJoinQuery =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID into prodGroup
+			    from item in prodGroup.DefaultIfEmpty(new Product { Name = String.Empty, CategoryID = 0 })
+			    select new { CatName = category.Name, ProdName = item.Name };
+			
+			IEnumerable<string> sortAscendingQuery =
+			    from vegetable in vegetables
+			    orderby vegetable ascending
+			    select vegetable;
+				
+			IEnumerable<string> sortDescendingQuery =
+			    from vegetable in vegetables
+			    orderby vegetable descending
+			    select vegetable;
+				
+			var innerJoinQuery =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID
+			    select new { ProductName = prod.Name, Category = category.Name };
+				
+			var innerJoinQuery =
+			    from category in categories
+			    join prod in products on category.ID equals prod.CategoryID
+			    select new { ProductName = prod.Name, Category = category.Name };
+				
+			var query = from student in students
+            			group student by student.LastName[0];
+			*/
+		}
+	}
+	
+	class LowNums
+	{
+	    static void RunMain()
+	    {
+	        // A simple data source.
+	        int[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+	
+	        // Create the query.
+	        // lowNums is an IEnumerable<int>
+	        var lowNums = from num in numbers
+	            where num < 5
+	            select num;
+	
+	        // Execute the query.
+	        foreach (int i in lowNums)
+	        {
+	            Console.Write(i + " ");
+	        }
+	    }
+	}
+	// Output: 4 1 3 2 0
+	
+	class CompoundFrom
+	{
+	    // The element type of the data source.
+	    public class Student
+	    {
+	        public required string LastName { get; init; }
+	        public required List<int> Scores {get; init;}
+	    }
+	
+	    static void RunMain()
+	    {
+	
+	        // Use a collection initializer to create the data source. Note that
+	        // each element in the list contains an inner sequence of scores.
+	        List<Student> students =
+	        [
+	           new Student {LastName="Omelchenko", Scores= [97, 72, 81, 60]},
+	           new Student {LastName="O'Donnell", Scores= [75, 84, 91, 39]},
+	           new Student {LastName="Mortensen", Scores= [88, 94, 65, 85]},
+	           new Student {LastName="Garcia", Scores= [97, 89, 85, 82]},
+	           new Student {LastName="Beebe", Scores= [35, 72, 91, 70]}
+	        ];
+	
+	        // Use a compound from to access the inner sequence within each element.
+	        // Note the similarity to a nested foreach statement.
+	        var scoreQuery = from student in students
+	                         from score in student.Scores
+	                            where score > 90
+	                            select new { Last = student.LastName, score };
+	
+	        // Execute the queries.
+	        Console.WriteLine("scoreQuery:");
+	        // Rest the mouse pointer on scoreQuery in the following line to
+	        // see its type. The type is IEnumerable<'a>, where 'a is an
+	        // anonymous type defined as new {string Last, int score}. That is,
+	        // each instance of this anonymous type has two members, a string
+	        // (Last) and an int (score).
+	        foreach (var student in scoreQuery)
+	        {
+	            Console.WriteLine($"{student.Last} Score: {student.score}");
+	        }
+	    }
+	}
+	/*
+	scoreQuery:
+	Omelchenko Score: 97
+	O'Donnell Score: 91
+	Mortensen Score: 94
+	Garcia Score: 97
+	Beebe Score: 91
+	*/
+	
+	class CompoundFrom2
+	{
+	    static void RunMain()
+	    {
+	        char[] upperCase = ['A', 'B', 'C'];
+	        char[] lowerCase = ['x', 'y', 'z'];
+	
+	        // The type of joinQuery1 is IEnumerable<'a>, where 'a
+	        // indicates an anonymous type. This anonymous type has two
+	        // members, upper and lower, both of type char.
+	        var joinQuery1 =
+	            from upper in upperCase
+	            from lower in lowerCase
+	            select new { upper, lower };
+	
+	        // The type of joinQuery2 is IEnumerable<'a>, where 'a
+	        // indicates an anonymous type. This anonymous type has two
+	        // members, upper and lower, both of type char.
+	        var joinQuery2 =
+	            from lower in lowerCase
+	            where lower != 'x'
+	            from upper in upperCase
+	            select new { lower, upper };
+	
+	        // Execute the queries.
+	        Console.WriteLine("Cross join:");
+	        // Rest the mouse pointer on joinQuery1 to verify its type.
+	        foreach (var pair in joinQuery1)
+	        {
+	            Console.WriteLine($"{pair.upper} is matched to {pair.lower}");
+	        }
+	
+	        Console.WriteLine("Filtered non-equijoin:");
+	        // Rest the mouse pointer over joinQuery2 to verify its type.
+	        foreach (var pair in joinQuery2)
+	        {
+	            Console.WriteLine($"{pair.lower} is matched to {pair.upper}");
+	        }
+	
+	        // Keep the console window open in debug mode.
+	        Console.WriteLine("Press any key to exit.");
+	        Console.ReadKey();
+	    }
+	}
+	/* Output:
+	        Cross join:
+	        A is matched to x
+	        A is matched to y
+	        A is matched to z
+	        B is matched to x
+	        B is matched to y
+	        B is matched to z
+	        C is matched to x
+	        C is matched to y
+	        C is matched to z
+	        Filtered non-equijoin:
+	        y is matched to A
+	        y is matched to B
+	        y is matched to C
+	        z is matched to A
+	        z is matched to B
+	        z is matched to C
+	        */
+	
+	class WhereSample
+	{
+	    static void RunMain()
+	    {
+	        // Simple data source. Arrays support IEnumerable<T>.
+	        int[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+	
+	        // Simple query with one predicate in where clause.
+	        var queryLowNums =
+	            from num in numbers
+	            where num < 5
+	            select num;
+	
+	        // Execute the query.
+	        foreach (var s in queryLowNums)
+	        {
+	            Console.Write(s.ToString() + " ");
+	        }
+	    }
+	}
+	//Output: 4 1 3 2 0
+	
+	class WhereSample2
+	{
+		static void RunMain()
+		{
+		    // Data source.
+		    int[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+		
+		    // Create the query with two predicates in where clause.
+		    var queryLowNums2 =
+		        from num in numbers
+		        where num < 5 && num % 2 == 0
+		        select num;
+		
+		    // Execute the query
+		    foreach (var s in queryLowNums2)
+		    {
+		        Console.Write(s.ToString() + " ");
+		    }
+		    Console.WriteLine();
+		
+		    // Create the query with two where clause.
+		    var queryLowNums3 =
+		        from num in numbers
+		        where num < 5
+		        where num % 2 == 0
+		        select num;
+		
+		    // Execute the query
+		    foreach (var s in queryLowNums3)
+		    {
+		        Console.Write(s.ToString() + " ");
+		    }
+		}
+	}
+	// Output:
+	// 4 2 0
+	// 4 2 0
+	
+	class WhereSample3
+	{
+	    static void RunMain()
+	    {
+	        // Data source
+	        int[] numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+	
+	        // Create the query with a method call in the where clause.
+	        // Note: This won't work in LINQ to SQL unless you have a
+	        // stored procedure that is mapped to a method by this name.
+	        var queryEvenNums =
+	            from num in numbers
+	            where IsEven(num)
+	            select num;
+	
+	         // Execute the query.
+	        foreach (var s in queryEvenNums)
+	        {
+	            Console.Write(s.ToString() + " ");
+	        }
+	    }
+	
+	    // Method may be instance method or static method.
+	    static bool IsEven(int i) => i % 2 == 0;
+	}
+	//Output: 4 8 6 2 0
+	
+	class SelectSample1
+	{
+	    static void RunMain()
+	    {
+	        //Create the data source
+	        List<int> Scores = [97, 92, 81, 60];
+	
+	        // Create the query.
+	        IEnumerable<int> queryHighScores =
+	            from score in Scores
+	            where score > 80
+	            select score;
+	
+	        // Execute the query.
+	        foreach (int i in queryHighScores)
+	        {
+	            Console.Write(i + " ");
+	        }
+	    }
+	}
+	//Output: 97 92 81
+	
+	class SelectSample2
+	{
+	    // Define some classes
+	    public class Student
+	    {
+	        public required string First { get; init; }
+	        public required string Last { get; init; }
+	        public required int ID { get; init; }
+	        public required List<int> Scores;
+	        public ContactInfo? GetContactInfo(SelectSample2 app, int id)
+	        {
+	            ContactInfo? cInfo =
+	                (from ci in app.contactList
+	                where ci.ID == id
+	                select ci)
+	                .FirstOrDefault();
+	
+	            return cInfo;
+	        }
+	
+	        public override string ToString() => $"{First} {Last}:{ID}";
+	    }
+	
+	    public class ContactInfo
+	    {
+	        public required int ID { get; init; }
+	        public required string Email { get; init; }
+	        public required string Phone { get; init; }
+	        public override string ToString() => $"{Email},{Phone}";
+	    }
+	
+	    public class ScoreInfo
+	    {
+	        public double Average { get; init; }
+	        public int ID { get; init; }
+	    }
+	
+	    // The primary data source
+	    List<Student> students =
+	    [
+	         new Student {First="Svetlana", Last="Omelchenko", ID=111, Scores= new List<int>() {97, 92, 81, 60}},
+	         new Student {First="Claire", Last="O'Donnell", ID=112, Scores= new List<int>() {75, 84, 91, 39}},
+	         new Student {First="Sven", Last="Mortensen", ID=113, Scores= new List<int>() {88, 94, 65, 91}},
+	         new Student {First="Cesar", Last="Garcia", ID=114, Scores= new List<int>() {97, 89, 85, 82}},
+	    ];
+	
+	    // Separate data source for contact info.
+	    List<ContactInfo> contactList =
+	    [
+	        new ContactInfo {ID=111, Email="SvetlanO@Contoso.com", Phone="206-555-0108"},
+	        new ContactInfo {ID=112, Email="ClaireO@Contoso.com", Phone="206-555-0298"},
+	        new ContactInfo {ID=113, Email="SvenMort@Contoso.com", Phone="206-555-1130"},
+	        new ContactInfo {ID=114, Email="CesarGar@Contoso.com", Phone="206-555-0521"}
+	    ];
+	
+	    static void RunMain(string[] args)
+	    {
+	        SelectSample2 app = new SelectSample2();
+	
+	        // Produce a filtered sequence of unmodified Students.
+	        IEnumerable<Student> studentQuery1 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student;
+	
+	        Console.WriteLine("Query1: select range_variable");
+	        foreach (Student s in studentQuery1)
+	        {
+	            Console.WriteLine(s.ToString());
+	        }
+	
+	        // Produce a filtered sequence of elements that contain
+	        // only one property of each Student.
+	        IEnumerable<String> studentQuery2 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student.Last;
+	
+	        Console.WriteLine("\r\n studentQuery2: select range_variable.Property");
+	        foreach (string s in studentQuery2)
+	        {
+	            Console.WriteLine(s);
+	        }
+	
+	        // Produce a filtered sequence of objects created by
+	        // a method call on each Student.
+	        IEnumerable<ContactInfo> studentQuery3 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student.GetContactInfo(app, student.ID);
+	
+	        Console.WriteLine("\r\n studentQuery3: select range_variable.Method");
+	        foreach (ContactInfo ci in studentQuery3)
+	        {
+	            Console.WriteLine(ci.ToString());
+	        }
+	
+	        // Produce a filtered sequence of ints from
+	        // the internal array inside each Student.
+	        IEnumerable<int> studentQuery4 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student.Scores[0];
+	
+	        Console.WriteLine("\r\n studentQuery4: select range_variable[index]");
+	        foreach (int i in studentQuery4)
+	        {
+	            Console.WriteLine($"First score = {i}");
+	        }
+	
+	        // Produce a filtered sequence of doubles
+	        // that are the result of an expression.
+	        IEnumerable<double> studentQuery5 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student.Scores[0] * 1.1;
+	
+	        Console.WriteLine("\r\n studentQuery5: select expression");
+	        foreach (double d in studentQuery5)
+	        {
+	            Console.WriteLine($"Adjusted first score = {d}");
+	        }
+	
+	        // Produce a filtered sequence of doubles that are
+	        // the result of a method call.
+	        IEnumerable<double> studentQuery6 =
+	            from student in app.students
+	            where student.ID > 111
+	            select student.Scores.Average();
+	
+	        Console.WriteLine("\r\n studentQuery6: select expression2");
+	        foreach (double d in studentQuery6)
+	        {
+	            Console.WriteLine($"Average = {d}");
+	        }
+	
+	        // Produce a filtered sequence of anonymous types
+	        // that contain only two properties from each Student.
+	        var studentQuery7 =
+	            from student in app.students
+	            where student.ID > 111
+	            select new { student.First, student.Last };
+	
+	        Console.WriteLine("\r\n studentQuery7: select new anonymous type");
+	        foreach (var item in studentQuery7)
+	        {
+	            Console.WriteLine("{0}, {1}", item.Last, item.First);
+	        }
+	
+	        // Produce a filtered sequence of named objects that contain
+	        // a method return value and a property from each Student.
+	        // Use named types if you need to pass the query variable
+	        // across a method boundary.
+	        IEnumerable<ScoreInfo> studentQuery8 =
+	            from student in app.students
+	            where student.ID > 111
+	            select new ScoreInfo
+	            {
+	                Average = student.Scores.Average(),
+	                ID = student.ID
+	            };
+	
+	        Console.WriteLine("\r\n studentQuery8: select new named type");
+	        foreach (ScoreInfo si in studentQuery8)
+	        {
+	            Console.WriteLine("ID = {0}, Average = {1}", si.ID, si.Average);
+	        }
+	
+	        // Produce a filtered sequence of students who appear on a contact list
+	        // and whose average is greater than 85.
+	        IEnumerable<ContactInfo> studentQuery9 =
+	            from student in app.students
+	            where student.Scores.Average() > 85
+	            join ci in app.contactList on student.ID equals ci.ID
+	            select ci;
+	
+	        Console.WriteLine("\r\n studentQuery9: select result of join clause");
+	        foreach (ContactInfo ci in studentQuery9)
+	        {
+	            Console.WriteLine("ID = {0}, Email = {1}", ci.ID, ci.Email);
+	        }
+	    }
+	}
+	/* Output
+	    Query1: select range_variable
+	    Claire O'Donnell:112
+	    Sven Mortensen:113
+	    Cesar Garcia:114
+	
+	    studentQuery2: select range_variable.Property
+	    O'Donnell
+	    Mortensen
+	    Garcia
+	
+	    studentQuery3: select range_variable.Method
+	    ClaireO@Contoso.com,206-555-0298
+	    SvenMort@Contoso.com,206-555-1130
+	    CesarGar@Contoso.com,206-555-0521
+	
+	    studentQuery4: select range_variable[index]
+	    First score = 75
+	    First score = 88
+	    First score = 97
+	
+	    studentQuery5: select expression
+	    Adjusted first score = 82.5
+	    Adjusted first score = 96.8
+	    Adjusted first score = 106.7
+	
+	    studentQuery6: select expression2
+	    Average = 72.25
+	    Average = 84.5
+	    Average = 88.25
+	
+	    studentQuery7: select new anonymous type
+	    O'Donnell, Claire
+	    Mortensen, Sven
+	    Garcia, Cesar
+	
+	    studentQuery8: select new named type
+	    ID = 112, Average = 72.25
+	    ID = 113, Average = 84.5
+	    ID = 114, Average = 88.25
+	
+	    studentQuery9: select result of join clause
+	    ID = 114, Email = CesarGar@Contoso.com
+	*/
+	
+	class GroupSample1
+	{
+	    // The element type of the data source.
+	    public class Student
+	    {
+	        public required string First { get; init; }
+	        public required string Last { get; init; }
+	        public required int ID { get; init; }
+	        public required List<int> Scores;
+	    }
+	
+	    public static List<Student> GetStudents()
+	    {
+	        // Use a collection initializer to create the data source. Note that each element
+	        //  in the list contains an inner sequence of scores.
+	        List<Student> students =
+	        [
+	           new Student {First="Svetlana", Last="Omelchenko", ID=111, Scores= [97, 72, 81, 60]},
+	           new Student {First="Claire", Last="O'Donnell", ID=112, Scores= [75, 84, 91, 39]},
+	           new Student {First="Sven", Last="Mortensen", ID=113, Scores= [99, 89, 91, 95]},
+	           new Student {First="Cesar", Last="Garcia", ID=114, Scores= [72, 81, 65, 84]},
+	           new Student {First="Debra", Last="Garcia", ID=115, Scores= [97, 89, 85, 82]}
+	        ];
+	
+	        return students;
+	    }
+	
+	    static void RunMain()
+	    {
+	        // Obtain the data source.
+	        List<Student> students = GetStudents();
+	
+	        // Group by true or false.
+	        // Query variable is an IEnumerable<IGrouping<bool, Student>>
+	        var booleanGroupQuery =
+	            from student in students
+	            group student by student.Scores.Average() >= 80; //pass or fail!
+	
+	        // Execute the query and access items in each group
+	        foreach (var studentGroup in booleanGroupQuery)
+	        {
+	            Console.WriteLine(studentGroup.Key == true ? "High averages" : "Low averages");
+	            foreach (var student in studentGroup)
+	            {
+	                Console.WriteLine("   {0}, {1}:{2}", student.Last, student.First, student.Scores.Average());
+	            }
+	        }
+	    }
+	}
+	/* Output:
+	  Low averages
+	   Omelchenko, Svetlana:77.5
+	   O'Donnell, Claire:72.25
+	   Garcia, Cesar:75.5
+	  High averages
+	   Mortensen, Sven:93.5
+	   Garcia, Debra:88.25
+	*/
+	
+	class GroupSample2
+	{
+	    // The element type of the data source.
+	    public class Student
+	    {
+	        public required string First { get; init; }
+	        public required string Last { get; init; }
+	        public required int ID { get; init; }
+	        public required List<int> Scores;
+	    }
+	
+	    public static List<Student> GetStudents()
+	    {
+	        // Use a collection initializer to create the data source. Note that each element
+	        //  in the list contains an inner sequence of scores.
+	        List<Student> students =
+	        [
+	           new Student {First="Svetlana", Last="Omelchenko", ID=111, Scores= [97, 72, 81, 60]},
+	           new Student {First="Claire", Last="O'Donnell", ID=112, Scores= [75, 84, 91, 39]},
+	           new Student {First="Sven", Last="Mortensen", ID=113, Scores= [99, 89, 91, 95]},
+	           new Student {First="Cesar", Last="Garcia", ID=114, Scores= [72, 81, 65, 84]},
+	           new Student {First="Debra", Last="Garcia", ID=115, Scores= [97, 89, 85, 82]}
+	        ];
+	
+	        return students;
+	    }
+	
+	    // This method groups students into percentile ranges based on their
+	    // grade average. The Average method returns a double, so to produce a whole
+	    // number it is necessary to cast to int before dividing by 10.
+	    static void RunMain()
+	    {
+	        // Obtain the data source.
+	        List<Student> students = GetStudents();
+	
+	        // Write the query.
+	        var studentQuery =
+	            from student in students
+	            let avg = (int)student.Scores.Average()
+	            group student by (avg / 10) into g
+	            orderby g.Key
+	            select g;
+	
+	        // Execute the query.
+	        foreach (var studentGroup in studentQuery)
+	        {
+	            int temp = studentGroup.Key * 10;
+	            Console.WriteLine($"Students with an average between {temp} and {temp + 10}");
+	            foreach (var student in studentGroup)
+	            {
+	                Console.WriteLine("   {0}, {1}:{2}", student.Last, student.First, student.Scores.Average());
+	            }
+	        }
+	    }
+	}
+	/* Output:
+	     Students with an average between 70 and 80
+	       Omelchenko, Svetlana:77.5
+	       O'Donnell, Claire:72.25
+	       Garcia, Cesar:75.5
+	     Students with an average between 80 and 90
+	       Garcia, Debra:88.25
+	     Students with an average between 90 and 100
+	       Mortensen, Sven:93.5
+	 */
+	 
+	 class GroupExample1
+	{
+	    static void RunMain()
+	    {
+	        // Create a data source.
+	        string[] words = ["blueberry", "chimpanzee", "abacus", "banana", "apple", "cheese"];
+	
+	        // Create the query.
+	        var wordGroups =
+	            from w in words
+	            group w by w[0];
+	
+	        // Execute the query.
+	        foreach (var wordGroup in wordGroups)
+	        {
+	            Console.WriteLine($"Words that start with the letter '{wordGroup.Key}':");
+	            foreach (var word in wordGroup)
+	            {
+	                Console.WriteLine(word);
+	            }
+	        }
+	    }
+	}
+	/* Output:
+	      Words that start with the letter 'b':
+	        blueberry
+	        banana
+	      Words that start with the letter 'c':
+	        chimpanzee
+	        cheese
+	      Words that start with the letter 'a':
+	        abacus
+	        apple
+	     */
+	
+	class GroupClauseExample2
+	{
+	    static void RunMain()
+	    {
+	        // Create the data source.
+	        string[] words2 = ["blueberry", "chimpanzee", "abacus", "banana", "apple", "cheese", "elephant", "umbrella", "anteater"];
+	
+	        // Create the query.
+	        var wordGroups2 =
+	            from w in words2
+	            group w by w[0] into grps
+	            where (grps.Key == 'a' || grps.Key == 'e' || grps.Key == 'i'
+	                   || grps.Key == 'o' || grps.Key == 'u')
+	            select grps;
+	
+	        // Execute the query.
+	        foreach (var wordGroup in wordGroups2)
+	        {
+	            Console.WriteLine($"Groups that start with a vowel: {wordGroup.Key}");
+	            foreach (var word in wordGroup)
+	            {
+	                Console.WriteLine($"   {word}");
+	            }
+	        }
+	    }
+	}
+	/* Output:
+	    Groups that start with a vowel: a
+	        abacus
+	        apple
+	        anteater
+	    Groups that start with a vowel: e
+	        elephant
+	    Groups that start with a vowel: u
+	        umbrella
+	*/
+	
+	class IntoSample1
+	{
+	    static void RunMain()
+	    {
+	
+	        // Create a data source.
+	        string[] words = ["apples", "blueberries", "oranges", "bananas", "apricots"];
+	
+	        // Create the query.
+	        var wordGroups1 =
+	            from w in words
+	            group w by w[0] into fruitGroup
+	            where fruitGroup.Count() >= 2
+	            select new { FirstLetter = fruitGroup.Key, Words = fruitGroup.Count() };
+	
+	        // Execute the query. Note that we only iterate over the groups,
+	        // not the items in each group
+	        foreach (var item in wordGroups1)
+	        {
+	            Console.WriteLine($" {item.FirstLetter} has {item.Words} elements.");
+	        }
+	    }
+	}
+	/* Output:
+	   a has 2 elements.
+	   b has 2 elements.
+	*/
+	
+	class OrderbySample1
+	{
+	    static void RunMain()
+	    {
+	        // Create a delicious data source.
+	        string[] fruits = ["cherry", "apple", "blueberry"];
+	
+	        // Query for ascending sort.
+	        IEnumerable<string> sortAscendingQuery =
+	            from fruit in fruits
+	            orderby fruit //"ascending" is default
+	            select fruit;
+	
+	        // Query for descending sort.
+	        IEnumerable<string> sortDescendingQuery =
+	            from w in fruits
+	            orderby w descending
+	            select w;
+	
+	        // Execute the query.
+	        Console.WriteLine("Ascending:");
+	        foreach (string s in sortAscendingQuery)
+	        {
+	            Console.WriteLine(s);
+	        }
+	
+	        // Execute the query.
+	        Console.WriteLine(Environment.NewLine + "Descending:");
+	        foreach (string s in sortDescendingQuery)
+	        {
+	            Console.WriteLine(s);
+	        }
+	    }
+	}
+	/* Output:
+	Ascending:
+	apple
+	blueberry
+	cherry
+	
+	Descending:
+	cherry
+	blueberry
+	apple
+	*/
+	
+	class OrderbySample2
+	{
+	    // The element type of the data source.
+	    public class Student
+	    {
+	        public required string First { get; init; }
+	        public required string Last { get; init; }
+	        public int ID { get; set; }
+	    }
+	
+	    public static List<Student> GetStudents()
+	    {
+	        // Use a collection initializer to create the data source. Note that each element
+	        //  in the list contains an inner sequence of scores.
+	        List<Student> students = new List<Student>
+	        {
+	           new Student {First="Svetlana", Last="Omelchenko", ID=111},
+	           new Student {First="Claire", Last="O'Donnell", ID=112},
+	           new Student {First="Sven", Last="Mortensen", ID=113},
+	           new Student {First="Cesar", Last="Garcia", ID=114},
+	           new Student {First="Debra", Last="Garcia", ID=115}
+	        };
+	
+	        return students;
+	    }
+	    static void RunMain(string[] args)
+	    {
+	        // Create the data source.
+	        List<Student> students = GetStudents();
+	
+	        // Create the query.
+	        IEnumerable<Student> sortedStudents =
+	            from student in students
+	            orderby student.Last ascending, student.First ascending
+	            select student;
+	
+	        // Execute the query.
+	        Console.WriteLine("sortedStudents:");
+	        foreach (Student student in sortedStudents)
+	            Console.WriteLine(student.Last + " " + student.First);
+	
+	        // Now create groups and sort the groups. The query first sorts the names
+	        // of all students so that they will be in alphabetical order after they are
+	        // grouped. The second orderby sorts the group keys in alpha order.
+	        var sortedGroups =
+	            from student in students
+	            orderby student.Last, student.First
+	            group student by student.Last[0] into newGroup
+	            orderby newGroup.Key
+	            select newGroup;
+	
+	        // Execute the query.
+	        Console.WriteLine(Environment.NewLine + "sortedGroups:");
+	        foreach (var studentGroup in sortedGroups)
+	        {
+	            Console.WriteLine(studentGroup.Key);
+	            foreach (var student in studentGroup)
+	            {
+	                Console.WriteLine("   {0}, {1}", student.Last, student.First);
+	            }
+	        }
+	    }
+	}
+	/* Output:
+	sortedStudents:
+	Garcia Cesar
+	Garcia Debra
+	Mortensen Sven
+	O'Donnell Claire
+	Omelchenko Svetlana
+	
+	sortedGroups:
+	G
+	   Garcia, Cesar
+	   Garcia, Debra
+	M
+	   Mortensen, Sven
+	O
+	   O'Donnell, Claire
+	   Omelchenko, Svetlana
+	*/
+	
+	class JoinDemonstration
+	{
+	    #region Data
+	
+	    class Product
+	    {
+	        public required string Name { get; init; }
+	        public required int CategoryID { get; init; }
+	    }
+	
+	    class Category
+	    {
+	        public required string Name { get; init; }
+	        public required int ID { get; init; }
+	    }
+	
+	    // Specify the first data source.
+	    List<Category> categories =
+	    [
+	        new Category {Name="Beverages", ID=001},
+	        new Category {Name="Condiments", ID=002},
+	        new Category {Name="Vegetables", ID=003},
+	        new Category {Name="Grains", ID=004},
+	        new Category {Name="Fruit", ID=005}
+	    ];
+	
+	    // Specify the second data source.
+	    List<Product> products =
+	    [
+	      new Product {Name="Cola",  CategoryID=001},
+	      new Product {Name="Tea",  CategoryID=001},
+	      new Product {Name="Mustard", CategoryID=002},
+	      new Product {Name="Pickles", CategoryID=002},
+	      new Product {Name="Carrots", CategoryID=003},
+	      new Product {Name="Bok Choy", CategoryID=003},
+	      new Product {Name="Peaches", CategoryID=005},
+	      new Product {Name="Melons", CategoryID=005},
+	    ];
+	    #endregion
+	
+	    static void RunMain(string[] args)
+	    {
+	        JoinDemonstration app = new JoinDemonstration();
+	
+	        app.InnerJoin();
+	        app.GroupJoin();
+	        app.GroupInnerJoin();
+	        app.GroupJoin3();
+	        app.LeftOuterJoin();
+	        app.LeftOuterJoin2();
+	    }
+	
+	    void InnerJoin()
+	    {
+	        // Create the query that selects
+	        // a property from each element.
+	        var innerJoinQuery =
+	           from category in categories
+	           join prod in products on category.ID equals prod.CategoryID
+	           select new { Category = category.ID, Product = prod.Name };
+	
+	        Console.WriteLine("InnerJoin:");
+	        // Execute the query. Access results
+	        // with a simple foreach statement.
+	        foreach (var item in innerJoinQuery)
+	        {
+	            Console.WriteLine("{0,-10}{1}", item.Product, item.Category);
+	        }
+	        Console.WriteLine($"InnerJoin: {innerJoinQuery.Count()} items in 1 group.");
+	        Console.WriteLine(System.Environment.NewLine);
+	    }
+	
+	    void GroupJoin()
+	    {
+	        // This is a demonstration query to show the output
+	        // of a "raw" group join. A more typical group join
+	        // is shown in the GroupInnerJoin method.
+	        var groupJoinQuery =
+	           from category in categories
+	           join prod in products on category.ID equals prod.CategoryID into prodGroup
+	           select prodGroup;
+	
+	        // Store the count of total items (for demonstration only).
+	        int totalItems = 0;
+	
+	        Console.WriteLine("Simple GroupJoin:");
+	
+	        // A nested foreach statement is required to access group items.
+	        foreach (var prodGrouping in groupJoinQuery)
+	        {
+	            Console.WriteLine("Group:");
+	            foreach (var item in prodGrouping)
+	            {
+	                totalItems++;
+	                Console.WriteLine("   {0,-10}{1}", item.Name, item.CategoryID);
+	            }
+	        }
+	        Console.WriteLine($"Unshaped GroupJoin: {totalItems} items in {groupJoinQuery.Count()} unnamed groups");
+	        Console.WriteLine(System.Environment.NewLine);
+	    }
+	
+	    void GroupInnerJoin()
+	    {
+	        var groupJoinQuery2 =
+	            from category in categories
+	            orderby category.ID
+	            join prod in products on category.ID equals prod.CategoryID into prodGroup
+	            select new
+	            {
+	                Category = category.Name,
+	                Products = from prod2 in prodGroup
+	                           orderby prod2.Name
+	                           select prod2
+	            };
+	
+	        //Console.WriteLine("GroupInnerJoin:");
+	        int totalItems = 0;
+	
+	        Console.WriteLine("GroupInnerJoin:");
+	        foreach (var productGroup in groupJoinQuery2)
+	        {
+	            Console.WriteLine(productGroup.Category);
+	            foreach (var prodItem in productGroup.Products)
+	            {
+	                totalItems++;
+	                Console.WriteLine("  {0,-10} {1}", prodItem.Name, prodItem.CategoryID);
+	            }
+	        }
+	        Console.WriteLine($"GroupInnerJoin: {totalItems} items in {groupJoinQuery2.Count()} named groups");
+	        Console.WriteLine(System.Environment.NewLine);
+	    }
+	
+	    void GroupJoin3()
+	    {
+	
+	        var groupJoinQuery3 =
+	            from category in categories
+	            join product in products on category.ID equals product.CategoryID into prodGroup
+	            from prod in prodGroup
+	            orderby prod.CategoryID
+	            select new { Category = prod.CategoryID, ProductName = prod.Name };
+	
+	        //Console.WriteLine("GroupInnerJoin:");
+	        int totalItems = 0;
+	
+	        Console.WriteLine("GroupJoin3:");
+	        foreach (var item in groupJoinQuery3)
+	        {
+	            totalItems++;
+	            Console.WriteLine($"   {item.ProductName}:{item.Category}");
+	        }
+	
+	        Console.WriteLine($"GroupJoin3: {totalItems} items in 1 group");
+	        Console.WriteLine(System.Environment.NewLine);
+	    }
+	
+	    void LeftOuterJoin()
+	    {
+	        // Create the query.
+	        var leftOuterQuery =
+	           from category in categories
+	           join prod in products on category.ID equals prod.CategoryID into prodGroup
+	           select prodGroup.DefaultIfEmpty(new Product() { Name = "Nothing!", CategoryID = category.ID });
+	
+	        // Store the count of total items (for demonstration only).
+	        int totalItems = 0;
+	
+	        Console.WriteLine("Left Outer Join:");
+	
+	        // A nested foreach statement  is required to access group items
+	        foreach (var prodGrouping in leftOuterQuery)
+	        {
+	            Console.WriteLine("Group:");
+	            foreach (var item in prodGrouping)
+	            {
+	                totalItems++;
+	                Console.WriteLine("  {0,-10}{1}", item.Name, item.CategoryID);
+	            }
+	        }
+	        Console.WriteLine($"LeftOuterJoin: {totalItems} items in {leftOuterQuery.Count()} groups");
+	        Console.WriteLine(System.Environment.NewLine);
+	    }
+	
+	    void LeftOuterJoin2()
+	    {
+	        // Create the query.
+	        var leftOuterQuery2 =
+	           from category in categories
+	           join prod in products on category.ID equals prod.CategoryID into prodGroup
+	           from item in prodGroup.DefaultIfEmpty()
+	           select new { Name = item == null ? "Nothing!" : item.Name, CategoryID = category.ID };
+	
+	        Console.WriteLine($"LeftOuterJoin2: {leftOuterQuery2.Count()} items in 1 group");
+	        // Store the count of total items
+	        int totalItems = 0;
+	
+	        Console.WriteLine("Left Outer Join 2:");
+	
+	        // Groups have been flattened.
+	        foreach (var item in leftOuterQuery2)
+	        {
+	            totalItems++;
+	            Console.WriteLine("{0,-10}{1}", item.Name, item.CategoryID);
+	        }
+	        Console.WriteLine($"LeftOuterJoin2: {totalItems} items in 1 group");
+	    }
+	}
+	/*Output:
+	
+	InnerJoin:
+	Cola      1
+	Tea       1
+	Mustard   2
+	Pickles   2
+	Carrots   3
+	Bok Choy  3
+	Peaches   5
+	Melons    5
+	InnerJoin: 8 items in 1 group.
+	
+	
+	Unshaped GroupJoin:
+	Group:
+	    Cola      1
+	    Tea       1
+	Group:
+	    Mustard   2
+	    Pickles   2
+	Group:
+	    Carrots   3
+	    Bok Choy  3
+	Group:
+	Group:
+	    Peaches   5
+	    Melons    5
+	Unshaped GroupJoin: 8 items in 5 unnamed groups
+	
+	
+	GroupInnerJoin:
+	Beverages
+	    Cola       1
+	    Tea        1
+	Condiments
+	    Mustard    2
+	    Pickles    2
+	Vegetables
+	    Bok Choy   3
+	    Carrots    3
+	Grains
+	Fruit
+	    Melons     5
+	    Peaches    5
+	GroupInnerJoin: 8 items in 5 named groups
+	
+	
+	GroupJoin3:
+	    Cola:1
+	    Tea:1
+	    Mustard:2
+	    Pickles:2
+	    Carrots:3
+	    Bok Choy:3
+	    Peaches:5
+	    Melons:5
+	GroupJoin3: 8 items in 1 group
+	
+	
+	Left Outer Join:
+	Group:
+	    Cola      1
+	    Tea       1
+	Group:
+	    Mustard   2
+	    Pickles   2
+	Group:
+	    Carrots   3
+	    Bok Choy  3
+	Group:
+	    Nothing!  4
+	Group:
+	    Peaches   5
+	    Melons    5
+	LeftOuterJoin: 9 items in 5 groups
+	
+	
+	LeftOuterJoin2: 9 items in 1 group
+	Left Outer Join 2:
+	Cola      1
+	Tea       1
+	Mustard   2
+	Pickles   2
+	Carrots   3
+	Bok Choy  3
+	Nothing!  4
+	Peaches   5
+	Melons    5
+	LeftOuterJoin2: 9 items in 1 group
+	Press any key to exit.
+	*/
+	
+	class LetSample1
+	{
+	    static void RunMain()
+	    {
+	        string[] strings =
+	        [
+	            "A penny saved is a penny earned.",
+	            "The early bird catches the worm.",
+	            "The pen is mightier than the sword."
+	        ];
+	
+	        // Split the sentence into an array of words
+	        // and select those whose first letter is a vowel.
+	        var earlyBirdQuery =
+	            from sentence in strings
+	            let words = sentence.Split(' ')
+	            from word in words
+	            let w = word.ToLower()
+	            where w[0] == 'a' || w[0] == 'e'
+	                || w[0] == 'i' || w[0] == 'o'
+	                || w[0] == 'u'
+	            select word;
+	
+	        // Execute the query.
+	        foreach (var v in earlyBirdQuery)
+	        {
+	            Console.WriteLine($"\"{v}\" starts with a vowel");
+	        }
+	    }
+	}
+	/* Output:
+	    "A" starts with a vowel
+	    "is" starts with a vowel
+	    "a" starts with a vowel
+	    "earned." starts with a vowel
+	    "early" starts with a vowel
+	    "is" starts with a vowel
+	*/
+}
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/
 namespace DotnetCSharpLanguageReferenceKeywords
@@ -258,6 +2106,23 @@ namespace DotnetCSharpLanguageReferenceKeywords
 			Console.WriteLine(check ? "Checked" : "Not checked");  // output: Checked
 			
 			Console.WriteLine(false ? "Checked" : "Not checked");  // output: Not checked
+			
+			IEnumerable<int> numbers = Enumerable.Range(1, 10);
+			//numbers = numbers.AddValue(10);
+			
+			var median = numbers.Median;
+			
+			var combined = numbers + Enumerable.Range(100, 10);
+			
+			//var newSequence = IEnumerable<int>.Generate(5, 10, 2);
+			//var identity = IEnumerable<int>.Identity;
+			
+			//IEnumerable<int> numbers = Enumerable.Range(1, 10);
+			//numbers = numbers.AddValue(10);
+			
+			PersonPrivateSet personPrivateSet = new("Bill", "Gates");
+			PersonReadOnly personReadOnly = new("Bill", "Gates");
+			PersonInit personInit = new() { FirstName = "Bill", LastName = "Gates" };
 			
 		}
 		
@@ -2229,6 +4094,635 @@ namespace DotnetCSharpLanguageReferenceKeywords
 	        // Keep the console window open in debug mode.
 	    }
 	}
+	
+	/*
+	class Events : IDrawingObject
+	{
+	    event EventHandler PreDrawEvent;
+	
+	    event EventHandler IDrawingObject.OnDraw
+	    {
+	        add => PreDrawEvent += value;
+	        remove => PreDrawEvent -= value;
+	    }
+	}
+	*/
+	
+	/// <summary>
+	/// Contains extension members for numeric sequences.
+	/// </summary>
+	public static class NumericSequences
+	{
+	    /// <summary>
+	    /// Defines extensions for integer sequences.
+	    /// </summary>
+	    /// <param name="sequence">The sequence used as a receiver.</param>
+	    extension(IEnumerable<int> sequence)
+	    {
+	        /// <summary>
+	        /// Adds a scalar value to each element in the sequence.
+	        /// </summary>
+	        /// <param name="operand">The amount to add.</param>
+	        /// <returns>
+	        /// A new sequence where each value contains the updated value.
+	        /// </returns>
+	        public IEnumerable<int> AddValue(int operand)
+	        {
+	            foreach (var item in sequence)
+	            {
+	                yield return item + operand;
+	            }
+	        }
+	
+	        /// <summary>
+	        /// Gets the median value of the sequence.
+	        /// </summary>
+	        /// <remarks>
+	        /// This value is calculated when requested.
+	        /// </remarks>
+	        public int Median
+	        {
+	            get
+	            {
+	
+	                var sortedList = sequence.OrderBy(n => n).ToList();
+	                int count = sortedList.Count;
+	                int middleIndex = count / 2;
+	
+	                if (count % 2 == 0)
+	                {
+	                    // Even number of elements: average the two middle elements
+	                    return (sortedList[middleIndex - 1] + sortedList[middleIndex]) / 2;
+	                }
+	                else
+	                {
+	                    // Odd number of elements: return the middle element
+	                    return sortedList[middleIndex];
+	                }
+	            }
+	        }
+	
+	        /// <summary>
+	        /// Concatenates two sequences of integers into a single sequence.
+	        /// </summary>
+	        /// <remarks>The resulting sequence enumerates all elements from <paramref name="left"/> in order,
+	        /// followed by all elements from <paramref name="right"/>. Enumeration is deferred and performed lazily as the
+	        /// returned sequence is iterated.</remarks>
+	        /// <param name="left">The first sequence of integers to concatenate. Cannot be null.</param>
+	        /// <param name="right">The second sequence of integers to concatenate. Cannot be null.</param>
+	        /// <returns>A sequence that contains the elements of the first sequence followed by the
+	        /// elements of the second sequence.</returns>
+	        public static IEnumerable<int> operator +(IEnumerable<int> left, IEnumerable<int> right)
+	            => left.Concat(right);
+	    }
+	}
+	
+	/*
+	/// <summary>
+	/// Provides static extensions for the <see cref="IEnumerable{Int32}"/> type.
+	/// </summary>
+	extension(IEnumerable<int>)
+	{
+	    // Method:
+	    /// <summary>
+	    /// Generates a sequence of integers, starting from a specified value and incrementing by a given amount.
+	    /// </summary>
+	    /// <param name="low">The starting value of the sequence.</param>
+	    /// <param name="count">The number of integers to generate. Must be non-negative.</param>
+	    /// <param name="increment">The value by which to increment each subsequent integer in the sequence.</param>
+	    /// <returns>
+	    /// An enumerable collection of integers, beginning with the specified starting value and containing the
+	    /// specified number of elements, each incremented by the given amount.
+	    /// </returns>
+	    public static IEnumerable<int> Generate(int low, int count, int increment)
+	    {
+	        for (int i = 0; i < count; i++)
+	            yield return low + (i * increment);
+	    }
+	
+	    // Property:
+	    /// <summary>
+	    /// Gets an empty sequence of integers representing the identity element for sequence operations.
+	    /// </summary>
+	    /// <remarks>
+	    /// This property can be used as a neutral starting point when aggregating or composing
+	    /// sequences of integers. The returned sequence is always empty and does not allocate any storage.
+	    /// </remarks>
+	    public static IEnumerable<int> Identity => Enumerable.Empty<int>();
+	}
+	*/
+	
+	public static class NumericSequenceExtensionMethods
+	{
+	    public static IEnumerable<int> AddValue(this IEnumerable<int> sequence, int operand)
+	    {
+	        foreach (var item in sequence)
+	            yield return item + operand;
+	    }
+	}
+	
+	/// <summary>
+	/// Contains generic extension members for sequences.
+	/// </summary>
+	public static class GenericExtensions
+	{
+	    /// <summary>
+	    /// Defines extensions for generic sequences.
+	    /// </summary>
+	    /// <typeparam name="TReceiver">The type of elements in the receiver sequence.</typeparam>
+	    /// <param name="source">The sequence used as a receiver.</param>
+	    extension<TReceiver>(IEnumerable<TReceiver> source)
+	    {
+	        /// <summary>
+	        /// Returns a sequence containing a specified number of elements from the source, starting at a given index.
+	        /// </summary>
+	        /// <param name="start">The zero-based index at which to begin retrieving elements. Must be greater than or equal to 0.</param>
+	        /// <param name="count">The number of elements to return. Must be greater than or equal to 0.</param>
+	        /// <returns>
+	        /// An <see cref="IEnumerable{TReceiver}"/> that contains up to <paramref name="count"/> elements from the
+	        /// source sequence, starting at the element at position <paramref name="start"/>. If <paramref name="start"/>
+	        /// is greater than the number of elements in the source, an empty sequence is returned.
+	        /// </returns>
+	        public IEnumerable<TReceiver> Spread(int start, int count)
+	            => source.Skip(start).Take(count);
+	
+	        /// <summary>
+	        /// Returns a sequence that contains the elements of the original sequence followed by the elements of a
+	        /// specified sequence, each transformed by a converter function.
+	        /// </summary>
+	        /// <remarks>
+	        /// Enumeration of the returned sequence will not start until the sequence is iterated.
+	        /// The converter function is applied to each element of the appended sequence as it is enumerated.
+	        /// </remarks>
+	        /// <typeparam name="TArg">The type of the elements in the sequence to append.</typeparam>
+	        /// <param name="second">The sequence whose elements are to be appended after being converted. Cannot be null.</param>
+	        /// <param name="Converter">A function to convert each element of the appended sequence to the result type. Cannot be null.</param>
+	        /// <returns>
+	        /// An IEnumerable<TReceiver> that contains the elements of the original sequence followed by the converted
+	        /// elements of the specified sequence.
+	        /// </returns>
+	        public IEnumerable<TReceiver> Append<TArg>(IEnumerable<TArg> second, Func<TArg, TReceiver> Converter)
+	        {
+	            foreach(TReceiver item in source)
+	            {
+	                yield return item;
+	            }
+	            foreach (TArg item in second)
+	            {
+	                yield return Converter(item);
+	            }
+	        }
+	
+	        /// <summary>
+	        /// Returns a sequence that consists of the elements of the specified collection, transformed by the provided
+	        /// converter, followed by the elements of the current sequence.
+	        /// </summary>
+	        /// <remarks>
+	        /// Enumeration of the returned sequence will not start until the sequence is iterated.
+	        /// Both the input collection and the converter function must not be null; otherwise, an exception will be
+	        /// thrown at enumeration time.
+	        /// </remarks>
+	        /// <typeparam name="TArg">The type of the elements in the collection to prepend.</typeparam>
+	        /// <param name="second">The collection whose elements are to be transformed and prepended to the current sequence. Cannot be null.</param>
+	        /// <param name="converter">A function to convert each element of the prepended collection to the target type. Cannot be null.</param>
+	        /// <returns>
+	        /// An IEnumerable<TReceiver> that contains the converted elements of the specified collection followed by the
+	        /// elements of the current sequence.
+	        /// </returns>
+	        public IEnumerable<TReceiver> Prepend<TArg>(IEnumerable<TArg> second, Func<TArg, TReceiver> converter)
+	        {
+	            foreach (TArg item in second)
+	            {
+	                yield return converter(item);
+	            }
+	            foreach (TReceiver item in source)
+	            {
+	                yield return item;
+	            }
+	        }
+	
+	        /// <summary>
+	        /// Gets an empty sequence of the receiver's element type.
+	        /// </summary>
+	        /// <remarks>
+	        /// This property can be used as a neutral starting point when aggregating or composing
+	        /// sequences of the receiver's element type. The returned sequence is always empty and does not allocate any storage.
+	        /// </remarks>
+	        public static IEnumerable<TReceiver> Identity => Enumerable.Empty<TReceiver>();
+	    }
+	}
+	
+	public static class GenericExtensions2
+	{
+	    public static IEnumerable<T> Spread<T>(this IEnumerable<T> source, int start, int count)
+	        => source.Skip(start).Take(count);
+	
+	    public static IEnumerable<T1> Append<T1, T2>(this IEnumerable<T1> source, IEnumerable<T2> second, Func<T2, T1> Converter)
+	    {
+	        foreach (T1 item in source)
+	        {
+	            yield return item;
+	        }
+	        foreach (T2 item in second)
+	        {
+	            yield return Converter(item);
+	        }
+	    }
+	
+	    public static IEnumerable<T1> Prepend<T1, T2>(this IEnumerable<T1> source, IEnumerable<T2> second, Func<T2, T1> Converter)
+	    {
+	        foreach (T2 item in second)
+	        {
+	            yield return Converter(item);
+	        }
+	        foreach (T1 item in source)
+	        {
+	            yield return item;
+	        }
+	    }
+	}
+	
+	class TimePeriod3
+	{
+	    public double Hours { get; set; }
+	}
+	
+	class TimePeriod2
+	{
+	    private double _seconds;
+	
+	    public double Seconds
+	    {
+	        get => _seconds;
+	        set => _seconds = value;
+	    }
+	}
+	
+	class TimePeriod4
+	{
+	    public double Hours {
+	        get;
+	        set => field = (value >= 0)
+	            ? value
+	            : throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative");
+	    }
+	}
+	
+	class TimePeriod
+	{
+	    private double _seconds;
+	
+	    public double Seconds
+	    {
+	        get { return _seconds; }
+	        set
+	        {
+	            if (value < 0)
+	            {
+	                throw new ArgumentOutOfRangeException(nameof(value), "The value of the time period must be non-negative.");
+	            }
+	            _seconds = value;
+	        }
+	    }
+	}
+	
+	class Person_InitExampleAutoProperty
+	{
+	    public int YearOfBirth { get; init; }
+	}
+	
+	class Person_InitExampleFieldProperty
+	{
+	    public int YearOfBirth
+	    {
+	        get;
+	        init
+	        {
+	            field = (value <= DateTime.Now.Year)
+	                ? value
+	                : throw new ArgumentOutOfRangeException(nameof(value), "Year of birth can't be in the future");
+	        }
+	    }
+	}
+	
+	class Person_InitExampleExpressionBodied
+	{
+	    private int _yearOfBirth;
+	
+	    public int YearOfBirth
+	    {
+	        get => _yearOfBirth;
+	        init => _yearOfBirth = value;
+	    }
+	}
+	
+	class Person_InitExample
+	{
+	     private int _yearOfBirth;
+	
+	     public int YearOfBirth
+	     {
+	         get { return _yearOfBirth; }
+	         init { _yearOfBirth = value; }
+	     }
+	}
+	
+	class Person_InitExampleNullability
+	{
+	    private int? _yearOfBirth;
+	
+	    public int? YearOfBirth
+	    {
+	        get => _yearOfBirth;
+	        init => _yearOfBirth = value;
+	    }
+	}
+	
+	class Person_InitExampleNonNull
+	{
+	    private int _yearOfBirth;
+	
+	    public required int YearOfBirth
+	    {
+	        get => _yearOfBirth;
+	        init => _yearOfBirth = value;
+	    }
+	}
+	
+	class PersonPrivateSet
+	{
+	    public string FirstName { get; private set; }
+	    public string LastName { get; private set; }
+	    public PersonPrivateSet(string first, string last) => (FirstName, LastName) = (first, last);
+	
+	    public void ChangeName(string first, string last) => (FirstName, LastName) = (first, last);
+	}
+	
+	class PersonReadOnly
+	{
+	    public string FirstName { get; }
+	    public string LastName { get; }
+	    public PersonReadOnly(string first, string last) => (FirstName, LastName) = (first, last);
+	}
+	
+	class PersonInit
+	{
+	    public string FirstName { get; init; }
+	    public string LastName { get; init; }
+	}
+	
+	partial class A2
+	{
+	    int num = 0;
+	    void MethodA() { }
+	    partial void MethodC();
+	}
+	
+	partial class A2
+	{
+	    void MethodB() { }
+	    partial void MethodC() { }
+	}
+	
+	partial class MyPartialClass
+	{
+	    // Declaring definition
+	    partial void OnSomethingHappened(string s);
+	}
+	
+	// This part can be in a separate file.
+	partial class MyPartialClass
+	{
+	    // Comment out this method and the program
+	    // will still compile.
+	    partial void OnSomethingHappened(string s) =>
+	        Console.WriteLine($"Something happened: {s}");
+	}
+	
+	public partial class RegExSourceGenerator
+	{
+	    [GeneratedRegex("cat|dog", RegexOptions.IgnoreCase, "en-US")]
+	    private static partial Regex CatOrDogGeneratedRegex();
+	
+	    private static void EvaluateText(string text)
+	    {
+	        if (CatOrDogGeneratedRegex().IsMatch(text))
+	        {
+	            // Take action with matching text
+	        }
+	    }
+	}
+	
+	// Declaring declaration
+	public partial class PartialExamples
+	{
+	    /// <summary>
+	    /// Gets or sets the number of elements that the List can contain.
+	    /// </summary>
+	    public partial int Capacity { get; set; }
+	
+	    /// <summary>
+	    /// Gets or sets the element at the specified index.
+	    /// </summary>
+	    /// <param name="index">The index</param>
+	    /// <returns>The string stored at that index</returns>
+	    public partial string this[int index] { get; set; }
+	
+	    public partial string? TryGetAt(int index);
+	}
+	
+	public partial class PartialExamples
+	{
+	    private List<string> _items = [
+	        "one",
+	        "two",
+	        "three",
+	        "four",
+	        "five"
+	        ];
+	
+	    // Implementing declaration
+	
+	    /// <summary>
+	    /// Gets or sets the number of elements that the List can contain.
+	    /// </summary>
+	    /// <remarks>
+	    /// If the value is less than the current capacity, the list will shrink to the
+	    /// new value. If the value is negative, the list isn't modified.
+	    /// </remarks>
+	    public partial int Capacity
+	    {
+	        get => _items.Count;
+	        set
+	        {
+	            if ((value != _items.Count) && (value >= 0))
+	            {
+	                _items.Capacity = value;
+	            }
+	        }
+	    }
+	
+	    public partial string this[int index]
+	    {
+	        get => _items[index];
+	        set => _items[index] = value;
+	    }
+	
+	    /// <summary>
+	    /// Gets the element at the specified index.
+	    /// </summary>
+	    /// <param name="index">The index</param>
+	    /// <returns>The string stored at that index, or null if out of bounds</returns>
+	    public partial string? TryGetAt(int index)
+	    {
+	        if (index < _items.Count)
+	        {
+	            return _items[index];
+	        }
+	        return null;
+	    }
+	}
+	
+	/*
+	class Events : IDrawingObject
+	{
+	    event EventHandler PreDrawEvent;
+	
+	    event EventHandler IDrawingObject.OnDraw
+	    {
+	        add => PreDrawEvent += value;
+	        remove => PreDrawEvent -= value;
+	    }
+	}
+	*/
+	
+	public class Person2
+	{
+	    public Person2() { }
+	
+	    [SetsRequiredMembers]
+	    public Person2(string firstName, string lastName) =>
+	        (FirstName, LastName) = (firstName, lastName);
+	
+	    public required string FirstName { get; init; }
+	    public required string LastName { get; init; }
+	
+	    public int? Age { get; set; }
+	}
+	
+	public class Student : Person2
+	{
+	    public Student() : base()
+	    {
+	    }
+	
+	    [SetsRequiredMembers]
+	    public Student(string firstName, string lastName) :
+	        base(firstName, lastName)
+	    {
+	    }
+	
+	    public double GPA { get; set; }
+	}
+	
+	class TimePeriod5
+	{
+	    public double Hours { get; set; }
+	}
+	
+	class TimePeriod6
+	{
+	    public double Hours {
+	        get;
+	        set => field = (value >= 0)
+	            ? value
+	            : throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative");
+	    }
+	}
+	
+	class TimePeriod7
+	{
+	    private double _seconds;
+	
+	    public double Seconds
+	    {
+	        get => _seconds;
+	        set => _seconds = value;
+	    }
+	}
+	
+	class TimePeriod9
+	{
+	    private double _seconds;
+	
+	    public double Seconds
+	    {
+	        get { return _seconds; }
+	        set
+	        {
+	            if (value < 0)
+	            {
+	                throw new ArgumentOutOfRangeException(nameof(value), "The value of the time period must be non-negative.");
+	            }
+	            _seconds = value;
+	        }
+	    }
+	}
+	
+	class Program9
+	{
+	    static void RunMain()
+	    {
+	        Console.WriteLine(MakeRequest().Result);
+	    }
+	
+	    public static async Task<string> MakeRequest()
+	    {
+	        var client = new HttpClient();
+	        var streamTask = client.GetStringAsync("https://localHost:10000");
+	        try
+	        {
+	            var responseText = await streamTask;
+	            return responseText;
+	        }
+	        catch (HttpRequestException e) when (e.Message.Contains("301"))
+	        {
+	            return "Site Moved";
+	        }
+	        catch (HttpRequestException e) when (e.Message.Contains("404"))
+	        {
+	            return "Page Not Found";
+	        }
+	        catch (HttpRequestException e)
+	        {
+	            return e.Message;
+	        }
+			
+			//catch (ExceptionType [e]) when (expr)
+	    }
+	}
+	
+	class TimePeriod8
+	{
+	    public double Hours {
+	        get;
+	        set => field = (value >= 0)
+	            ? value
+	            : throw new ArgumentOutOfRangeException(nameof(value), "The value must not be negative");
+	    }
+	}
+	
+	class TimePeriod10
+	{
+	    private double _seconds;
+	
+	    public double Seconds
+	    {
+	        get => _seconds;
+	        set => _seconds = value;
+	    }
+	}
+
 }
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types
