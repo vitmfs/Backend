@@ -45,6 +45,9 @@ using UsingAlias = DotnetCSharpLanguageReferenceKeywords.NameSpace2.MyClass<int>
 //using Class1V1 = GridV1::Namespace.Class1;
 //using Class1V2 = GridV2::Namespace.Class1;
 
+using forwinforms = System.Drawing;
+using forwpf = System.Windows;
+
 namespace ProgramNamespace
 { 
     public class Program { 
@@ -172,13 +175,1681 @@ namespace ProgramNamespace
     }
 }
 
-//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/global
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/
+namespace DotnetCSharpLanguageReferenceTokens
+{
+	public class Tokens
+	{
+		public static void RunTokens()
+		{
+			// This is a single line comment.
+
+			/* This could be a summary of all the
+			   code that's in this class.
+			   You might add multiple paragraphs, or links to pages
+			   like https://learn.microsoft.com/dotnet/csharp.
+			   
+			   You could even include emojis. This example is 🔥
+			   Then, when you're done, close with
+			   */
+			   
+			   //return source++; // increment the source.
+			   
+			var name = "Mark";
+			var date = DateTime.Now;
+			
+			// Composite formatting:
+			Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
+			// String interpolation:
+			Console.WriteLine($"Hello, {name}! Today is {date.DayOfWeek}, it's {date:HH:mm} now.");
+			// Both calls produce the same output that is similar to:
+			// Hello, Mark! Today is Wednesday, it's 19:40 now.
+			
+			Console.WriteLine($"|{"Left",-7}|{"Right",7}|");
+
+			const int FieldWidthRightAligned = 20;
+			Console.WriteLine($"{Math.PI,FieldWidthRightAligned} - default formatting of the pi number");
+			Console.WriteLine($"{Math.PI,FieldWidthRightAligned:F3} - display only three decimal digits of the pi number");
+			// Output is:
+			// |Left   |  Right|
+			//     3.14159265358979 - default formatting of the pi number
+			//                3.142 - display only three decimal digits of the pi number
+			
+			int safetyScore = 85;
+			string message = $"The usage policy for {safetyScore} is {
+			    safetyScore switch
+			    {
+			        > 90 => "Unlimited usage",
+			        > 80 => "General usage, with daily safety check",
+			        > 70 => "Issues must be addressed within 1 week",
+			        > 50 => "Issues must be addressed within 1 day",
+			        _ => "Issues must be addressed before continued use",
+			    }
+			    }";
+				
+			int X = 2;
+			int Y = 3;
+			
+			var pointMessage = $"""The point "{X}, {Y}" is {Math.Sqrt(X * X + Y * Y):F3} from the origin""";
+			
+			Console.WriteLine(pointMessage);
+			// Output is:
+			// The point "2, 3" is 3.606 from the origin
+			
+			
+			var pointMessage2 = $$"""{The point {{{X}}, {{Y}}} is {{Math.Sqrt(X * X + Y * Y):F3}} from the origin}""";
+			Console.WriteLine(pointMessage2);
+			// Output is:
+			// {The point {2, 3} is 3.606 from the origin}
+			
+			string name2 = "Horace";
+			int age = 34;
+			Console.WriteLine($"He asked, \"Is your name {name2}?\", but didn't wait for a reply :-{{");
+			Console.WriteLine($"{name2} is {age} year{(age == 1 ? "" : "s")} old.");
+			// Output is:
+			// He asked, "Is your name Horace?", but didn't wait for a reply :-{
+			// Horace is 34 years old.
+			
+			double speedOfLight = 299792.458;
+
+			System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("nl-NL");
+			string messageInCurrentCulture = $"The speed of light is {speedOfLight:N3} km/s.";
+			
+			var specificCulture = System.Globalization.CultureInfo.GetCultureInfo("en-IN");
+			string messageInSpecificCulture = string.Create(
+			    specificCulture, $"The speed of light is {speedOfLight:N3} km/s.");
+			
+			string messageInInvariantCulture = string.Create(
+			    System.Globalization.CultureInfo.InvariantCulture, $"The speed of light is {speedOfLight:N3} km/s.");
+			
+			Console.WriteLine($"{System.Globalization.CultureInfo.CurrentCulture,-10} {messageInCurrentCulture}");
+			Console.WriteLine($"{specificCulture,-10} {messageInSpecificCulture}");
+			Console.WriteLine($"{"Invariant",-10} {messageInInvariantCulture}");
+			// Output is:
+			// nl-NL      The speed of light is 299.792,458 km/s.
+			// en-IN      The speed of light is 2,99,792.458 km/s.
+			// Invariant  The speed of light is 299,792.458 km/s.
+			
+			/*
+			double speedOfLight = 299792.458;
+			FormattableString message = $"The speed of light is {speedOfLight:N3} km/s.";
+			
+			var specificCulture = System.Globalization.CultureInfo.GetCultureInfo("en-IN");
+			string messageInSpecificCulture = message.ToString(specificCulture);
+			Console.WriteLine(messageInSpecificCulture);
+			// Output:
+			// The speed of light is 2,99,792.458 km/s.
+			
+			string messageInInvariantCulture = FormattableString.Invariant(message);
+			Console.WriteLine(messageInInvariantCulture);
+			// Output is:
+			// The speed of light is 299,792.458 km/s.
+			*/
+			
+			string filename1 = @"c:\documents\files\u0066.txt";
+			string filename2 = "c:\\documents\\files\\u0066.txt";
+			
+			Console.WriteLine(filename1);
+			Console.WriteLine(filename2);
+			// The example displays the following output:
+			//     c:\documents\files\u0066.txt
+			//     c:\documents\files\u0066.txt
+			
+			string s1 = "He said, \"This is the last \u0063hance\x0021\"";
+			string s2 = @"He said, ""This is the last \u0063hance\x0021""";
+			
+			Console.WriteLine(s1);
+			Console.WriteLine(s2);
+			// The example displays the following output:
+			//     He said, "This is the last chance!"
+			//     He said, "This is the last \u0063hance\x0021"
+			
+			string[] @for = { "John", "James", "Joan", "Jamie" };
+			for (int ctr = 0; ctr < @for.Length; ctr++)
+			{
+			   Console.WriteLine($"Here is your gift, {@for[ctr]}!");
+			}
+			// The example displays the following output:
+			//     Here is your gift, John!
+			//     Here is your gift, James!
+			//     Here is your gift, Joan!
+			//     Here is your gift, Jamie!
+			
+			var singleLine = """This is a "raw string literal". It can contain characters like \, ' and ".""";
+			
+			var xml = """
+			        <element attr="content">
+			            <body>
+			            </body>
+			        </element>
+			        """;
+					
+			// Using `\b` and `\t` to visual the actual whitespace characters
+			var xml2 = """
+			\b\b\b\b<element attr="content">
+			\b\b\b\b\b\b<body>
+			\b\b\b\b\b\b</body>
+			\b\b\b\b</element>
+			\b\b\b\b
+			""";
+			
+			// Using `\b` and `\t` to visual the actual whitespace characters
+			var xmlTabs = """
+			\t\t\t\t<element attr="content">
+			\t\t\t\t\t\t<body>
+			\t\t\t\t\t\t</body>
+			\t\t\t\t</element>
+			\t\t\t\t
+			""";
+			
+			// Using `\b` and `\t` to visual the actual whitespace characters
+			var xml3 = """
+			\t\b\b\b<element attr="content">
+			\b\t\b\b\b\b<body>
+			\b\b\t\b\b\b</body>
+			\b\b\b\t</element>
+			\b\b\b\b
+			""";
+			
+			var moreQuotes = """" As you can see,"""Raw string literals""" can start and end with more than three double-quotes when needed."""";
+			
+			var MultiLineQuotes = """"
+               """Raw string literals""" can start and end with more than three double-quotes when needed.
+               """";
+			   
+			   
+		}
+		
+		public static int Add(int left, int right)
+		{
+		    return left /* first operand */ + right /* second operand */;
+		}
+	}
+	
+	[AttributeUsage(AttributeTargets.Class)]
+	public class Info : Attribute
+	{
+	   private string information;
+	
+	   public Info(string info)
+	   {
+	      information = info;
+	   }
+	}
+	
+	[AttributeUsage(AttributeTargets.Method)]
+	public class InfoAttribute : Attribute
+	{
+	   private string information;
+	
+	   public InfoAttribute(string info)
+	   {
+	      information = info;
+	   }
+	}
+	
+	//[Info("A simple executable.")] // Generates compiler error CS1614. Ambiguous Info and InfoAttribute.
+	// Prepend '@' to select 'Info' ([@Info("A simple executable.")]). Specify the full name 'InfoAttribute' to select it.
+	public class Example
+	{
+	   [InfoAttribute("The entry point.")]
+	   public static void RunMain()
+	   {
+	   }
+	}
+}
+
+//https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/declarations
+namespace DotnetCSharpLanguageReferenceStatementsDeclarations
+{
+	public class StatementsDeclarations
+	{
+		/*
+		public string Name
+		{
+		    get => name;
+		    set => name = value ??
+		        throw new ArgumentNullException(paramName: nameof(value), message: "Name cannot be null");
+		}
+		*/
+		
+		public static void RunStatementsDeclarations()
+		{
+			//string greeting;
+			//int a, b, c;
+			//List<double> xs;
+			
+			string greeting = "Hello";
+			int a = 3, b = 2, c = a + b;
+			List<double> xs = new();
+			
+			const string Greeting = "Hello";
+			const double MinLimit = -10.0, MaxLimit = -MinLimit;
+			
+			
+			void ImplicitlyTypedLocalVariables()
+			{
+				var greeting = "Hello";
+				Console.WriteLine(greeting.GetType());  // output: System.String
+				
+				var a = 32;
+				Console.WriteLine(a.GetType());  // output: System.Int32
+				
+				var xs = new List<double>();
+				Console.WriteLine(xs.GetType());  // output: System.Collections.Generic.List`1[System.Double]
+				
+				//var xs = new List<int>();
+				
+				//List<int> xs = new();
+				//List<int>? ys = new();
+				
+				/*
+				var fromPhoenix = from cust in customers
+				                  where cust.City == "Phoenix"
+				                  select new { cust.Name, cust.Phone };
+				
+				foreach (var customer in fromPhoenix)
+				{
+				    Console.WriteLine($"Name={customer.Name}, Phone={customer.Phone}");
+				}
+				*/
+			}
+			
+			void ReferenceVariables()
+			{
+				//ref int aliasOfvariable = ref variable;
+				
+				int a = 1;
+				ref int aliasOfa = ref a;
+				Console.WriteLine($"(a, aliasOfa) is ({a}, {aliasOfa})");  // output: (a, aliasOfa) is (1, 1)
+				
+				a = 2;
+				Console.WriteLine($"(a, aliasOfa) is ({a}, {aliasOfa})");  // output: (a, aliasOfa) is (2, 2)
+				
+				aliasOfa = 3;
+				Console.WriteLine($"(a, aliasOfa) is ({a}, {aliasOfa})");  // output: (a, aliasOfa) is (3, 3)
+				
+				void Display(int[] s) => Console.WriteLine(string.Join(" ", s));
+
+				int[] xs = [0, 0, 0];
+				Display(xs);
+				
+				ref int element = ref xs[0];
+				element = 1;
+				Display(xs);
+				
+				element = ref xs[^1];
+				element = 3;
+				Display(xs);
+				// Output:
+				// 0 0 0
+				// 1 0 0
+				// 1 0 3
+				
+				/*
+				int[] xs = [1, 2, 3];
+
+				ref readonly int element = ref xs[0];
+				// element = 100;  error CS0131: The left-hand side of an assignment must be a variable, property or indexer
+				Console.WriteLine(element);  // output: 1
+				
+				element = ref xs[^1];
+				*/
+				
+				
+				Console.WriteLine(element);  // output: 3
+			}
+			
+			void ExceptionHandlingStatements()
+			{
+				void TheThrowStatement()
+				{
+					/*
+					if (shapeAmount <= 0)
+					{
+					    throw new ArgumentOutOfRangeException(nameof(shapeAmount), "Amount of shapes must be positive.");
+					}
+					
+					
+					try
+					{
+					    ProcessShapes(shapeAmount);
+					}
+					catch (Exception e)
+					{
+					    LogError(e, "Shape processing failed.");
+					    throw;
+					}
+					*/
+				}
+				
+				void ThrowExpression()
+				{
+					/*
+					string first = args.Length >= 1 
+					    ? args[0]
+					    : throw new ArgumentException("Please supply at least one argument.");
+					*/
+				}
+				
+				void TryCatchStatement()
+				{
+					/*
+					try
+					{
+					    var result = Process(-3, 4);
+					    Console.WriteLine($"Processing succeeded: {result}");
+					}
+					catch (ArgumentException e)
+					{
+					    Console.WriteLine($"Processing failed: {e.Message}");
+					}
+					
+					try
+					{
+					    var result = await ProcessAsync(-3, 4, cancellationToken);
+					    Console.WriteLine($"Processing succeeded: {result}");
+					}
+					catch (ArgumentException e)
+					{
+					    Console.WriteLine($"Processing failed: {e.Message}");
+					}
+					catch (OperationCanceledException)
+					{
+					    Console.WriteLine("Processing is cancelled.");
+					}
+					
+					try
+					{
+					    var result = Process(-3, 4);
+					    Console.WriteLine($"Processing succeeded: {result}");
+					}
+					catch (Exception e)
+					{
+					    LogError(e, "Processing failed.");
+					    throw;
+					}
+					
+					try
+					{
+					    var result = Process(-3, 4);
+					    Console.WriteLine($"Processing succeeded: {result}");
+					}
+					catch (Exception e) when (e is ArgumentException || e is DivideByZeroException)
+					{
+					    Console.WriteLine($"Processing failed: {e.Message}");
+					}
+					*/
+				}
+				
+				void IterationStatements()
+				{
+					void TheForStatement()
+					{
+						for (int i = 0; i < 3; i++)
+						{
+						    Console.Write(i);
+						}
+						// Output:
+						// 012
+						
+						/*
+						int i;
+						int j = 3;
+						for (i = 0, Console.WriteLine($"Start: i={i}, j={j}"); i < j; i++, j--, Console.WriteLine($"Step: i={i}, j={j}"))
+						{
+						    //...
+						}
+						*/
+						// Output:
+						// Start: i=0, j=3
+						// Step: i=1, j=2
+						// Step: i=2, j=1
+						
+						for ( ; ; )
+						{
+						    //...
+						}
+					}
+					
+					void TheForeachStatement()
+					{
+						List<int> fibNumbers = new() { 0, 1, 1, 2, 3, 5, 8, 13 };
+						foreach (int element in fibNumbers)
+						{
+						    Console.Write($"{element} ");
+						}
+						// Output:
+						// 0 1 1 2 3 5 8 13
+						
+						Span<int> numbers = [3, 14, 15, 92, 6];
+						foreach (int number in numbers)
+						{
+						    Console.Write($"{number} ");
+						}
+						// Output:
+						// 3 14 15 92 6
+						
+						Span<int> storage = stackalloc int[10];
+						int num = 0;
+						foreach (ref int item in storage)
+						{
+						    item = num++;
+						}
+						foreach (ref readonly var item in storage)
+						{
+						    Console.Write($"{item} ");
+						}
+						// Output:
+						// 0 1 2 3 4 5 6 7 8 9
+						
+						/*
+						await foreach (var item in GenerateSequenceAsync())
+						{
+						    Console.WriteLine(item);
+						}
+						*/
+						
+						//foreach (var item in collection) { }
+						
+						//IEnumerable<T> collection = new T[5];
+						//foreach (V item in collection) { }
+					}
+					
+					void TheDoStatement()
+					{
+						int n = 0;
+						do
+						{
+						    Console.Write(n);
+						    n++;
+						} while (n < 5);
+						// Output:
+						// 01234
+					}
+					
+					void TheWhileStatement()
+					{
+						int n = 0;
+						while (n < 5)
+						{
+						    Console.Write(n);
+						    n++;
+						}
+						// Output:
+						// 01234
+					}
+				}
+				
+				void TheIfStatement()
+				{
+					DisplayWeatherReport(15.0);  // Output: Cold.
+					DisplayWeatherReport(24.0);  // Output: Perfect!
+					
+					void DisplayWeatherReport(double tempInCelsius)
+					{
+					    if (tempInCelsius < 20.0)
+					    {
+					        Console.WriteLine("Cold.");
+					    }
+					    else
+					    {
+					        Console.WriteLine("Perfect!");
+					    }
+					}
+					
+					DisplayMeasurement(45);  // Output: The measurement value is 45
+					DisplayMeasurement(-3);  // Output: Warning: not acceptable value! The measurement value is -3
+					
+					void DisplayMeasurement(double value)
+					{
+					    if (value < 0 || value > 100)
+					    {
+					        Console.Write("Warning: not acceptable value! ");
+					    }
+					
+					    Console.WriteLine($"The measurement value is {value}");
+					}
+					
+					DisplayCharacter('f');  // Output: A lowercase letter: f
+					DisplayCharacter('R');  // Output: An uppercase letter: R
+					DisplayCharacter('8');  // Output: A digit: 8
+					DisplayCharacter(',');  // Output: Not alphanumeric character: ,
+					
+					void DisplayCharacter(char ch)
+					{
+					    if (char.IsUpper(ch))
+					    {
+					        Console.WriteLine($"An uppercase letter: {ch}");
+					    }
+					    else if (char.IsLower(ch))
+					    {
+					        Console.WriteLine($"A lowercase letter: {ch}");
+					    }
+					    else if (char.IsDigit(ch))
+					    {
+					        Console.WriteLine($"A digit: {ch}");
+					    }
+					    else
+					    {
+					        Console.WriteLine($"Not alphanumeric character: {ch}");
+					    }
+					}
+				}
+				
+				void TheSwitchStatement()
+				{
+					DisplayMeasurement(-4);  // Output: Measured value is -4; too low.
+					DisplayMeasurement(5);  // Output: Measured value is 5.
+					DisplayMeasurement(30);  // Output: Measured value is 30; too high.
+					DisplayMeasurement(double.NaN);  // Output: Failed measurement.
+					
+					void DisplayMeasurement(double measurement)
+					{
+					    switch (measurement)
+					    {
+					        case < 0.0:
+					            Console.WriteLine($"Measured value is {measurement}; too low.");
+					            break;
+					
+					        case > 15.0:
+					            Console.WriteLine($"Measured value is {measurement}; too high.");
+					            break;
+					
+					        case double.NaN:
+					            Console.WriteLine("Failed measurement.");
+					            break;
+					
+					        default:
+					            Console.WriteLine($"Measured value is {measurement}.");
+					            break;
+					    }
+					}
+					
+					DisplayMeasurement2(-4);  // Output: Measured value is -4; out of an acceptable range.
+					DisplayMeasurement2(50);  // Output: Measured value is 50.
+					DisplayMeasurement2(132);  // Output: Measured value is 132; out of an acceptable range.
+					
+					void DisplayMeasurement2(int measurement)
+					{
+					    switch (measurement)
+					    {
+					        case < 0:
+					        case > 100:
+					            Console.WriteLine($"Measured value is {measurement}; out of an acceptable range.");
+					            break;
+					        
+					        default:
+					            Console.WriteLine($"Measured value is {measurement}.");
+					            break;
+					    }
+					}
+				}
+				
+				void CaseGuards()
+				{
+					DisplayMeasurements(3, 4);  // Output: First measurement is 3, second measurement is 4.
+					DisplayMeasurements(5, 5);  // Output: Both measurements are valid and equal to 5.
+					
+					void DisplayMeasurements(int a, int b)
+					{
+					    switch ((a, b))
+					    {
+					        case (> 0, > 0) when a == b:
+					            Console.WriteLine($"Both measurements are valid and equal to {a}.");
+					            break;
+					
+					        case (> 0, > 0):
+					            Console.WriteLine($"First measurement is {a}, second measurement is {b}.");
+					            break;
+					
+					        default:
+					            Console.WriteLine("One or both measurements are not valid.");
+					            break;
+					    }
+					}
+				}
+				
+			}
+			
+			void JumpStatements()
+			{
+				void TheBreakStatement()
+				{
+					int[] numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+					foreach (int number in numbers)
+					{
+					    if (number == 3)
+					    {
+					        break;
+					    }
+					
+					    Console.Write($"{number} ");
+					}
+					Console.WriteLine();
+					Console.WriteLine("End of the example.");
+					// Output:
+					// 0 1 2 
+					// End of the example.
+					
+					for (int outer = 0; outer < 5; outer++)
+					{
+					    for (int inner = 0; inner < 5; inner++)
+					    {
+					        if (inner > outer)
+					        {
+					            break;
+					        }
+					
+					        Console.Write($"{inner} ");
+					    }
+					    Console.WriteLine();
+					}
+					// Output:
+					// 0
+					// 0 1
+					// 0 1 2
+					// 0 1 2 3
+					// 0 1 2 3 4
+					
+					double[] measurements = [-4, 5, 30, double.NaN];
+					foreach (double measurement in measurements)
+					{
+					    switch (measurement)
+					    {
+					        case < 0.0:
+					            Console.WriteLine($"Measured value is {measurement}; too low.");
+					            break;
+					
+					        case > 15.0:
+					            Console.WriteLine($"Measured value is {measurement}; too high.");
+					            break;
+					
+					        case double.NaN:
+					            Console.WriteLine("Failed measurement.");
+					            break;
+					
+					        default:
+					            Console.WriteLine($"Measured value is {measurement}.");
+					            break;
+					    }
+					}
+					// Output:
+					// Measured value is -4; too low.
+					// Measured value is 5.
+					// Measured value is 30; too high.
+					// Failed measurement.
+				}
+				
+				void TheContinueStatement()
+				{
+					for (int i = 0; i < 5; i++)
+					{
+					    Console.Write($"Iteration {i}: ");
+					    
+					    if (i < 3)
+					    {
+					        Console.WriteLine("skip");
+					        continue;
+					    }
+					    
+					    Console.WriteLine("done");
+					}
+					// Output:
+					// Iteration 0: skip
+					// Iteration 1: skip
+					// Iteration 2: skip
+					// Iteration 3: done
+					// Iteration 4: done
+				}
+				
+				void TheReturnStatement()
+				{
+					Console.WriteLine("First call:");
+					DisplayIfNecessary(6);
+					
+					Console.WriteLine("Second call:");
+					DisplayIfNecessary(5);
+					
+					void DisplayIfNecessary(int number)
+					{
+					    if (number % 2 == 0)
+					    {
+					        return;
+					    }
+					
+					    Console.WriteLine(number);
+					}
+					// Output:
+					// First call:
+					// Second call:
+					// 5
+					
+					double surfaceArea = CalculateCylinderSurfaceArea(1, 1);
+					Console.WriteLine($"{surfaceArea:F2}"); // output: 12.57
+					
+					double CalculateCylinderSurfaceArea(double baseRadius, double height)
+					{
+					    double baseArea = Math.PI * baseRadius * baseRadius;
+					    double sideArea = 2 * Math.PI * baseRadius * height;
+					    return 2 * baseArea + sideArea;
+					}
+				}
+				
+				void RefReturns()
+				{
+					int[] xs = new int [] {10, 20, 30, 40 };
+					ref int found = ref FindFirst(xs, s => s == 30);
+					found = 0;
+					Console.WriteLine(string.Join(" ", xs));  // output: 10 20 0 40
+					
+					ref int FindFirst(int[] numbers, Func<int, bool> predicate)
+					{
+					    for (int i = 0; i < numbers.Length; i++)
+					    {
+					        if (predicate(numbers[i]))
+					        {
+					            return ref numbers[i];
+					        }
+					    }
+					    throw new InvalidOperationException("No element satisfies the given condition.");
+					}
+					
+					var bc = new BookCollection();
+					bc.ListBooks();
+					
+					ref var book = ref bc.GetBookByTitle("Call of the Wild, The");
+					if (book != null)
+					    book = new Book { Title = "Republic, The", Author = "Plato" };
+					bc.ListBooks();
+					// The example displays the following output:
+					//       Call of the Wild, The, by Jack London
+					//       Tale of Two Cities, A, by Charles Dickens
+					//
+					//       Republic, The, by Plato
+					//       Tale of Two Cities, A, by Charles Dickens
+				}
+				
+				void TheGotoStatement()
+				{
+					var matrices = new Dictionary<string, int[][]>
+					{
+					    ["A"] =
+					    [
+					        [1, 2, 3, 4],
+					        [4, 3, 2, 1]
+					    ],
+					    ["B"] =
+					    [
+					        [5, 6, 7, 8],
+					        [8, 7, 6, 5]
+					    ],
+					};
+					
+					CheckMatrices(matrices, 4);
+					
+					void CheckMatrices(Dictionary<string, int[][]> matrixLookup, int target)
+					{
+					    foreach (var (key, matrix) in matrixLookup)
+					    {
+					        for (int row = 0; row < matrix.Length; row++)
+					        {
+					            for (int col = 0; col < matrix[row].Length; col++)
+					            {
+					                if (matrix[row][col] == target)
+					                {
+					                    goto Found;
+					                }
+					            }
+					        }
+					        Console.WriteLine($"Not found {target} in matrix {key}.");
+					        continue;
+					
+					    Found:
+					        Console.WriteLine($"Found {target} in matrix {key}.");
+					    }
+					}
+					// Output:
+					// Found 4 in matrix A.
+					// Not found 4 in matrix B.
+				}
+			}
+			
+			void TheCheckedAndUncheckedStatements()
+			{
+				uint a = uint.MaxValue;
+
+				unchecked
+				{
+				    Console.WriteLine(a + 3);  // output: 2
+				}
+				
+				try
+				{
+				    checked
+				    {
+				        Console.WriteLine(a + 3);
+				    }
+				}
+				catch (OverflowException e)
+				{
+				    Console.WriteLine(e.Message);  // output: Arithmetic operation resulted in an overflow.
+				}
+				
+				/*
+				double a = double.MaxValue;
+
+				int b = unchecked((int)a);
+				Console.WriteLine(b);  // output: -2147483648
+				
+				try
+				{
+				    b = checked((int)a);
+				}
+				catch (OverflowException e)
+				{
+				    Console.WriteLine(e.Message);  // output: Arithmetic operation resulted in an overflow.
+				}
+				*/
+				
+				int Multiply(int a, int b) => a * b;
+
+				int factor = 2;
+				
+				try
+				{
+				    checked
+				    {
+				        Console.WriteLine(Multiply(factor, int.MaxValue));  // output: -2
+				    }
+				}
+				catch (OverflowException e)
+				{
+				    Console.WriteLine(e.Message);
+				}
+				
+				try
+				{
+				    checked
+				    {
+				        Console.WriteLine(Multiply(factor, factor * int.MaxValue));
+				    }
+				}
+				catch (OverflowException e)
+				{
+				    Console.WriteLine(e.Message);  // output: Arithmetic operation resulted in an overflow.
+				}
+			}
+			
+			void FixedStatements()
+			{
+				unsafe
+				{
+				    byte[] bytes = [1, 2, 3];
+				    fixed (byte* pointerToFirst = bytes)
+				    {
+				        Console.WriteLine($"The address of the first array element: {(long)pointerToFirst:X}.");
+				        Console.WriteLine($"The value of the first array element: {*pointerToFirst}.");
+				    }
+				}
+				// Output is similar to:
+				// The address of the first array element: 2173F80B5C8.
+				// The value of the first array element: 1.
+				
+				unsafe
+				{
+				    int[] numbers = [10, 20, 30];
+				    fixed (int* toFirst = &numbers[0], toLast = &numbers[^1])
+				    {
+				        Console.WriteLine(toLast - toFirst);  // output: 2
+				    }
+				}
+				
+				unsafe
+				{
+				    int[] numbers = [10, 20, 30, 40, 50];
+				    Span<int> interior = numbers.AsSpan()[1..^1];
+				    fixed (int* p = interior)
+				    {
+				        for (int i = 0; i < interior.Length; i++)
+				        {
+				            Console.Write(p[i]);  
+				        }
+				        // output: 203040
+				    }
+				}
+				
+				unsafe
+				{
+				    var message = "Hello!";
+				    fixed (char* p = message)
+				    {
+				        Console.WriteLine(*p);  // output: H
+				    }
+				}
+			}
+			
+			void FixedStatement()
+			{
+				unsafe
+				{
+				    byte[] bytes = [1, 2, 3];
+				    fixed (byte* pointerToFirst = bytes)
+				    {
+				        Console.WriteLine($"The address of the first array element: {(long)pointerToFirst:X}.");
+				        Console.WriteLine($"The value of the first array element: {*pointerToFirst}.");
+				    }
+				}
+				// Output is similar to:
+				// The address of the first array element: 2173F80B5C8.
+				// The value of the first array element: 1.
+				
+				unsafe
+				{
+				    int[] numbers = [10, 20, 30];
+				    fixed (int* toFirst = &numbers[0], toLast = &numbers[^1])
+				    {
+				        Console.WriteLine(toLast - toFirst);  // output: 2
+				    }
+				}
+				
+				unsafe
+				{
+				    int[] numbers = [10, 20, 30, 40, 50];
+				    Span<int> interior = numbers.AsSpan()[1..^1];
+				    fixed (int* p = interior)
+				    {
+				        for (int i = 0; i < interior.Length; i++)
+				        {
+				            Console.Write(p[i]);  
+				        }
+				        // output: 203040
+				    }
+				}
+				
+				unsafe
+				{
+				    var message = "Hello!";
+				    fixed (char* p = message)
+				    {
+				        Console.WriteLine(*p);  // output: H
+				    }
+				}
+			}
+			
+			void TheLockStatement()
+			{
+				/*
+				lock (x)
+				{
+				    // Your code...
+				}
+				*/
+				
+				/*
+				using (x.EnterScope())
+				{
+				    // Your code...
+				}
+				*/
+				
+				/*
+				object __lockObj = x;
+				bool __lockWasTaken = false;
+				try
+				{
+				    System.Threading.Monitor.Enter(__lockObj, ref __lockWasTaken);
+				    // Your code...
+				}
+				finally
+				{
+				    if (__lockWasTaken) System.Threading.Monitor.Exit(__lockObj);
+				}
+				*/
+				
+				
+			}
+			
+			void UsingStatement()
+			{
+				var numbers = new List<int>();
+				using (StreamReader reader = File.OpenText("numbers.txt"))
+				{
+				    string line;
+				    while ((line = reader.ReadLine()) is not null)
+				    {
+				        if (int.TryParse(line, out int number))
+				        {
+				            numbers.Add(number);
+				        }
+				    }
+				}
+				
+				/*
+				await using (var resource = new AsyncDisposableExample())
+				{
+				    // Use the resource
+				}
+				*/
+				
+				using (StreamReader numbersFile = File.OpenText("numbers.txt"), wordsFile = File.OpenText("words.txt"))
+				{
+				    // Process both files
+				}
+				
+				/*
+				using (expression)
+				{
+				    // ...
+				}
+				*/
+				
+				/*
+				StreamReader reader = File.OpenText(filePath);
+
+				using (reader)
+				{
+				    // Process file content
+				}
+				*/
+			}
+			
+			void YieldStatement()
+			{
+				foreach (int i in ProduceEvenNumbers(9))
+				{
+				    Console.Write(i);
+				    Console.Write(" ");
+				}
+				// Output: 0 2 4 6 8
+				
+				IEnumerable<int> ProduceEvenNumbers(int upto)
+				{
+				    for (int i = 0; i <= upto; i += 2)
+				    {
+				        yield return i;
+				    }
+				}
+				
+				Console.WriteLine(string.Join(" ", TakeWhilePositive(new int[] {2, 3, 4, 5, -1, 3, 4})));
+				// Output: 2 3 4 5
+				
+				Console.WriteLine(string.Join(" ", TakeWhilePositive(new int[] {9, 8, 7})));
+				// Output: 9 8 7
+				
+				IEnumerable<int> TakeWhilePositive(IEnumerable<int> numbers)
+				{
+				    foreach (int n in numbers)
+				    {
+				        if (n > 0)
+				        {
+				            yield return n;
+				        }
+				        else
+				        {
+				            yield break;
+				        }
+				    }
+				}
+				
+				/*
+				await foreach (int n in GenerateNumbersAsync(5))
+				{
+				    Console.Write(n);
+				    Console.Write(" ");
+				}
+				// Output: 0 2 4 6 8
+				
+				async IAsyncEnumerable<int> GenerateNumbersAsync(int count)
+				{
+				    for (int i = 0; i < count; i++)
+				    {
+				        yield return await ProduceNumberAsync(i);
+				    }
+				}
+				
+				async Task<int> ProduceNumberAsync(int seed)
+				{
+				    await Task.Delay(1000);
+				    return 2 * seed;
+				}
+				*/
+				
+				Console.WriteLine("=== Using in Iterator Example ===");
+
+				// Demonstrate that using statements work correctly in iterators
+				foreach (string line in ReadLinesFromResource())
+				{
+				    Console.WriteLine($"Read: {line}");
+				    // Simulate processing only first two items
+				    if (line == "Line 2") break;
+				}
+				
+				Console.WriteLine("Iteration stopped early - resource should still be disposed.");
+				
+				static IEnumerable<string> ReadLinesFromResource()
+				{
+				    Console.WriteLine("Opening resource...");
+				    using var resource = new StringWriter(); // Use StringWriter as a simple IDisposable
+				    resource.WriteLine("Resource initialized");
+				    
+				    // These lines would typically come from the resource (e.g., file, database)
+				    string[] lines = { "Line 1", "Line 2", "Line 3", "Line 4" };
+				    
+				    foreach (string line in lines)
+				    {
+				        Console.WriteLine($"About to yield: {line}");
+				        yield return line;
+				        Console.WriteLine($"Resumed after yielding: {line}");
+				    }
+				    
+				    Console.WriteLine("Iterator completed - using block will dispose resource.");
+				}
+				
+				/*
+				var numbers = ProduceEvenNumbers(5);
+				Console.WriteLine("Caller: about to iterate.");
+				foreach (int i in numbers)
+				{
+				    Console.WriteLine($"Caller: {i}");
+				}
+				
+				IEnumerable<int> ProduceEvenNumbers(int upto)
+				{
+				    Console.WriteLine("Iterator: start.");
+				    for (int i = 0; i <= upto; i += 2)
+				    {
+				        Console.WriteLine($"Iterator: about to yield {i}");
+				        yield return i;
+				        Console.WriteLine($"Iterator: yielded {i}");
+				    }
+				    Console.WriteLine("Iterator: end.");
+				}
+				// Output:
+				// Caller: about to iterate.
+				// Iterator: start.
+				// Iterator: about to yield 0
+				// Caller: 0
+				// Iterator: yielded 0
+				// Iterator: about to yield 2
+				// Caller: 2
+				// Iterator: yielded 2
+				// Iterator: about to yield 4
+				// Caller: 4
+				// Iterator: yielded 4
+				// Iterator: end.
+				*/
+				
+				
+			}
+			
+		}
+		
+		DateTime ToDateTime(IFormatProvider provider) =>
+         		 throw new InvalidCastException("Conversion to a DateTime is not supported.");
+				 
+		public static void DemonstrateStackUnwindingDifference()
+		{
+		    var localVariable = "Important debugging info";
+		    
+		    try
+		    {
+		        ProcessWithExceptionFilter(localVariable);
+		    }
+		    catch (InvalidOperationException ex) when (ex.Message.Contains("filter"))
+		    {
+		        // Exception filter: Stack not unwound yet.
+		        // localVariable is still accessible in debugger.
+		        // Call stack shows original throwing location.
+		        Console.WriteLine($"Caught with filter: {ex.Message}");
+		        Console.WriteLine($"Local variable accessible: {localVariable}");
+		    }
+		    
+		    try
+		    {
+		        ProcessWithTraditionalCatch(localVariable);
+		    }
+		    catch (InvalidOperationException ex)
+		    {
+		        // Traditional catch: Stack already unwound.
+		        // Some debugging information may be lost.
+		        if (ex.Message.Contains("traditional"))
+		        {
+		            Console.WriteLine($"Caught with if: {ex.Message}");
+		            Console.WriteLine($"Local variable accessible: {localVariable}");
+		        }
+		        else
+		        {
+		            throw; // Re-throws and further modifies stack trace.
+		        }
+		    }
+		}
+		
+		private static void ProcessWithExceptionFilter(string context)
+		{
+		    throw new InvalidOperationException($"Exception for filter demo: {context}");
+		}
+		
+		private static void ProcessWithTraditionalCatch(string context)
+		{
+		    throw new InvalidOperationException($"Exception for traditional demo: {context}");
+		}
+		
+		public static void DemonstrateDebuggingAdvantage()
+		{
+		    var contextData = new Dictionary<string, object>
+		    {
+		        ["RequestId"] = Guid.NewGuid(),
+		        ["UserId"] = "user123",
+		        ["Timestamp"] = DateTime.Now
+		    };
+		
+		    try
+		    {
+		        // Simulate a deep call stack.
+		        Level1Method(contextData);
+		    }
+		    catch (Exception ex) when (LogAndFilter(ex, contextData))
+		    {
+		        // This catch block may never execute if LogAndFilter returns false.
+		        // But LogAndFilter can examine the exception while the stack is intact.
+		        Console.WriteLine("Exception handled after logging");
+		    }
+		}
+		
+		private static void Level1Method(Dictionary<string, object> context)
+		{
+		    Level2Method(context);
+		}
+		
+		private static void Level2Method(Dictionary<string, object> context)
+		{
+		    Level3Method(context);
+		}
+		
+		private static void Level3Method(Dictionary<string, object> context)
+		{
+		    throw new InvalidOperationException("Error in deep call stack");
+		}
+		
+		private static bool LogAndFilter(Exception ex, Dictionary<string, object> context)
+		{
+		    // This method runs before stack unwinding.
+		    // Full call stack and local variables are still available.
+		    Console.WriteLine($"Exception occurred: {ex.Message}");
+		    Console.WriteLine($"Request ID: {context["RequestId"]}");
+		    Console.WriteLine($"Full stack trace preserved: {ex.StackTrace}");
+		    
+		    // Return true to handle the exception, false to continue search.
+		    return ex.Message.Contains("deep call stack");
+		}
+		
+		public static void HandleFileOperations(string filePath)
+		{
+		    try
+		    {
+		        // Simulate file operation that might fail.
+		        ProcessFile(filePath);
+		    }
+		    catch (IOException ex) when (ex.Message.Contains("access denied"))
+		    {
+		        Console.WriteLine("File access denied. Check permissions.");
+		    }
+		    catch (IOException ex) when (ex.Message.Contains("not found"))
+		    {
+		        Console.WriteLine("File not found. Verify the path.");
+		    }
+		    catch (IOException ex) when (IsNetworkPath(filePath))
+		    {
+		        Console.WriteLine($"Network file operation failed: {ex.Message}");
+		    }
+		    catch (IOException)
+		    {
+		        Console.WriteLine("Other I/O error occurred.");
+		    }
+		}
+		
+		private static void ProcessFile(string filePath)
+		{
+		    // Simulate different types of file exceptions.
+		    if (filePath.Contains("denied"))
+		        throw new IOException("File access denied");
+		    if (filePath.Contains("missing"))
+		        throw new IOException("File not found");
+		    if (IsNetworkPath(filePath))
+		        throw new IOException("Network timeout occurred");
+		}
+		
+		private static bool IsNetworkPath(string path)
+		{
+		    return path.StartsWith(@"\\") || path.StartsWith("http");
+		}
+		
+		public static async Task Run()
+		{
+		    try
+		    {
+		        Task<int> processing = ProcessAsync(-1);
+		        Console.WriteLine("Launched processing.");
+		
+		        int result = await processing;
+		        Console.WriteLine($"Result: {result}.");
+		    }
+		    catch (ArgumentException e)
+		    {
+		        Console.WriteLine($"Processing failed: {e.Message}");
+		    }
+		    // Output:
+		    // Launched processing.
+		    // Processing failed: Input must be non-negative. (Parameter 'input')
+		}
+		
+		private static async Task<int> ProcessAsync(int input)
+		{
+		    if (input < 0)
+		    {
+		        throw new ArgumentOutOfRangeException(nameof(input), "Input must be non-negative.");
+		    }
+		
+		    await Task.Delay(500);
+		    return input;
+		}
+		
+		/*
+		public async Task HandleRequest(int itemId, CancellationToken ct)
+		{
+		    Busy = true;
+		
+		    try
+		    {
+		        await ProcessAsync(itemId, ct);
+		    }
+		    finally
+		    {
+		        Busy = false;
+		    }
+		}
+		
+		public async Task ProcessRequest(int itemId, CancellationToken ct)
+		{
+		    Busy = true;
+		
+		    try
+		    {
+		        await ProcessAsync(itemId, ct);
+		    }
+		    catch (Exception e) when (e is not OperationCanceledException)
+		    {
+		        LogError(e, $"Failed to process request for item ID {itemId}.");
+		        throw;
+		    }
+		    finally
+		    {
+		        Busy = false;
+		    }
+		
+		}
+		*/
+		
+		/*
+		public ref Person GetContactInformation(string fname, string lname)
+		{
+		    // ...method implementation...
+		    return ref p;
+		}
+		*/
+		
+		public static ref int Find(int[,] matrix, Func<int, bool> predicate)
+		{
+		    for (int i = 0; i < matrix.GetLength(0); i++)
+		        for (int j = 0; j < matrix.GetLength(1); j++)
+		            if (predicate(matrix[i, j]))
+		                return ref matrix[i, j];
+		    throw new InvalidOperationException("Not found");
+		}
+		
+		static IEnumerable<int> LoadNumbers(string filePath)
+		{
+		    using StreamReader reader = File.OpenText(filePath);
+		    
+		    var numbers = new List<int>();
+		    string line;
+		    while ((line = reader.ReadLine()) is not null)
+		    {
+		        if (int.TryParse(line, out int number))
+		        {
+		            numbers.Add(number);
+		        }
+		    }
+		    return numbers;
+		}
+		
+		public static void Example()
+		{
+		    var point = new Point(1, 2, 3);
+		    foreach (int coordinate in point)
+		    {
+		        Console.Write(coordinate);
+		        Console.Write(" ");
+		    }
+		    // Output: 1 2 3
+		}
+	}
+	
+	public class NumberStore
+	{
+	    private readonly int[] numbers = [1, 30, 7, 1557, 381, 63, 1027, 2550, 511, 1023];
+	
+	    public ref int GetReferenceToMax()
+	    {
+	        ref int max = ref numbers[0];
+	        for (int i = 1; i < numbers.Length; i++)
+	        {
+	            if (numbers[i] > max)
+	            {
+	                max = ref numbers[i];
+	            }
+	        }
+	        return ref max;
+	    }
+	
+	    public override string ToString() => string.Join(" ", numbers);
+	}
+	
+	public static class ReferenceReturnExample
+	{
+	    public static void Run()
+	    {
+	        var store = new NumberStore();
+	        Console.WriteLine($"Original sequence: {store.ToString()}");
+	        
+	        ref int max = ref store.GetReferenceToMax();
+	        max = 0;
+	        Console.WriteLine($"Updated sequence:  {store.ToString()}");
+	        // Output:
+	        // Original sequence: 1 30 7 1557 381 63 1027 2550 511 1023
+	        // Updated sequence:  1 30 7 1557 381 63 1027 0 511 1023
+	    }
+	}
+	
+	public class Book
+	{
+	    public string Author;
+	    public string Title;
+	}
+	
+	public class BookCollection
+	{
+	    private Book[] books = { new Book { Title = "Call of the Wild, The", Author = "Jack London" },
+	                        new Book { Title = "Tale of Two Cities, A", Author = "Charles Dickens" }
+	                       };
+	    private Book nobook = null;
+	
+	    public ref Book GetBookByTitle(string title)
+	    {
+	        for (int ctr = 0; ctr < books.Length; ctr++)
+	        {
+	            if (title == books[ctr].Title)
+	                return ref books[ctr];
+	        }
+	        return ref nobook;
+	    }
+	
+	    public void ListBooks()
+	    {
+	        foreach (var book in books)
+	        {
+	            Console.WriteLine($"{book.Title}, by {book.Author}");
+	        }
+	        Console.WriteLine();
+	    }
+	}
+	
+	public enum CoffeeChoice
+	{
+	    Plain,
+	    WithMilk,
+	    WithIceCream,
+	}
+	
+	public class GotoInSwitchExample
+	{
+	    public static void RunMain()
+	    {
+	        Console.WriteLine(CalculatePrice(CoffeeChoice.Plain));  // output: 10.0
+	        Console.WriteLine(CalculatePrice(CoffeeChoice.WithMilk));  // output: 15.0
+	        Console.WriteLine(CalculatePrice(CoffeeChoice.WithIceCream));  // output: 17.0
+	    }
+	
+	    private static decimal CalculatePrice(CoffeeChoice choice)
+	    {
+	        decimal price = 0;
+	        switch (choice)
+	        {
+	            case CoffeeChoice.Plain:
+	                price += 10.0m;
+	                break;
+	
+	            case CoffeeChoice.WithMilk:
+	                price += 5.0m;
+	                goto case CoffeeChoice.Plain;
+	
+	            case CoffeeChoice.WithIceCream:
+	                price += 7.0m;
+	                goto case CoffeeChoice.Plain;
+	        }
+	        return price;
+	    }
+	}
+	
+	public class Account
+	{
+	    // Use `object` in versions earlier than C# 13
+	    private readonly System.Threading.Lock _balanceLock = new();
+	    private decimal _balance;
+	
+	    public Account(decimal initialBalance) => _balance = initialBalance;
+	
+	    public decimal Debit(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "The debit amount cannot be negative.");
+	        }
+	
+	        decimal appliedAmount = 0;
+	        lock (_balanceLock)
+	        {
+	            if (_balance >= amount)
+	            {
+	                _balance -= amount;
+	                appliedAmount = amount;
+	            }
+	        }
+	        return appliedAmount;
+	    }
+	
+	    public void Credit(decimal amount)
+	    {
+	        if (amount < 0)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(amount), "The credit amount cannot be negative.");
+	        }
+	
+	        lock (_balanceLock)
+	        {
+	            _balance += amount;
+	        }
+	    }
+	
+	    public decimal GetBalance()
+	    {
+	        lock (_balanceLock)
+	        {
+	            return _balance;
+	        }
+	    }
+	}
+	
+	class AccountTest
+	{
+	    static async Task RunMain()
+	    {
+	        var account = new Account(1000);
+	        var tasks = new Task[100];
+	        for (int i = 0; i < tasks.Length; i++)
+	        {
+	            tasks[i] = Task.Run(() => Update(account));
+	        }
+	        await Task.WhenAll(tasks);
+	        Console.WriteLine($"Account's balance is {account.GetBalance()}");
+	        // Output:
+	        // Account's balance is 2000
+	    }
+	
+	    static void Update(Account account)
+	    {
+	        decimal[] amounts = [0, 2, -3, 6, -2, -1, 8, -5, 11, -6];
+	        foreach (var amount in amounts)
+	        {
+	            if (amount >= 0)
+	            {
+	                account.Credit(amount);
+	            }
+	            else
+	            {
+	                account.Debit(Math.Abs(amount));
+	            }
+	        }
+	    }
+	}
+	
+	public readonly record struct Point(int X, int Y, int Z)
+	{
+	    public IEnumerator<int> GetEnumerator()
+	    {
+	        yield return X;
+	        yield return Y;
+	        yield return Z;
+	    }
+	}
+}
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/
 namespace DotnetCSharpLanguageReferenceOperators
 {
 	public class ReferenceOperators
 	{
+		/*
+		public string Name
+		{
+		    get => name;
+		    set => name = value ?? throw new ArgumentNullException(nameof(value), "Name cannot be null");
+		}
+		*/
+		
 		public static void RunReferenceOperators()
 		{
 			int a, b, c;
@@ -721,9 +2392,1175 @@ namespace DotnetCSharpLanguageReferenceOperators
 			                       "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"];
 			string[] alphabet = [.. vowels, .. consonants, "y"];
 			
+			/*
+			int a = 1 + 2 + 3;
+			int b = 6;
+			Console.WriteLine(a == b);  // output: True
+			
+			char c1 = 'a';
+			char c2 = 'A';
+			Console.WriteLine(c1 == c2);  // output: False
+			Console.WriteLine(c1 == char.ToLower(c2));  // output: True
+			*/
+			
+			string s1 = "hello!";
+			string s2 = "HeLLo!";
+			Console.WriteLine(s1 == s2.ToLower());  // output: True
+			
+			string s3 = "Hello!";
+			Console.WriteLine(s1 == s3);  // output: False
+			
+			/*
+			Action a = () => Console.WriteLine("a");
+
+			Action b = a + a;
+			Action c = a + a;
+			Console.WriteLine(object.ReferenceEquals(b, c));  // output: False
+			Console.WriteLine(b == c);  // output: True
+			*/
+			
+			var o1 = new object();
+			var o2 = new object();
+			var d1 = o1.ToString;
+			var d2 = o2.ToString;
+			Console.WriteLine(object.ReferenceEquals(d1, d2));  // output: False
+			Console.WriteLine(d1 == d2);  // output: False (different receivers)
+			
+			/*
+			Action a = () => Console.WriteLine("a");
+			Action b = () => Console.WriteLine("a");
+			
+			Console.WriteLine(a == b);  // output: False
+			Console.WriteLine(a + b == a + b);  // output: True
+			Console.WriteLine(b + a == a + b);  // output: False
+			
+			int a = 1 + 1 + 2 + 3;
+			int b = 6;
+			Console.WriteLine(a != b);  // output: True
+			
+			string s1 = "Hello";
+			string s2 = "Hello";
+			Console.WriteLine(s1 != s2);  // output: False
+			
+			object o1 = 1;
+			object o2 = 1;
+			Console.WriteLine(o1 != o2);  // output: True
+			*/
+			
+			Console.WriteLine(7.0 < 5.1);   // output: False
+			Console.WriteLine(5.1 < 5.1);   // output: False
+			Console.WriteLine(0.0 < 5.1);   // output: True
+			
+			Console.WriteLine(double.NaN < 5.1);   // output: False
+			Console.WriteLine(double.NaN >= 5.1);  // output: False
+			
+			Console.WriteLine(7.0 > 5.1);   // output: True
+			Console.WriteLine(5.1 > 5.1);   // output: False
+			Console.WriteLine(0.0 > 5.1);   // output: False
+			
+			Console.WriteLine(double.NaN > 5.1);   // output: False
+			Console.WriteLine(double.NaN <= 5.1);  // output: False
+			
+			Console.WriteLine(7.0 <= 5.1);   // output: False
+			Console.WriteLine(5.1 <= 5.1);   // output: True
+			Console.WriteLine(0.0 <= 5.1);   // output: True
+			
+			Console.WriteLine(double.NaN > 5.1);   // output: False
+			Console.WriteLine(double.NaN <= 5.1);  // output: False
+			
+			Console.WriteLine(7.0 >= 5.1);   // output: True
+			Console.WriteLine(5.1 >= 5.1);   // output: True
+			Console.WriteLine(0.0 >= 5.1);   // output: False
+			
+			Console.WriteLine(double.NaN < 5.1);   // output: False
+			Console.WriteLine(double.NaN >= 5.1);  // output: False
+			
+			System.Collections.Generic.IEnumerable<int> numbers2 = [1, 2, 3];
+			
+			List<double> constants =
+			[
+			    Math.PI,
+			    Math.E
+			];
+			Console.WriteLine($"{constants.Count} values to show:");
+			Console.WriteLine(string.Join(", ", constants));
+			// Output:
+			// 2 values to show:
+			// 3.14159265358979, 2.71828182845905
+			
+			int[] fib = new int[10];
+			fib[0] = fib[1] = 1;
+			/*
+			for (int i = 2; i < fib.Length; i++)
+			{
+			    fib[i] = fib[i - 1] + fib[i - 2];
+			}
+			Console.WriteLine(fib[fib.Length - 1]);  // output: 55
+			*/
+			
+			double[,] matrix = new double[2,2];
+			matrix[0,0] = 1.0;
+			matrix[0,1] = 2.0;
+			matrix[1,0] = matrix[1,1] = 3.0;
+			var determinant = matrix[0,0] * matrix[1,1] - matrix[1,0] * matrix[0,1];
+			Console.WriteLine(determinant);  // output: -3
+			
+			var dict = new Dictionary<string, double>();
+			dict["one"] = 1;
+			dict["pi"] = Math.PI;
+			Console.WriteLine(dict["one"] + dict["pi"]);  // output: 4.14159265358979
+			
+			/*
+			arr is ([1, 2, ..])
+			//Specifies that an array starts with (1, 2)
+			*/
+			
+			/*
+			A?.B?.Do(C);
+			A?.B?[C];
+			
+			A?.B.C();
+			*/
 			
 			
+			var sum1 = SumNumbers(null, 0);
+			Console.WriteLine(sum1);  // output: NaN
 			
+			List<double[]?> numberSets =
+			[
+			    [1.0, 2.0, 3.0],
+			    null
+			];
+			
+			var sum2 = SumNumbers(numberSets, 0);
+			Console.WriteLine(sum2);  // output: 6
+			
+			var sum3 = SumNumbers(numberSets, 1);
+			Console.WriteLine(sum3);  // output: NaN
+			
+			/*
+			Console.WriteLine(GetSumOfFirstTwoOrDefault(null));  // output: 0
+			Console.WriteLine(GetSumOfFirstTwoOrDefault([]));  // output: 0
+			Console.WriteLine(GetSumOfFirstTwoOrDefault([3, 4, 5]));  // output: 7
+			
+			person?.FirstName = "Scott";
+			messages?[5] = "five";
+			
+			values?[2] = GenerateNextIndex();
+			int GenerateNextIndex() => index++;
+			
+			if (values is not null)
+			{
+			    values[2] = GenerateNextIndex();
+			}
+			
+			PropertyChanged?.Invoke(…)
+			
+			var handler = this.PropertyChanged;
+			if (handler != null)
+			{
+			    handler(…);
+			}
+			*/
+			
+			Action<int> display = s => Console.WriteLine(s);
+
+			List<int> numbers3 =
+			[
+			    10,
+			    17
+			];
+			display(numbers3.Count);   // output: 2
+			
+			numbers3.Clear();
+			display(numbers3.Count);   // output: 0
+			
+			int[] xs = [0, 10, 20, 30, 40];
+			int last = xs[^1];
+			Console.WriteLine(last);  // output: 40
+			
+			List<string> lines = ["one", "two", "three", "four"];
+			string prelast = lines[^2];
+			Console.WriteLine(prelast);  // output: three
+			
+			string word = "Twenty";
+			Index toFirst = ^word.Length;
+			char first = word[toFirst];
+			Console.WriteLine(first);  // output: T
+			
+			/*
+			int[] numbers = [0, 10, 20, 30, 40, 50];
+			int start = 1;
+			int amountToTake = 3;
+			int[] subset = numbers[start..(start + amountToTake)];
+			Display(subset);  // output: 10 20 30
+			
+			int margin = 1;
+			int[] inner = numbers[margin..^margin];
+			Display(inner);  // output: 10 20 30 40
+			
+			string line = "one two three";
+			int amountToTakeFromEnd = 5;
+			Range endIndices = ^amountToTakeFromEnd..^0;
+			string end = line[endIndices];
+			Console.WriteLine(end);  // output: three
+			*/
+			
+			/*
+			int[] numbers = [0, 10, 20, 30, 40, 50];
+			int amountToDrop = numbers.Length / 2;
+			
+			int[] rightHalf = numbers[amountToDrop..];
+			Display(rightHalf);  // output: 30 40 50
+			
+			int[] leftHalf = numbers[..^amountToDrop];
+			Display(leftHalf);  // output: 0 10 20
+			
+			int[] all = numbers[..];
+			Display(all);  // output: 0 10 20 30 40 50
+			
+			void Display<T>(IEnumerable<T> xs) => Console.WriteLine(string.Join(" ", xs));
+			*/
+			
+			int[] oneThroughTen =
+			[
+			    1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+			];
+			
+			Write(oneThroughTen, ..);
+			Write(oneThroughTen, ..3);
+			Write(oneThroughTen, 2..);
+			Write(oneThroughTen, 3..5);
+			Write(oneThroughTen, ^2..);
+			Write(oneThroughTen, ..^3);
+			Write(oneThroughTen, 3..^4);
+			Write(oneThroughTen, ^4..^2);
+			
+			static void Write(int[] values, Range range) =>
+			    Console.WriteLine($"{range}:\t{string.Join(", ", values[range])}");
+			// Sample output:
+			//      0..^0:      1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+			//      0..3:       1, 2, 3
+			//      2..^0:      3, 4, 5, 6, 7, 8, 9, 10
+			//      3..5:       4, 5
+			//      ^2..^0:     9, 10
+			//      0..^3:      1, 2, 3, 4, 5, 6, 7
+			//      3..^4:      4, 5, 6
+			//      ^4..^2:     7, 8
+			
+			int i2 = 27;
+			Console.WriteLine(i2 is System.IFormattable);  // output: True
+			
+			object iBoxed = i2;
+			Console.WriteLine(iBoxed is int);  // output: True
+			Console.WriteLine(iBoxed is long);  // output: False
+			
+			int i3 = 23;
+			object iBoxed3 = i3;
+			int? jNullable = 7;
+			if (iBoxed3 is int a11 && jNullable is int b11)
+			{
+			    Console.WriteLine(a11 + b11);  // output 30
+			}
+			
+			IEnumerable<int> numbers5 = new List<int>(){10, 20, 30};
+			IList<int> indexable = numbers5 as IList<int>;
+			if (indexable != null)
+			{
+			    Console.WriteLine(indexable[0] + indexable[indexable.Count - 1]);  // output: 40
+			}
+			
+			/*
+			double x = 1234.7;
+			int a = (int)x;
+			Console.WriteLine(a);   // output: 1234
+			
+			int[] ints = [10, 20, 30];
+			IEnumerable<int> numbers = ints;
+			IList<int> list = (IList<int>)numbers;
+			Console.WriteLine(list.Count);  // output: 3
+			Console.WriteLine(list[1]);  // output: 20
+			*/
+			
+			void PrintType<T>() => Console.WriteLine(typeof(T));
+
+			Console.WriteLine(typeof(List<string>));
+			PrintType<int>();
+			PrintType<System.Int32>();
+			PrintType<Dictionary<int, char>>();
+			// Output:
+			// System.Collections.Generic.List`1[System.String]
+			// System.Int32
+			// System.Int32
+			// System.Collections.Generic.Dictionary`2[System.Int32,System.Char]
+			
+			Console.WriteLine(typeof(Dictionary<,>));
+			// Output:
+			// System.Collections.Generic.Dictionary`2[TKey,TValue]
+			
+			unsafe
+			{
+			    int number = 27;
+			    int* pointerToNumber = &number;
+			
+			    Console.WriteLine($"Value of the variable: {number}");
+			    Console.WriteLine($"Address of the variable: {(long)pointerToNumber:X}");
+			}
+			// Output is similar to:
+			// Value of the variable: 27
+			// Address of the variable: 6C1457DBD4
+			
+			unsafe
+			{
+			    byte[] bytes = { 1, 2, 3 };
+			    fixed (byte* pointerToFirst = &bytes[0])
+			    {
+			        // The address stored in pointerToFirst
+			        // is valid only inside this fixed statement block.
+			    }
+			}
+			
+			unsafe
+			{
+			    char letter = 'A';
+			    char* pointerToLetter = &letter;
+			    Console.WriteLine($"Value of the `letter` variable: {letter}");
+			    Console.WriteLine($"Address of the `letter` variable: {(long)pointerToLetter:X}");
+			
+			    *pointerToLetter = 'Z';
+			    Console.WriteLine($"Value of the `letter` variable after update: {letter}");
+			}
+			// Output is similar to:
+			// Value of the `letter` variable: A
+			// Address of the `letter` variable: DCB977DDF4
+			// Value of the `letter` variable after update: Z
+			
+			unsafe
+			{
+			    char* pointerToChars = stackalloc char[123];
+			
+			    for (int i9 = 65; i9 < 123; i9++)
+			    {
+			        pointerToChars[i9] = (char)i9;
+			    }
+			
+			    Console.Write("Uppercase letters: ");
+			    for (int i9 = 65; i9 < 91; i9++)
+			    {
+			        Console.Write(pointerToChars[i9]);
+			    }
+			}
+			// Output:
+			// Uppercase letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+			
+			unsafe
+			{
+			    const int Count = 3;
+			    int[] numberss = new int[Count] { 10, 20, 30 };
+			    fixed (int* pointerToFirst = &numberss[0])
+			    {
+			        int* pointerToLast = pointerToFirst + (Count - 1);
+			
+			        Console.WriteLine($"Value {*pointerToFirst} at address {(long)pointerToFirst}");
+			        Console.WriteLine($"Value {*pointerToLast} at address {(long)pointerToLast}");
+			    }
+			}
+			// Output is similar to:
+			// Value 10 at address 1818345918136
+			// Value 30 at address 1818345918144
+			
+			unsafe
+			{
+			    int* numbersr = stackalloc int[] { 0, 1, 2, 3, 4, 5 };
+			    int* p1 = &numbersr[1];
+			    int* p2 = &numbersr[5];
+			    Console.WriteLine(p2 - p1);  // output: 4
+			}
+			
+			/*
+			unsafe
+			{
+			    int* numbers = stackalloc int[] { 0, 1, 2 };
+			    int* p1 = &numbers[0];
+			    int* p2 = p1;
+			    Console.WriteLine($"Before operation: p1 - {(long)p1}, p2 - {(long)p2}");
+			    Console.WriteLine($"Postfix increment of p1: {(long)(p1++)}");
+			    Console.WriteLine($"Prefix increment of p2: {(long)(++p2)}");
+			    Console.WriteLine($"After operation: p1 - {(long)p1}, p2 - {(long)p2}");
+			}
+			// Output is similar to
+			// Before operation: p1 - 816489946512, p2 - 816489946512
+			// Postfix increment of p1: 816489946512
+			// Prefix increment of p2: 816489946516
+			// After operation: p1 - 816489946516, p2 - 816489946516
+			*/
+			
+			List<double> numbers8 = [1.0, 2.0, 3.0];
+
+			Console.WriteLine(numbers8.Capacity);
+			numbers8.Capacity = 100;
+			Console.WriteLine(numbers8.Capacity);
+			// Output:
+			// 4
+			// 100
+			
+			int newFirstElement;
+			double originalFirstElement = numbers[0];
+			newFirstElement = 5;
+			numbers[0] = newFirstElement;
+			Console.WriteLine(originalFirstElement);
+			Console.WriteLine(numbers[0]);
+			// Output:
+			// 1
+			// 5
+			
+			/*
+			void Display(double[] s) => Console.WriteLine(string.Join(" ", s));
+
+			double[] arr = { 0.0, 0.0, 0.0 };
+			Display(arr);
+			
+			ref double arrayElement = ref arr[0];
+			arrayElement = 3.0;
+			Display(arr);
+			
+			arrayElement = ref arr[arr.Length - 1];
+			arrayElement = 5.0;
+			Display(arr);
+			// Output:
+			// 0 0 0
+			// 3 0 0
+			// 3 0 5
+			*/
+			
+			string msg = "Hi";
+			RefReassignAndModify(ref msg);
+			Console.WriteLine(msg); // Output: Hi
+			
+			Func<int, int> square = x => x * x;
+			Console.WriteLine(square(5));
+			// Output:
+			// 25
+			
+			System.Linq.Expressions.Expression<Func<int, int>> e = x => x * x;
+			Console.WriteLine(e);
+			// Output:
+			// x => (x * x)
+			
+			/*
+			int[] numbers = { 2, 3, 4, 5 };
+			var squaredNumbers = numbers.Select(x => x * x);
+			Console.WriteLine(string.Join(" ", squaredNumbers));
+			// Output:
+			// 4 9 16 25
+			*/
+			
+			Action<string> greet = name =>
+			{
+			    string greeting = $"Hello {name}!";
+			    Console.WriteLine(greeting);
+			};
+			greet("World");
+			// Output:
+			// Hello World!
+			
+			Action line = () => Console.WriteLine();
+			
+			Func<double, double> cube = x => x * x * x;
+			
+			Func<int, int, bool> testForEquality = (x, y) => x == y;
+			
+			Func<int, string, bool> isTooLong = (int x, string s) => s.Length > x;
+			
+			Func<int, int, int> constant = (_, _) => 42;
+			
+			var IncrementBy = (int source, int increment = 1) => source + increment;
+
+			Console.WriteLine(IncrementBy(5)); // 6
+			Console.WriteLine(IncrementBy(5, 2)); // 7
+			
+			var sum = (params IEnumerable<int> values) =>
+			{
+			    int sum = 0;
+			    foreach (var value in values) 
+			        sum += value;
+			    
+			    return sum;
+			};
+			
+			var empty = sum();
+			Console.WriteLine(empty); // 0
+			
+			var sequence = new[] { 1, 2, 3, 4, 5 };
+			var total = sum(sequence);
+			Console.WriteLine(total); // 15
+			
+			/*
+			Func<(int, int, int), (int, int, int)> doubleThem = ns => (2 * ns.Item1, 2 * ns.Item2, 2 * ns.Item3);
+			var numbers = (2, 3, 4);
+			var doubledNumbers = doubleThem(numbers);
+			Console.WriteLine($"The set {numbers} doubled: {doubledNumbers}");
+			// Output:
+			// The set (2, 3, 4) doubled: (4, 6, 8)
+			*/
+			
+			/*
+			Func<(int n1, int n2, int n3), (int, int, int)> doubleThem = ns => (2 * ns.n1, 2 * ns.n2, 2 * ns.n3);
+			var numbers = (2, 3, 4);
+			var doubledNumbers = doubleThem(numbers);
+			Console.WriteLine($"The set {numbers} doubled: {doubledNumbers}");
+			*/
+			
+			Func<int, bool> equalsFive = x => x == 5;
+			bool result = equalsFive(4);
+			Console.WriteLine(result);   // False
+			
+			/*
+			int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+			int oddNumbers = numbers.Count(n => n % 2 == 1);
+			Console.WriteLine($"There are {oddNumbers} odd numbers in {string.Join(" ", numbers)}");
+			*/
+			
+			/*
+			int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+			var firstNumbersLessThanSix = numbers.TakeWhile(n => n < 6);
+			Console.WriteLine(string.Join(" ", firstNumbersLessThanSix));
+			// Output:
+			// 5 4 1 3
+			
+			int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+			var firstSmallNumbers = numbers.TakeWhile((n, index) => n >= index);
+			Console.WriteLine(string.Join(" ", firstSmallNumbers));
+			// Output:
+			// 5 4
+			*/
+			
+			/*
+			var numberSets = new List<int[]>
+			{
+			    new[] { 1, 2, 3, 4, 5 },
+			    new[] { 0, 0, 0 },
+			    new[] { 9, 8 },
+			    new[] { 1, 0, 1, 0, 1, 0, 1, 0 }
+			};
+			
+			var setsWithManyPositives = 
+			    from numberSet in numberSets
+			    where numberSet.Count(n => n > 0) > 3
+			    select numberSet;
+			
+			foreach (var numberSet in setsWithManyPositives)
+			{
+			    Console.WriteLine(string.Join(" ", numberSet));
+			}
+			// Output:
+			// 1 2 3 4 5
+			// 1 0 1 0 1 0 1 0
+			*/
+			
+			/*
+			var parse = (string s) => int.Parse(s);
+			
+			object parse = (string s) => int.Parse(s);   // Func<string, int>
+			Delegate parse = (string s) => int.Parse(s); // Func<string, int>
+			
+			var read = Console.Read; // Just one overload; Func<int> inferred
+			var write = Console.Write; // ERROR: Multiple overloads, can't choose
+			
+			LambdaExpression parseExpr = (string s) => int.Parse(s); // Expression<Func<string, int>>
+			Expression parseExpr = (string s) => int.Parse(s);       // Expression<Func<string, int>>
+			
+			var parse = s => int.Parse(s); // ERROR: Not enough type info in the lambda
+			
+			Func<string, int> parse = s => int.Parse(s);
+			
+			var choose = (bool b) => b ? 1 : "two"; // ERROR: Can't infer return type
+			
+			var choose = object (bool b) => b ? 1 : "two"; // Func<bool, object>
+			*/
+			
+			//Func<string?, int?> parse = [ProvidesNullCheck] (s) => (s is not null) ? int.Parse(s) : null;
+			
+			var concat = ([DisallowNull] string a, [DisallowNull] string b) => a + b;
+			var inc = [return: NotNullIfNotNull(nameof(s))] (int? s) => s.HasValue ? s++ : null;
+			
+			/*
+			object greeting = "Hello, World!";
+			if (greeting is string message)
+			{
+			    Console.WriteLine(message.ToLower());  // output: hello, world!
+			}
+			*/
+			
+			/*
+			var numbers = new int[] { 10, 20, 30 };
+			Console.WriteLine(GetSourceLabel(numbers));  // output: 1
+			
+			var letters = new List<char> { 'a', 'b', 'c', 'd' };
+			Console.WriteLine(GetSourceLabel(letters));  // output: 2
+			*/
+			
+			/*
+			int? xNullable = 7;
+			int y = 23;
+			object yBoxed = y;
+			if (xNullable is int a && yBoxed is int b)
+			{
+			    Console.WriteLine(a + b);  // output: 30
+			}
+			*/
+			
+			/*
+			if (input is null)
+			{
+			    return;
+			}
+			
+			if (input is not null)
+			{
+			    // ...
+			}
+			*/
+			
+			Console.WriteLine(Classify(13));  // output: Too high
+			Console.WriteLine(Classify(double.NaN));  // output: Unknown
+			Console.WriteLine(Classify(2.4));  // output: Acceptable
+			
+			Console.WriteLine(GetCalendarSeason(new DateTime(2021, 3, 14)));  // output: spring
+			Console.WriteLine(GetCalendarSeason(new DateTime(2021, 7, 19)));  // output: summer
+			Console.WriteLine(GetCalendarSeason(new DateTime(2021, 2, 17)));  // output: winter
+			
+			Console.WriteLine(Classify2(13));  // output: High
+			Console.WriteLine(Classify2(-100));  // output: Too low
+			Console.WriteLine(Classify2(5.7));  // output: Acceptable
+			
+			Console.WriteLine(GetCalendarSeason2(new DateTime(2021, 1, 19)));  // output: winter
+			Console.WriteLine(GetCalendarSeason2(new DateTime(2021, 10, 9)));  // output: autumn
+			Console.WriteLine(GetCalendarSeason2(new DateTime(2021, 5, 11)));  // output: spring
+			
+			Console.WriteLine(TakeFive("Hello, world!"));  // output: Hello
+			Console.WriteLine(TakeFive("Hi!"));  // output: Hi!
+			Console.WriteLine(TakeFive(new[] { '1', '2', '3', '4', '5', '6', '7' }));  // output: 12345
+			Console.WriteLine(TakeFive(new[] { 'a', 'b', 'c' }));  // output: abc
+			
+			/*
+			if (GetSomeNullableStringValue() is { } nonNullValue) // Empty property pattern with variable creation
+			{
+			    Console.WriteLine("NotNull:" + nonNullValue);
+			}
+			else
+			{
+			    nonNullValue = "NullFallback"; // we can access the variable here.
+			    Console.WriteLine("it was null, here's the fallback: " + nonNullValue);
+			}
+			*/
+			
+			/*
+			var numbers = new List<int> { 1, 2, 3 };
+			if (SumAndCount(numbers) is (Sum: var sum, Count: > 0))
+			{
+			    Console.WriteLine($"Sum of [{string.Join(" ", numbers)}] is {sum}");  // output: Sum of [1 2 3] is 6
+			}
+			*/
+			
+			/*
+			if (input is WeightedPoint (> 0, > 0) { Weight: > 0.0 } p)
+			{
+			    // ..
+			}
+			*/
+			
+			Console.WriteLine(GetDiscountInPercent(DayOfWeek.Friday));  // output: 5.0
+			Console.WriteLine(GetDiscountInPercent(null));  // output: 0.0
+			Console.WriteLine(GetDiscountInPercent((DayOfWeek)10));  // output: 0.0
+			
+			/*
+			if (input is not (float or double))
+			{
+			    return;
+			}
+			*/
+			
+			/*
+			int[] numbers = { 1, 2, 3 };
+
+			Console.WriteLine(numbers is [1, 2, 3]);  // True
+			Console.WriteLine(numbers is [1, 2, 4]);  // False
+			Console.WriteLine(numbers is [1, 2, 3, 4]);  // False
+			Console.WriteLine(numbers is [0 or 1, <= 2, >= 3]);  // True
+			*/
+			
+			/*
+			List<int> numbers = new() { 1, 2, 3 };
+
+			if (numbers is [var first, _, _])
+			{
+			    Console.WriteLine($"The first element of a three-item list is {first}.");
+			}
+			// Output:
+			// The first element of a three-item list is 1.
+			*/
+			
+			Console.WriteLine(new[] { 1, 2, 3, 4, 5 } is [> 0, > 0, ..]);  // True
+			Console.WriteLine(new[] { 1, 1 } is [_, _, ..]);  // True
+			Console.WriteLine(new[] { 0, 1, 2, 3, 4 } is [> 0, > 0, ..]);  // False
+			Console.WriteLine(new[] { 1 } is [1, 2, ..]);  // False
+			
+			Console.WriteLine(new[] { 1, 2, 3, 4 } is [.., > 0, > 0]);  // True
+			Console.WriteLine(new[] { 2, 4 } is [.., > 0, 2, 4]);  // False
+			Console.WriteLine(new[] { 2, 4 } is [.., 2, 4]);  // True
+			
+			Console.WriteLine(new[] { 1, 2, 3, 4 } is [>= 0, .., 2 or 4]);  // True
+			Console.WriteLine(new[] { 1, 0, 0, 1 } is [1, 0, .., 0, 1]);  // True
+			Console.WriteLine(new[] { 1, 0, 1 } is [1, 0, .., 0, 1]);  // False
+			
+			/*
+			MatchMessage("aBBA");  // output: Message aBBA matches; inner part is BB.
+			MatchMessage("apron");  // output: Message apron doesn't match.
+			
+			Validate(new[] { -1, 0, 1 });  // output: not valid
+			Validate(new[] { -1, 0, 0, 1 });  // output: valid
+			*/
+			void StringConcatenation()
+			{
+				Console.WriteLine("Forgot" + "white space");
+				Console.WriteLine("Probably the oldest constant: " + Math.PI);
+				Console.WriteLine(null + "Nothing to add.");
+				// Output:
+				// Forgotwhite space
+				// Probably the oldest constant: 3.14159265358979
+				// Nothing to add.
+				
+				Console.WriteLine($"Probably the oldest constant: {Math.PI:F2}");
+				// Output:
+				// Probably the oldest constant: 3.14
+			}
+			
+			void DelegateCombination()
+			{
+				Action a = () => Console.Write("a");
+				Action b = () => Console.Write("b");
+				Action ab = a + b;
+				ab();  // output: ab
+				
+				int i = 5;
+				i += 9;
+				Console.WriteLine(i);
+				// Output: 14
+				
+				string story = "Start. ";
+				story += "End.";
+				Console.WriteLine(story);
+				// Output: Start. End.
+				
+				Action printer = () => Console.Write("a");
+				printer();  // output: a
+				
+				Console.WriteLine();
+				printer += () => Console.Write("b");
+				printer();  // output: ab
+			}
+			
+			void DelegateRemoval()
+			{
+				Action a = () => Console.Write("a");
+				Action b = () => Console.Write("b");
+				
+				var abbaab = a + b + b + a + a + b;
+				abbaab();  // output: abbaab
+				Console.WriteLine();
+				
+				var ab = a + b;
+				var abba = abbaab - ab;
+				abba();  // output: abba
+				Console.WriteLine();
+				
+				var nihil = abbaab - abbaab;
+				Console.WriteLine(nihil is null);  // output: True
+				
+				var aba = a + b + a;
+				
+				var first = abbaab - aba;
+				first();  // output: abbaab
+				Console.WriteLine();
+				Console.WriteLine(object.ReferenceEquals(abbaab, first));  // output: True
+				
+				Action a2 = () => Console.Write("a");
+				var changed = aba - a;
+				changed();  // output: ab
+				Console.WriteLine();
+				var unchanged = aba - a2;
+				unchanged();  // output: aba
+				Console.WriteLine();
+				Console.WriteLine(object.ReferenceEquals(aba, unchanged));  // output: True
+				
+				var nothing = null - a;
+				Console.WriteLine(nothing is null);  // output: True
+				
+				/*
+				var first = a - null;
+				a();  // output: a
+				Console.WriteLine();
+				Console.WriteLine(object.ReferenceEquals(first, a));  // output: True
+				*/
+				
+				int i = 5;
+				i -= 9;
+				Console.WriteLine(i);
+				// Output: -4
+
+				var printer = a + b + a;
+				printer();  // output: aba
+				
+				Console.WriteLine();
+				printer -= a;
+				printer();  // output: ab
+				
+				/*
+				if (variable is null)
+				{
+				    variable = expression;
+				}
+				*/
+				
+				void LambdaOperator()
+				{
+					string[] words = { "bot", "apple", "apricot" };
+					int minimalLength = words
+					  .Where(w => w.StartsWith("a"))
+					  .Min(w => w.Length);
+					Console.WriteLine(minimalLength);   // output: 5
+					
+					int[] numbers = { 4, 7, 10 };
+					int product = numbers.Aggregate(1, (interim, next) => interim * next);
+					Console.WriteLine(product);   // output: 280
+					
+					/*
+					int[] numbers = { 4, 7, 10 };
+					int product = numbers.Aggregate(1, (int interim, int next) => interim * next);
+					Console.WriteLine(product);   // output: 280
+					
+					Func<string> greet = () => "Hello, World!";
+					Console.WriteLine(greet());
+					*/
+				}
+				
+
+			}
+			
+			void TernaryConditionalOperator()
+			{
+				string GetWeatherDisplay(double tempInCelsius) => tempInCelsius < 20.0 ? "Cold." : "Perfect!";
+
+				Console.WriteLine(GetWeatherDisplay(15));  // output: Cold.
+				Console.WriteLine(GetWeatherDisplay(27));  // output: Perfect!
+				
+				var rand = new Random();
+				var condition = rand.NextDouble() > 0.5;
+				
+				int? x = condition ? 12 : null;
+				
+				IEnumerable<int> xs = x is null ? new List<int>() { 0, 1 } : new int[] { 2, 3 };
+
+				//var x = condition ? 12 : (int?)null;
+			}
+			
+			void ConditionalRefExpression()
+			{
+				int[] smallArray = {1, 2, 3, 4, 5};
+				int[] largeArray = {10, 20, 30, 40, 50};
+				
+				int index = 7;
+				ref int refValue = ref ((index < 5) ? ref smallArray[index] : ref largeArray[index - 5]);
+				refValue = 0;
+				
+				index = 2;
+				((index < 5) ? ref smallArray[index] : ref largeArray[index - 5]) = 100;
+				
+				Console.WriteLine(string.Join(" ", smallArray));
+				Console.WriteLine(string.Join(" ", largeArray));
+				// Output:
+				// 1 2 100 4 5
+				// 10 20 0 40 50
+				
+				//condition ? ref consequent : ref alternative
+			}
+			
+			void ConditionalOperatorAndAnIfStatement()
+			{
+				int input = new Random().Next(-5, 5);
+
+				string classify;
+				if (input >= 0)
+				{
+				    classify = "nonnegative";
+				}
+				else
+				{
+				    classify = "negative";
+				}
+				
+				classify = (input >= 0) ? "nonnegative" : "negative";
+			}
+			
+			/*
+			Person2? p = Find("John");
+		    if (IsValid(p))
+		    {
+		        Console.WriteLine($"Found {p!.Name}");
+		    }
+			*/
+			
+			void NullCoalescingOperators()
+			{
+				List<int>? numbers = null;
+				int? a = null;
+				
+				Console.WriteLine((numbers is null)); // expected: true
+				// if numbers is null, initialize it. Then, add 5 to numbers
+				(numbers ??= new List<int>()).Add(5);
+				Console.WriteLine(string.Join(" ", numbers));  // output: 5
+				Console.WriteLine((numbers is null)); // expected: false        
+				
+				
+				Console.WriteLine((a is null)); // expected: true
+				Console.WriteLine((a ?? 3)); // expected: 3 since a is still null 
+				// if a is null then assign 0 to a and add a to the list
+				numbers.Add(a ??= 0);
+				Console.WriteLine((a is null)); // expected: false        
+				Console.WriteLine(string.Join(" ", numbers));  // output: 5 0
+				Console.WriteLine(a);  // output: 0
+			}
+			
+			var sum4 = SumNumbers3(null, 0);
+			Console.WriteLine(sum4);  // output: NaN
+			
+			/*
+			int? a = null;
+			int b = a ?? -1;
+			Console.WriteLine(b);  // output: -1
+			*/
+			
+			/*
+			Display(InitializeArray<int>(3));  // output: [ 0, 0, 0 ]
+			Display(InitializeArray<bool>(4, default));  // output: [ False, False, False, False ]
+			
+			System.Numerics.Complex fillValue = default;
+			Display(InitializeArray(3, fillValue));  // output: [ (0, 0), (0, 0), (0, 0) ]
+			*/
+			
+			void DelegateOperator()
+			{
+				Func<int, int, int> sum = delegate (int a, int b) { return a + b; };
+				Console.WriteLine(sum(3, 4));  // output: 7
+				
+				/*
+				Func<int, int, int> sum = (a, b) => a + b;
+				Console.WriteLine(sum(3, 4));  // output: 7
+				*/
+				
+				Action greet = delegate { Console.WriteLine("Hello!"); };
+				greet();
+				
+				Action<int, double> introduce = delegate { Console.WriteLine("This is world!"); };
+				introduce(42, 2.7);
+				
+				// Output:
+				// Hello!
+				// This is world!
+				
+				Func<int, int, int> constant = delegate (int _, int _) { return 42; };
+				Console.WriteLine(constant(3, 4));  // output: 42
+				
+				/*
+				Func<int, int, int> sum = static delegate (int a, int b) { return a + b; };
+				Console.WriteLine(sum(10, 4));  // output: 14
+				*/
+				
+				Action a = StaticFunction;
+			}
+			
+			void IsOperator()
+			{
+				int i = 34;
+				object iBoxed = i;
+				int? jNullable = 42;
+				if (iBoxed is int a && jNullable is int b)
+				{
+				    Console.WriteLine(a + b);  // output 76
+				}
+				
+				/*
+				if (input is null)
+				{
+				    return;
+				}
+				
+				if (result is not null)
+				{
+				    Console.WriteLine(result.ToString());
+				}
+				*/
+				
+				int[] empty = [];
+				int[] one = [1];
+				int[] odd = [1, 3, 5];
+				int[] even = [2, 4, 6];
+				int[] fib = [1, 1, 2, 3, 5];
+				
+				Console.WriteLine(odd is [1, _, 2, ..]);   // false
+				Console.WriteLine(fib is [1, _, 2, ..]);   // true
+				Console.WriteLine(fib is [_, 1, 2, 3, ..]);     // true
+				Console.WriteLine(fib is [.., 1, 2, 3, _ ]);     // true
+				Console.WriteLine(even is [2, _, 6]);     // true
+				Console.WriteLine(even is [2, .., 6]);    // true
+				Console.WriteLine(odd is [.., 3, 5]); // true
+				Console.WriteLine(even is [.., 3, 5]); // false
+				Console.WriteLine(fib is [.., 3, 5]); // true
+			}
+			
+			void NameOfExpression()
+			{
+				Console.WriteLine(nameof(System.Collections.Generic));  // output: Generic
+				Console.WriteLine(nameof(List<int>));  // output: List
+				Console.WriteLine(nameof(List<>)); // output: List
+				Console.WriteLine(nameof(List<int>.Count));  // output: Count
+				Console.WriteLine(nameof(List<int>.Add));  // output: Add
+				
+				List<int> numbers = new List<int>() { 1, 2, 3 };
+				Console.WriteLine(nameof(numbers));  // output: numbers
+				Console.WriteLine(nameof(numbers.Count));  // output: Count
+				Console.WriteLine(nameof(numbers.Add));  // output: Add
+			}
+			
+			var @new = 5;
+			Console.WriteLine(nameof(@new));  // output: new
+			
+			void NewOperator()
+			{
+				var dict = new Dictionary<string, int>();
+				dict["first"] = 10;
+				dict["second"] = 20;
+				dict["third"] = 30;
+				
+				Console.WriteLine(string.Join("; ", dict.Select(entry => $"{entry.Key}: {entry.Value}")));
+				// Output:
+				// first: 10; second: 20; third: 30
+				
+				Console.WriteLine(string.Join("; ", dict.Select(entry => $"{entry.Key}: {entry.Value}")));
+				// Output:
+				// first: 10; second: 20; third: 30
+				
+				List<int> xs = new();
+				List<int> ys = new(capacity: 10_000);
+				List<int> zs = new() { Capacity = 20_000 };
+				
+				Dictionary<int, List<int>> lookup = new()
+				{
+				    [1] = new() { 1, 2, 3 },
+				    [2] = new() { 5, 8, 3 },
+				    [5] = new() { 1, 0, 4 }
+				};
+				
+				var numbers = new int[3];
+				numbers[0] = 10;
+				numbers[1] = 20;
+				numbers[2] = 30;
+				Console.WriteLine(string.Join(", ", numbers));
+				// Output:
+				// 10, 20, 30
+				
+				var a = new int[3] { 10, 20, 30 };
+				var b = new int[] { 10, 20, 30 };
+				var c = new[] { 10, 20, 30 };
+				Console.WriteLine(c.GetType());  // output: System.Int32[]
+				
+				var example = new { Greeting = "Hello", Name = "World" };
+				Console.WriteLine($"{example.Greeting}, {example.Name}!");
+				// Output:
+				// Hello, World!
+			}
+			
+			void StackallocExpression()
+			{
+				int length = 3;
+				Span<int> numbers = stackalloc int[length];
+				for (var i = 0; i < length; i++)
+				{
+				    numbers[i] = i;
+				}
+				
+				length = 1000;
+				Span<byte> buffer = length <= 1024 ? stackalloc byte[length] : new byte[length];
+				
+				/*
+				Span<int> numbers = stackalloc[] { 1, 2, 3, 4, 5, 6 };
+				var ind = numbers.IndexOfAny(stackalloc[] { 2, 4, 6, 8 });
+				Console.WriteLine(ind);  // output: 1
+				
+				Span<int> numbers2 = [1, 2, 3, 4, 5, 6];
+				var ind2 = numbers2.IndexOfAny([2, 4, 6, 8]);
+				Console.WriteLine(ind2);  // output: 1
+
+				unsafe
+				{
+				    int length = 3;
+				    int* numbers = stackalloc int[length];
+				    for (var i = 0; i < length; i++)
+				    {
+				        numbers[i] = i;
+				    }
+				}
+				*/
+				
+				//const int MaxStackLimit = 1024;
+				//Span<byte> buffer = inputLength <= MaxStackLimit ? stackalloc byte[MaxStackLimit] : new byte[inputLength];
+				
+				Span<int> first = stackalloc int[3] { 1, 2, 3 };
+				Span<int> second = stackalloc int[] { 1, 2, 3 };
+				ReadOnlySpan<int> third = stackalloc[] { 1, 2, 3 };
+				
+				// Using collection expressions:
+				Span<int> fourth = [1, 2, 3];
+				ReadOnlySpan<int> fifth = [1, 2, 3];
+			}
+			
+			void SwitchExpression()
+			{
+				
+			}
+			
+			void WithExpression()
+			{
+				
+			}
+			
+			void DeconstructionExpression()
+			{
+				var tuple = (X: 1, Y: 2);
+				var (x, y) = tuple;
+				
+				Console.WriteLine(x); // output: 1
+				Console.WriteLine(y); // output: 2
+				
+				var tuple2 = (X: 0, Y: 1, Label: "The origin");
+				var (x2, _, _) = tuple2;
+				
+				var (_, _, _) = tuple2;
+				
+				var house = new House(1000, "123 Coder St.")
+				{
+				    RealtorNotes = """
+				    This is a great starter home, with a separate room that's a great home office setup.
+				    """
+				};
+				
+				var (squareFeet, address) = house;
+				Console.WriteLine(squareFeet); // output: 1000
+				Console.WriteLine(address); // output: 123 Coder St.
+				Console.WriteLine(house.RealtorNotes);
+			}
+
 			
 		}
 		
@@ -742,6 +3579,345 @@ namespace DotnetCSharpLanguageReferenceOperators
 		    // As a parameter:
 		    int sum = Sum([1, 2, 3, 4, 5]);
 		}
+		
+		//public virtual bool Equals(T? other);
+		
+		[System.Diagnostics.Conditional("DEBUG")]
+		void TraceMethod() {}
+		
+		static double SumNumbers(List<double[]> setsOfNumbers, int indexOfSetToSum)
+		{
+		    return setsOfNumbers?[indexOfSetToSum]?.Sum() ?? double.NaN;
+		}
+		
+		int GetSumOfFirstTwoOrDefault(int[]? numbers)
+		{
+		    if ((numbers?.Length ?? 0) < 2)
+		    {
+		        return 0;
+		    }
+		    return numbers[0] + numbers[1];
+		}
+		
+		void Display<T>(IEnumerable<T> xs) => Console.WriteLine(string.Join(" ", xs));
+		
+		private static void RefReassignAndModify(scoped ref string s)
+		{
+		    string sLocal = "Hello";
+		    Console.WriteLine(sLocal);  // Output: Hello
+		
+		    s = ref sLocal;
+		    s = "World";
+		    Console.WriteLine(s);  // Output: World
+		}
+		
+		delegate int IncrementByDelegate(int source, int increment = 1);
+		delegate int SumDelegate(params int[] values);
+		delegate int SumCollectionDelegate(params IEnumerable<int> values);
+		
+		public delegate TResult Func<in T, out TResult>(T arg);
+		
+		Func<double, double> square = static x => x * x;
+		
+		static int GetSourceLabel<T>(IEnumerable<T> source) => source switch
+		{
+		    Array array => 1,
+		    ICollection<T> collection => 2,
+		    _ => 3,
+		};
+		
+		/*
+		public static decimal CalculateToll(this Vehicle vehicle) => vehicle switch
+		{
+		    Car => 2.00m,
+		    Truck => 7.50m,
+		    null => throw new ArgumentNullException(nameof(vehicle)),
+		    _ => throw new ArgumentException("Unknown type of a vehicle", nameof(vehicle)),
+		};
+		*/
+		
+		public static decimal GetGroupTicketPrice(int visitorCount) => visitorCount switch
+		{
+		    1 => 12.0m,
+		    2 => 20.0m,
+		    3 => 27.0m,
+		    4 => 32.0m,
+		    0 => 0.0m,
+		    _ => throw new ArgumentException($"Not supported number of visitors: {visitorCount}", nameof(visitorCount)),
+		};
+		
+		static string Classify(double measurement) => measurement switch
+		{
+		    < -4.0 => "Too low",
+		    > 10.0 => "Too high",
+		    double.NaN => "Unknown",
+		    _ => "Acceptable",
+		};
+		
+		static string GetCalendarSeason(DateTime date) => date.Month switch
+		{
+		    >= 3 and < 6 => "spring",
+		    >= 6 and < 9 => "summer",
+		    >= 9 and < 12 => "autumn",
+		    12 or (>= 1 and < 3) => "winter",
+		    _ => throw new ArgumentOutOfRangeException(nameof(date), $"Date with unexpected month: {date.Month}."),
+		};
+		
+		static string Classify2(double measurement) => measurement switch
+		{
+		    < -40.0 => "Too low",
+		    >= -40.0 and < 0 => "Low",
+		    >= 0 and < 10.0 => "Acceptable",
+		    >= 10.0 and < 20.0 => "High",
+		    >= 20.0 => "Too high",
+		    double.NaN => "Unknown",
+		};
+		
+		static string GetCalendarSeason2(DateTime date) => date.Month switch
+		{
+		    3 or 4 or 5 => "spring",
+		    6 or 7 or 8 => "summer",
+		    9 or 10 or 11 => "autumn",
+		    12 or 1 or 2 => "winter",
+		    _ => throw new ArgumentOutOfRangeException(nameof(date), $"Date with unexpected month: {date.Month}."),
+		};
+		
+		// Incorrect pattern. `not` binds before `and`
+		static bool IsNotLowerCaseLetter(char c) => c is not >= 'a' and <= 'z';
+		
+		// The default binding without parentheses is shows in this method. `not` binds before `and`
+		static bool IsNotLowerCaseLetterDefaultBinding(char c) => c is ((not >= 'a') and <= 'z');
+		
+		// Correct pattern. Force `and` before `not`
+		static bool IsNotLowerCaseLetterParentheses(char c) => c is not (>= 'a' and <= 'z');
+		
+		static bool IsLetter(char c) => c is (>= 'a' and <= 'z') or (>= 'A' and <= 'Z');
+		
+		static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Day: 19 or 20 or 21 };
+		
+		static string TakeFive(object input) => input switch
+		{
+		    string { Length: >= 5 } s => s.Substring(0, 5),
+		    string s => s,
+		
+		    ICollection<char> { Count: >= 5 } symbols => new string(symbols.Take(5).ToArray()),
+		    ICollection<char> symbols => new string(symbols.ToArray()),
+		
+		    null => throw new ArgumentNullException(nameof(input)),
+		    _ => throw new ArgumentException("Not supported input type."),
+		};
+		
+		static string Classify(Point2 point) => point switch
+		{
+		    (0, 0) => "Origin",
+		    (1, 0) => "positive X basis end",
+		    (0, 1) => "positive Y basis end",
+		    _ => "Just a point",
+		};
+		
+		static decimal GetGroupTicketPriceDiscount(int groupSize, DateTime visitDate)
+		    => (groupSize, visitDate.DayOfWeek) switch
+		    {
+		        (<= 0, _) => throw new ArgumentException("Group size must be positive."),
+		        (_, DayOfWeek.Saturday or DayOfWeek.Sunday) => 0.0m,
+		        (>= 5 and < 10, DayOfWeek.Monday) => 20.0m,
+		        (>= 10, DayOfWeek.Monday) => 30.0m,
+		        (>= 5 and < 10, _) => 12.0m,
+		        (>= 10, _) => 15.0m,
+		        _ => 0.0m,
+		    };
+			
+		static (double Sum, int Count) SumAndCount(IEnumerable<int> numbers)
+		{
+		    int sum = 0;
+		    int count = 0;
+		    foreach (int number in numbers)
+		    {
+		        sum += number;
+		        count++;
+		    }
+		    return (sum, count);
+		}
+		
+		static string PrintIfAllCoordinatesArePositive(object point) => point switch
+		{
+		    Point2D (> 0, > 0) p => p.ToString(),
+		    Point3D (> 0, > 0, > 0) p => p.ToString(),
+		    _ => string.Empty,
+		};
+		
+		static bool IsInDomain(WeightedPoint point) => point is (>= 0, >= 0) { Weight: >= 0.0 };
+		
+		static bool IsAcceptable(int id, int absLimit) =>
+		    SimulateDataFetch(id) is var results 
+		    && results.Min() >= -absLimit 
+		    && results.Max() <= absLimit;
+		
+		static int[] SimulateDataFetch(int id)
+		{
+		    var rand = new Random();
+		    return Enumerable
+		               .Range(start: 0, count: 5)
+		               .Select(s => rand.Next(minValue: -10, maxValue: 11))
+		               .ToArray();
+		}
+		
+		static Point Transform(Point point) => point switch
+		{
+		    var (x, y) when x < y => new Point(-x, y),
+		    var (x, y) when x > y => new Point(x, -y),
+		    var (x, y) => new Point(x, y),
+		};
+		
+		static void TestTransform()
+		{
+		    Console.WriteLine(Transform(new Point(1, 2)));  // output: Point { X = -1, Y = 2 }
+		    Console.WriteLine(Transform(new Point(5, 2)));  // output: Point { X = 5, Y = -2 }
+		}
+		
+		static decimal GetDiscountInPercent(DayOfWeek? dayOfWeek) => dayOfWeek switch
+		{
+		    DayOfWeek.Monday => 0.5m,
+		    DayOfWeek.Tuesday => 12.5m,
+		    DayOfWeek.Wednesday => 7.5m,
+		    DayOfWeek.Thursday => 12.5m,
+		    DayOfWeek.Friday => 5.0m,
+		    DayOfWeek.Saturday => 2.5m,
+		    DayOfWeek.Sunday => 2.0m,
+		    _ => 0.0m,
+		};
+		
+		void MatchMessage(string message)
+		{
+		    var result = message is ['a' or 'A', .. var s, 'a' or 'A']
+		        ? $"Message {message} matches; inner part is {s}."
+		        : $"Message {message} doesn't match.";
+		    Console.WriteLine(result);
+		}
+		
+		void Validate(int[] numbers)
+		{
+		    var result = numbers is [< 0, .. { Length: 2 or 4 }, > 0] ? "valid" : "not valid";
+		    Console.WriteLine(result);
+		}
+		
+		/*
+		[TestMethod, ExpectedException(typeof(ArgumentNullException))]
+		public void NullNameShouldThrowTest()
+		{
+		    var person = new Person2(null!);
+		}
+		*/
+		
+		public static bool IsValid(Person2? person)
+    		=> person is not null && person.Name is not null;
+		
+		/*	
+		[TestMethod, ExpectedException(typeof(ArgumentNullException))]
+		public void NullNameShouldThrowTest()
+		{
+		    var person = new Person2(null!);
+		}
+		*/
+		
+		/*
+		public static bool IsValid(Person? person)
+    		=> person is not null && person.Name is not null;
+		*/
+			
+		public static bool IsValid([NotNullWhen(true)] Person? person)
+    		=> person is not null && person.Name is not null;
+			
+		private static void Display<T>(T a, T backup)
+		{
+		    Console.WriteLine(a ?? backup);
+		}
+		
+		static double SumNumbers3(List<double[]> setsOfNumbers, int indexOfSetToSum)
+		{
+		    return setsOfNumbers?[indexOfSetToSum]?.Sum() ?? double.NaN;
+		}
+		
+		/*
+		public override string ToString() => $"{fname} {lname}".Trim();
+		
+		public override string ToString()
+		{
+		   return $"{fname} {lname}".Trim();
+		}
+		*/
+		
+		void DefaultOperator()
+		{
+			Console.WriteLine(default(int));  // output: 0
+			Console.WriteLine(default(object) is null);  // output: True
+			
+			void DisplayDefaultOf<T>()
+			{
+			    var val = default(T);
+			    Console.WriteLine($"Default value of {typeof(T)} is {(val == null ? "null" : val.ToString())}.");
+			}
+			
+			DisplayDefaultOf<int?>();
+			DisplayDefaultOf<System.Numerics.Complex>();
+			DisplayDefaultOf<System.Collections.Generic.List<int>>();
+			// Output:
+			// Default value of System.Nullable`1[System.Int32] is null.
+			// Default value of System.Numerics.Complex is (0, 0).
+			// Default value of System.Collections.Generic.List`1[System.Int32] is null.
+		}
+		
+		T[] InitializeArray<T>(int length, T initialValue = default)
+		{
+		    if (length < 0)
+		    {
+		        throw new ArgumentOutOfRangeException(nameof(length), "Array length must be nonnegative.");
+		    }
+		
+		    var array = new T[length];
+		    for (var i = 0; i < length; i++)
+		    {
+		        array[i] = initialValue;
+		    }
+		    return array;
+		}
+		
+		void Display<T>(T[] values) => Console.WriteLine($"[ {string.Join(", ", values)} ]");
+		
+		static void StaticFunction() { }
+		
+		static bool IsFirstFridayOfOctober(DateTime date) =>
+    		date is { Month: 10, Day: <=7, DayOfWeek: DayOfWeek.Friday };
+		
+		/*	
+		[ParameterString(nameof(msg))]
+		public static void Method(string msg)
+		{
+		    [ParameterString(nameof(T))]
+		    void LocalFunction<T>(T param) { }
+		
+		    var lambdaExpression = ([ParameterString(nameof(aNumber))] int aNumber) => aNumber.ToString();
+		}
+		*/
+		
+		/*
+		public string Name
+		{
+		    get => name;
+		    set => name = value ?? throw new ArgumentNullException(nameof(value), $"{nameof(Name)} cannot be null");
+		}
+		*/
+		
+		/*
+		static Point Transform(Point point) => point switch
+		{
+		    { X: 0, Y: 0 }                    => new Point(0, 0),
+		    { X: var x, Y: var y } when x < y => new Point(x + y, y),
+		    { X: var x, Y: var y } when x > y => new Point(x - y, y),
+		    { X: var x, Y: var y }            => new Point(2 * x, 2 * y),
+		};
+		*/
+
 	}
 	
 	public record struct Point(int X, int Y)
@@ -759,6 +3935,716 @@ namespace DotnetCSharpLanguageReferenceOperators
 	        return new Point(left.X + right.X, left.Y + right.Y);
 	    }
 	}
+	
+	public class ReferenceTypesEquality
+	{
+	    public class MyClass
+	    {
+	        private int id;
+	
+	        public MyClass(int id) => this.id = id;
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var a = new MyClass(1);
+	        var b = new MyClass(1);
+	        var c = a;
+	        Console.WriteLine(a == b);  // output: False
+	        Console.WriteLine(a == c);  // output: True
+	    }
+	}
+	
+	public class RecordTypesEquality
+	{
+	    public record Point(int X, int Y, string Name);
+	    public record TaggedNumber(int Number, List<string> Tags);
+	
+	    public static void RunMain()
+	    {
+	        var p1 = new Point(2, 3, "A");
+	        var p2 = new Point(1, 3, "B");
+	        var p3 = new Point(2, 3, "A");
+	
+	        Console.WriteLine(p1 == p2);  // output: False
+	        Console.WriteLine(p1 == p3);  // output: True
+	
+	        var n1 = new TaggedNumber(2, new List<string>() { "A" });
+	        var n2 = new TaggedNumber(2, new List<string>() { "A" });
+	        Console.WriteLine(n1 == n2);  // output: False
+	    }
+	}
+	
+	public static class NullConditionalShortCircuiting
+	{
+	    public static void RunMain()
+	    {
+	        Person? person = null;
+	        person?.Name.Write(); // no output: Write() is not called due to short-circuit.
+	        try
+	        {
+	            (person?.Name).Write();
+	        }
+	        catch (NullReferenceException)
+	        {
+	            Console.WriteLine("NullReferenceException");
+	        }; // output: NullReferenceException
+	    }
+	}
+	
+	public class Person
+	{
+	    public required FullName Name { get; set; }
+	}
+	
+	public class FullName
+	{
+	    public required string FirstName { get; set; }
+	    public required string LastName { get; set; }
+	    public void Write() => Console.WriteLine($"{FirstName} {LastName}");
+	}
+	
+	public class Base { }
+
+	public class Derived : Base { }
+	
+	public static class IsOperatorExample
+	{
+	    public static void RunMain()
+	    {
+	        object b = new Base();
+	        Console.WriteLine(b is Base);  // output: True
+	        Console.WriteLine(b is Derived);  // output: False
+	
+	        object d = new Derived();
+	        Console.WriteLine(d is Base);  // output: True
+	        Console.WriteLine(d is Derived); // output: True
+	    }
+	}
+	
+	public class Animal { }
+
+	public class Giraffe : Animal { }
+	
+	public static class TypeOfExample
+	{
+	    public static void RunMain()
+	    {
+	        object b = new Giraffe();
+	        Console.WriteLine(b is Animal);  // output: True
+	        Console.WriteLine(b.GetType() == typeof(Animal));  // output: False
+	
+	        Console.WriteLine(b is Giraffe);  // output: True
+	        Console.WriteLine(b.GetType() == typeof(Giraffe));  // output: True
+	    }
+	}
+	
+	public readonly struct Digit
+	{
+	    private readonly byte digit;
+	
+	    public Digit(byte digit)
+	    {
+	        if (digit > 9)
+	        {
+	            throw new ArgumentOutOfRangeException(nameof(digit), "Digit cannot be greater than nine.");
+	        }
+	        this.digit = digit;
+	    }
+	
+	    public static implicit operator byte(Digit d) => d.digit;
+	    public static explicit operator Digit(byte b) => new Digit(b);
+	
+	    public override string ToString() => $"{digit}";
+	}
+	
+	public static class UserDefinedConversions
+	{
+	    public static void RunMain()
+	    {
+	        var d = new Digit(7);
+	
+	        byte number = d;
+	        Console.WriteLine(number);  // output: 7
+	
+	        Digit digit = (Digit)number;
+	        Console.WriteLine(digit);  // output: 7
+	    }
+	}
+	
+	public struct Coords
+	{
+	    public int X;
+	    public int Y;
+	    public override string ToString() => $"({X}, {Y})";
+	}
+	
+	public class PointerMemberAccessExample
+	{
+	    public static unsafe void RunMain()
+	    {
+	        Coords coords;
+	        Coords* p = &coords;
+	        p->X = 3;
+	        p->Y = 4;
+	        Console.WriteLine(p->ToString());  // output: (3, 4)
+	    }
+	}
+	
+	/*
+	public partial class Form1 : Form
+	{
+	    public Form1()
+	    {
+	        InitializeComponent();
+	        button1.Click += button1_Click;
+	    }
+	
+	    private async void button1_Click(object sender, EventArgs e)
+	    {
+	        await ExampleMethodAsync();
+	        textBox1.Text += "\r\nControl returned to Click event handler.\n";
+	    }
+	
+	    private async Task ExampleMethodAsync()
+	    {
+	        // The following line simulates a task-returning asynchronous process.
+	        await Task.Delay(1000);
+	    }
+	}
+	
+	public partial class Form1 : Form
+	{
+	    public Form1()
+	    {
+	        InitializeComponent();
+	        button1.Click += async (sender, e) =>
+	        {
+	            await ExampleMethodAsync();
+	            textBox1.Text += "\r\nControl returned to Click event handler.\n";
+	        };
+	    }
+	
+	    private async Task ExampleMethodAsync()
+	    {
+	        // The following line simulates a task-returning asynchronous process.
+	        await Task.Delay(1000);
+	    }
+	}
+	*/
+	
+	public static class VariableScopeWithLambdas
+	{
+	    public class VariableCaptureGame
+	    {
+	        internal Action<int>? updateCapturedLocalVariable;
+	        internal Func<int, bool>? isEqualToCapturedLocalVariable;
+	
+	        public void Run(int input)
+	        {
+	            int j = 0;
+	
+	            updateCapturedLocalVariable = x =>
+	            {
+	                j = x;
+	                bool result = j > input;
+	                Console.WriteLine($"{j} is greater than {input}: {result}");
+	            };
+	
+	            isEqualToCapturedLocalVariable = x => x == j;
+	
+	            Console.WriteLine($"Local variable before lambda invocation: {j}");
+	            updateCapturedLocalVariable(10);
+	            Console.WriteLine($"Local variable after lambda invocation: {j}");
+	        }
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var game = new VariableCaptureGame();
+	
+	        int gameInput = 5;
+	        game.Run(gameInput);
+	
+	        int jTry = 10;
+	        bool result = game.isEqualToCapturedLocalVariable!(jTry);
+	        Console.WriteLine($"Captured local variable is equal to {jTry}: {result}");
+	
+	        int anotherJ = 3;
+	        game.updateCapturedLocalVariable!(anotherJ);
+	
+	        bool equalToAnother = game.isEqualToCapturedLocalVariable(anotherJ);
+	        Console.WriteLine($"Another lambda observes a new value of captured variable: {equalToAnother}");
+	    }
+	    // Output:
+	    // Local variable before lambda invocation: 0
+	    // 10 is greater than 5: True
+	    // Local variable after lambda invocation: 10
+	    // Captured local variable is equal to 10: True
+	    // 3 is greater than 5: False
+	    // Another lambda observes a new value of captured variable: True
+	}
+	
+	public abstract class Vehicle {}
+	public class Car : Vehicle {}
+	public class Truck : Vehicle {}
+	
+	public static class TollCalculator
+	{
+	    public static decimal CalculateToll(this Vehicle vehicle) => vehicle switch
+	    {
+	        Car _ => 2.00m,
+	        Truck _ => 7.50m,
+	        null => throw new ArgumentNullException(nameof(vehicle)),
+	        _ => throw new ArgumentException("Unknown type of a vehicle", nameof(vehicle)),
+	    };
+	}
+	
+	/*
+	public record Point(int X, int Y);
+	public record Segment(Point Start, Point End);
+	
+	static bool IsAnyEndOnXAxis(Segment segment) =>
+	    segment is { Start: { Y: 0 } } or { End: { Y: 0 } };
+		
+	static bool IsAnyEndOnXAxis(Segment segment) =>
+    	segment is { Start.Y: 0 } or { End.Y: 0 };
+	*/
+	
+	public readonly struct Point2
+	{
+	    public int X { get; }
+	    public int Y { get; }
+	
+	    public Point2(int x, int y) => (X, Y) = (x, y);
+	
+	    public void Deconstruct(out int x, out int y) => (x, y) = (X, Y);
+	}
+	
+	public record Point2D(int X, int Y);
+	public record Point3D(int X, int Y, int Z);
+	
+	public record WeightedPoint(int X, int Y)
+	{
+	    public double Weight { get; set; }
+	}
+	
+	//public record Point(int X, int Y);
+
+	#nullable enable
+	public class Person2
+	{
+	    public Person2(string name) => Name = name ?? throw new ArgumentNullException(nameof(name));
+	
+	    public string Name { get; }
+	}
+	
+	public class Converters
+	{
+	    public static forwpf::Point Convert(forwinforms::Point point) => new forwpf::Point(point.X, point.Y);
+	}
+
+	namespace MyCompany.MyProduct.System
+	{
+	    class Program
+	    {
+	        static void RunMain() => global::System.Console.WriteLine("Using global alias");
+	    }
+	
+	    class Console
+	    {
+	        string Suggestion => "Consider renaming this class";
+	    }
+	}
+	
+	public class AwaitOperator
+	{
+	    public static async Task RunMain()
+	    {
+	        Task<int> downloading = DownloadDocsMainPageAsync();
+	        Console.WriteLine($"{nameof(RunMain)}: Launched downloading.");
+	
+	        int bytesLoaded = await downloading;
+	        Console.WriteLine($"{nameof(RunMain)}: Downloaded {bytesLoaded} bytes.");
+	    }
+	
+	    private static async Task<int> DownloadDocsMainPageAsync()
+	    {
+	        Console.WriteLine($"{nameof(DownloadDocsMainPageAsync)}: About to start downloading.");
+	
+	        var client = new HttpClient();
+	        byte[] content = await client.GetByteArrayAsync("https://learn.microsoft.com/en-us/");
+	
+	        Console.WriteLine($"{nameof(DownloadDocsMainPageAsync)}: Finished downloading.");
+	        return content.Length;
+	    }
+	}
+	// Output similar to:
+	// DownloadDocsMainPageAsync: About to start downloading.
+	// Main: Launched downloading.
+	// DownloadDocsMainPageAsync: Finished downloading.
+	// Main: Downloaded 27700 bytes.
+	
+	/*
+	public struct Point
+	{
+	    public Point(byte tag, double x, double y) => (Tag, X, Y) = (tag, x, y);
+	
+	    public byte Tag { get; }
+	    public double X { get; }
+	    public double Y { get; }
+	}
+	*/
+	
+	public class SizeOfOperator
+	{
+	    public static void RunMain()
+	    {
+	        Console.WriteLine(sizeof(byte));  // output: 1
+	        Console.WriteLine(sizeof(double));  // output: 8
+	
+	        DisplaySizeOf<Point>();  // output: Size of Point is 24
+	        DisplaySizeOf<decimal>();  // output: Size of System.Decimal is 16
+	
+	        unsafe
+	        {
+	            Console.WriteLine(sizeof(Point*));  // output: 8
+	            Console.WriteLine(sizeof(nint));  // output: 8 on 64-bit, 4 on 32-bit
+	            Console.WriteLine(sizeof(nuint)); // output: 8 on 64-bit, 4 on 32-bit
+	            Console.WriteLine(sizeof(Span<int>));  // output: 16 on 64-bit, 12 on 32-bit
+	        }
+	    }
+	
+	    static unsafe void DisplaySizeOf<T>() where T : unmanaged
+	    {
+	        Console.WriteLine($"Size of {typeof(T)} is {sizeof(T)}");
+	    }
+	}
+	
+	public static class SwitchExample
+	{
+	    public enum Direction
+	    {
+	        Up,
+	        Down,
+	        Right,
+	        Left
+	    }
+	
+	    public enum Orientation
+	    {
+	        North,
+	        South,
+	        East,
+	        West
+	    }
+	
+	    public static Orientation ToOrientation(Direction direction) => direction switch
+	    {
+	        Direction.Up    => Orientation.North,
+	        Direction.Right => Orientation.East,
+	        Direction.Down  => Orientation.South,
+	        Direction.Left  => Orientation.West,
+	        _ => throw new ArgumentOutOfRangeException(nameof(direction), $"Not expected direction value: {direction}"),
+	    };
+	
+	    public static void RunMain()
+	    {
+	        var direction = Direction.Right;
+	        Console.WriteLine($"Map view direction is {direction}");
+	        Console.WriteLine($"Cardinal orientation is {ToOrientation(direction)}");
+	        // Output:
+	        // Map view direction is Right
+	        // Cardinal orientation is East
+	    }
+	}
+	
+	/*
+	public readonly struct Point
+	{
+	    public Point(int x, int y) => (X, Y) = (x, y);
+	    
+	    public int X { get; }
+	    public int Y { get; }
+	}
+	*/
+	
+	public struct LaunchStatus
+	{
+	    public static readonly LaunchStatus Green = new LaunchStatus(0);
+	    public static readonly LaunchStatus Yellow = new LaunchStatus(1);
+	    public static readonly LaunchStatus Red = new LaunchStatus(2);
+	
+	    private int status;
+	
+	    private LaunchStatus(int status)
+	    {
+	        this.status = status;
+	    }
+	
+	    public static bool operator true(LaunchStatus x) => x == Green || x == Yellow;
+	    public static bool operator false(LaunchStatus x) => x == Red;
+	
+	    public static LaunchStatus operator &(LaunchStatus x, LaunchStatus y)
+	    {
+	        if (x == Red || y == Red || (x == Yellow && y == Yellow))
+	        {
+	            return Red;
+	        }
+	
+	        if (x == Yellow || y == Yellow)
+	        {
+	            return Yellow;
+	        }
+	
+	        return Green;
+	    }
+	
+	    public static bool operator ==(LaunchStatus x, LaunchStatus y) => x.status == y.status;
+	    public static bool operator !=(LaunchStatus x, LaunchStatus y) => !(x == y);
+	
+	    public override bool Equals(object obj) => obj is LaunchStatus other && this == other;
+	    public override int GetHashCode() => status;
+	}
+	
+	public class LaunchStatusTest
+	{
+	    public static void RunMain()
+	    {
+	        LaunchStatus okToLaunch = GetFuelLaunchStatus() && GetNavigationLaunchStatus();
+	        Console.WriteLine(okToLaunch ? "Ready to go!" : "Wait!");
+	    }
+	
+	    static LaunchStatus GetFuelLaunchStatus()
+	    {
+	        Console.WriteLine("Getting fuel launch status...");
+	        return LaunchStatus.Red;
+	    }
+	
+	    static LaunchStatus GetNavigationLaunchStatus()
+	    {
+	        Console.WriteLine("Getting navigation launch status...");
+	        return LaunchStatus.Yellow;
+	    }
+	}
+
+
+	public class WithExpressionBasicExample
+	{
+	    public record NamedPoint(string Name, int X, int Y);
+	
+	    public static void RunMain()
+	    {
+	        var p1 = new NamedPoint("A", 0, 0);
+	        Console.WriteLine($"{nameof(p1)}: {p1}");  // output: p1: NamedPoint { Name = A, X = 0, Y = 0 }
+	        
+	        var p2 = p1 with { Name = "B", X = 5 };
+	        Console.WriteLine($"{nameof(p2)}: {p2}");  // output: p2: NamedPoint { Name = B, X = 5, Y = 0 }
+	        
+	        var p3 = p1 with 
+	            { 
+	                Name = "C", 
+	                Y = 4 
+	            };
+	        Console.WriteLine($"{nameof(p3)}: {p3}");  // output: p3: NamedPoint { Name = C, X = 0, Y = 4 }
+	
+	        Console.WriteLine($"{nameof(p1)}: {p1}");  // output: p1: NamedPoint { Name = A, X = 0, Y = 0 }
+	
+	        var apples = new { Item = "Apples", Price = 1.19m };
+	        Console.WriteLine($"Original: {apples}");  // output: Original: { Item = Apples, Price = 1.19 }
+	        var saleApples = apples with { Price = 0.79m };
+	        Console.WriteLine($"Sale: {saleApples}");  // output: Sale: { Item = Apples, Price = 0.79 }
+	    }
+	}
+	
+	public class InheritanceExample
+	{
+	    public record Point(int X, int Y);
+	    public record NamedPoint(string Name, int X, int Y) : Point(X, Y);
+	
+	    public static void RunMain()
+	    {
+	        Point p1 = new NamedPoint("A", 0, 0);
+	        Point p2 = p1 with { X = 5, Y = 3 };
+	        Console.WriteLine(p2 is NamedPoint);  // output: True
+	        Console.WriteLine(p2);  // output: NamedPoint { X = 5, Y = 3, Name = A }
+	    }
+	}
+	
+	public class ExampleWithReferenceType
+	{
+	    public record TaggedNumber(int Number, List<string> Tags)
+	    {
+	        public string PrintTags() => string.Join(", ", Tags);
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var original = new TaggedNumber(1, new List<string> { "A", "B" });
+	
+	        var copy = original with { Number = 2 };
+	        Console.WriteLine($"Tags of {nameof(copy)}: {copy.PrintTags()}");
+	        // output: Tags of copy: A, B
+	
+	        original.Tags.Add("C");
+	        Console.WriteLine($"Tags of {nameof(copy)}: {copy.PrintTags()}");
+	        // output: Tags of copy: A, B, C
+	    }
+	}
+	
+	public class UserDefinedCopyConstructorExample
+	{
+	    public record TaggedNumber(int Number, List<string> Tags)
+	    {
+	        protected TaggedNumber(TaggedNumber original)
+	        {
+	            Number = original.Number;
+	            Tags = new List<string>(original.Tags);
+	        }
+	
+	        public string PrintTags() => string.Join(", ", Tags);
+	    }
+	
+	    public static void RunMain()
+	    {
+	        var original = new TaggedNumber(1, new List<string> { "A", "B" });
+	
+	        var copy = original with { Number = 2 };
+	        Console.WriteLine($"Tags of {nameof(copy)}: {copy.PrintTags()}");
+	        // output: Tags of copy: A, B
+	
+	        original.Tags.Add("C");
+	        Console.WriteLine($"Tags of {nameof(copy)}: {copy.PrintTags()}");
+	        // output: Tags of copy: A, B
+	    }
+	}
+	
+	public record House(int SquareFeet, string Address)
+	{
+	    public required string RealtorNotes { get; set; }
+	}
+	
+	/*
+	public struct Point3D
+	{
+	    public int X { get; set; }
+	    public int Y { get; set; }
+	    public int Z { get; set; }
+	
+	    public void Deconstruct(out int x, out int y, out int z)
+	    {
+	        x = X;
+	        y = Y;
+	        z = Z;
+	    }
+	
+	    public void Deconstruct(out int x, out int y)
+	    {
+	        x = X;
+	        y = Y;
+	    }
+	}
+	*/
+	
+	public struct Fraction
+	{
+	    private int numerator;
+	    private int denominator;
+	
+	    public Fraction(int numerator, int denominator)
+	    {
+	        if (denominator == 0)
+	        {
+	            throw new ArgumentException("Denominator cannot be zero.", nameof(denominator));
+	        }
+	        this.numerator = numerator;
+	        this.denominator = denominator;
+	    }
+	
+	    public static Fraction operator +(Fraction operand) => operand;
+	    public static Fraction operator -(Fraction operand) => new Fraction(-operand.numerator, operand.denominator);
+	
+	    public static Fraction operator +(Fraction left, Fraction right)
+	        => new Fraction(left.numerator * right.denominator + right.numerator * left.denominator, left.denominator * right.denominator);
+	
+	    public static Fraction operator -(Fraction left, Fraction right)
+	        => left + (-right);
+	
+	    public static Fraction operator *(Fraction left, Fraction right)
+	        => new Fraction(left.numerator * right.numerator, left.denominator * right.denominator);
+	
+	    public static Fraction operator /(Fraction left, Fraction right)
+	    {
+	        if (right.numerator == 0)
+	        {
+	            throw new DivideByZeroException();
+	        }
+	        return new Fraction(left.numerator * right.denominator, left.denominator * right.numerator);
+	    }
+	
+	    // Define increment and decrement to add 1/den, rather than 1/1.
+	    public static Fraction operator ++(Fraction operand)
+	        => new Fraction(operand.numerator + 1, operand.denominator);
+	
+	    public static Fraction operator --(Fraction operand) =>
+	        new Fraction(operand.numerator - 1, operand.denominator);
+	
+	    public override string ToString() => $"{numerator} / {denominator}";
+	
+	    // New operators allowed in C# 14:
+	    public void operator +=(Fraction operand) =>
+	        (numerator, denominator ) =
+	        (
+	            numerator * operand.denominator + operand.numerator * denominator,
+	            denominator * operand.denominator
+	        );
+	
+	    public void operator -=(Fraction operand) =>
+	        (numerator, denominator) =
+	        (
+	            numerator * operand.denominator - operand.numerator * denominator,
+	            denominator * operand.denominator
+	        );
+	
+	    public void operator *=(Fraction operand) =>
+	        (numerator, denominator) =
+	        (
+	            numerator * operand.numerator,
+	            denominator * operand.denominator
+	        );
+	
+	    public void operator /=(Fraction operand)
+	    {
+	        if (operand.numerator == 0)
+	        {
+	            throw new DivideByZeroException();
+	        }
+	        (numerator, denominator) =
+	        (
+	            numerator * operand.denominator,
+	            denominator * operand.numerator
+	        );
+	    }
+	
+	    public void operator ++() => numerator++;
+	
+	    public void operator --() => numerator--;
+	}
+	
+	public static class OperatorOverloading
+	{
+	    public static void RunMain()
+	    {
+	        var a = new Fraction(5, 4);
+	        var b = new Fraction(1, 2);
+	        Console.WriteLine(-a);   // output: -5 / 4
+	        Console.WriteLine(a + b);  // output: 14 / 8
+	        Console.WriteLine(a - b);  // output: 6 / 8
+	        Console.WriteLine(a * b);  // output: 5 / 8
+	        Console.WriteLine(a / b);  // output: 10 / 4
+	    }
+	}
+	
 }
 
 //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/query-keywords
