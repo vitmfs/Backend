@@ -7,6 +7,7 @@ using ServiceLayer_Class_Library;
 // Optional
 using System.Threading;
 using p00_Backend;
+using CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp;
 
 namespace Backend;
 
@@ -223,6 +224,9 @@ class Program
     //static async Task Main(string[] args)
     public static void Main(string[] args)
     {
+
+
+        /*
         #region B4
 
 
@@ -470,58 +474,60 @@ class Program
 
             Console.WriteLine(mainThread.Name + " completed");
         }
+        */
 
-        ThreadsDemo.RunDemo();
+        //threadsdemo.rundemo();
 
-        WaitPulseExample.Execute();
+        //waitpulseexample.execute();
 
-        MonitorWithManualReset.Execute();
-
-
-
-
-
-        List<int> intList = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-        var evenNumbers = intList.Where(n => n % 2 == 0).ToList();
-
-        Console.WriteLine(evenNumbers.ToString());
-
-        foreach (var num in evenNumbers)
-        {
-            Console.WriteLine(num);
-        }
-
-        int option = -1;
-
-
-        do
-        {
-            MainMenu();
-            option = Convert.ToInt32(Console.ReadLine());
-
-            switch (option)
-            {
-                case 1:
-                    CodilityMenu();
-                    Exercise1_2015Contest.LongestPassword();
-                    break;
-
-                /*
-                default:
-                    Console.WriteLine("Invalid option. Please try again.");
-                    break;
-                */
-            }
-
-        }
-        while (option != 0);
+        //monitorwithmanualreset.execute();
 
 
 
-        Console.WriteLine("Thank you! Have a nice day!");
 
-        //Demo();
+
+        //list<int> intlist = new list<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        //var evennumbers = intlist.where(n => n % 2 == 0).tolist();
+
+        //console.writeline(evennumbers.tostring());
+
+        //foreach (var num in evennumbers)
+        //{
+        //    console.writeline(num);
+        //}
+
+        //int option = -1;
+
+
+        //do
+        //{
+        //    mainmenu();
+        //    option = convert.toint32(console.readline());
+
+        //    switch (option)
+        //    {
+        //        case 1:
+        //            codilitymenu();
+        //            exercise1_2015contest.longestpassword();
+        //            break;
+
+        //        /*
+        //        default:
+        //            console.writeline("invalid option. please try again.");
+        //            break;
+        //        */
+        //    }
+
+        //}
+        //while (option != 0);
+
+
+
+        //console.writeline("thank you! have a nice day!");
+
+        //demo();
+        int[,] matrix = Exercises.SquareSpiralMatrix(7);
     }
 
     public static void Method1()

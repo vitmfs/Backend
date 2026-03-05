@@ -31,7 +31,7 @@ namespace NUnit3Tests
             int result = Exercise3_2017Contest.TennisTournament(players, courts);
 
             // Assert
-            Assert.That(result, Is.EqualTo(4));
+            Assert.Equals(4, result);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace NUnit3Tests
             int result = Exercise3_2017Contest.TennisTournament(players, courts);
 
             // Assert
-            Assert.Equals(0, result);
+            Assert.That(result == 0);
         }
 
         [Test]
