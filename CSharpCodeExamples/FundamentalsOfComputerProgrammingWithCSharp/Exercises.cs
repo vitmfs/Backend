@@ -16,7 +16,174 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
 {
     public class Exercises
     {
-        //
+        public static void PrintMatrix(int[,] matrix)
+        {
+            int sideLength = matrix.GetLength(0);
+
+            for (int i = 0; i < sideLength; i++)
+            {
+                for (int j = 0; j < sideLength; j++)
+                {
+                    Console.Write($"{matrix[i, j],3}|");
+                }
+
+                Console.Write("\n");
+            }
+        }
+
+        #region Chapter 26 Topic 3
+        /*
+            With a given number N (input from the keyboard) generate and print a
+            square matrix containing the numbers from 0 to N2-1, located as a
+            spiral beginning from the center of the matrix and moving clockwise starting
+            downwards (look at the examples).
+            Sample output for N=3 and N=4:
+        */
+        public static int[,] SpiralMatrix(int sideLength)
+        {
+            int[,] matrix = new int[sideLength, sideLength];
+
+            
+            int lastIndex = sideLength - 1;
+
+
+            // determine the center of the matrix
+            bool isSideLengthEven = sideLength % 2 == 0;
+            int centerX = isSideLengthEven ? lastIndex / 2 : lastIndex / 2;
+            int centerY = isSideLengthEven ? (lastIndex / 2) + 1 : lastIndex / 2;
+
+            // the number of cycles of filling the matrix
+            // is equal to the side length of the matrix
+            int fillingCycles = sideLength;
+
+            const int startingNumber = 0;
+            int currentNumber = startingNumber;
+            int x = centerX;
+            int y = centerY;
+            
+
+            for ( int currentFillingCycle = 1; currentFillingCycle <= fillingCycles; currentFillingCycle++)
+            {
+                Console.WriteLine($"Start of Filling cycle: {currentFillingCycle}");
+                Console.WriteLine($"At the start of the filling cycle:{x} {y}");
+                // when the current filling cycle is odd, like the first one,
+                // we exit from the bottom right,
+                // otherwise we exit from the top left
+                bool isCurrentFillingCycleOdd = (currentFillingCycle % 2) == 1;
+
+                if (isCurrentFillingCycleOdd)
+                {
+                    
+
+                    if (currentFillingCycle == 1)
+                    {
+                        matrix[x, y] = currentNumber++;
+                        
+                        continue;
+                    }
+
+                    
+                    // we add currentFillingCycle number of integers to the top
+                    // and currentFillingCycle -1 number of integers to the right
+
+                    for (int i = 1; i <= currentFillingCycle; i++)
+                    {
+                        bool lastOneOfRow = i == currentFillingCycle;
+                        if (!lastOneOfRow)
+                        {
+                            matrix[x, y++] = currentNumber++;
+                        }
+                        else
+                        {
+                            matrix[x, y] = currentNumber++;
+                        }
+                    }
+                    //Console.WriteLine($"Inside Odd:{x} {y}");
+                    x = x + 1;
+
+                    
+                    for (int j = 1; j <= currentFillingCycle - 1; j++)
+                    {
+                        bool lastOneOfColumn = j == currentFillingCycle;
+                        if (!lastOneOfColumn)
+                        {
+                            matrix[x++, y] = currentNumber++;
+                        }
+                        else
+                        {
+                            matrix[x, y] = currentNumber++;
+                        }
+                    }
+                    
+
+
+                }
+                else
+                {
+
+                    // put the "cursor" below
+                    if (currentFillingCycle == 2)
+                    {
+                        x = x + 1;
+                    }
+                    
+
+
+                    // we add currentFillingCycle number of integers to the bottom
+                    // and currentFillingCycle -1 number of integers to the left
+                    for (int i = 1; i <= currentFillingCycle; i++)
+                    {
+                        bool lastOneOfRow = i == currentFillingCycle;
+                        if (!lastOneOfRow)
+                        {
+                            matrix[x, y--] = currentNumber++;
+                        }
+                        else
+                        {
+                            matrix[x, y] = currentNumber++;
+                        }
+                        
+                    }
+
+                    // put the "cursor" above
+                    x = x - 1;
+                    
+                    
+                    
+
+                    for (int j = 1; j <= currentFillingCycle - 1; j++)
+                    {
+                        bool lastOneOfColumn = j == currentFillingCycle;
+                        if (!lastOneOfColumn)
+                        {
+                            matrix[x--, y] = currentNumber++;
+                        }
+                        else
+                        {
+                            matrix[x, y] = currentNumber++;
+                        }
+
+                    }
+                    
+
+
+                    //x = x < 0 ? 0 : x;
+
+                }
+
+            }
+
+            PrintMatrix(matrix);
+
+            return matrix;
+
+        }
+
+
+        #endregion
+
+
+        #region Chapter 26 Exercise 1
         /*
             1. Write a program, which prints a square spiral matrix beginning from
             the number 1 in the upper right corner and moving clockwise.Examples
@@ -25,21 +192,19 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
         public static int[,] SquareSpiralMatrix(int sideLength)
         {
             int[,] matrix = new int[sideLength, sideLength];
-            
+
 
             int originalSideLength = sideLength;
 
 
-            int shiftToInterior = 0;
-            int startingNumber = 1;
-
-            int[,] FillRightBottomLeftTopExterior(int[,] matrix, int number, int shiftToInterior, int originalSideLength)
+            int[,] FillRightBottomLeftTopExterior(int[,] matrix, int number, int shiftToInterior, int originalSideLength, out int lastNumber)
             {
-                
+
 
                 if (originalSideLength == 1)
                 {
                     matrix[0, 0] = number;
+                    lastNumber = number;
                     return matrix;
                 }
 
@@ -49,43 +214,51 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
                     matrix[1, 1] = number + 1;
                     matrix[1, 0] = number + 2;
                     matrix[0, 0] = number + 3;
+                    lastNumber = number;
                     return matrix;
                 }
 
+                int firstIndex = shiftToInterior;
                 int lastIndex = (originalSideLength - 1) - shiftToInterior;
 
-                //starting point (top right position)
-                int rowIndex = (lastIndex - lastIndex) + shiftToInterior;
-                int columnIndex = (lastIndex) - shiftToInterior;
+                // starting point (top right position)
+                int rowIndex = firstIndex;
+                int columnIndex = lastIndex;
+
+                // exterior right column (x increases)
+                // column index does not change
+                int firstRowIndex = rowIndex;
+                int lastRowIndex = lastIndex;
 
 
-                //exterior right column (x increases)
-                for (int x = rowIndex; x <= columnIndex; x++)
+                for (int x = firstRowIndex; x <= lastRowIndex; x++)
                 {
                     matrix[x, columnIndex] = number++;
                 }
 
 
-                //exterior bottom row (y decreases)
-                rowIndex = lastIndex - shiftToInterior;
-                columnIndex = (lastIndex - 1) - shiftToInterior;
-                for (int y = columnIndex; y >= 0; y--)
+                // exterior bottom row (y decreases)
+                // row index does not change
+                rowIndex = lastIndex;
+                int firstColumnIndex = lastIndex - 1;
+                int lastColumnIndex = firstIndex;
+
+                for (int y = firstColumnIndex; y >= lastColumnIndex; y--)
                 {
                     if (y >= 0)
                     {
                         matrix[rowIndex, y] = number++;
                     }
-                    
-
                 }
 
-                
-                //exterior left column (x decreases)
-                rowIndex = (lastIndex - 1);
-                columnIndex = 0;
-                
-                
-                for (int x = rowIndex; x > 0; x--)
+
+                // exterior left column (x decreases)
+                // column index does not change
+                columnIndex = firstIndex;
+                firstRowIndex = lastIndex - 1;
+                lastRowIndex = firstIndex;
+
+                for (int x = firstRowIndex; x >= lastRowIndex; x--)
                 {
 
                     if (x >= 0)
@@ -93,54 +266,40 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
                         matrix[x, columnIndex] = number++;
                     }
                 }
-                matrix[0, 0] = number++;
-                
 
-                //exterior top row (y increases)
-                rowIndex = (lastIndex - lastIndex) + shiftToInterior;
-                columnIndex = (lastIndex - (lastIndex - 1)) + shiftToInterior;
-                for (int y = columnIndex; y <= (lastIndex - 1) - shiftToInterior; y++)
+                // exterior top row (y increases)
+                // row index does not change
+                rowIndex = shiftToInterior;
+                firstColumnIndex = firstIndex + 1;
+                lastColumnIndex = lastIndex - 1;
+
+                for (int y = firstColumnIndex; y <= lastColumnIndex; y++)
                 {
-                    if (y > (sideLength - 2) - shiftToInterior)
-                    {
-                        break;
-                    }
                     matrix[rowIndex, y] = number++;
                 }
-                
 
+                lastNumber = number;
                 return matrix;
             }
 
-            int numberOfRings = sideLength / 2;
+            int numberOfRings = (originalSideLength == 2 || originalSideLength == 3) ? 2 : originalSideLength - 2;
 
-            for (int i = 0; i < 1; i++)
+            int startingNumber = 1;
+            for (int i = 0; i < numberOfRings; i++)
             {
-                matrix = FillRightBottomLeftTopExterior(matrix, startingNumber, i, originalSideLength);
-                //originalSideLength -= 2;
+                int lastNumber;
+
+                matrix = FillRightBottomLeftTopExterior(matrix, startingNumber, i, originalSideLength, out lastNumber);
+                startingNumber = lastNumber;
             }
 
-
-
-            //matrix = FillRightBottomLeftTopExterior(matrix, startingNumber, 1);
-
-
-
-            for (int i = 0; i < sideLength; i++)
-            {
-                for (int j = 0; j < sideLength; j++)
-                {
-                    Console.Write(matrix[i, j] + "|");
-                    
-                }
-
-                Console.Write("\n");
-            }
-
+            PrintMatrix(matrix);
 
             return matrix;
 
         }
+        #endregion
+
         //Chapter 18 Exercise 3
         /*
             3. Write a program that counts how many times each word from a given

@@ -527,7 +527,8 @@ class Program
         //console.writeline("thank you! have a nice day!");
 
         //demo();
-        int[,] matrix = Exercises.SquareSpiralMatrix(7);
+        //int[,] matrix = Exercises.SquareSpiralMatrix(9);
+        int[,] matrix = Exercises.SpiralMatrix(30);
     }
 
     public static void Method1()
