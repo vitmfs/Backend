@@ -1,4 +1,5 @@
 #pip install numpy
+#python -m pip install pandas
 
 import sys
 import random
@@ -11,9 +12,2119 @@ import re
 import os
 import numpy as np
 from scipy import stats
+import pdb
+import pandas as pd
 #import nameOfFile as otherName 
 #otherName.something
 #from mymodule import person1
+
+# https://www.freecodecamp.org/learn/python-v9/review-classes-and-objects/review-classes-and-objects
+
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        print(f'{self.name.upper()} says woof woof!')
+
+dog1 = Dog('Jack', 3)
+dog2 = Dog('Thatcher', 5)
+
+dog1.bark()  # JACK says woof woof!
+dog2.bark()  # THATCHER says woof woof!
+
+class Dog:
+    species = 'French Bulldog'  # Class attribute
+
+    def __init__(self, name):
+        self.name = name  # Instance attribute
+
+print(Dog.species) # French Bulldog
+
+jack = Dog('Jack')
+print(jack.name)     # Jack
+print(jack.species)  # French Bulldog
+
+class Car:
+    def __init__(self, color, model):
+        self.color = color
+        self.model = model
+
+    def describe(self):
+        return f'This car is a {self.color} {self.model}'
+
+my_car_1 = Car('red', 'Tesla Model S')
+print(my_car_1.describe())  # This car is a red Tesla Model S
+
+class Car:
+    def __init__(self, color, model):
+        self.color = color  
+        self.model = model  
+
+    def describe(self):
+        return f'This car is a {self.color} {self.model}'
+
+my_car_1 = Car('red', 'Tesla Model S')
+my_car_2 = Car('green', 'Lamborghini Revuelto')
+
+print(my_car_1.describe()) # Calling method using the dot notation
+
+print(my_car_2.describe()) # Calling method using the dot notation
+
+class Book:
+    def __init__(self, title, pages):
+        self.title = title
+        self.pages = pages
+
+    def __len__(self):
+        return self.pages
+
+    def __str__(self):
+        return f"'{self.title}' has {self.pages} pages"
+
+    def __eq__(self, other):
+        return self.pages == other.pages
+
+book1 = Book('Built Wealth Like a Boss', 420)
+print(len(book1))        # 420
+print(str(book1))        # 'Built Wealth Like a Boss' has 420 pages
+
+class Cart:
+    def __init__(self):
+        self.items = []
+
+    def add(self, item):
+        self.items.append(item)
+
+    def remove(self, item):
+        if item in self.items:
+            self.items.remove(item)
+        else:
+            print(f'{item} is not in cart')
+
+    def list_items(self):
+        return self.items
+
+    def __len__(self):
+        return len(self.items)
+
+    def __getitem__(self, index):
+        return self.items[index]
+
+    def __contains__(self, item):
+        return item in self.items
+
+    def __iter__(self):
+        return iter(self.items)
+
+cart = Cart()
+cart.add('Laptop')
+print(len(cart))        # 1
+print('Laptop' in cart) # True
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-classes-and-objects/how-to-handle-object-attributes-dynamically
+
+class Car: 
+    def __init__(self, brand, model): 
+        self.brand = brand 
+        self.model = model 
+
+my_car = Car('Lamborghini', 'Gallardo') 
+print(my_car.brand) # Lamborghini 
+print(my_car.model) # Gallardo 
+
+class Person: 
+    def __init__(self, name, age): 
+        self.name = name 
+        self.age = age 
+
+person = Person('John Doe', 30) 
+ 
+print(getattr(person, 'name')) # John Doe 
+print(getattr(person, 'age')) # 30 
+print(getattr(person, 'city', 'Milano')) # Milano
+
+class Person: 
+    def __init__(self, name, age): 
+        self.name = name 
+        self.age = age 
+
+person = Person('John Doe', 30)
+
+attr_name = input('Enter the attribute you want to see: ')
+print(getattr(person, attr_name, 'Attribute not found'))
+
+class Person: 
+    def __init__(self, name, age): 
+        self.name = name 
+        self.age = age 
+
+person = Person('John Doe', 30)
+
+# Loop through all attributes of the person object with dir() function
+for attr in dir(person):
+    # Ignore dunder methods like __init__ or __str__ and regular methods
+    if not attr.startswith('__') and not callable(getattr(person, attr)): 
+        value = getattr(person, attr)
+        print(f'{attr}: {value}')
+
+# Output
+# age: 30
+# name: John Doe
+
+class Configuration:
+    pass
+
+# Data loaded at runtime (like from a config or env file)
+settings_data = {
+    'server_url': 'https://api.example.com',
+    'timeout_sec': 30,
+    'max_retries': 5
+}
+
+config_obj = Configuration()
+
+# Dynamically set attributes using dictionary keys and values
+for attr_name, attr_value in settings_data.items():
+    setattr(config_obj, attr_name, attr_value)
+
+print(config_obj.server_url) # https://api.example.com
+print(config_obj.timeout_sec) # 30
+
+class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+product_a = Product('T-Shirt', 25)
+
+required_attributes = ['name', 'price', 'inventory_id']
+
+for attr in required_attributes:
+    if not hasattr(product_a, attr):
+        print(f"ERROR: Product is missing the required attribute: '{attr}'")
+    else:
+        # Access the attributes dynamically once their existence is confirmed
+        print(f'{attr}: {getattr(product_a, attr)}')
+
+# Output:
+# name: T-Shirt
+# price: 25
+# ERROR: Product is missing the required attribute: 'inventory_id'
+
+
+class UserSession:
+    def __init__(self, user_id, token):
+        self.user_id = user_id
+        self.auth_token = token # sensitive
+        self.temp_counter = 0 # temporary
+
+session = UserSession(101, 'a1b2c3d4e5')
+
+# List of attributes to remove dynamically before "saving" the session
+attributes_to_clean = ['auth_token', 'temp_counter']
+
+# Dynamically remove specified attributes
+for attr in attributes_to_clean:
+    if hasattr(session, attr):
+        delattr(session, attr)
+        print(f'Removed attribute: {attr}')
+
+print('\nFinal attributes remaining:')
+
+# Loop through the remaining attributes with dir()
+for attr in dir(session):
+    # Ignore dunder methods like __init__ or __str__ and regular methods
+    if not attr.startswith('__') and not callable(getattr(session, attr)):
+        print(f' - {attr}: {getattr(session, attr)}')
+
+# Output:
+# Removed attribute: auth_token
+# Removed attribute: temp_counter
+
+# Final attributes remaining:
+#  - user_id: 101
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-classes-and-objects/what-are-special-methods-and-what-are-they-used-for
+
+class Book:
+   def __init__(self, title, pages):
+       self.title = title
+       self.pages = pages
+
+book1 = Book("Built Wealth Like a Boss", 420)
+book2 = Book("Be Your Own Start", 420)
+
+class Book:
+   def __init__(self, title, pages):
+       self.title = title
+       self.pages = pages
+
+   def __len__(self):
+       return self.pages
+
+   def __str__(self):
+       return f"'{self.title}' has {self.pages} pages"
+
+   def __eq__(self, other):
+       return self.pages == other.pages
+  
+book1 = Book("Built Wealth Like a Boss", 420)
+book2 = Book("Be Your Own Start", 420)
+
+print(len(book1)) # 420
+print(len(book2)) # 420
+print(str(book1)) # 'Built Wealth Like a Boss' has 420 pages
+print(str(book2)) # 'Be Your Own Start' has 420 pages
+print(book1 == book2) # True
+
+class Cart:
+   def __init__(self):
+       self.items = []
+
+   def add(self, item):
+       self.items.append(item)
+
+   def remove(self, item):
+       if item in self.items:
+           self.items.remove(item)
+       else:
+           print(f'{item} is not in cart')
+
+   def list_items(self):
+       return self.items
+
+   def __len__(self):
+       return len(self.items)
+
+   def __getitem__(self, index):
+       return self.items[index]
+
+   def __contains__(self, item):
+       return item in self.items
+
+   def __iter__(self):
+       return iter(self.items)
+
+cart = Cart()
+cart.add('Laptop')
+cart.add('Wireless mouse')
+cart.add('Ergo keyboard')
+cart.add('Monitor')
+
+for item in cart:
+   print(item, end=' ') # Laptop Wireless mouse Ergo keyboard Monitor
+
+print(len(cart)) # 4
+print(cart[3]) # Monitor
+
+print('Monitor' in cart) # True
+print('banana' in cart) # False
+
+cart.remove('Ergo keyboard')
+
+print(cart.list_items()) # ['Laptop', 'Wireless mouse', 'Monitor']
+
+cart.remove('banana') # banana is not in cart
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-classes-and-objects/what-are-methods-and-attributes-and-how-do-they-work
+
+class Dog:
+    species = "French Bulldog" # Class attribute
+
+    def __init__(self, name):
+        self.name = name # Instance attribute
+
+print(Dog.species) # French Bulldog
+
+dog1 = Dog("Jack")
+print(dog1.name)    # Jack
+print(dog1.species) # French Bulldog
+
+dog2 = Dog("Tom")
+print(dog2.name)    # Tom
+print(dog2.species) # French Bulldog
+
+class Car:
+    def __init__(self, color, model):
+        self.color = color
+        self.model = model
+
+car_1 = Car("red", "Toyota Corolla")
+car_2 = Car("green", "Lamborghini Revuelto")
+
+print(car_1.model) # Toyota Corolla
+print(car_2.model) # Lamborghini Revuelto
+
+print(car_1.color) # red
+print(car_2.color) # green
+
+class Dog:
+   species = "French Bulldog"
+
+   def __init__(self, name):
+     self.name = name
+
+   def bark(self):
+       return f"{self.name} says woof woof!"
+
+jack = Dog("Jack")
+jill = Dog("Jill")
+
+print(jack.bark()) # Jack says woof woof!
+print(jill.bark()) # Jill says woof woof!
+
+class Car:
+    def __init__(self, color, model):
+        self.color = color  # Instance attribute
+        self.model = model  # Instance attribute
+
+    def describe(self):
+        return f"This car is a {self.color} {self.model}"
+
+car_1 = Car("red", "Toyota Corolla")
+car_2 = Car("green", "Lamborghini Revuelto")
+
+print(car_1.describe()) # This car is a red Toyota Corolla
+print(car_2.describe()) # This car is a green Lamborghini Revuelto
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-classes-and-objects/how-do-classes-work-and-how-do-they-differ-from-objects
+
+class ClassName:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def sample_method(self):               
+        print(self.name.upper())
+
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        print(f"{self.name.upper()} says woof woof!")
+
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        print(f"{self.name.upper()} says woof woof! I'm {self.age} years old!")
+
+dog_1 = Dog("Jack", 3)
+dog_2 = Dog("Thatcher", 5)
+
+# Call the bark method
+dog_1.bark()  # JACK says woof woof! I'm 3 years old!
+dog_2.bark()  # THATCHER says woof woof! I'm 5 years old!
+
+class Dog:  
+    def __init__(self, name):  
+        self.name = name
+
+    def bark(self):  
+        print(f"{self.name} says Woof!")  
+
+my_dog = Dog("Rex")
+print(my_dog.name)
+
+# https://www.freecodecamp.org/learn/python-v9/review-error-handling/review-error-handling
+
+try:
+  print(22 / 0)
+except ZeroDivisionError:
+  print('You can\'t divide by zero!')
+  # You can't divide by zero!
+
+try:
+  number = int(input('Enter a number: '))
+  print(22 / number)
+except ZeroDivisionError:
+  print('You cannot divide by zero!')
+  # You cannot divide by zero! prints when you enter 0
+except ValueError:
+  print('Please enter a valid number!')
+  # Please enter a valid number! prints when you enter a string  
+
+try:
+  result = 100 / 4
+except ZeroDivisionError:
+  print('You cannot divide by zero!') # This will not run
+else:
+  print(f'Result is {result}') # Result is 25.0
+finally:
+  print('Execution complete!') # Execution complete!
+
+try:
+    value = int('This will raise an error')
+except ValueError as e:
+    print(f'Caught an error: {e}')
+    # Caught an error: invalid literal for int() with base 10: 'This will raise an error'
+
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError('You cannot divide by zero')
+    return a / b
+
+class InvalidCredentialsError(Exception):
+    def __init__(self, message="Invalid username or password"):
+        self.message = message
+        super().__init__(self.message)
+
+def login(username, password):
+    stored_username = "admin"
+    stored_password = "password123"
+    
+    if username != stored_username or password != stored_password:
+        raise InvalidCredentialsError()
+    
+    return f"Welcome, {username}!"
+
+# failed login attempt
+try:
+    message = login("user", "wrongpassword")
+except InvalidCredentialsError as e:
+    print(f"Login failed: {e}")
+else:
+    print(message)
+
+# successful login attempt
+try:
+    message = login("admin", "password123")
+except InvalidCredentialsError as e:
+    # This block is not executed because the login was successful
+    print(f"Login failed: {e}")
+else:
+    # The else block runs if the 'try' block completes without an exception
+    print(message)
+
+def parse_config(filename):
+  try:
+      with open(filename, 'r') as file:
+          data = file.read()
+          return int(data)
+  except FileNotFoundError:
+      raise ValueError('Configuration file is missing') from None
+  except ValueError as e:
+      raise ValueError('Invalid configuration format') from e
+
+#config = parse_config('config.txt')
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-error-handling/what-is-the-raise-statement-and-how-does-it-work
+
+def check_age(age):
+    if age < 0:
+        raise ValueError('Age cannot be negative')
+    return age
+
+try:
+    check_age(-5)
+except ValueError as e:
+    print(f'Error: {e}') # Error: Age cannot be negative
+
+def process_data(data):
+    try:
+        result = int(data)
+        return result * 2
+    except ValueError:
+        print('Logging: Invalid data received')
+        raise  # Re-raises the same ValueError
+
+try:
+    process_data('abc')
+except ValueError:
+    print('Handled at higher level')
+
+
+class InsufficientFundsError(Exception):
+    def __init__(self, balance, amount):
+        self.balance = balance
+        self.amount = amount
+        super().__init__(f'Insufficient funds: ${balance} available, ${amount} requested')
+
+def withdraw(balance, amount):
+    if amount > balance:
+        raise InsufficientFundsError(balance, amount)
+    return balance - amount
+
+try:
+    new_balance = withdraw(100, 150)
+except InsufficientFundsError as e:
+    print(f'Transaction failed: {e}')
+
+def parse_config(filename):
+    try:
+        with open(filename, 'r') as file:
+            data = file.read()
+            return int(data)
+    except FileNotFoundError:
+        raise ValueError('Configuration file is missing') from None
+    except ValueError as e:
+        raise ValueError('Invalid configuration format') from e
+
+#config = parse_config('config.txt')
+
+def calculate_square_root(number):
+    assert number >= 0, 'Cannot calculate square root of negative number'
+    return number ** 0.5
+
+try:
+    result = calculate_square_root(-4)
+except AssertionError as e:
+    print(f'Assertion failed: {e}')
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-error-handling/how-does-exception-handling-work
+
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    print("You can't divide by zero!")
+
+try:
+    x = 10 / 2
+except ZeroDivisionError:
+    print("You can't divide by zero!")
+else:
+    print('Division successful:', x)
+finally:
+    print('This block always runs.')
+
+try:
+    number = int('abc')
+    result = 10 / number
+except ValueError:
+    print('That was not a valid number.')
+except ZeroDivisionError:
+    print("Can't divide by zero.")
+
+try:
+    x = 1 / 0
+except ZeroDivisionError as e:
+    print(f'Error occurred: {e}')
+
+try:
+    number = int(input('Enter a number: '))
+    result = 10 / number
+except (ValueError, ZeroDivisionError) as e:
+    print(f'Error occurred: {e}')
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-error-handling/what-are-some-good-debugging-techniques-in-python
+
+def add(a, b):
+    result = a + b
+    print(f'Adding {a} and {b} gives {result}')
+    return result
+
+
+def divide(a, b):
+    #pdb.set_trace()
+    return a / b
+
+print(divide(10, 2))
+
+def divide(a, b):
+    result = a / b
+    return result
+
+print(divide(10, 2))
+print(divide(15, 3))
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-error-handling/what-are-some-common-error-messages-in-python
+
+#print("Hello, world!"
+# SyntaxError: unexpected EOF while parsing
+
+#print(name)
+# NameError: name 'name' is not defined
+
+#5 + "5"
+# TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+#my_list = [1, 2, 3]
+#print(my_list[5])
+# IndexError: list index out of range
+
+num = 42
+#num.append(5)
+# AttributeError: 'int' object has no attribute 'append'
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-dictionaries-and-sets/what-are-sets-and-how-do-they-work
+my_set = {1, 2, 3, 4, 5} 
+#One quirk of working with sets is that, if you ever need to define an empty set, you must use the set() function. If you just write empty curly braces, like {}, Python will automatically create a dictionary.
+
+set() # Set
+{}    # Dictionary
+
+my_set.add(6)
+
+#The .remove() method will raise a KeyError if the element is not found, while the .discard() method will not:
+my_set.remove(4)
+my_set.discard(4)
+
+my_set.clear()
+
+my_set = {1, 2, 3, 4, 5}
+your_set = {2, 3, 4, 6}
+
+print(your_set.issubset(my_set)) # False
+print(my_set.issuperset(your_set)) # False
+
+print(my_set.isdisjoint(your_set)) # False
+
+my_set | your_set # {1, 2, 3, 4, 5, 6}
+
+my_set & your_set # {2, 3, 4}
+
+my_set - your_set # {1, 5}
+
+my_set ^ your_set # {1, 5, 6}
+
+my_set -= your_set
+
+print(my_set) # {1, 5}
+
+print(5 in my_set)
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-dictionaries-and-sets/what-are-some-common-techniques-to-loop-over-a-dictionary
+
+products = {
+    'Laptop': 990,
+    'Smartphone': 600,
+    'Tablet': 250,
+    'Headphones': 70,
+}
+
+for price in products.values():
+    print(price)
+
+for product in products.keys():
+    print(product)
+
+for product in products:
+    print(product)
+
+for product in products.items():
+    print(product)
+
+('Laptop', 990)
+('Smartphone', 600)
+('Tablet', 250)
+('Headphones', 70)
+
+for product, price in products.items():
+    print(product, price)
+
+products = {
+    'Laptop': 990,
+    'Smartphone': 600,
+    'Tablet': 250,
+    'Headphones': 70,
+}
+
+for product, price in products.items():
+    products[product] = round(price * 0.8)
+
+print(products)
+
+for product in enumerate(products):
+    print(product)
+
+
+for index, product in enumerate(products):
+    print(index, product)
+
+for price in enumerate(products.values()):
+    print(price)
+
+for index, price in enumerate(products.values()):
+    print(index, price)
+
+for index, product in enumerate(products.items()):
+    print(index, product)
+
+
+for index, product in enumerate(products.items(), 1):
+    print(index, product)
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-dictionaries-and-sets/what-are-dictionaries-and-how-do-they-work
+
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil']
+}
+
+pizza = dict([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250), ('toppings', ['mozzarella', 'basil'])])
+
+pizza['name']
+
+pizza['name'] = 'Margherita'
+
+
+print(pizza['name']) # 'Margherita'
+
+pizza.get('toppings', []) # ['mozzarella', 'basil']
+
+pizza.keys()
+# dict_keys(['name', 'price', 'calories_per_slice'])
+
+pizza.values()
+# dict_values(['Margherita Pizza', 8.9, 250])
+
+pizza.items()
+# dict_items([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250)])
+
+pizza.clear()
+
+pizza.pop('price', 10)
+#pizza.pop('total_price') # KeyError
+
+
+#pizza.popitem()
+
+pizza.update({ 'price': 15, 'total_time': 25 })
+
+# https://www.freecodecamp.org/learn/python-v9/review-loops-and-sequences/review-loops-and-sequences
+cities = ['Los Angeles', 'London', 'Tokyo']
+
+cities = ['Los Angeles', 'London', 'Tokyo']
+cities[0] # Los Angeles
+
+cities = ['Los Angeles', 'London', 'Tokyo']
+cities[-1] # Tokyo
+
+developer = 'Jessica'
+
+print(list(developer)) 
+# Result: ['J', 'e', 's', 's', 'i', 'c', 'a']
+
+numbers = [1, 2, 3, 4, 5]
+len(numbers) # 5
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+programming_languages[0] = 'JavaScript'
+print(programming_languages) # ['JavaScript', 'Java', 'C++', 'Rust']
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+#programming_languages[10] = 'JavaScript'
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: list assignment index out of range
+"""
+
+developer = ['Jane Doe', 23, 'Python Developer']
+del developer[1]
+print(developer) # ['Jane Doe', 'Python Developer']
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+'Rust' in programming_languages # True
+'JavaScript' in programming_languages # False
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+developer[2] # ['Python', 'Rust', 'C++']
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+developer[2][1] # Rust
+
+developer = ['Alice', 34, 'Rust Developer']
+name, age, job = developer
+
+developer = ['Alice', 34, 'Rust Developer']
+name, *rest = developer
+
+desserts = ['Cake', 'Cookies', 'Ice Cream', 'Pie']
+desserts[1:3] # ['Cookies', 'Ice Cream']
+
+numbers = [1, 2, 3, 4, 5, 6]
+numbers[1::2] # [2, 4, 6]
+
+numbers = [1, 2, 3, 4, 5]
+numbers.append(6)
+print(numbers) # [1, 2, 3, 4, 5, 6]
+
+numbers = [1, 2, 3, 4, 5]
+even_numbers = [6, 8, 10]
+
+numbers.append(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, [6, 8, 10]]
+
+numbers = [1, 2, 3, 4, 5]
+even_numbers = [6, 8, 10]
+
+numbers.extend(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, 6, 8, 10]
+
+numbers = [1, 2, 3, 4, 5]
+numbers.insert(2, 2.5)
+
+print(numbers) # [1, 2, 2.5, 3, 4, 5]
+
+numbers = [1, 2, 3, 4, 5, 5, 5]
+numbers.remove(5)
+
+print(numbers) # [1, 2, 3, 4, 5, 5]
+
+numbers = [1, 2, 3, 4, 5]
+numbers.pop(1) # The number 2 is returned
+
+numbers = [1, 2, 3, 4, 5]
+numbers.pop() # The number 5 is returned
+
+numbers = [1, 2, 3, 4, 5]
+numbers.clear()
+
+print(numbers) # []
+
+numbers = [19, 2, 35, 1, 67, 41]
+numbers.sort()
+
+print(numbers) # [1, 2, 19, 35, 41, 67]
+
+numbers = [19, 2, 35, 1, 67, 41]
+sorted_numbers = sorted(numbers)
+
+print(sorted_numbers) # [1, 2, 19, 35, 41, 67]
+print(numbers) # [19, 2, 35, 1, 67, 41]
+
+numbers = [6, 5, 4, 3, 2, 1]
+numbers.reverse()
+
+print(numbers) # [1, 2, 3, 4, 5, 6]
+
+programming_languages = ['Rust', 'Java', 'Python', 'C++']
+programming_languages.index('Java') # 1
+
+programming_languages = ('Python', 'Java', 'C++', 'Rust')
+#programming_languages[0] = 'JavaScript'
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: "tuple" object does not support item assignment
+"""
+
+developer = ('Alice', 34, 'Rust Developer')
+developer[1] # 34
+
+numbers = (1, 2, 3, 4, 5)
+numbers[-2] # 4
+
+numbers = (1, 2, 3, 4, 5)
+#numbers[7]
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: tuple index out of range
+"""
+
+developer = 'Jessica'
+
+print(tuple(developer)) 
+# Result: ('J', 'e', 's', 's', 'i', 'c', 'a')
+
+programming_languages = ('Python', 'Java', 'C++', 'Rust')
+
+'Rust' in programming_languages # True
+'JavaScript' in programming_languages # False
+
+developer = ('Alice', 34, 'Rust Developer')
+name, age, job = developer
+
+developer = ('Alice', 34, 'Rust Developer')
+name, *rest = developer
+
+desserts = ('cake', 'pie', 'cookies', 'ice cream')
+desserts[1:3] # ('pie', 'cookies')
+
+developer = ('Jane Doe', 23, 'Python Developer')
+#del developer[1]
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: "tuple" object doesn't support item deletion
+"""
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.count('Rust') # 2
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.count('JavaScript') # 0
+#If no arguments are passed to the count() method, then Python will return a TypeError.
+
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.index('Java') # 1
+#If the specified item cannot be found, then Python will return a ValueError.
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+programming_languages.index('Python', 3) # 5
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python', 'JavaScript', 'Python')
+programming_languages.index('Python', 2, 5) # 2
+
+numbers = (13, 2, 78, 3, 45, 67, 18, 7)
+sorted(numbers) # [2, 3, 7, 13, 18, 45, 67, 78]
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+sorted(programming_languages, key=len)
+# Result
+# ['C++', 'Rust', 'Java', 'Rust', 'Python', 'Python']
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+
+print(sorted(programming_languages, reverse=True))
+# Result
+# ['Rust', 'Rust', 'Python', 'Python', 'Java', 'C++']
+
+programming_languages = ['Rust', 'Java', 'Python', 'C++']
+
+for language in programming_languages:
+    print(language)
+
+"""
+Result 
+
+Rust
+Java
+Python
+C++
+"""
+
+for char in 'code':
+    print(char)
+
+"""
+Result 
+
+c
+o
+d
+e
+"""
+
+categories = ['Fruit', 'Vegetable']
+foods = ['Apple', 'Carrot', 'Banana']
+
+for category in categories:
+    for food in foods:
+        print(category, food)
+
+"""
+Result
+
+Fruit Apple
+Fruit Carrot
+Fruit Banana
+Vegetable Apple
+Vegetable Carrot
+Vegetable Banana
+"""
+
+secret_number = 3
+guess = 0
+
+while guess != secret_number:
+    guess = int(input('Guess the number (1-5): '))
+    if guess != secret_number:
+        print('Wrong! Try again.')
+
+print('You got it!')
+
+"""
+Result
+
+Guess the number (1-5): 2
+Wrong! Try again.
+Guess the number (1-5): 1
+Wrong! Try again.
+Guess the number (1-5): 3
+You got it!
+"""
+
+developer_names = ['Jess', 'Naomi', 'Tom']
+
+for developer in developer_names:
+    if developer == 'Naomi':
+        break
+    print(developer)
+
+developer_names = ['Jess', 'Naomi', 'Tom']
+
+for developer in developer_names:
+    if developer == 'Naomi':
+        continue
+    print(developer)
+
+words = ['sky', 'apple', 'rhythm', 'fly', 'orange']
+
+for word in words:
+    for letter in word:
+        if letter.lower() in 'aeiou':
+            print(f"'{word}' contains the vowel '{letter}'")
+            break
+    else:
+        print(f"'{word}' has no vowels")
+
+for num in range(3):
+    print(num)
+
+for num in range(2, 11, 2):
+    print(num)
+
+for num in range(40, 0, -10):
+    print(num)
+
+numbers = list(range(2, 11, 2))
+print(numbers) # [2, 4, 6, 8, 10]
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+for index, language in enumerate(languages):
+    print(f'Index {index} and language {language}')
+
+# Result
+# Index 0 and language Spanish
+# Index 1 and language English
+# Index 2 and language Russian
+# Index 3 and language Chinese
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+print(list(enumerate(languages)))
+# [(0, 'Spanish'), (1, 'English'), (2, 'Russian'), (3, 'Chinese')]
+
+developers = ['Naomi', 'Dario', 'Jessica', 'Tom']
+ids = [1, 2, 3, 4]
+
+for name, id in zip(developers, ids):
+    print(f'Name: {name}')
+    print(f'ID: {id}')
+
+
+"""
+Result
+
+Name: Naomi
+ID: 1
+Name: Dario
+ID: 2
+Name: Jessica
+ID: 3
+Name: Tom
+ID: 4
+"""
+
+even_numbers = [num for num in range(21) if num % 2 == 0]
+print(even_numbers)
+
+words = ['tree', 'sky', 'mountain', 'river', 'cloud', 'sun']
+
+def is_long_word(word):
+    return len(word) > 4
+
+long_words = list(filter(is_long_word, words))
+print(long_words) # ['mountain', 'river', 'cloud']
+
+celsius = [0, 10, 20, 30, 40]
+
+def to_fahrenheit(temp):
+    return (temp * 9/5) + 32
+
+fahrenheit = list(map(to_fahrenheit, celsius))
+print(fahrenheit) # [32.0, 50.0, 68.0, 86.0, 104.0]
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers)
+print(total) # Result: 50
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers, 10) # positional argument
+print(total) # 60
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers, start=10) # keyword argument
+print(total) # 60
+
+numbers = [1, 2, 3, 4, 5]
+
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)  # [2, 4]
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-lambda-functions-and-how-do-they-work
+
+def square(num):
+    return num ** 2
+
+print(square(4)) # 16
+
+numbers = [1, 2, 3, 4, 5]
+
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)  # [2, 4]
+
+numbers = [1, 2, 3, 4, 5]
+
+square = lambda x: x ** 2
+squared_numbers = list(map(square, numbers))
+print(squared_numbers) # [1, 4, 9, 16, 25]
+
+numbers = [1, 2, 3, 4, 5]
+
+def square(num):
+    return num ** 2
+
+squared_numbers = list(map(square, numbers))
+print(squared_numbers) # [1, 4, 9, 16, 25]
+
+result = (lambda x: (x**2 + 2*x - 1) if x > 0 else (x**3 - x + 4))(3)
+print(result)  # 14
+
+def calculate_expression(x):
+    if x > 0:
+        return x**2 + 2*x - 1
+    else:
+        return x**3 - x + 4
+
+print(calculate_expression(3))  # 14
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-list-comprehensions-and-what-are-some-useful-functions-to-work-with-lists
+
+even_numbers = []
+
+for num in range(21):
+    if num % 2 == 0:
+        even_numbers.append(num)
+
+print(even_numbers)
+
+even_numbers = [num for num in range(21) if num % 2 == 0]
+print(even_numbers)
+
+numbers = [1, 2, 3, 4, 5]
+result = [(num, 'Even') if num % 2 == 0 else (num, 'Odd') for num in numbers]
+print(result)
+#[(1, 'Odd'), (2, 'Even'), (3, 'Odd'), (4, 'Even'), (5, 'Odd')]
+
+words = ['tree', 'sky', 'mountain', 'river', 'cloud', 'sun']
+
+def is_long_word(word):
+    return len(word) > 4
+
+long_words = list(filter(is_long_word, words))
+print(long_words) # ['mountain', 'river', 'cloud']
+
+celsius = [0, 10, 20, 30, 40]
+
+def to_fahrenheit(temp):
+    return (temp * 9/5) + 32
+
+fahrenheit = list(map(to_fahrenheit, celsius))
+print(fahrenheit) # [32.0, 50.0, 68.0, 86.0, 104.0]
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers)
+print(total) # Result: 50
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers, 10) # positional argument
+print(total) # 60
+
+numbers = [5, 10, 15, 20]
+total = sum(numbers, start=10) # keyword argument
+print(total) # 60
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-the-enumerate-and-zip-functions-and-how-do-they-work
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+for language in languages:
+    print(language)
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+index = 0
+
+for language in languages:
+    print(f'Index {index} and language {language}')
+    index += 1
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+list(enumerate(languages))
+# [(0, 'Spanish'), (1, 'English'), (2, 'Russian'), (3, 'Chinese')]
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+for index, language in enumerate(languages):
+    print(f'Index {index} and language {language}')
+
+languages = ['Spanish', 'English', 'Russian', 'Chinese']
+
+for index, language in enumerate(languages, 1):
+    print(f'Index {index} and language {language}')
+
+developers = ['Naomi', 'Dario', 'Jessica', 'Tom']
+ids = [1, 2, 3, 4]
+
+list(zip(developers, ids))
+# [('Naomi', 1), ('Dario', 2), ('Jessica', 3), ('Tom', 4)]
+
+developers = ['Naomi', 'Dario', 'Jessica', 'Tom']
+ids = [1, 2, 3, 4]
+
+for name, id in zip(developers, ids):
+    print(f'Name: {name}')
+    print(f'ID: {id}')
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-ranges-and-how-can-you-use-them-in-a-loop
+
+for num in range(3):
+    print(num)
+
+for num in range(1, 5):
+    print(num)
+
+for num in range(2, 11, 2):
+    print(num)
+
+for num in range(40, 0, -10):
+    print(num)
+
+numbers = list(range(2, 11, 2))
+print(numbers) # [2, 4, 6, 8, 10]
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/how-do-loops-work
+
+programming_languages = ['Rust', 'Java', 'Python', 'C++']
+
+for language in programming_languages:
+    print(language)
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+IndentationError: expected an indented block after 'for' statement on line 3
+"""
+
+for char in 'code':
+    print(char)
+
+categories = ['Fruit', 'Vegetable']
+foods = ['Apple', 'Carrot', 'Banana']
+
+for category in categories:
+    for food in foods:
+        print(category, food)
+
+secret_number = 3
+guess = 0
+
+while guess != secret_number:
+    guess = int(input('Guess the number (1-5): '))
+    if guess != secret_number:
+        print('Wrong! Try again.')
+
+print('You got it!')
+
+
+developer_names = ['Jess', 'Naomi', 'Tom']
+
+for developer in developer_names:
+    if developer == 'Naomi':
+        break
+    print(developer)
+
+developer_names = ['Jess', 'Naomi', 'Tom']
+
+for developer in developer_names:
+    if developer == 'Naomi':
+        continue
+    print(developer)
+
+words = ['sky', 'apple', 'rhythm', 'fly', 'orange']
+
+for word in words:
+    for letter in word:
+        if letter.lower() in 'aeiou':
+            print(f"'{word}' contains the vowel '{letter}'")
+            break
+    else:
+        print(f"'{word}' has no vowels")
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-some-common-methods-for-tuples
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.count('Rust') # 2
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.count('JavaScript') # 0
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+#programming_languages.count()
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+TypeError: tuple.count() takes exactly one argument (0 given)
+"""
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+programming_languages.index('Java') # 1
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust')
+#programming_languages.index('JavaScript')
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+ValueError: tuple.index(x): x not in tuple
+"""
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+programming_languages.index('Python', 3) # 5
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python', 'JavaScript', 'Python')
+programming_languages.index('Python', 2, 5) # 2
+
+numbers = (13, 2, 78, 3, 45, 67, 18, 7)
+sorted(numbers) # [2, 3, 7, 13, 18, 45, 67, 78]
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+sorted(programming_languages, key=len)
+
+# Result
+# ['C++', 'Rust', 'Java', 'Rust', 'Python', 'Python']
+
+programming_languages = ('Rust', 'Java', 'Python', 'C++', 'Rust', 'Python')
+
+print(sorted(programming_languages, reverse=True))
+
+# Result
+# ['Rust', 'Rust', 'Python', 'Python', 'Java', 'C++']
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-tuples-and-how-do-they-work
+
+developer = ('Alice', 34, 'Rust Developer')
+
+programming_languages = ('Python', 'Java', 'C++', 'Rust')
+#programming_languages[0] = 'JavaScript'
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+TypeError: 'tuple' object does not support item assignment
+"""
+
+developer = ('Alice', 34, 'Rust Developer')
+developer[1] # 34
+
+numbers = (1, 2, 3, 4, 5)
+numbers[-2] # 4
+
+numbers = (1, 2, 3, 4, 5)
+#numbers[7]
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+IndexError: list index out of range
+"""
+
+developer = 'Jessica'
+tuple(developer) # ('J', 'e', 's', 's', 'i', 'c', 'a')
+
+programming_languages = ('Python', 'Java', 'C++', 'Rust')
+
+'Rust' in programming_languages # True
+'JavaScript' in programming_languages # False
+
+developer = ('Alice', 34, 'Rust Developer')
+name, age, job = developer
+
+print(name) # 'Alice'
+print(age) # 34
+print(job) # 'Rust Developer'
+
+developer = ('Alice', 34, 'Rust Developer')
+name, *rest = developer
+
+print(name) # 'Alice'
+print(rest) # [34, 'Rust Developer']
+
+desserts = ('cake', 'pie', 'cookies', 'ice cream')
+desserts[1:3] # ('pie', 'cookies')
+
+developer = ('Jane Doe', 23, 'Python Developer')
+#del developer[1]
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+TypeError: "tuple" object doesn't support item deletion
+"""
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-some-common-methods-used-for-lists
+
+numbers = [1, 2, 3, 4, 5]
+numbers.append(6)
+print(numbers) # [1, 2, 3, 4, 5, 6]
+
+numbers = [1, 2, 3, 4, 5]
+even_numbers = [6, 8, 10]
+
+numbers.append(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, [6, 8, 10]]
+
+numbers = [1, 2, 3, 4, 5]
+even_numbers = [6, 8, 10]
+
+numbers.extend(even_numbers)
+print(numbers) # [1, 2, 3, 4, 5, 6, 8, 10]
+
+numbers = [1, 2, 3, 4, 5]
+numbers.insert(2, 2.5)
+
+print(numbers) # [1, 2, 2.5, 3, 4, 5]
+
+numbers = [10, 20, 30, 40, 50, 50]
+numbers.remove(50)
+
+print(numbers) # [10, 20, 30, 40, 50]
+
+numbers = [10, 20, 30, 40, 50, 50, 50]
+numbers.remove(50)
+
+print(numbers) # [10, 20, 30, 40, 50, 50]
+
+numbers = [1, 2, 3, 4, 5]
+numbers.pop(1) # The number 2 is returned
+
+numbers = [1, 2, 3, 4, 5]
+numbers.pop() # The number 5 is returned
+
+numbers = [1, 2, 3, 4, 5]
+numbers.clear()
+
+print(numbers) # []
+
+numbers = [19, 2, 35, 1, 67, 41]
+numbers.sort()
+
+print(numbers) # [1, 2, 19, 35, 41, 67]
+
+numbers = [19, 2, 35, 1, 67, 41]
+sorted_numbers = sorted(numbers)
+
+print(numbers) # [19, 2, 35, 1, 67, 41]
+print(sorted_numbers) # [1, 2, 19, 35, 41, 67]
+
+numbers = [6, 5, 4, 3, 2, 1]
+numbers.reverse()
+
+print(numbers) # [1, 2, 3, 4, 5, 6]
+
+programming_languages = ['Rust', 'Java', 'Python', 'C++']
+programming_languages.index('Java') # 1
+
+#programming_languages = ['Rust', 'Java', 'Python', 'C++']
+#programming_languages.index('JavaScript')
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: 'JavaScript' is not in list
+"""
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-working-with-loops-and-sequences/what-are-lists-and-how-do-they-work
+
+cities = ['Los Angeles', 'London', 'Tokyo']
+
+cities = ['Los Angeles', 'London', 'Tokyo']
+cities[0] # 'Los Angeles'
+
+cities = ['Los Angeles', 'London', 'Tokyo']
+cities[-1] # 'Tokyo'
+
+developer = 'Jessica'
+list(developer) # ['J', 'e', 's', 's', 'i', 'c', 'a']
+
+numbers = [1, 2, 3, 4, 5]
+len(numbers) # 5
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+programming_languages[0] = 'JavaScript'
+print(programming_languages) # ['JavaScript', 'Java', 'C++', 'Rust']
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+#programming_languages[10] = 'JavaScript'
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+IndexError: list assignment index out of range
+"""
+
+developer = ['Jane Doe', 23, 'Python Developer']
+del developer[1]
+print(developer) # ['Jane Doe', 'Python Developer']
+
+programming_languages = ['Python', 'Java', 'C++', 'Rust']
+
+'Rust' in programming_languages # True
+'JavaScript' in programming_languages # False
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+developer[2] # ['Python', 'Rust', 'C++']
+
+developer = ['Alice', 25, ['Python', 'Rust', 'C++']]
+developer[2][1] # 'Rust'
+
+developer = ['Alice', 34, 'Rust Developer']
+name, age, job = developer
+
+print(name) # 'Alice'
+print(age) # 34
+print(job) # 'Rust Developer'
+
+developer = ['Alice', 34, 'Rust Developer']
+name, *rest = developer
+
+print(name) # 'Alice'
+print(rest) # [34, 'Rust Developer']
+
+developer = ['Alice', 34, 'Rust Developer']
+#name, age, job, city = developer
+
+"""
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+ValueError: not enough values to unpack (expected 4, got 3)
+"""
+
+desserts = ['Cake', 'Cookies', 'Ice Cream', 'Pie', 'Brownies']
+desserts[1:4] # ['Cookies', 'Ice Cream', 'Pie']
+
+numbers = [1, 2, 3, 4, 5, 6]
+
+numbers = [1, 2, 3, 4, 5, 6]
+numbers[1::2] # [2, 4, 6]
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-functions-and-scope/what-is-scope-in-python-and-how-does-it-work
+
+def my_func():
+    my_var = 10
+    print(my_var)
+
+def my_func():
+    my_var = 10 # Locally scoped to my_func
+    print(my_var)
+
+my_func() # 10
+
+#print(my_var) # NameError: name 'my_var' is not defined
+
+def outer_func():
+    msg = 'Hello there!'
+
+    def inner_func():
+        print(msg)
+
+    inner_func()
+
+outer_func() # Hello there!
+
+def outer_func():
+    msg = 'Hello there!'
+    print(res)
+
+    def inner_func():
+        res = 'How are you?'
+        print(msg)
+
+    inner_func()
+
+#outer_func() # NameError: name 'res' is not defined
+
+def outer_func():
+    msg = 'Hello there!'
+    res = ""  # Declare res in the enclosing scope
+
+    def inner_func():
+        nonlocal res  # Allow modification of an enclosing variable
+        res = 'How are you?'
+        print(msg)  # Accessing msg from outer_func()
+
+    inner_func()
+    print(res)  # Now res is accessible and modified
+
+outer_func()
+
+# Output:
+# Hello there!
+# How are you?
+
+my_var = 100
+
+def show_var():
+    print(my_var)
+
+show_var() # 100
+print(my_var) # 100
+
+my_var_1 = 7
+
+def show_vars():
+    global my_var_2
+    my_var_2 = 10
+    print(my_var_1)
+    print(my_var_2)
+
+show_vars() # 7 10
+
+# my_var_2 is now a global variable and can be accessed anywhere in the program
+print(my_var_2) # 10
+
+my_var = 10  # A global variable
+
+def change_var():
+    global my_var  # Allows modification of a global variable
+    my_var = 20
+
+change_var()
+
+print(my_var)  # my_var is now modified globally to 20
+
+print(str(45)) # '45'
+print(type(3.14)) # <class 'float'>
+print(isinstance(3, str)) # False
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-functions-and-scope/how-do-functions-work-in-python
+
+#name = input('What is your name?') # User types "Kolade" and presses Enter  
+#print('Hello', name) # Output: Hello Kolade
+
+print(int(3.14)) # 3
+print(int('42')) # 42
+print(int(True)) # 1
+print(int(False)) # 0 
+
+def hello():
+    print('Hello World')
+
+hello() # Hello World
+
+def calculate_sum(a, b):
+    print(a + b)
+
+calculate_sum(3, 1) # 4
+
+def calculate_sum(a, b):
+    print(a + b)
+
+my_sum = calculate_sum(3, 1) # 4
+print(my_sum) # None
+
+def calculate_sum(a, b):
+    return a + b
+
+my_sum = calculate_sum(3, 1)
+print(my_sum) # 4
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-booleans-and-conditionals/what-are-truthy-and-falsy-values-and-how-do-boolean-operators-and-short-circuiting-work
+
+is_citizen = True
+age = 25
+
+if is_citizen:
+    if age >= 18:
+        print('You are eligible to vote') # You are eligible to vote
+else:
+    print('You are not eligible to vote')
+
+print(bool(False)) # False
+print(bool(0))  # False
+print(bool('')) # False
+
+print(bool(True)) # True
+print(bool(1)) # True
+print(bool('Hello')) # True
+
+is_citizen = True
+age = 25
+
+print(is_citizen and age) # 25
+
+is_citizen = True
+age = 25
+
+if is_citizen and age >= 18:
+    print('You are eligible to vote') # You are eligible to vote
+else:
+    print('You are not eligible to vote')
+
+age = 19
+is_employed = False
+
+print(age or is_employed) # 19
+
+age = 19
+is_student = True
+
+if age < 18 or is_student:
+    print('You are eligible for a student discount') # You are eligible for a student discount
+else:
+    print('You are not eligible for a student discount')
+
+print(not '') # True, because empty string is falsy
+print(not 'Hello') # False, because non-empty string is truthy
+print(not 0) # True, because 0 is falsy
+print(not 1) # False, because 1 is truthy
+print(not False) # True, because False is falsy
+print(not True) # False, because True is truthy
+
+is_admin = False
+
+if not is_admin:
+    print('Access denied for non-administrators.') # Access denied for non-administrators.
+else:
+    print('Welcome, Administrator!')
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-booleans-and-conditionals/how-do-conditional-statements-and-logical-operators-work
+print(3 > 4) # False
+print(3 < 4) # True
+print(3 == 4) # False
+print(4 == 4) # True
+print(3 != 4) # True
+print(3 >= 4) # False
+print(3 <= 4) # True
+
+age = 18
+
+if age >= 18:
+    print('You are an adult') # You are an adult
+
+age = 18
+
+#if age >= 18:
+#print('You are an adult') # IndentationError: expected an indented block after 'if' statement on line 3
+
+age = 12
+
+if age >= 18:
+    print('You are an adult') # Nothing shows up in the terminal
+
+
+age = 12
+
+if age >= 18:
+    print('You are an adult')
+else:
+    print('You are not an adult yet') # You are not an adult yet
+
+age = 12
+
+if age >= 18:
+    print('You are an adult')
+elif age >= 13:
+    print('You are a teenager')
+else:
+    print('You are a child') # You are a child
+
+age = 2
+
+if age >= 65:
+    print('You are a senior citizen')
+elif age >= 30:
+    print('You are an adult in your prime')
+elif age >= 18:
+    print('You are a young adult')
+elif age >= 13:
+    print('You are a teenager')
+elif age >= 3:
+    print('You are a young child')
+else:
+    print('You are a toddler or an infant') # You are a toddler or an infant
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-numbers-and-mathematical-operations/how-do-augmented-assignments-work
+
+my_var = 10
+my_var += 5
+
+print(my_var) # 15
+
+my_var = 10
+my_var = my_var + 5
+
+print(my_var) # 15
+
+count = 14
+count -= 3
+
+print(count) # 11
+
+product = 65
+product *= 7
+
+print(product) # 455
+
+price = 100
+price /= 4
+
+print(price) # 25.0
+
+total_pages = 23
+total_pages //= 5
+
+print(total_pages) # 4
+
+bits = 35
+bits %= 2
+
+print(bits) # 1
+
+power = 2
+power **= 3
+
+print(power) # 8
+
+greet = 'Hello'
+greet += ' World'
+
+print(greet) # Hello World
+
+greet = 'Hello'
+greet *= 3
+
+print(greet) # HelloHelloHello
+
+greet = 'Hello'
+#greet -= ' World'
+
+print(greet) # TypeError: unsupported operand type(s) for -=: 'str' and 'str'
+
+
+greet = 'Hello'
+#greet /= 'World'
+
+print(greet) # TypeError: unsupported operand type(s) for /=: 'str' and 'str' 
+
+
+my_var = 5
+
+print(+my_var)   # 5
+print(++my_var)  # 5
+print(+++my_var) # 5
+
+my_var += 1
+
+print(my_var) # 6
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-numbers-and-mathematical-operations/how-do-you-work-with-integers-and-floating-point-numbers
+
+my_int_1 = 56
+my_int_2 = -4
+
+print(type(my_int_1)) # <class 'int'>
+print(type(my_int_2)) # <class 'int'>
+
+
+my_int_1 = 56
+my_int_2 = 12
+
+sum_ints = my_int_1 + my_int_2
+print('Integer Addition:', sum_ints) # Integer Addition: 68
+
+
+my_int_1 = 56
+my_int_2 = 12
+
+# Subtraction
+diff_ints = my_int_1 - my_int_2
+print('Integer Subtraction:', diff_ints) # Integer Subtraction: 44
+
+
+my_int_1 = 12
+my_int_2 = 4
+
+# Multiplication
+product_ints = my_int_1 * my_int_2
+print('Integer Multiplication:', product_ints) # Integer Multiplication: 48
+
+
+my_int_1 = 56
+my_int_2 = 12
+
+# Division
+div_ints = my_int_1 / my_int_2
+print('Integer Division:', div_ints) # Integer Division: 4.666666666666667
+
+
+my_float_1 = -12.0
+my_float_2 = 4.9
+
+print(type(my_float_1)) # <class 'float'>
+print(type(my_float_2)) # <class 'float'>
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+float_addition = my_float_1 + my_float_2
+print('Float Addition:', float_addition) # Float Addition: 17.4
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+float_subtraction = my_float_2 - my_float_1
+print('Float Subtraction:', float_subtraction) # Float Subtraction: 6.6
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+float_multiplication = my_float_2 * my_float_1
+print('Float Multiplication:', float_multiplication) # Float Multiplication: 64.80000000000001
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+float_division = my_float_2 / my_float_1
+print('Float Division:', float_division) # Float Division: 2.222222222222222
+
+my_int = 56
+my_float = 5.4
+
+sum_int_and_float = my_int + my_float
+
+print(sum_int_and_float) # 61.4
+print(type(sum_int_and_float)) # <class 'float'>
+
+my_int_1 = 56
+my_int_2 = 12
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+mod_ints = my_int_1 % my_int_2
+mod_floats = my_float_2 % my_float_1
+
+print('Integer Modulo:', mod_ints) # Integer Modulo: 8
+print('Float Modulo:', mod_floats) # Float Modulo: 1.1999999999999993
+
+my_int_1 = 56
+my_int_2 = 12
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+floor_div_ints = my_int_1 // my_int_2
+floor_div_floats = my_float_2 // my_float_1
+
+print('Integer Floor Division:', floor_div_ints) # Integer Floor Division: 4
+print('Float Floor Division:', floor_div_floats) # Float Floor Division: 2.0
+
+
+my_int_1 = 56
+my_int_2 = 12
+
+my_float_1 = 5.4
+my_float_2 = 12.0
+
+exp_ints = my_int_1 ** my_int_2
+exp_floats = my_float_1 ** my_float_2
+
+print('Integer Exponentiation:', exp_ints) # Integer Exponentiation: 951166013805414055936
+print('Float Exponentiation:',  exp_floats) # Float Exponentiation: 614787626.1765089
+
+my_int_1 = 56
+my_float_1 = float(my_int_1)
+
+print(my_float_1)  # 56.0
+print(type(my_float_1))  # <class 'float'>
+
+my_float = 12.92563
+my_int = int(my_float)
+
+print(my_int)  # 12
+print(type(my_int))  # <class 'int'>
+
+my_str_int = '45'
+my_str_float = '7.8'
+
+converted_int = int(my_str_int)
+converted_float = float(my_str_float)
+
+print(converted_int, type(converted_int))  # 45 <class 'int'>
+print(converted_float, type(converted_float))  # 7.8 <class 'float'>
+
+my_int_1 = 4.798
+my_int_2 = 4.253
+
+rounded_int_1 = round(my_int_1)
+rounded_int_2 = round(my_int_2, 1)
+
+print(rounded_int_1) # 5
+print(rounded_int_2) # 4.3
+
+num = -15
+
+absolute_value = abs(num)
+print(absolute_value) # 15
+
+result_1 = pow(2, 3)  # Equivalent to 2 ** 3
+print(result_1)  # 8
+
+result_2 = pow(2, 3, 5)  # (2 ** 3) % 5
+print(result_2)  # 3
+
+# https://www.freecodecamp.org/learn/python-v9/lecture-understanding-variables-and-data-types/what-are-common-data-types-in-python-and-how-do-you-get-the-type-of-a-variable
+my_integer_var = 10
+print(type(my_integer_var))  # <class 'int'>
+
+my_float_var = 4.50
+print(type(my_float_var))  # <class 'float'>
+
+my_string_var = 'hello'
+print(type(my_string_var))  # <class 'str'>
+
+my_boolean_var = True
+print(type(my_boolean_var))  # <class 'bool'>
+
+my_set_var = {7, 'hello', 8.5}
+print(type(my_set_var))  # <class 'set'>
+
+my_dictionary_var = {'name': 'Alice', 'age': 25}
+print(type(my_dictionary_var))  # <class 'dict'>
+
+my_tuple_var = (7, 'hello', 8.5)
+print(type(my_tuple_var))  # <class 'tuple'>
+
+my_range_var = range(5)
+print(type(my_range_var))  # <class 'range'>
+
+my_list = [22, 'Hello world', 3.14, True]
+print(type(my_list)) # <class 'list'>
+
+my_none_var = None
+print(type(my_none_var))  # <class 'NoneType'>
+
+isinstance('Hello world', str) # True
+isinstance(True, bool) # True
+isinstance(42, int) # True
+isinstance('John Doe', int) # False
+
+#
 
 print("Hello, World!")
 print(sys.version)
@@ -2948,6 +5059,240 @@ json.dumps(x, indent=4)
 json.dumps(x, indent=4, separators=(". ", " = "))
 
 json.dumps(x, indent=4, sort_keys=True)
+
+# https://www.w3schools.com/python/pandas/pandas_correlations.asp
+#df.corr()
+
+
+# https://www.w3schools.com/python/pandas/pandas_cleaning_duplicates.asp
+#print(df.duplicated())
+
+#df.drop_duplicates(inplace = True)
+
+
+
+# https://www.w3schools.com/python/pandas/pandas_cleaning_wrong_data.asp
+#df.loc[7, 'Duration'] = 45
+"""
+for x in df.index:
+  if df.loc[x, "Duration"] > 120:
+    df.loc[x, "Duration"] = 120
+"""
+"""
+for x in df.index:
+  if df.loc[x, "Duration"] > 120:
+    df.drop(x, inplace = True)
+"""
+
+
+
+# https://www.w3schools.com/python/pandas/pandas_cleaning_wrong_format.asp
+#df = pd.read_csv('data.csv')
+
+#df['Date'] = pd.to_datetime(df['Date'], format='mixed')
+
+#print(df.to_string())
+
+#df.dropna(subset=['Date'], inplace = True)
+
+
+# https://www.w3schools.com/python/pandas/pandas_cleaning_empty_cells.asp
+#df = pd.read_csv('data.csv')
+
+#new_df = df.dropna()
+
+#print(new_df.to_string())
+
+#df = pd.read_csv('data.csv')
+
+#df.dropna(inplace = True)
+
+#print(df.to_string())
+
+#df = pd.read_csv('data.csv')
+
+#df.fillna(130, inplace = True)
+
+#df = pd.read_csv('data.csv')
+
+#df.fillna({"Calories": 130}, inplace=True)
+
+#df = pd.read_csv('data.csv')
+
+#x = df["Calories"].mean()
+
+#df.fillna({"Calories": x}, inplace=True)
+
+#df = pd.read_csv('data.csv')
+
+#x = df["Calories"].median()
+
+#df.fillna({"Calories": x}, inplace=True)
+
+#df = pd.read_csv('data.csv')
+
+#x = df["Calories"].mode()[0]
+
+#df.fillna({"Calories": x}, inplace=True)
+
+
+# https://www.w3schools.com/python/pandas/pandas_cleaning.asp
+
+
+# https://www.w3schools.com/python/pandas/pandas_analyzing.asp
+#df = pd.read_csv('data.csv')
+#print(df.head(10))
+
+#df = pd.read_csv('data.csv')
+#print(df.head())
+
+#print(df.tail()) 
+
+#print(df.info()) 
+
+# https://www.w3schools.com/python/pandas/pandas_json.asp
+#df = pd.read_json('data.json')
+#print(df.to_string()) 
+
+data = {
+  "Duration":{
+    "0":60,
+    "1":60,
+    "2":60,
+    "3":45,
+    "4":45,
+    "5":60
+  },
+  "Pulse":{
+    "0":110,
+    "1":117,
+    "2":103,
+    "3":109,
+    "4":117,
+    "5":102
+  },
+  "Maxpulse":{
+    "0":130,
+    "1":145,
+    "2":135,
+    "3":175,
+    "4":148,
+    "5":127
+  },
+  "Calories":{
+    "0":409,
+    "1":479,
+    "2":340,
+    "3":282,
+    "4":406,
+    "5":300
+  }
+}
+
+df = pd.DataFrame(data)
+
+print(df) 
+
+
+# https://www.w3schools.com/python/pandas/pandas_csv.asp
+#If you have a large DataFrame with many rows, Pandas will only return the first 5 rows, and the last 5 rows:
+#df = pd.read_csv('data.csv')
+#print(df.to_string()) 
+
+#df = pd.read_csv('data.csv')
+#print(df) 
+
+#pd.options.display.max_rows = 9999
+print(pd.options.display.max_rows) 
+
+#df = pd.read_csv('data.csv')
+#print(df) 
+
+
+# https://www.w3schools.com/python/pandas/pandas_dataframes.asp
+data = {
+  "calories": [420, 380, 390],
+  "duration": [50, 40, 45]
+}
+
+#load data into a DataFrame object:
+df = pd.DataFrame(data)
+
+print(df) 
+
+#refer to the row index:
+print(df.loc[0])
+
+#use a list of indexes:
+print(df.loc[[0, 1]])
+
+data = {
+  "calories": [420, 380, 390],
+  "duration": [50, 40, 45]
+}
+
+df = pd.DataFrame(data, index = ["day1", "day2", "day3"])
+
+print(df)
+
+#refer to the named index:
+print(df.loc["day2"])
+
+#df = pd.read_csv('data.csv')
+#print(df) 
+
+# https://www.w3schools.com/python/pandas/pandas_series.asp
+a = [1, 7, 2]
+
+myvar = pd.Series(a)
+
+print(myvar)
+print(myvar[0])
+
+a = [1, 7, 2]
+
+myvar = pd.Series(a, index = ["x", "y", "z"])
+print(myvar["y"])
+
+print(myvar)
+
+calories = {"day1": 420, "day2": 380, "day3": 390}
+
+myvar = pd.Series(calories)
+print(myvar)
+
+calories = {"day1": 420, "day2": 380, "day3": 390}
+
+myvar = pd.Series(calories, index = ["day1", "day2"])
+
+print(myvar)
+
+data = {
+  "calories": [420, 380, 390],
+  "duration": [50, 40, 45]
+}
+
+myvar = pd.DataFrame(data)
+
+
+# https://www.w3schools.com/python/pandas/pandas_getting_started.asp
+mydataset = {
+  'cars': ["BMW", "Volvo", "Ford"],
+  'passings': [3, 7, 2]
+}
+
+#myvar = pandas.DataFrame(mydataset)
+myvar = pd.DataFrame(mydataset)
+
+print(myvar)
+
+print(pd.__version__)
+
+
+# https://www.w3schools.com/python/pandas/default.asp
+#df = pd.read_csv('data.csv')
+
+#print(df.to_string()) 
 
 
 # Python RegEx

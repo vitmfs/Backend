@@ -528,7 +528,7 @@ class Program
 
         //demo();
         //int[,] matrix = Exercises.SquareSpiralMatrix(9);
-        int[,] matrix = Exercises.SpiralMatrix(30);
+        int[,] matrix = Exercises.SpiralMatrix(15);
     }
 
     public static void Method1()

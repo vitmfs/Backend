@@ -8,6 +8,21 @@ namespace CSharpCodeExamples.Tools
 {
     public class Tools
     {
+        public static void PrintBidimensionalMatrix(int[,] matrix)
+        {
+            int sideLength = matrix.GetLength(0);
+
+            for (int i = 0; i < sideLength; i++)
+            {
+                for (int j = 0; j < sideLength; j++)
+                {
+                    Console.Write($"{matrix[i, j],3}|");
+                    //Thread.Sleep(3);
+                }
+
+                Console.Write("\n");
+            }
+        }
         public static Dictionary<string, int> GetTextSummary(string[] words)
         {
             Dictionary<string, int> summary = new Dictionary<string, int>();
@@ -28,7 +43,7 @@ namespace CSharpCodeExamples.Tools
             return summary;
         }
 
-        public static Dictionary<string, int> GetSummary(string str)
+        public static Dictionary<string, int> GetStringSummary(string str)
         {
             Dictionary<string, int> summary = new Dictionary<string, int>();
 
@@ -49,7 +64,7 @@ namespace CSharpCodeExamples.Tools
         }
 
         //Chapter 18 Exercise 1
-        public static Dictionary<string, int> GetSummary(int[] arr)
+        public static Dictionary<string, int> GetArraySummary(int[] arr)
         {
             Dictionary<string, int> summary = new Dictionary<string, int>();
 

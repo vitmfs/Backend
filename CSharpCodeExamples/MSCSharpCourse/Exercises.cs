@@ -49,3 +49,10 @@ namespace CSharpCodeExamples.MSCSharpCourse
         }
     }
 }
+
+// Explain what methods are and why they are important.
+// List the three ways in which data can be passed in parameters, and the associated C# keywords.
+// When are local variables created and destroyed?
+// What keyword should be added to a method definition if the method needs to be called from another class?
+// What parts of a method are used to form the signature?
+// Define the signature of a static method called Rotate that does not return a value but must #right rotate" its three integer parameters

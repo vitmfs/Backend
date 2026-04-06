@@ -25,6 +25,7 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
                 for (int j = 0; j < sideLength; j++)
                 {
                     Console.Write($"{matrix[i, j],3}|");
+                    //Thread.Sleep(3);
                 }
 
                 Console.Write("\n");
@@ -64,8 +65,8 @@ namespace CSharpCodeExamples.FundamentalsOfComputerProgrammingWithCSharp
 
             for ( int currentFillingCycle = 1; currentFillingCycle <= fillingCycles; currentFillingCycle++)
             {
-                Console.WriteLine($"Start of Filling cycle: {currentFillingCycle}");
-                Console.WriteLine($"At the start of the filling cycle:{x} {y}");
+                //Console.WriteLine($"Start of Filling cycle: {currentFillingCycle}");
+                //Console.WriteLine($"At the start of the filling cycle:{x} {y}");
                 // when the current filling cycle is odd, like the first one,
                 // we exit from the bottom right,
                 // otherwise we exit from the top left

@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCoreMVC", "ASPNETCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIMinimal", "WebAPIMinimal\WebAPIMinimal.csproj", "{4AB29A14-7F5C-49B0-9960-80E86371231C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp", "BlazorApp\BlazorApp.csproj", "{60975CE5-320B-4253-BDE1-7C6D916189DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{4AB29A14-7F5C-49B0-9960-80E86371231C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB29A14-7F5C-49B0-9960-80E86371231C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AB29A14-7F5C-49B0-9960-80E86371231C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60975CE5-320B-4253-BDE1-7C6D916189DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60975CE5-320B-4253-BDE1-7C6D916189DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60975CE5-320B-4253-BDE1-7C6D916189DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60975CE5-320B-4253-BDE1-7C6D916189DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
